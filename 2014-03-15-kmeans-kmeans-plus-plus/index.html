@@ -1,0 +1,1282 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习,聚类," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-03-15 先从Kmeans说起。 Kmeans是一个非常基础的聚类算法，使用了迭代的思想，关于其原理这里不说了，请见资料[1]和[2]。下面说一下如何在matlab中使用kmeans算法。 创建7个二维的数据点： x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]]; 使用kmeans函数： class = kmeans(x, 2);  x是数">
+<meta name="keywords" content="机器学习,聚类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅入浅出：从Kmeans到Kmeans++">
+<meta property="og:url" content="http://www.letiantian.me/2014-03-15-kmeans-kmeans-plus-plus/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-03-15 先从Kmeans说起。 Kmeans是一个非常基础的聚类算法，使用了迭代的思想，关于其原理这里不说了，请见资料[1]和[2]。下面说一下如何在matlab中使用kmeans算法。 创建7个二维的数据点： x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]]; 使用kmeans函数： class = kmeans(x, 2);  x是数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2016-02-29T01:30:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅入浅出：从Kmeans到Kmeans++">
+<meta name="twitter:description" content="2014-03-15 先从Kmeans说起。 Kmeans是一个非常基础的聚类算法，使用了迭代的思想，关于其原理这里不说了，请见资料[1]和[2]。下面说一下如何在matlab中使用kmeans算法。 创建7个二维的数据点： x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]]; 使用kmeans函数： class = kmeans(x, 2);  x是数">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-03-15-kmeans-kmeans-plus-plus/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>浅入浅出：从Kmeans到Kmeans++ | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-03-15-kmeans-kmeans-plus-plus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅入浅出：从Kmeans到Kmeans++</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T19:20:00+08:00">
+                2014-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/聚类/" itemprop="url" rel="index">
+                    <span itemprop="name">聚类</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-03-15</p>
+<p>先从Kmeans说起。</p>
+<p>Kmeans是一个非常基础的聚类算法，使用了迭代的思想，关于其原理这里不说了，请见资料[1]和[2]。下面说一下如何在matlab中使用kmeans算法。</p>
+<p>创建7个二维的数据点：</p>
+<pre><code>x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]];
+</code></pre><p>使用kmeans函数：</p>
+<pre><code>class = kmeans(x, 2);
+</code></pre><a id="more"></a>
+<p>x是数据点，x的每一行代表一个数据；2指定要有2个中心点，也就是聚类结果要有2个簇。<br>class将是一个具有7个元素的列向量，这些元素依次对应7个数据点，元素值代表着其对应的数据点所处的分类号。某次运行后，class的值是：</p>
+<pre><code> 2 
+ 2
+ 2
+ 1
+ 1
+ 1
+ 1
+</code></pre><p>这说明x的前三个数据点属于簇2，而后四个数据点属于簇1。<br>kmeans函数也可以像下面这样使用：</p>
+<pre><code>&gt;&gt; [class, C, sumd, D] = kmeans(x, 2)
+
+class =
+     2
+     2
+     2
+     1
+     1
+     1
+     1
+
+C =
+    4.0629    4.0845
+   -0.1341    0.1201
+
+sumd =
+    1.2017
+    0.2939
+
+D =
+   34.3727    0.0184
+   29.5644    0.1858
+   36.3511    0.0898
+    0.1247   37.4801
+    0.7537   24.0659
+    0.1979   36.7666
+    0.1256   36.2149
+</code></pre><p>class依旧代表着每个数据点的分类;C包含最终的中心点，一行代表一个中心点；sumd代表着每个中心点与所属簇内各个数据点的距离之和；D的每一行也对应一个数据点，行中的数值依次是该数据点与各个中心点之间的距离，Kmeans默认使用的距离是<code>欧几里得距离</code>（参考资料[3]）的平方值。kmeans函数使用的距离，也可以是<code>曼哈顿距离</code>（<code>L1-距离</code>），以及其他类型的距离，可以通过添加参数指定，具体见资料[4]。</p>
+<p>kmeans有几个缺点（这在很多资料上都有说明）：</p>
+<p>1、最终簇的类别数目（即中心点或者说种子点的数目）k并不一定能事先知道，所以如何选一个合适的k的值是一个问题。<br>2、最开始的种子点的选择的好坏会影响到聚类结果。<br>3、对噪声和离群点敏感。<br>4、等等。  </p>
+<h2 id="kmeans-算法的基本思路"><a href="#kmeans-算法的基本思路" class="headerlink" title="kmeans++算法的基本思路"></a>kmeans++算法的基本思路</h2><hr>
+<p>kmeans++算法的主要工作体现在种子点的选择上，基本原则是使得各个种子点之间的距离尽可能的大，但是又得排除噪声的影响。<br>以下为基本思路，摘自资料[5]：</p>
+<blockquote>
+<p>1、从输入的数据点集合（要求有k个聚类）中随机选择一个点作为第一个聚类中心<br>2、对于数据集中的每一个点x，计算它与最近聚类中心(指已选择的聚类中心)的距离D(x)<br>3、选择一个新的数据点作为新的聚类中心，选择的原则是：D(x)较大的点，被选取作为聚类中心的概率较大<br>4、重复2和3直到k个聚类中心被选出来<br>5、利用这k个初始的聚类中心来运行标准的k-means算法  </p>
+</blockquote>
+<p>假定数据点集合X有n个数据点，依次用<code>X(1)、X(2)、……、X(n)</code>表示，那么，在第2步中依次计算每个数据点与最近的种子点（聚类中心）的距离，依次得到<code>D(1)、D(2)、……、D(n)</code>构成的集合<code>D</code>。在D中，为了避免噪声，不能直接选取值最大的元素，应该选择值较大的元素，然后将其对应的数据点作为种子点。</p>
+<p>如何选择值较大的元素呢，下面是一种思路（暂未找到最初的来源，在资料[2]等地方均有提及，笔者换了一种让自己更好理解的说法）：<br>把集合D中的每个元素<code>D(x)</code>想象为一根线<code>L(x)</code>，线的长度就是元素的值。将这些线依次按照<code>L(1)、L(2)、……、L(n)</code>的顺序连接起来，组成长线<code>L</code>。<code>L(1)、L(2)、……、L(n)</code>称为<code>L</code>的子线。根据概率的相关知识，如果我们在<code>L</code>上随机选择一个点，那么这个点所在的子线很有可能是比较长的子线，而这个子线对应的数据点就可以作为种子点。下文中kmeans++的两种实现均是这个原理。</p>
+<h2 id="python版本的kmeans"><a href="#python版本的kmeans" class="headerlink" title="python版本的kmeans++"></a>python版本的kmeans++</h2><hr>
+<p>在资料[7]中能找到多种编程语言版本的Kmeans++实现。下面的内容是基于python的实现（中文注释是笔者添加的）：</p>
+<pre><code>from math import pi, sin, cos
+from collections import namedtuple
+from random import random, choice
+from copy import copy
+
+try:
+    import psyco
+    psyco.full()
+except ImportError:
+    pass
+
+FLOAT_MAX = 1e100
+
+class Point:
+    __slots__ = [&quot;x&quot;, &quot;y&quot;, &quot;group&quot;]
+    def __init__(self, x=0.0, y=0.0, group=0):
+        self.x, self.y, self.group = x, y, group
+
+def generate_points(npoints, radius):
+    points = [Point() for _ in xrange(npoints)]
+
+    # note: this is not a uniform 2-d distribution
+    for p in points:
+        r = random() * radius
+        ang = random() * 2 * pi
+        p.x = r * cos(ang)
+        p.y = r * sin(ang)
+
+    return points
+
+def nearest_cluster_center(point, cluster_centers):
+    &quot;&quot;&quot;Distance and index of the closest cluster center&quot;&quot;&quot;
+    def sqr_distance_2D(a, b):
+        return (a.x - b.x) ** 2  +  (a.y - b.y) ** 2
+
+    min_index = point.group
+    min_dist = FLOAT_MAX
+
+    for i, cc in enumerate(cluster_centers):
+        d = sqr_distance_2D(cc, point)
+        if min_dist &gt; d:
+            min_dist = d
+            min_index = i
+
+    return (min_index, min_dist)
+
+&#39;&#39;&#39;
+points是数据点，nclusters是给定的簇类数目
+cluster_centers包含初始化的nclusters个中心点，开始都是对象-&gt;(0,0,0)
+&#39;&#39;&#39;
+
+def kpp(points, cluster_centers):
+    cluster_centers[0] = copy(choice(points)) #随机选取第一个中心点
+    d = [0.0 for _ in xrange(len(points))]  #列表，长度为len(points)，保存每个点离最近的中心点的距离
+
+    for i in xrange(1, len(cluster_centers)):  # i=1...len(c_c)-1
+        sum = 0
+        for j, p in enumerate(points):
+            d[j] = nearest_cluster_center(p, cluster_centers[:i])[1] #第j个数据点p与各个中心点距离的最小值
+            sum += d[j]
+
+        sum *= random()
+
+        for j, di in enumerate(d):
+            sum -= di
+            if sum &gt; 0:
+                continue
+            cluster_centers[i] = copy(points[j])
+            break
+
+    for p in points:
+        p.group = nearest_cluster_center(p, cluster_centers)[0]
+
+&#39;&#39;&#39;
+points是数据点，nclusters是给定的簇类数目
+&#39;&#39;&#39;
+def lloyd(points, nclusters):
+    cluster_centers = [Point() for _ in xrange(nclusters)]  #根据指定的中心点个数，初始化中心点，均为(0,0,0)
+
+    # call k++ init
+    kpp(points, cluster_centers)   #选择初始种子点
+
+    # 下面是kmeans
+    lenpts10 = len(points) &gt;&gt; 10
+
+    changed = 0
+    while True:
+        # group element for centroids are used as counters
+        for cc in cluster_centers:
+            cc.x = 0
+            cc.y = 0
+            cc.group = 0
+
+        for p in points:
+            cluster_centers[p.group].group += 1  #与该种子点在同一簇的数据点的个数
+            cluster_centers[p.group].x += p.x
+            cluster_centers[p.group].y += p.y
+
+        for cc in cluster_centers:    #生成新的中心点
+            cc.x /= cc.group
+            cc.y /= cc.group
+
+        # find closest centroid of each PointPtr
+        changed = 0  #记录所属簇发生变化的数据点的个数
+        for p in points:
+            min_i = nearest_cluster_center(p, cluster_centers)[0]
+            if min_i != p.group:
+                changed += 1
+                p.group = min_i
+
+        # stop when 99.9% of points are good
+        if changed &lt;= lenpts10:
+            break
+
+    for i, cc in enumerate(cluster_centers):
+        cc.group = i
+
+    return cluster_centers
+
+def print_eps(points, cluster_centers, W=400, H=400):
+    Color = namedtuple(&quot;Color&quot;, &quot;r g b&quot;);
+
+    colors = []
+    for i in xrange(len(cluster_centers)):
+        colors.append(Color((3 * (i + 1) % 11) / 11.0,
+                            (7 * i % 11) / 11.0,
+                            (9 * i % 11) / 11.0))
+
+    max_x = max_y = -FLOAT_MAX
+    min_x = min_y = FLOAT_MAX
+
+    for p in points:
+        if max_x &lt; p.x: max_x = p.x
+        if min_x &gt; p.x: min_x = p.x
+        if max_y &lt; p.y: max_y = p.y
+        if min_y &gt; p.y: min_y = p.y
+
+    scale = min(W / (max_x - min_x),
+                H / (max_y - min_y))
+    cx = (max_x + min_x) / 2
+    cy = (max_y + min_y) / 2
+
+    print &quot;%%!PS-Adobe-3.0\n%%%%BoundingBox: -5 -5 %d %d&quot; % (W + 10, H + 10)
+
+    print (&quot;/l {rlineto} def /m {rmoveto} def\n&quot; +
+           &quot;/c { .25 sub exch .25 sub exch .5 0 360 arc fill } def\n&quot; +
+           &quot;/s { moveto -2 0 m 2 2 l 2 -2 l -2 -2 l closepath &quot; +
+           &quot;   gsave 1 setgray fill grestore gsave 3 setlinewidth&quot; +
+           &quot; 1 setgray stroke grestore 0 setgray stroke }def&quot;)
+
+    for i, cc in enumerate(cluster_centers):
+        print (&quot;%g %g %g setrgbcolor&quot; %
+               (colors[i].r, colors[i].g, colors[i].b))
+
+        for p in points:
+            if p.group != i:
+                continue
+            print (&quot;%.3f %.3f c&quot; % ((p.x - cx) * scale + W / 2,
+                                    (p.y - cy) * scale + H / 2))
+
+        print (&quot;\n0 setgray %g %g s&quot; % ((cc.x - cx) * scale + W / 2,
+                                        (cc.y - cy) * scale + H / 2))
+
+    print &quot;\n%%%%EOF&quot;
+
+def main():
+    npoints = 30000
+    k = 7 # # clusters
+
+    points = generate_points(npoints, 10)
+    cluster_centers = lloyd(points, k)
+    print_eps(points, cluster_centers)
+
+main()
+</code></pre><p>上述代码实现的算法是针对二维数据的，所以Point对象有三个属性，分别是在x轴上的值、在y轴上的值、以及所属的簇的标识。函数<code>lloyd</code>是kmeans++算法的整体实现，其先是通过<code>kpp</code>函数选取合适的种子点，然后对数据集实行kmeans算法进行聚类。kpp函数的实现完全符合上述kmeans++的基本思路的2、3、4步。</p>
+<h2 id="matlab版本的kmeans"><a href="#matlab版本的kmeans" class="headerlink" title="matlab版本的kmeans++"></a>matlab版本的kmeans++</h2><hr>
+<p>请在资料[8]对应的网站中下载kmeans.m，更名为kmeanspp.m，文件内的函数名更改为kmeanspp。kmeanspp.m代码相当精炼，内容如下（去掉了部分注释，中文注释是笔者添加的）：</p>
+<pre><code>function [L,C] = kmeanspp(X,k)
+%KMEANS Cluster multivariate data using the k-means++ algorithm.
+%   [L,C] = kmeans_pp(X,k) produces a 1-by-size(X,2) vector L with one class
+%   label per column in X and a size(X,1)-by-k matrix C containing the
+%   centers corresponding to each class.
+
+%   Version: 2013-02-08
+%   Authors: Laurent Sorber (Laurent.Sorber@cs.kuleuven.be)
+
+L = [];
+L1 = 0;
+
+while length(unique(L)) ~= k
+
+    % The k-means++ initialization.
+    C = X(:,1+round(rand*(size(X,2)-1))); %size(X,2)是数据集合X的数据点的数目，C是中心点的集合
+    L = ones(1,size(X,2));
+    for i = 2:k
+        D = X-C(:,L); %-1 
+        D = cumsum(sqrt(dot(D,D,1))); %将每个数据点与中心点的距离，依次累加
+        if D(end) == 0, C(:,i:k) = X(:,ones(1,k-i+1)); return; end
+        C(:,i) = X(:,find(rand &lt; D/D(end),1)); %find的第二个参数表示返回的索引的数目
+        [~,L] = max(bsxfun(@minus,2*real(C&#39;*X),dot(C,C,1).&#39;)); %碉堡了，这句，将每个数据点进行分类。
+    end
+
+    % The k-means algorithm.
+    while any(L ~= L1)
+        L1 = L;
+        for i = 1:k, l = L==i; C(:,i) = sum(X(:,l),2)/sum(l); end
+        [~,L] = max(bsxfun(@minus,2*real(C&#39;*X),dot(C,C,1).&#39;),[],1);
+    end
+
+end
+</code></pre><p>这个函数的实现有些特殊，参数<code>X</code>是数据集，但是是将每一列看做一个数据点，参数<code>k</code>是指定的聚类数。返回值<code>L</code>标记了每个数据点的所属分类，返回值<code>C</code>保存了最终形成的中心点（一列代表一个中心点）。测试一下：</p>
+<pre><code>&gt;&gt; x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]]
+x =
+   -0.0497    0.5669
+    0.5959    0.2686
+    0.5636   -0.4830
+    4.3586    4.3634
+    4.8151    3.8483
+    4.2444    4.1469
+    4.5173    3.6064
+
+&gt;&gt; [L, C] = kmeanspp(x&#39;,2)
+L =
+     2     2     2     1     1     1     1
+C =
+    4.4839    0.3699
+    3.9913    0.1175
+</code></pre><p>好了，现在开始一点点理解这个实现，顺便巩固一下matlab知识。</p>
+<p><code>unique</code>函数用来获取一个矩阵中的不同的值，示例：</p>
+<pre><code>&gt;&gt; unique([1 3 3 4 4 5])
+ans =
+     1     3     4     5
+&gt;&gt; unique([1 3 3 ; 4 4 5])
+ans =
+     1
+     3
+     4
+     5
+</code></pre><p>所以循环 <code>while length(unique(L)) ~= k</code> 以得到了k个聚类为结束条件，不过一般情况下，这个循环一次就结束了，因为重点在这个循环中。</p>
+<p><code>rand</code>是返回在(0,1)这个区间的一个随机数。在注释%-1所在行，C被扩充了，被扩充的方法类似于下面：</p>
+<pre><code>&gt;&gt; C =[];
+&gt;&gt; C(1,1) = 1
+C =
+     1
+&gt;&gt; C(2,1) = 2
+C =
+     1
+     2
+&gt;&gt; C(:,[1 1 1 1])
+ans =
+     1     1     1     1
+     2     2     2     2
+&gt;&gt; C(:,[1 1 1 1 2])
+Index exceeds matrix dimensions.
+</code></pre><p>C中第二个参数的元素1，其实是代表C的第一列数据，之所以在值2时候出现<code>Index exceeds matrix dimensions.</code>的错误，是因为C本身没有第二列。如果C有第二列了：</p>
+<pre><code>&gt;&gt; C(2,2) = 3;
+&gt;&gt; C(2,2) = 4;
+&gt;&gt; C(:,[1 1 1 1 2])
+ans =
+     1     1     1     1     3
+     2     2     2     2     4
+</code></pre><p><code>dot</code>函数是将两个矩阵点乘，然后把结果在某一维度相加：</p>
+<pre><code>&gt;&gt; TT = [1 2 3 ; 4 5 6];
+&gt;&gt; dot(TT,TT)
+ans =
+    17    29    45
+&gt;&gt; dot(TT,TT,1 )
+ans =
+    17    29    45
+&lt;code&gt;cumsum&lt;/code&gt;是累加函数：
+&gt;&gt; cumsum([1 2 3])
+ans =
+     1     3     6
+&gt;&gt; cumsum([1 2 3; 4 5 6])
+ans =
+     1     2     3
+     5     7     9
+</code></pre><p><code>max</code>函数可以返回两个值，第二个代表的是max数的索引位置：</p>
+<pre><code>&gt;&gt; [~, L] = max([1 2 3])
+L =
+     3
+&gt;&gt; [~,L] = max([1 2 3;2 3 4])
+L =
+     2     2     2
+</code></pre><p>其中<code>~</code>是占位符。</p>
+<p>关于<code>bsxfun</code>函数，官方文档指出：</p>
+<p><blockquote>C = bsxfun(fun,A,B) applies the element-by-element binary operation specified by the function handle fun to arrays A and B, with singleton expansion enabled</blockquote><br>其中参数<code>fun</code>是函数句柄，关于函数句柄见资料[9]。下面是bsxfun的一个示例：</p>
+<pre><code>&gt;&gt; A= [1 2 3;2 3 4]
+A =
+     1     2     3
+     2     3     4
+&gt;&gt; B=[6;7]
+B =
+     6
+     7
+&gt;&gt; bsxfun(@minus,A,B)
+ans =
+    -5    -4    -3
+    -5    -4    -3
+</code></pre><p>对于：</p>
+<pre><code>[~,L] = max(bsxfun(@minus,2*real(C&#39;*X),dot(C,C,1).&#39;));
+</code></pre><p><code>max</code>的参数是这样一个矩阵，矩阵有n列，n也是数据点的个数，每一列代表着对应的数据点与各个中心点之间的距离的相反数。不过这个距离有些与众不同，算是欧几里得距离的变形。</p>
+<p>假定数据点是2维的，某个数据点为<code>(x1,y1)</code>，某个中心点为<code>(c1,d1)</code>，那么通过<code>bsxfun(@minus,2<em>real(C’</em>X),dot(C,C,1).’)</code>的计算，数据点与中心点的距离为<code>2<em>c1</em>x1 + 2<em>d1</em>y1 -c1.^2 - c2.^2</code>，可以变换为<code>x1.^2 + y1.^2 - (c1-x1).^2 - (d1-y1).^2</code>。对于每一列而言，由于是数据点与各个中心点之间的计算，所以可以忽略<code>x1.^2 + y1.^2</code>，最终计算结果是欧几里得距离的平方的相反数。这也说明了使用max的合理性，因为一个数据点的所属簇取决于与其距离最近的中心点，若将距离取相反数，则应该是值最大的那个点。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><hr>
+<p>[1] k-means clustering：<a href="http://en.wikipedia.org/wiki/K-means_clustering" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/K-means_clustering</a><br>[2] K-Means算法 <a href="http://coolshell.cn/articles/7779.html" target="_blank" rel="noopener">http://coolshell.cn/articles/7779.html</a><br>[3] 欧几里得度量 <a href="http://zh.wikipedia.org/wiki/欧几里得度量" target="_blank" rel="noopener">http://zh.wikipedia.org/wiki/欧几里得度量</a><br>[4] kmeans <a href="http://www.mathworks.cn/cn/help/stats/kmeans.html" target="_blank" rel="noopener">http://www.mathworks.cn/cn/help/stats/kmeans.html</a><br>[5] K-Means++算法 <a href="http://www.cnblogs.com/shelocks/archive/2012/12/20/2826787.html" target="_blank" rel="noopener">http://www.cnblogs.com/shelocks/archive/2012/12/20/2826787.html</a><br>[6] K-means++ <a href="http://en.wikipedia.org/wiki/K-means%2B%2B" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/K-means%2B%2B</a><br>[7] K-means++ clustering <a href="http://rosettacode.org/wiki/K-means%2B%2B_clustering" target="_blank" rel="noopener">http://rosettacode.org/wiki/K-means%2B%2B_clustering</a><br>[8] k-means++的matlab实现 <a href="http://www.mathworks.com/matlabcentral/fileexchange/28804-k-means++" target="_blank" rel="noopener">http://www.mathworks.com/matlabcentral/fileexchange/28804-k-means++</a><br>[9] MATLAB函数句柄 <a href="http://www.cnblogs.com/begtostudy/archive/2012/06/27/2565920.html" target="_blank" rel="noopener">http://www.cnblogs.com/begtostudy/archive/2012/06/27/2565920.html</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-03-15-kmeans-kmeans-plus-plus/" title="浅入浅出：从Kmeans到Kmeans++">http://www.letiantian.me/2014-03-15-kmeans-kmeans-plus-plus/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-03-14-dbscan-2/" rel="next" title="浅入浅出：DBSCAN聚类算法（2）">
+                <i class="fa fa-chevron-left"></i> 浅入浅出：DBSCAN聚类算法（2）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-03-20-ubuntu-install-lemp/" rel="prev" title="在Ubuntu下安装LEMP">
+                在Ubuntu下安装LEMP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#kmeans-算法的基本思路"><span class="nav-text">kmeans++算法的基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python版本的kmeans"><span class="nav-text">python版本的kmeans++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matlab版本的kmeans"><span class="nav-text">matlab版本的kmeans++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料"><span class="nav-text">资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

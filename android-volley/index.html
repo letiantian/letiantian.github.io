@@ -1,0 +1,1048 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Volley is an HTTP library that makes networking for Android apps easier and, most importantly, faster.  源码地址：　https://github.com/google/volley 1. 如何使用已经有很多文章介绍了Volley，不再重复。下面是一些参考：  Android Volley完全解">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅入浅出Android Volley">
+<meta property="og:url" content="http://www.letiantian.me/android-volley/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="Volley is an HTTP library that makes networking for Android apps easier and, most importantly, faster.  源码地址：　https://github.com/google/volley 1. 如何使用已经有很多文章介绍了Volley，不再重复。下面是一些参考：  Android Volley完全解">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2017/2017-06-17-volley-thread-01.png">
+<meta property="og:updated_time" content="2017-06-17T07:02:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅入浅出Android Volley">
+<meta name="twitter:description" content="Volley is an HTTP library that makes networking for Android apps easier and, most importantly, faster.  源码地址：　https://github.com/google/volley 1. 如何使用已经有很多文章介绍了Volley，不再重复。下面是一些参考：  Android Volley完全解">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2017/2017-06-17-volley-thread-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/android-volley/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>浅入浅出Android Volley | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/android-volley/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅入浅出Android Volley</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T15:02:28+08:00">
+                2017-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Volley is an HTTP library that makes networking for Android apps easier and, most importantly, faster.</p>
+</blockquote>
+<p>源码地址：　<a href="https://github.com/google/volley" target="_blank" rel="noopener">https://github.com/google/volley</a></p>
+<h2 id="1-如何使用"><a href="#1-如何使用" class="headerlink" title="1. 如何使用"></a>1. 如何使用</h2><p>已经有很多文章介绍了Volley，不再重复。下面是一些参考：</p>
+<ul>
+<li><a href="http://blog.csdn.net/guolin_blog/article/details/17482095" target="_blank" rel="noopener">Android Volley完全解析系列</a></li>
+<li><a href="http://blog.csdn.net/t12x3456/article/details/9221611" target="_blank" rel="noopener">Android 网络通信框架Volley简介(Google IO 2013)</a></li>
+</ul>
+<h2 id="2-设计思路"><a href="#2-设计思路" class="headerlink" title="2. 设计思路"></a>2. 设计思路</h2><p>在volley中有三种类型的线程：</p>
+<ul>
+<li>主程/其他线程：主线程即UI线程。<code>主程/其他线程</code>负责将网络请求交给RequestQueue。</li>
+<li>网络线程：发起网络调用，得到返回数据。默认是4个线程。</li>
+<li>缓存线程：如果请求允许使用缓存，则缓存线程尝试去取缓存数据。</li>
+</ul>
+<p><img src="/content/images/2017/2017-06-17-volley-thread-01.png" alt=""></p>
+<a id="more"></a>
+<p>那么网络线程、缓存线程是从什么地方拿到的请求呢？答案是<strong>阻塞式队列</strong>。</p>
+<p>涉及到两个队列存储网络请求：</p>
+<ul>
+<li>网络线程从 PriorityBlockingQueue 类型的队列中取网络请求，称之为<code>mNetworkQueue</code>。</li>
+<li>缓存线程也是 PriorityBlockingQueue 类型的队列中取网络请求，称之为<code>mCacheQueue</code>。</li>
+</ul>
+<p>而RequestQueue 本身不是队列，不过其内部主要逻辑是将请求对象放入<code>mNetworkQueue</code>或<code>mCacheQueue</code>。</p>
+<p>这里有一个问题，两个相同的支持缓存的请求（请求1、请求2）几乎同时到来，那么其实没必要对请求2进行处理，只需要等请求1拿到响应数据后，把数据顺便给请求2即可。Volley中使用 <code>Map&lt;String, Queue&lt;Request&lt;?&gt;&gt;&gt;</code>记录有没有支持缓存的请求正在进行，称之为<code>mWaitingRequests</code>。其中key是请求的key（默认是url），value是请求对象的容器。</p>
+<h3 id="2-1-网络请求发起流程"><a href="#2-1-网络请求发起流程" class="headerlink" title="2.1 网络请求发起流程"></a>2.1 网络请求发起流程</h3><p>请求发起流程：</p>
+<ol>
+<li>主线程（其他线程也行）生成请求对象，对象内部包含了请求地址、请求方法、处理返回数据的回调对象等。</li>
+<li>主线程将请求对象交给RequestQueue对象。以下是RequestQueue对象内部的处理逻辑：<ol>
+<li>判断该请求对象是否允许使用缓存，若不允许，则将请求放入<code>mNetworkQueue</code>。<strong>流程结束</strong>。若允许缓存，进入下一步。</li>
+<li>得到请求对象的key值（默认是网址Url），根据mWaitingRequests判断当前是否有相同key的网络请求正在进行。<strong>如果有</strong>，则将该请求对象先存到mWaitingRequests中key对应的容器中，等待已有的相同key的网络请求响应回来后，顺便把结果交给该请求。<strong>如果没有</strong>，则进入下一步：</li>
+<li>将请求对象放入mCacheQueue，并记录当前有key为×××的请求正在进行处理。</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-2-缓存线程"><a href="#2-2-缓存线程" class="headerlink" title="2.2 缓存线程"></a>2.2 缓存线程</h3><p>缓存线程是一直运行，内部就是死循环，每一次循环从mCacheQueue拿出一个网络请求进行处理，处理流程如下：</p>
+<ol>
+<li>根据网络请求的key，判断缓存中是否有已有内容，若没有内容、或者内容过期，则将网络请求扔到<code>mNetworkQueue</code>，让网络线程去处理。<strong>结束流程。</strong> </li>
+<li>若有未过期的缓存，则将缓存内容作为响应内容。在主线程中执行网络请求中回调对象中的函数。</li>
+</ol>
+<h3 id="2-3-网络线程"><a href="#2-3-网络线程" class="headerlink" title="2.3 网络线程"></a>2.3 网络线程</h3><p>类似的，网络线程是一直运行，内部就是死循环，每一次循环从mNetworkQueue拿出一个网络请求进行处理，处理流程如下：</p>
+<ol>
+<li>BasicNetwork对网络请求进行处理，得到响应数据。</li>
+<li>如果该网络请求允许缓存且HTTP响应头也给出了允许缓存相关的信息，则缓存响应结果。</li>
+<li>在主线程中执行该网络请求中回调对象中的函数。</li>
+</ol>
+<h3 id="2-4-缓存设计"><a href="#2-4-缓存设计" class="headerlink" title="2.4 缓存设计"></a>2.4 缓存设计</h3><p>缓存使用key-value的形式存取，key是从Request类中拿出来的，默认是网址。<code>StringRequest</code>、<code>JsonArrayRequest</code>等网络请求类集成自<code>Request</code>。可以根据需要在自定义的Request子类中覆盖该方法。</p>
+<pre><code class="java">public abstract class Request&lt;T&gt; implements Comparable&lt;Request&lt;T&gt;&gt; {
+    // ...
+
+    public String getCacheKey() {
+        return getUrl();
+    }
+
+    // ...
+}
+</code></pre>
+<p>而value是包含了多个属性，有响应头、响应体、ETag内容、Last-Modified内容、Expires内容等。</p>
+<p><code>DiskBasedCache</code>是默认的缓存实现，一个基于文件存储的cache，所有文件存在一个目录里。有以下几个有趣的设计：</p>
+<ul>
+<li><p>文件名并不是key。key是存在文件里面的。而文件名是基于key生成的具有（伪）1对1关系的名称。不是md5哈。真的冲突了也没关系，key存在文件里呢。</p>
+</li>
+<li><p>初始化时，会将本地已有的缓存全部载入内存。但是内存中不会有响应体，如图片、html等。添加缓存时，既存入本地，也加入内存中。删除某条缓存，既删本地，也删内存中对应内容。根据key获取缓存时，先看内存中有没有，没有就直接返回null，有的话再从本地存储中把响应体拿出来。</p>
+</li>
+<li><p>针对响应体，默认允许本地存储最大为5MB。当添加缓存时，会判断有没有超出限制，若超出，则先删除之前已有的部分缓存，直到满足下面的条件才添加新缓存：</p>
+</li>
+</ul>
+<pre><code class="plain">本地缓存占用空间+新缓存要占用的空间 &lt; 最大缓存大小*0.9
+</code></pre>
+<h3 id="2-5-超时和重试"><a href="#2-5-超时和重试" class="headerlink" title="2.5 超时和重试"></a>2.5 超时和重试</h3><p>超时时间和重试次数的代码在Request类中已经实现：</p>
+<pre><code class="java">public Request&lt;?&gt; setRetryPolicy(RetryPolicy retryPolicy) {
+    mRetryPolicy = retryPolicy;
+    return this;
+}
+
+public final int getTimeoutMs() {
+    return mRetryPolicy.getCurrentTimeout();　// 单位是毫秒
+}
+
+public RetryPolicy getRetryPolicy() {
+    return mRetryPolicy;
+}
+</code></pre>
+<p>直接在Request子类中实现<code>getTimeoutMs</code>方法是不可能了，所以设置重试策略即可。</p>
+<p>重试策略是一个接口，内容如下：</p>
+<pre><code class="java">public interface RetryPolicy {
+
+    int getCurrentTimeout();
+
+    int getCurrentRetryCount();
+
+    void retry(VolleyError error) throws VolleyError;
+}
+</code></pre>
+<p> 结束重试的方式是在<code>retry</code>方法在合适的时候抛出一个异常即可。</p>
+<p><code>DefaultRetryPolicy</code>是<code>RetryPolicy</code>的默认实现，可以指定超时时间和重试次数，以及重试时超时时间如何变化。</p>
+<h3 id="2-6-图片自动处理"><a href="#2-6-图片自动处理" class="headerlink" title="2.6 图片自动处理"></a>2.6 图片自动处理</h3><p>一张很大的图片直接在view中显示会耗费大量内存，甚至产生OOM（OutOfMemory）问题。一个有效的应对方法是imageview多大，就把图片先处理成相应大小，再在UI上展示。</p>
+<p>volley提供了ImageRequest、ImageLoader、NetworkImageView类来处理图片，均使用了<code>IMageRequest</code>中<code>doParse</code>方法处理网络请求返回的图片，具体代码在<a href="https://github.com/google/volley/blob/master/src/main/java/com/android/volley/toolbox/ImageRequest.java#L170" target="_blank" rel="noopener">这里</a>。</p>
+<h2 id="3-代码防御"><a href="#3-代码防御" class="headerlink" title="3. 代码防御"></a>3. 代码防御</h2><p>根据<a href="http://blog.csdn.net/t12x3456/article/details/9221611" target="_blank" rel="noopener">Android 网络通信框架Volley简介(Google IO 2013)</a>的建议，在Activity onStop　时，cancelAll　所有请求，这样网络请求如果未请求，则不会发起请求，如果已经请求，返回数据后不会执行网络请求的回调。示例：</p>
+<pre><code class="java">@Override pubic void onStop() {
+    mRequestQueue.cancelAll(this);
+    //...
+}
+</code></pre>
+<h2 id="4-一些问题的解决方案"><a href="#4-一些问题的解决方案" class="headerlink" title="4. 一些问题的解决方案"></a>4. 一些问题的解决方案</h2><h3 id="4-1-POST-不支持相同参数"><a href="#4-1-POST-不支持相同参数" class="headerlink" title="4.1 POST 不支持相同参数"></a>4.1 POST 不支持相同参数</h3><p>POST 方法如果要带数据，需要覆盖<code>getParams</code>方法。下面是来自 <a href="http://blog.csdn.net/guolin_blog/article/details/17482095" target="_blank" rel="noopener">Android Volley完全解析(一)，初识Volley的基本用法</a>的一段代码：</p>
+<pre><code class="java">StringRequest stringRequest = new StringRequest(Method.POST, url,  listener, errorListener) {  
+    @Override  
+    protected Map&lt;String, String&gt; getParams() throws AuthFailureError {  
+        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();  
+        map.put(&quot;params1&quot;, &quot;value1&quot;);  
+        map.put(&quot;params2&quot;, &quot;value2&quot;);  
+        return map;  
+    }  
+};
+</code></pre>
+<p>数据的组装其实是在<code>getBody</code>方法里：</p>
+<pre><code class="java">public byte[] getBody() throws AuthFailureError {
+    Map&lt;String, String&gt; params = getParams();
+    if (params != null &amp;&amp; params.size() &gt; 0) {
+        return encodeParameters(params, getParamsEncoding());
+    }
+    return null;
+}
+</code></pre>
+<p>然而，这种实现不支持类似<code>a=1&amp;a=1&amp;b=123</code>参数名多次出现的场景。</p>
+<p>解决办法是，生成Request对象时覆盖<code>getBody</code>方法。</p>
+<h3 id="4-2-设置请求头"><a href="#4-2-设置请求头" class="headerlink" title="4.2 设置请求头"></a>4.2 设置请求头</h3><p>生成Request对象时，覆盖<code>getHeaders</code>方法即可。</p>
+<pre><code class="java">public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+    return Collections.emptyMap();
+}
+</code></pre>
+<h3 id="4-3-图片上传问题"><a href="#4-3-图片上传问题" class="headerlink" title="4.3 图片上传问题"></a>4.3 图片上传问题</h3><p>Volley没有图片上传的实用类/函数，解决办法有两个：</p>
+<ol>
+<li>将图片转换为base64，以字符串的形式将图片POST到服务器端。</li>
+<li>基于HTTP上传图片原理，在<code>getBody</code>里生成数据。可以参考这里：<a href="http://blog.csdn.net/jxxfzgy/article/details/44064481" target="_blank" rel="noopener">Android volley 解析（三）之文件上传篇</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/android-volley/" title="浅入浅出Android Volley">http://www.letiantian.me/android-volley/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016-04-23-red-envelope/" rel="next" title="一个红包随机分配算法">
+                <i class="fa fa-chevron-left"></i> 一个红包随机分配算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/android-eventbus/" rel="prev" title="浅入浅出Android EventBus库">
+                浅入浅出Android EventBus库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-如何使用"><span class="nav-text">1. 如何使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-设计思路"><span class="nav-text">2. 设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-网络请求发起流程"><span class="nav-text">2.1 网络请求发起流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-缓存线程"><span class="nav-text">2.2 缓存线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-网络线程"><span class="nav-text">2.3 网络线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-缓存设计"><span class="nav-text">2.4 缓存设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-超时和重试"><span class="nav-text">2.5 超时和重试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-图片自动处理"><span class="nav-text">2.6 图片自动处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-代码防御"><span class="nav-text">3. 代码防御</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-一些问题的解决方案"><span class="nav-text">4. 一些问题的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-POST-不支持相同参数"><span class="nav-text">4.1 POST 不支持相同参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-设置请求头"><span class="nav-text">4.2 设置请求头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-图片上传问题"><span class="nav-text">4.3 图片上传问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

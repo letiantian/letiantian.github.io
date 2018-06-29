@@ -1,0 +1,957 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-01-16 现在需要限定某个用户对特定目录/文件的访问权限，或者把某个用户的访问范围限制在某个目录/文件中。现实情况下，还是能遇到这样的需求的，比如说ubuntu下有多个可登录用户，默认情况下，用户A的工作目录（一般为/home/A）对任何其他用户来说都是可读的，但是用户A可能不希望其他用户（或者某个特定用户）读取A的文件。  这里提出三个解决方案。 第一种：使用chmod更改特定目录的">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何限制Linux用户的访问权限">
+<meta property="og:url" content="http://www.letiantian.me/2014-01-16-linux-restrict-user-access/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-01-16 现在需要限定某个用户对特定目录/文件的访问权限，或者把某个用户的访问范围限制在某个目录/文件中。现实情况下，还是能遇到这样的需求的，比如说ubuntu下有多个可登录用户，默认情况下，用户A的工作目录（一般为/home/A）对任何其他用户来说都是可读的，但是用户A可能不希望其他用户（或者某个特定用户）读取A的文件。  这里提出三个解决方案。 第一种：使用chmod更改特定目录的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T09:50:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何限制Linux用户的访问权限">
+<meta name="twitter:description" content="2014-01-16 现在需要限定某个用户对特定目录/文件的访问权限，或者把某个用户的访问范围限制在某个目录/文件中。现实情况下，还是能遇到这样的需求的，比如说ubuntu下有多个可登录用户，默认情况下，用户A的工作目录（一般为/home/A）对任何其他用户来说都是可读的，但是用户A可能不希望其他用户（或者某个特定用户）读取A的文件。  这里提出三个解决方案。 第一种：使用chmod更改特定目录的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-01-16-linux-restrict-user-access/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>如何限制Linux用户的访问权限 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-01-16-linux-restrict-user-access/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何限制Linux用户的访问权限</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-16T19:20:00+08:00">
+                2014-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-01-16</p>
+<p>现在需要限定某个用户对特定目录/文件的访问权限，或者把某个用户的访问范围限制在某个目录/文件中。现实情况下，还是能遇到这样的需求的，比如说ubuntu下有多个可登录用户，默认情况下，用户A的工作目录（一般为/home/A）对任何其他用户来说都是可读的，但是用户A可能不希望其他用户（或者某个特定用户）读取A的文件。</p>
+<a id="more"></a>
+<p>这里提出三个解决方案。</p>
+<p><strong>第一种：</strong>使用chmod更改特定目录的权限。这能起到限制特定目录被某些人访问的作用，限定某个用户的目的也能达到，但是会误伤其他用户。<br><strong>第二种：</strong>使用linux容器，例如lxc。耗费空间，设置稍显麻烦。<br><strong>第三种：</strong>使用setfacl命令设定访问控制。  </p>
+<p>其中，第三个方案是最符合要求的。本文主要讲该方案的具体实现并在我自己的本上测试。我的系统为Linux Mint 15 64位，根目录/使用的是ext4文件系统，/home使用的btrfs文件系统。  </p>
+<h2 id="安装acl"><a href="#安装acl" class="headerlink" title="安装acl"></a>安装acl</h2><hr>
+<pre><code>sudo apt-get install acl
+</code></pre><p>有资料说是要重启系统，但是测试的时候我发现这个在以前就已经安装好了（不知道是Mint自带了还是我胡乱装的），没有重启依旧有效。</p>
+<h2 id="使用setfacl"><a href="#使用setfacl" class="headerlink" title="使用setfacl"></a>使用setfacl</h2><hr>
+<p>以root的身份执行下面的命令：</p>
+<pre><code># mkdir /home/test
+# touch /home/test/foo.txt
+# vim /home/test/foo.txt
+# ls -ld /home/test/
+drwxr-xr-x 1 root root 14 Jan 16 09:46 /home/test/
+# ls -ld /home/test/foo.txt 
+-rw-r--r-- 1 root root 6 Jan 16 09:46 /home/test/foo.txt
+</code></pre><p>上面的命令在/home目录下创建目录test，在test目录下创建文件foo.txt，并在foo.txt下随便加了些内容。然后以普通用户letian的身份访问foo.txt，可以读foo.txt。</p>
+<p>现在以root身份运行setfacl，使得/home/test目录及其里面的文件和目录不能被letian访问。</p>
+<pre><code># setfacl -R -m u:letian:- /home/test/
+</code></pre><p>-R表示递归，-m表示修改，u:letian:-表示用户(user)letian对/home/test没有任何权限。可以根据需要添加r、w、x及其组合。<br>我们查看一下test目录的详细信息：</p>
+<pre><code># ls -ld /home/test/
+drwxr-xr-x+ 1 root root 14 Jan 16 09:46 /home/test/
+</code></pre><p>文件权限后面出现了一个+号，这说明该文件或者目录设置了ACL。foo.txt的权限信息后面也会有+号。<br>然后，以letian的身份访问该目录：</p>
+<pre><code>$ ls /home/test
+ls: cannot open directory /home/test: Permission denied
+</code></pre><h2 id="使用getfacl"><a href="#使用getfacl" class="headerlink" title="使用getfacl"></a>使用getfacl</h2><hr>
+<p>getfacl用来查看对某个目录/文件设置的acl。</p>
+<pre><code>$ getfacl /home/test
+# file: /home/test
+# owner: root
+# group: root
+user::rwx
+user:letian:---
+group::r-x
+mask::r-x
+other::r-x
+</code></pre><h2 id="删除设置的acl"><a href="#删除设置的acl" class="headerlink" title="删除设置的acl"></a>删除设置的acl</h2><hr>
+<pre><code># setfacl -b /home/test/
+# getfacl /home/test
+# file: /home/test
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-01-16-linux-restrict-user-access/" title="如何限制Linux用户的访问权限">http://www.letiantian.me/2014-01-16-linux-restrict-user-access/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-01-07-sqlobject-and-sqlalchemy/" rel="next" title="SQLObject和SQLAlchemy入门">
+                <i class="fa fa-chevron-left"></i> SQLObject和SQLAlchemy入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-02-23-ubuntu-install-mongodb/" rel="prev" title="在ubuntu下安装和配置mongodb">
+                在ubuntu下安装和配置mongodb <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装acl"><span class="nav-text">安装acl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用setfacl"><span class="nav-text">使用setfacl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用getfacl"><span class="nav-text">使用getfacl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除设置的acl"><span class="nav-text">删除设置的acl</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

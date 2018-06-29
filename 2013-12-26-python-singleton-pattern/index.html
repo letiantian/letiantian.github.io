@@ -1,0 +1,1091 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-12-26 单例模式是一个常见的设计模式，本文讲述如何使用Python 2.7实现单例模式。  一个简单实现   class Foo(object):     __instance = None     def __init__(self):         pass     @classmethod     def getinstance(cls):         if(cls.__">
+<meta name="keywords" content="python,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用python实现单例模式">
+<meta property="og:url" content="http://www.letiantian.me/2013-12-26-python-singleton-pattern/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-12-26 单例模式是一个常见的设计模式，本文讲述如何使用Python 2.7实现单例模式。  一个简单实现   class Foo(object):     __instance = None     def __init__(self):         pass     @classmethod     def getinstance(cls):         if(cls.__">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T09:36:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用python实现单例模式">
+<meta name="twitter:description" content="2013-12-26 单例模式是一个常见的设计模式，本文讲述如何使用Python 2.7实现单例模式。  一个简单实现   class Foo(object):     __instance = None     def __init__(self):         pass     @classmethod     def getinstance(cls):         if(cls.__">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-12-26-python-singleton-pattern/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用python实现单例模式 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-12-26-python-singleton-pattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用python实现单例模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-26T20:20:00+08:00">
+                2013-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-12-26</p>
+<p>单例模式是一个常见的设计模式，本文讲述如何使用Python 2.7实现单例模式。</p>
+<a id="more"></a>
+<p></p><h3>一个简单实现</h3><p></p>
+<hr>
+
+<pre><code>class Foo(object):
+    __instance = None
+    def __init__(self):
+        pass
+    @classmethod
+    def getinstance(cls):
+        if(cls.__instance == None):
+            cls.__instance = Foo()
+        return cls.__instance   
+
+if __name__ == &#39;__main__&#39;:
+    foo1 = Foo.getinstance()
+    foo2 = Foo.getinstance()
+    print id(foo1)
+    print id(foo2)
+    print id(Foo())
+</code></pre><p>输出的前两个结果是相同的（<code>id(foo1)</code>与<code>id(foo2)</code>的值相同），第三个结果和前两个不同。这里类方法<code>getinstance()</code>用于获取单例，但是类本身也可以实例化，这样的方式其实并不符合单例模式的要求。但是这样做也有好处，代码简单，大家约定好这样子调用就行了。但是最好在类的命名上也体现了出来这是一个单例类，例如<code>Foo_singleton</code>。</p>
+<p></p><h3>换一个思路</h3><p></p>
+<p><hr><br>先说一下<code>__init__</code>和<code>__new__</code>的区别：</p>
+<pre><code>class Foo(object):
+    __instance = None
+    def __init__(self):
+        print &#39;init&#39;
+if __name__ == &#39;__main__&#39;:
+    foo = Foo()
+</code></pre><p>运行结果是：</p>
+<pre><code>init
+</code></pre><p>而下面的示例：</p>
+<pre><code>class Foo(object):
+    __instance = None
+    def __init__(self):
+        print &#39;init&#39;
+    def __new__(cls, *args, **kwargs):
+        print &#39;new&#39;
+
+if __name__ == &#39;__main__&#39;:
+    foo = Foo()
+</code></pre><p>运行结果是：</p>
+<pre><code>new
+</code></pre><p><code>__new__</code>是一个类方法，会创建对象时调用。而<code>__init__</code>方法是在创建完对象后调用，对当前对象的实例做一些一些初始化，无返回值。如果重写了<code>__new__</code>而在<code>__new__</code>里面没有调用<code>__init__</code>或者没有返回实例,那么<code>__init__</code>将不起作用。以下内容引用自[1]</p>
+<pre><code>If __new__() returns an instance of cls, then the new instance’s __init__() method will be invoked like __init__(self[, ...]), where self is the new instance and the remaining arguments are the same as were passed to __new__().
+
+If __new__() does not return an instance of cls, then the new instance’s __init__() method will not be invoked.
+</code></pre><p>这样做：</p>
+<pre><code>class Foo(object):
+    __instance = None
+    def __init__(self):
+        print &#39;init&#39;
+
+    def __new__(cls, *args, **kwargs):
+        print &#39;new&#39;
+        if cls.__instance == None:
+            cls.__instance = cls.__new__(cls, *args, **kwargs)
+        return cls.__instance
+
+if __name__ == &#39;__main__&#39;:
+    foo = Foo()
+</code></pre><p>错误如下：</p>
+<pre><code>RuntimeError: maximum recursion depth exceeded in cmp
+</code></pre><p>而这样也有一样的错误：</p>
+<pre><code>class Foo(object):
+    __instance = None
+    def __init__(self):
+        if self.__class__.__instance == None:
+            self.__class__.__instance = Foo()
+        print &#39;init&#39;
+
+if __name__ == &#39;__main__&#39;:
+    foo = Foo()
+</code></pre><p>该怎么做呢？</p>
+<p>下面参考了[2]：</p>
+<pre><code>class Foo(object):
+    __instance = None
+    def __new__(cls, *args, **kwargs):
+        print &#39;hhhhhhhhh&#39;
+        if not cls.__instance:
+            cls.__instance = super(Foo, cls).__new__(cls, *args, **kwargs)
+        return cls.__instance
+
+    def hi(self):
+        print &#39;hi, world&#39;
+        print &#39;hi, letian&#39;
+
+if __name__ == &#39;__main__&#39;:
+    foo1 = Foo()
+    foo2 = Foo()
+    print id(foo1)
+    print id(foo2)
+    print isinstance(foo1, object)
+    print isinstance(foo1, Foo)
+    foo1.hi()
+</code></pre><p>运行结果：</p>
+<pre><code>hhhhhhhhh
+hhhhhhhhh
+39578896
+39578896
+True
+True
+hi, world
+hi, letian
+</code></pre><p>那么，到底发生了什么，我们先回顾一下super：</p>
+<pre><code>&gt;&gt;&gt; print super.__doc__
+super(type) -&gt; unbound super object
+super(type, obj) -&gt; bound super object; requires isinstance(obj, type)
+super(type, type2) -&gt; bound super object; requires issubclass(type2, type)
+Typical use to call a cooperative superclass method:
+class C(B):
+    def meth(self, arg):
+        super(C, self).meth(arg)
+</code></pre><p>可以肯定上面的单例模式代码中的这一行代码：</p>
+<pre><code>cls.__instance = super(Foo, cls).__new__(cls, *args, **kwargs)
+</code></pre><p><code>super(Foo, cls)</code>是<code>object，super(Foo, cls).__new__</code>方法使用的是object的<code>__new__</code>方法。我们看一下<code>object.__new__</code>方法的作用：</p>
+<pre><code>&gt;&gt;&gt; print object.__new__.__doc__
+T.__new__(S, ...) -&gt; a new object with type S, a subtype of T
+</code></pre><p></p><h3>如果是一个继承链</h3><p></p>
+<hr>
+
+<pre><code>class Fo(object):
+    def __new__(cls, *args, **kwargs):
+        print &#39;hi, i am Fo&#39;
+        return  super(Fo, cls).__new__(cls, *args, **kwargs)
+
+class Foo(Fo):
+    __instance = None
+    def __new__(cls, *args, **kwargs):
+        if not cls.__instance:
+            print Foo is cls
+            print issubclass(cls, Fo)
+            print issubclass(cls, object)
+            cls.__instance = super(Foo, cls).__new__(cls, *args, **kwargs)
+        return cls.__instance
+
+    def hi(self):
+        print &#39;hi, world&#39;
+
+if __name__ == &#39;__main__&#39;:
+    foo1 = Foo()
+    foo1.hi()
+    print isinstance(foo1, Foo)
+    print isinstance(foo1, Fo)
+    print isinstance(foo1, object)
+</code></pre><p>运行结果如下：</p>
+<pre><code>True
+True
+True
+hi, i am Fo
+hi, world
+True
+True
+True
+</code></pre><p>如果如下定义Fo，也正常运行：</p>
+<pre><code>class Fo(object):
+    pass
+</code></pre><p>但是，若这样定义：</p>
+<pre><code>class Fo(object):
+    def __new__(cls, *args, **kwargs):
+        print &#39;hi, i am Fo&#39;
+</code></pre><p>运行时报错如下：</p>
+<pre><code>AttributeError: &#39;NoneType&#39; object has no attribute &#39;hi&#39;
+</code></pre><p></p><h3>参考资料</h3><p></p>
+<hr>
+
+<p>[1] <a href="http://docs.python.org/2/reference/datamodel.html#object.\_\_new\_\_" target="_blank" rel="noopener">http://docs.python.org/2/reference/datamodel.html#object.__new__</a></p>
+<p>[2] <a href="http://stackoverflow.com/questions/31875/is-there-a-simple-elegant-way-to-define-singletons-in-python/31887#31887" target="_blank" rel="noopener">http://stackoverflow.com/questions/31875/is-there-a-simple-elegant-way-to-define-singletons-in-python/31887#31887</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-12-26-python-singleton-pattern/" title="使用python实现单例模式">http://www.letiantian.me/2013-12-26-python-singleton-pattern/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-12-26-some-concept-of-the-class/" rel="next" title="关于python实例方法、静态方法、类方法、类变量和实例变量">
+                <i class="fa fa-chevron-left"></i> 关于python实例方法、静态方法、类方法、类变量和实例变量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-12-30-update-wordpress-error/" rel="prev" title="升级wordpress出现错误：Request exceeded the limit of 10 internal redirects">
+                升级wordpress出现错误：Request exceeded the limit of 10 internal redirects <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-text">一个简单实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-text">换一个思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-text">如果是一个继承链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

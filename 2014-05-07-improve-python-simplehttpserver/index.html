@@ -1,0 +1,993 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-05-07 笔者使用的python版本是2.7.6。 陈皓在非常简单的Python HTTP服务介绍了python自带的针对静态网站的http服务器，例如要以/home/www为http server的DocumentRoot，可以：  cd /home/www python -m SimpleHTTPServer 之后在浏览器中访问http://127.0.0.1:8000即可。 这种">
+<meta name="keywords" content="编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="改善Python自带的HTTP服务器SimpleHTTPServer">
+<meta property="og:url" content="http://www.letiantian.me/2014-05-07-improve-python-simplehttpserver/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-05-07 笔者使用的python版本是2.7.6。 陈皓在非常简单的Python HTTP服务介绍了python自带的针对静态网站的http服务器，例如要以/home/www为http server的DocumentRoot，可以：  cd /home/www python -m SimpleHTTPServer 之后在浏览器中访问http://127.0.0.1:8000即可。 这种">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-05-07-simplehttpserver-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-05-07-simplehttpserver-02.png">
+<meta property="og:updated_time" content="2015-05-17T04:37:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="改善Python自带的HTTP服务器SimpleHTTPServer">
+<meta name="twitter:description" content="2014-05-07 笔者使用的python版本是2.7.6。 陈皓在非常简单的Python HTTP服务介绍了python自带的针对静态网站的http服务器，例如要以/home/www为http server的DocumentRoot，可以：  cd /home/www python -m SimpleHTTPServer 之后在浏览器中访问http://127.0.0.1:8000即可。 这种">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/05/2014-05-07-simplehttpserver-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-05-07-improve-python-simplehttpserver/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>改善Python自带的HTTP服务器SimpleHTTPServer | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-05-07-improve-python-simplehttpserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">改善Python自带的HTTP服务器SimpleHTTPServer</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-07T14:01:00+08:00">
+                2014-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-05-07</p>
+<p>笔者使用的python版本是2.7.6。</p>
+<p>陈皓在<a href="http://coolshell.cn/articles/1480.html" title="非常简单的Python HTTP服务" target="_blank" rel="noopener">非常简单的Python HTTP服务</a>介绍了python自带的针对静态网站的http服务器，例如要以/home/www为http server的DocumentRoot，可以： </p>
+<pre><code>cd /home/www
+python -m SimpleHTTPServer
+</code></pre><p>之后在浏览器中访问<code>http://127.0.0.1:8000</code>即可。</p>
+<p>这种方法在我的Linux Mint下运行正常，也可以正确的处理中文路径。</p>
+<a id="more"></a>
+<p>但是在windows下遇到中文路径时候就出问题了，可能会显示404，例如本站当前使用的是静态博客系统hexo，我</p>
+<pre><code>cd hexo\public
+python -m SimpleHTTPServer
+</code></pre><p>然后访问 <code>http://127.0.0.1:8000/2014/04/27/代码高亮之Prism/</code>，这个路径是确实存在的，但是却出现404错误：</p>
+<p><img src="/content/images/2014/05/2014-05-07-simplehttpserver-01.png" alt="404错误"></p>
+<p>有时候也会遇到列举目录内容的页面中的中文出现乱码的情况。</p>
+<p>本文就试图解决这些情况。</p>
+<h2 id="分析问题"><a href="#分析问题" class="headerlink" title="分析问题"></a>分析问题</h2><hr>
+<h3 id="关于404"><a href="#关于404" class="headerlink" title="关于404"></a>关于404</h3><p>使用firebug分析访问<code>http://127.0.0.1:8000/2014/04/27/代码高亮之Prism/</code>时出现了什么情况，</p>
+<p>首先查看到的请求头中的第一行内容如下：</p>
+<pre><code>GET /2014/04/27/%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E4%B9%8BPrism/
+</code></pre><p><code>python -m SimpleHTTPServer</code>运行时会简要的显示部分工作过程<br>python server收到的请求如下以及发出的响应如下：</p>
+<pre><code>127.0.0.1 - - [07/May/2014 14:19:51] &quot;GET /2014/04/27/%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E4%B9%8BPrism/ HTTP/1.1&quot; 404 -
+</code></pre><p>客户端发送的请求路径和服务是相同的。本地文件系统中，<code>2014/04/27/代码高亮之Prism/</code>目录下也确实存在index.html。</p>
+<p>代码高亮之Prism使用utf8进行urlencode的结果也是<code>%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E4%B9%8BPrism</code>。 这说明SimpleHTTPServer没有正确将utf8编码的路径与windows系统下的相应文件对应起来。</p>
+<p>也就是SimpleHTTPServer通过客户端请求的信息去打开本地的静态文件时，并没有正确的打开。如果相应的路径又确实存在的话，那么可能是SimpleHTTPServer直接</p>
+<pre><code>open(&#39;代码高亮之Prism/index.html&#39;)
+</code></pre><p>，而非</p>
+<pre><code>open(&#39;代码高亮之Prism/index.html&#39;.decode(&#39;utf-8&#39;))
+</code></pre><p>。</p>
+<h3 id="列举目录内容时候出现了什么情况"><a href="#列举目录内容时候出现了什么情况" class="headerlink" title="列举目录内容时候出现了什么情况"></a>列举目录内容时候出现了什么情况</h3><p>浏览器访问<code>http://127.0.0.1:8000/2014/04/27/</code>，结果如下：<br><img src="/content/images/2014/05/2014-05-07-simplehttpserver-02.png" alt="正常显示，但背后隐藏着问题">  </p>
+<p>首先使用firebug查看http响应头，</p>
+<pre><code>HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/2.7.6
+Date: Wed, 07 May 2014 06:38:22 GMT
+Content-Type: text/html; charset=mbcs
+Content-Length: 272
+</code></pre><p>其中比较奇怪的是charset指定的值是mbcs。（关于mbcs，请参考<a href="http://msdn.microsoft.com/zh-cn/library/5z097dxa.aspx" title="支持多字节字符集 (MBCS)" target="_blank" rel="noopener">支持多字节字符集</a>，其来源于python的SimpleHTTPServer模块，具体请查看源码，源码位置会在下文中提及。）</p>
+<p>然后查看html源码：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Directory listing for /2014/04/27/&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2&gt;Directory listing for /2014/04/27/&lt;/h2&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&quot;%B4%FA%C2%EB%B8%DF%C1%C1%D6%AEPrism/&quot;&gt;代码高亮之Prism/&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>首先上面的源码中并未指定 </p>
+<pre><code>&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;
+</code></pre><p>或者类似的内容。</p>
+<p>另外，<code>代码高亮之Prism</code>的url编码明显和之前的不一样。</p>
+<pre><code>%B4%FA%C2%EB%B8%DF%C1%C1%D6%AEPrism
+</code></pre><p>需要使用GB2312进行解码；</p>
+<pre><code>%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E4%B9%8BPrism
+</code></pre><p>需要使用UTF8解码，两者的解码结果都是<code>代码高亮之Prism</code>。</p>
+<h2 id="分析SimpleHTTPServer"><a href="#分析SimpleHTTPServer" class="headerlink" title="分析SimpleHTTPServer"></a>分析SimpleHTTPServer</h2><hr>
+<p>命令<code>python -m SimpleHTTPServer</code>中参数<code>-m</code>在文档中解释如下：</p>
+<pre><code>-m mod : run library module as a script (terminates option list)
+</code></pre><p>也就是说。<code>SimpleHTTPServer</code>其实是一个模块。</p>
+<p>以windows为例子，进入python安装路径，进入Lib目录，可以找到<code>SimpleHTTPServer.py</code>，在该文件最后可以找到以下内容：</p>
+<pre><code>def test(HandlerClass = SimpleHTTPRequestHandler,
+         ServerClass = BaseHTTPServer.HTTPServer):
+    BaseHTTPServer.test(HandlerClass, ServerClass)
+if __name__ == &#39;__main__&#39;:
+    test()
+</code></pre><p>这就是<code>python -m SimpleHTTPServer</code>能够运行的原因。</p>
+<p>SimpleHTTPServer中的类 SimpleHTTPRequestHandler是核心内容，内容较简单，此处不做分析。</p>
+<h2 id="改善SimpleHTTPServer"><a href="#改善SimpleHTTPServer" class="headerlink" title="改善SimpleHTTPServer"></a>改善SimpleHTTPServer</h2><hr>
+<p>笔者对python自带的SimpleHTTPServer略作修改，使其能在linux和windows正常工作，代码见下面。如果有读者要用到它，建议将其保存为SimpleHTTPServer2.py并放到目录<code>Lib</code>中，使用</p>
+<pre><code>python -m SimpleHTTPServer2
+</code></pre><p>运行即可。  另外，若是需要改变监听端口、让SimpleHTTPServer/SimpleHTTPServer2只服务于本地环境，请参考<a href="http://coolshell.cn/articles/1480.html" title="非常简单的Python HTTP服务" target="_blank" rel="noopener">非常简单的Python HTTP服务</a>。</p>
+<p>地址： <a href="https://github.com/letiantian/SimpleHTTPServer2" target="_blank" rel="noopener">https://github.com/letiantian/SimpleHTTPServer2</a></p>
+<div class="github-widget" data-repo="someus/SimpleHTTPServer2"></div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-05-07-improve-python-simplehttpserver/" title="改善Python自带的HTTP服务器SimpleHTTPServer">http://www.letiantian.me/2014-05-07-improve-python-simplehttpserver/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-04-27-syntaxhighlighter-prism/" rel="next" title="代码高亮之Prism">
+                <i class="fa fa-chevron-left"></i> 代码高亮之Prism
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-05-10-atom-editor/" rel="prev" title="试用Atom编辑器">
+                试用Atom编辑器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析问题"><span class="nav-text">分析问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于404"><span class="nav-text">关于404</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列举目录内容时候出现了什么情况"><span class="nav-text">列举目录内容时候出现了什么情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析SimpleHTTPServer"><span class="nav-text">分析SimpleHTTPServer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改善SimpleHTTPServer"><span class="nav-text">改善SimpleHTTPServer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

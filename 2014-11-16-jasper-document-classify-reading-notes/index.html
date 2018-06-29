@@ -1,0 +1,941 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-11-16 今天阅读了Jasper的系列博客文本分类技术，写得很不错，浅显易懂，于是做了些摘录。 “文本分类入门”相关的几篇博客 文本分类有个重要前提：即只能根据文章的文字内容进行分类，而不应借助诸如文件的编码格式，文章作者，发布日期等信息。 文本分类核心的问题便转化为用哪些特征表示一个文本才能保证有效和快速的分类。 向量模型（俗称的VSM，向量空间模型）成了适合文本分类问题的文档表示模">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jasper文本分类系列博客阅读摘录">
+<meta property="og:url" content="http://www.letiantian.me/2014-11-16-jasper-document-classify-reading-notes/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-11-16 今天阅读了Jasper的系列博客文本分类技术，写得很不错，浅显易懂，于是做了些摘录。 “文本分类入门”相关的几篇博客 文本分类有个重要前提：即只能根据文章的文字内容进行分类，而不应借助诸如文件的编码格式，文章作者，发布日期等信息。 文本分类核心的问题便转化为用哪些特征表示一个文本才能保证有效和快速的分类。 向量模型（俗称的VSM，向量空间模型）成了适合文本分类问题的文档表示模">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-11-21T03:05:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jasper文本分类系列博客阅读摘录">
+<meta name="twitter:description" content="2014-11-16 今天阅读了Jasper的系列博客文本分类技术，写得很不错，浅显易懂，于是做了些摘录。 “文本分类入门”相关的几篇博客 文本分类有个重要前提：即只能根据文章的文字内容进行分类，而不应借助诸如文件的编码格式，文章作者，发布日期等信息。 文本分类核心的问题便转化为用哪些特征表示一个文本才能保证有效和快速的分类。 向量模型（俗称的VSM，向量空间模型）成了适合文本分类问题的文档表示模">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-11-16-jasper-document-classify-reading-notes/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Jasper文本分类系列博客阅读摘录 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-11-16-jasper-document-classify-reading-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jasper文本分类系列博客阅读摘录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-11-16T20:12:08+08:00">
+                2014-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-11-16</p>
+<p>今天阅读了Jasper的系列博客<a href="http://www.blogjava.net/zhenandaci/category/31868.html?Show=All" target="_blank" rel="noopener">文本分类技术</a>，写得很不错，浅显易懂，于是做了些摘录。</p>
+<h2 id="“文本分类入门”相关的几篇博客"><a href="#“文本分类入门”相关的几篇博客" class="headerlink" title="“文本分类入门”相关的几篇博客"></a>“文本分类入门”相关的几篇博客</h2><hr>
+<p>文本分类有个重要前提：即只能根据文章的文字内容进行分类，而不应借助诸如文件的编码格式，文章作者，发布日期等信息。</p>
+<p>文本分类核心的问题便转化为用哪些特征表示一个文本才能保证有效和快速的分类。</p>
+<p>向量模型（俗称的VSM，向量空间模型）成了适合文本分类问题的文档表示模型。在这种模型中，一篇文章被看作特征项集合来看，利用加权特征项构成向量进行文本表示，利用词频信息对文本特征进行加权。它实现起来比较简单，并且分类准确度也高，能够满足一般应用的要求。</p>
+<p>而实际上，文本是一种信息载体，其所携带的信息由几部分组成：如组成元素本身的信息（词的信息）、组成元素之间顺序关系带来的信息以及上下文信息（更严格的说，还包括阅读者本身的背景和理解）。对于扩充文档表示模型所包含的信息量，人们也做过有益的尝试，例如被称为LSI（Latent Semantic Index潜在语义索引）的方法，就被实验证明保留了一定的语义信息。</p>
+<p>训练阶段要解决的第一个问题，即如何选取那些最具代表性的词汇（更严格的说法应该是，那些最具代表性的特征）。对这个问题的解决，有人叫它特征提取，也有人叫它降维。</p>
+<p>特征提取实际上有两大类方法。一类称为<strong>特征选择（Term Selection）</strong>，指的是从原有的特征（那许多有用无用混在一起的词汇）中提取出少量的，具有代表性的特征，但特征的类型没有变化（原来是一堆词，特征提取后仍是一堆词，数量大大减少了而已）。另一类称为<strong>特征抽取（Term Extraction）</strong>的方法则有所不同，它从原有的特征中重构出新的特征（原来是一堆词，重构后变成了别的，例如LSI将其转为矩阵，文档生成模型将其转化为某个概率分布的一些参数），新的特征具有更强的代表性，并耗费更少的计算资源。</p>
+<p>对中文文本来说，首先要经历一个分词的过程，就是把连续的文字流切分成一个一个单独的词汇。</p>
+<p>中文分词的效果对文本分类系统的表现影响很大，因为在后面的流程中，全都使用预处理之后的文本信息，不再参考原始文本，因此分词的效果不好，等同于引入了错误的训练数据。分词本身也是一个值得大书特书的问题，目前比较常用的方法有词典法，隐马尔科夫模型和新兴的<strong>CRF</strong>方法。</p>
+<p>英文只需要通过空格和标点便很容易将一个一个独立的词从原文中区分出来。不过，英文文本还有进一步简化和压缩的空间。我们都知道，英文中同一个词有所谓词形的变化（相对的，词义本身却并没有变），例如名词有单复数的变化，动词有时态的变化，形容词有比较级的变化等等，还包括这些变化形式的某种组合。而正因为词义本身没有变化，仅仅词形不同的词就不应该作为独立的词来存储和和参与分类计算。去除这些词形不同，但词义相同的词，仅保留一个副本的步骤就称为<strong>“词根还原”</strong>。</p>
+<p>一般来说类别之间的关系都是可以表示成树形结构，这意味着一个类有多个子类，而一个子类唯一的属于一个父类。这种类别体系很常用，却并不代表它在现实世界中也是符合常识的，举个例子，“临床心理学”这个类别应该即属于“临床医学”的范畴，同时也属于“心理学”，但在分类系统中却不便于使用这样的结构。想象一下，这相当于类别的层次结构是一个有环图，无论遍历还是今后类别的合并，比较，都会带来无数的麻烦。</p>
+<h2 id="“SVM”相关的几篇博客"><a href="#“SVM”相关的几篇博客" class="headerlink" title="“SVM”相关的几篇博客"></a>“SVM”相关的几篇博客</h2><hr>
+<p>SVM 方法有很坚实的理论基础，SVM 训练的本质是解决一个二次规划问题（Quadruple Programming，指目标函数为二次函数，约束条件为线性约束的最优化问题），得到的是全局最优解，这使它有着其他统计学习技术难以比拟的优越性。SVM 分类器的文本分类效果很好，是最好的分类器之一。同时使用核函数将原始的样本空间向高维空间进行变换，能够解决原始样本线性不可分的问题。其缺点是核函数的选择缺乏指导，难以针对具体问题选择最佳的核函数；另外SVM 训练速度极大地受到训练集规模的影响，计算开销比较大。</p>
+<p><a href="http://www.blogjava.net/zhenandaci/archive/2009/03/26/262113.html" target="_blank" rel="noopener"><strong>将SVM用于多分类的三种方法</strong></a> </p>
+<h2 id="“特征选取”相关的几篇博客"><a href="#“特征选取”相关的几篇博客" class="headerlink" title="“特征选取”相关的几篇博客"></a>“特征选取”相关的几篇博客</h2><hr>
+<p>为分类文本作处理的特征提取算法也对最终效果有巨大影响，而特征提取算法又分为特征选择和特征抽取两大类，其中特征选择算法有<strong>互信息，文档频率，信息增益，开方检验</strong>等等十数种。</p>
+<p>对于开方检验，开方值越大则说明越应该作为特征被选中。</p>
+<h2 id="“Java中的字符集编码”相关的几篇博客"><a href="#“Java中的字符集编码”相关的几篇博客" class="headerlink" title="“Java中的字符集编码”相关的几篇博客"></a>“Java中的字符集编码”相关的几篇博客</h2><hr>
+<p><strong>面向字符</strong>和<strong>面向字节</strong>中的所谓“面向”什么，是指这些类在处理输入输出的时候，在哪个意义上保持一致。如果面向字节，那么这类工作要保证系统中的文件二进制内容和读入JVM内部的二进制内容要一致。不能变换任何0和1的顺序。因此这是一种非常“忠实于原著”的做法。</p>
+<p>这种输入输出方式很适合读入视频文件或者音频文件，或者任何不需要做变换的文件内容。</p>
+<p>而面向字符的IO是指希望系统中的文件的字符和读入内存的“字符”（注意和字节的区别）要一致。例如我们的中文版WindowsXP系统上有一个GBK的文本文件，其中有一个“汉”字，这个字的GBK编码是0xBABA（而UTF-16编码是0x6C49），当我们使用面向字符的IO把它读入内存并保存在一个char型变量中时，我希望IO系统不要傻傻的直接把0xBABA放到这个char型变量中，我甚至都不关心这个char型变量具体的二进制内容到底是多少，我只希望这个字符读进来之后仍然是“汉”这个字。</p>
+<h2 id="关于网页编码"><a href="#关于网页编码" class="headerlink" title="关于网页编码"></a>关于网页编码</h2><hr>
+<p>说到GB2312和GBK就不得不提中文网页的编码。尽管很多新开发的Web系统和新上线的注重国际化的网站都开始使用UTF-8，仍有相当一部分的中文媒体坚持使用GB2312和GBK，例如新浪的页面。其中有两点很值得注意。</p>
+<p>第一，html中meta标签的部分，常常可以见到</p>
+<pre><code>charset=GB2312
+</code></pre><p>这样的写法，很不幸的是，这个“charset”其实是用来指定页面使用的是什么字符集编码，而不是使用什么字符集。例如你见到过有人写“charset=UTF-8”，见到过有人写“charset=ISO-8859-1”，但你见过有人写“charset=Unicode”么？当然没有，因为Unicode是一个字符集，而不是编码。</p>
+<p>然而正是charset这个名称误导了很多程序员，真的以为这里要指定的是字符集，也因而使他们进一步的误以为UTF-8和UTF-16是一种字符集！（万恶啊）好在XML中已经做出了修改，这个位置改成了正确的名称：encoding。</p>
+<p>第二，页面中说的GB2312，实际上并不真的是GB2312（惊讶么？）。我们来做个实验，例如找一个GB2312中不存在的汉字“亸”（这个字确实不在GB2312中，你可以到GB2312的码表中去找，保证找不到），这个字在GBK中。然后你把它放到一个html页面中，试着在浏览器中打开它，然后选择浏览器的编码为“GB2312”，看到了什么？它完全正常显示！</p>
+<p>结论不用我说你也明白了，浏览器实际上使用的是GBK来显示。<br>新浪的页面中也有很多这样的例子，到处都写charset=GB2312，却使用了无数个GB2312中并不存在的字符。这种做法对浏览器显示页面并不成问题，但在需要程序抓取页面并保存的时候带来了麻烦，程序将不能依据页面所“声称”的编码进行读取和保存，而只能尽量猜测正确的编码。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-11-16-jasper-document-classify-reading-notes/" title="Jasper文本分类系列博客阅读摘录">http://www.letiantian.me/2014-11-16-jasper-document-classify-reading-notes/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-11-04-get-max-and-min-values-for-a-given-key/" rel="next" title="如何在mongodb中获取某个键的最大值、最小值">
+                <i class="fa fa-chevron-left"></i> 如何在mongodb中获取某个键的最大值、最小值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-11-17-hadoop-2-4-word-count/" rel="prev" title="Hadoop 2.4 实现单词计数">
+                Hadoop 2.4 实现单词计数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#“文本分类入门”相关的几篇博客"><span class="nav-text">“文本分类入门”相关的几篇博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“SVM”相关的几篇博客"><span class="nav-text">“SVM”相关的几篇博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“特征选取”相关的几篇博客"><span class="nav-text">“特征选取”相关的几篇博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“Java中的字符集编码”相关的几篇博客"><span class="nav-text">“Java中的字符集编码”相关的几篇博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于网页编码"><span class="nav-text">关于网页编码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

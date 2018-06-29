@@ -1,0 +1,1070 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-09-06  摘要：回顾了平均值、期望、方差、标准差、协方差及其意义、正太分布，并给出了matlab相关函数。   平均值和期望 对n个数字[latex]x_{1}、x_{2}、…、x_{n}[/latex]，算术平均值是： [latex]\bar{x} = \frac{1}{n}\sum_{k=1}^ {n}x_{k}[/latex] 在算术平均值中，每个数字对平均值的贡献是相同的。算">
+<meta name="keywords" content="数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="方差和协方差">
+<meta property="og:url" content="http://www.letiantian.me/2014-09-06-variance-and-covariance/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-09-06  摘要：回顾了平均值、期望、方差、标准差、协方差及其意义、正太分布，并给出了matlab相关函数。   平均值和期望 对n个数字[latex]x_{1}、x_{2}、…、x_{n}[/latex]，算术平均值是： [latex]\bar{x} = \frac{1}{n}\sum_{k=1}^ {n}x_{k}[/latex] 在算术平均值中，每个数字对平均值的贡献是相同的。算">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-06-variance-and-covariance.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-06-fenbu.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-06-fenbu2.png">
+<meta property="og:updated_time" content="2014-10-07T12:12:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="方差和协方差">
+<meta name="twitter:description" content="2014-09-06  摘要：回顾了平均值、期望、方差、标准差、协方差及其意义、正太分布，并给出了matlab相关函数。   平均值和期望 对n个数字[latex]x_{1}、x_{2}、…、x_{n}[/latex]，算术平均值是： [latex]\bar{x} = \frac{1}{n}\sum_{k=1}^ {n}x_{k}[/latex] 在算术平均值中，每个数字对平均值的贡献是相同的。算">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-06-variance-and-covariance.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-09-06-variance-and-covariance/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>方差和协方差 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-09-06-variance-and-covariance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">方差和协方差</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-06T19:32:27+08:00">
+                2014-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数学/" itemprop="url" rel="index">
+                    <span itemprop="name">数学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-09-06</p>
+<blockquote>
+<p>摘要：<br>回顾了平均值、期望、方差、标准差、协方差及其意义、正太分布，并给出了matlab相关函数。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="平均值和期望"><a href="#平均值和期望" class="headerlink" title="平均值和期望"></a>平均值和期望</h3><hr>
+<p>对n个数字[latex]x_{1}、x_{2}、…、x_{n}[/latex]，算术平均值是：</p>
+<p>[latex]<br>\bar{x} = \frac{1}{n}\sum_{k=1}^ {n}x_{k}<br>[/latex]</p>
+<p>在算术平均值中，每个数字对平均值的贡献是相同的。算术平均值是加权平均值的一个特例。设[latex]x_{1}、x_{2}、…、x_{n}[/latex]这n个数对应的权重分别是[latex]w_{1}、w_{2}、…、w_{n}[/latex]，那么这些数字的加权平均值是：</p>
+<p>[latex]<br>\bar{x} = \frac{x_{1}w_{1}+x_{2}w_{2}+…+x_{n}w_{n}} {w_{1}+w_{2}+…+w_{n}}<br>[/latex]</p>
+<p>在维基百科中给出了这样一个关于加权平均值的例子：一个年级有很多班级，只知道每个班级的人数和分数的平均值，如何求整个年级的分数的平均值？其实在这个问题里，班级的人数就是权重。</p>
+<hr>
+<p>在概率论中有<strong>期望值</strong>的概念，这其实也是一种加权平均。</p>
+<p>如果X是一个离散的随机变量，输出值为[latex]x_{1}, x_{2}, …，[/latex]，这些输出值对应的概率分别是[latex]p_{1}, p_{2}, …[/latex]（概率和为1）。那么X的期望值是：</p>
+<p>[latex]<br>E(X) = \sum_{i=1}p_{i}x_{i}<br>[/latex]</p>
+<p>再次引用一下维基百科中的例子。</p>
+<p>掷一枚六面骰子，其点数的期望值是3.5，计算如下：</p>
+<p>[latex]<br>E[X] = 1*\frac{1}{6} + 2*\frac{1}{6} + 3*\frac{1}{6} + 4*\frac{1}{6} + 5*\frac{1}{6} + 6*\frac{1}{6} \\<br>=\frac{1+2+3+4+5+6}{6}<br>=3.5<br>[/latex]</p>
+<p>这其实也就是对<code>1,2,3,4,5,6</code>这6个数求权重都为1的情况下的加权平均值。</p>
+<h3 id="方差"><a href="#方差" class="headerlink" title="方差"></a>方差</h3><hr>
+<p>标准差，又叫均方差、标准偏差。对于[latex]x_{1}、x_{2}、…、x_{n}[/latex]，其标准差为：</p>
+<p>[latex]<br>\sigma = \sqrt {\frac{1}{n}\sum_{i=1}^{n}(x_{i}-\bar{x})}<br>[/latex]</p>
+<p>方差就是标准差的平方，同标准差一样用来描述一组数据的离散程度，在概率论中就是用来描述一个随机变量的离散程度。</p>
+<hr>
+<p>关于方差，有<code>有偏</code>和<code>无偏</code>之分，在知乎的<a href="http://www.zhihu.com/question/20099757" target="_blank" rel="noopener">为什么样本方差（sample variance）的分母是 n-1？</a>有讨论，下面整理一下。</p>
+<p>上面的关于标准差的公式中右边平方根号里的分母是n，在概率论中这是样本对总体的有偏估计（把样本的方差当做总体的方差，但是有偏差），而当分母是n-1时认为是无偏估计。一致性是指样本的方差和总体的方差是一致的，要达到这样的一致性，样本的数量应该较大。而无偏性是指样本估计量（在这里方差）的期望等于总体的相应估计量。</p>
+<p>分别定义总体和样本的一些概念（针对离散型随机变量）：<br>研究对象的全体叫做总体，是一个随机变量，此处用X表示。<br><strong>随机变量的数学期望：</strong><br>设离散型随机变量X的分布律为[latex]P{X=x_{i}} = p_{i} (i=1,2,3,…)，则随机变量X的数学期望是：</p>
+<p>[latex]<br>E(X) = \sum_{i=1}^{\infty}p_{i}x_{i}<br>[/latex]</p>
+<p><strong>随机变量的方差：</strong><br>[latex]<br>D(X) = Var(X) = E{[X-E(X)]^2} = E(X^2) - [E(X)]^2<br>[/latex]</p>
+<p>n个相互独立且与总体X同分布的随机变量[latex]X_{1},X_{2},…,X_{n}[/latex]叫做来自总体X的，容量为n的样本。若[latex]x_{1},x_{2},…,x_{n}[/latex]是[latex]X_{1},X_{2},…,X_{n}[/latex]的观测值，[latex]x_{1},x_{2},…,x_{n}[/latex]也叫做样本值。</p>
+<p><strong>样本均值:</strong><br>[latex]<br>\bar{X} = \frac{1}{n}\sum_{k=1}^ {n}X_{k}<br>[/latex]</p>
+<p><strong>样本方差:</strong></p>
+<p>[latex]<br>S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\bar{X})^2 \\<br>= \frac{1}{n-1}(  \sum_{i=1}^{n}X_{i}^2-n\bar{X}^2  )<br>[/latex]</p>
+<p><strong>样本标准差:</strong><br>[latex]<br>S = \sqrt {\frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\bar{X})^2}<br>[/latex]</p>
+<p>重点来了，设总体X的数学期望[latex]E(X) = \mu[/latex]，方差[latex]D(X) = \sigma ^2 [/latex]。有样本均值的期望等于总体的数学期望，样本均值的方差等于总体方差除以观测值数量，即：</p>
+<p>[latex]<br>E(\bar{X}) = E(X) = \mu; \\<br>D(\bar{X}) = \frac{D(X)}{n} = \frac{\sigma ^2}{n};<br>[/latex]</p>
+<p>证明如下：</p>
+<p>[latex]<br>E(\bar{X}) = E(\frac{X_{1}+X_{2}+…+X_{n}}{n}) \\<br>=\frac{E(X_{1})+E(X_{2})+…+E(X_{n})}{n} \\<br>= \frac{n\mu}{n} \\<br>= \mu;<br>[/latex]</p>
+<p>[latex]<br>D(\bar{X}) = D(\frac{X_{1}+X_{2}+…+X_{n}}{n}) \\<br>= \frac{1}{n^2}D(X_{1}) + \frac{1}{n^2}D(X_{2}) + … + \frac{1}{n^2}D(X_{n}) \\<br>= \frac{1}{n^2}n\sigma ^2 \\<br>= \frac{1}{n}\sigma ^2;<br>[/latex]</p>
+<p>令：</p>
+<p>[latex]<br>S_{1}^{2} = \frac{1}{n}\sum_{i=1}^{n}(X_{i}-\bar{X})^2; \\<br>S_{2}^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\bar{X})^2;<br>[/latex]</p>
+<p>可以证明：<br><img src="/content/images/2014/09/2014-09-06-variance-and-covariance.png" alt=""></p>
+<p>故有：</p>
+<p>[latex]<br>E(S_{2}^2) = E(\frac{n}{n-1}S_{1}^2) \\<br>= \frac{n}{n-1}E(S_{1}^2) \\<br>= \frac{n}{n-1}\frac{n-1}{n}\sigma ^2 \\<br>= \sigma ^2<br>[/latex]</p>
+<p>所以，[latex]S_{1}^{2}[/latex]是对总体方差的有偏估计，[latex]S_{2}^{2}[/latex]是对总体方差的无偏估计。</p>
+<h3 id="协方差"><a href="#协方差" class="headerlink" title="协方差"></a>协方差</h3><hr>
+<p><strong>随机变量的方差是：</strong><br>[latex]<br>Var(X) \\<br>= E{[X-E(X)]^2} \\<br>= E{[X-\mu]^2} \\<br>= E(X^2) - [E(X)]^2;<br>[/latex]</p>
+<p>方差亦可当作是随机变量与自己本身的协方差，即：<br>[latex]<br>Var(X) = Cov(X,X)<br>[/latex]</p>
+<p>所以可以认为方差是协方差的一种特殊情况，即当两个变量是相同的情况。那么什么是协方差，定义如下：</p>
+<blockquote>
+<p>协方差（Covariance）：在概率论和统计学中用于衡量两个变量的总体误差。</p>
+</blockquote>
+<p>对于随机变量X，Y，协方差为：<br>[latex]<br>Cov(X,Y) \\<br>= E[(X-E(X))(Y-E(Y))] \\<br>= E(XY) - E(X)E(Y)<br>[/latex]</p>
+<p>假设有n个随机变量[latex]X_{1},X_{2},…,X_{n}[/latex]，可以构造它们的协方差矩阵：</p>
+<p>[latex]<br>\begin{equation}<br>\Sigma  =<br>    \left(<br>      \begin{array}{cccccc}<br>        Cov(X_{1},X_{1}) &amp; Cov(X_{1},X_{2}) &amp; \ldots &amp; Cov(X_{1},X_{n}) \\<br>        Cov(X_{2},X_{1}) &amp; Cov(X_{2},X_{2}) &amp; \ldots &amp; Cov(X_{2},X_{n}) \\<br>        \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\<br>        Cov(X_{n},X_{1}) &amp; Cov(X_{n},X_{2}) &amp; \ldots &amp; Cov(X_{n},X_{n}) \\<br>      \end{array}<br>    \right)<br>\end{equation}<br>[/latex]</p>
+<p>很明显，协方差矩阵是一个对称矩阵。</p>
+<p>协方差可以用来判别两个变量的相关性。对于随机变量X、Y，其协方差Cov(X,Y)若为正值，则X与Y正相关；为0，则不相关（不相关并不是相互独立）；若为负值，则X与Y负相关。注意，正相关的意思是：自变量增长，因变量也跟着增长。</p>
+<p>相关程度可以用相关系数来描述：</p>
+<p>[latex]<br>\rho_{X,Y} = \frac{Cov(X,Y)}{\sqrt{Var(X)}\sqrt{Var(Y)}}<br>[/latex]</p>
+<h3 id="正态分布（高斯分布）"><a href="#正态分布（高斯分布）" class="headerlink" title="正态分布（高斯分布）"></a>正态分布（高斯分布）</h3><hr>
+<p>正态分布，也叫高斯分布。若一个随机变量X的期望为[latex]\mu[/latex]，方差为[latex]\sigma ^2[/latex]，则认为该随机变量服从正态分布，记做：<br>[latex]<br>X \sim N(\mu, \sigma ^2)<br>[/latex]</p>
+<p>上面描述的是单变量正态分布，可以据此向多变量正态分布扩展。具体可以参考：<a href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution" target="_blank" rel="noopener">Multivariate normal distribution</a>。在多变量正态分布中，涉及到协方差。</p>
+<h3 id="matlab实战"><a href="#matlab实战" class="headerlink" title="matlab实战"></a>matlab实战</h3><hr>
+<p><strong>求平均值：</strong></p>
+<pre><code>&gt;&gt; mean([1 2 3 3])
+
+ans =
+
+    2.2500
+</code></pre><p><strong>求标准差的无偏估计：</strong></p>
+<pre><code>&gt;&gt; std([1 2 3 3])
+
+ans =
+
+    0.9574
+</code></pre><p><strong>求标准差的有偏估计：</strong></p>
+<pre><code>&gt;&gt; std([1 2 3 3], 1)
+
+ans =
+
+    0.8292
+</code></pre><p><strong>求方差的无偏估计：</strong></p>
+<pre><code>&gt;&gt; var([1 2 3 3])
+
+ans =
+
+    0.9167
+</code></pre><p><strong>求方差的有偏估计：</strong></p>
+<pre><code>&gt;&gt; var([1 2 3 3], 1)
+
+ans =
+
+    0.6875
+</code></pre><p><strong>求两组变量的协方差矩阵：</strong></p>
+<pre><code>&gt;&gt; cov([1 2 3 3; 2 3 1 5]&#39;)
+
+ans =
+
+    0.9167    0.4167
+    0.4167    2.9167
+</code></pre><p><strong>生成单变量的正态分布数据：</strong><br>要求期望为0，标准差为1,2000个数字。</p>
+<pre><code>&gt;&gt; result = normrnd(0,1,2000,1);
+&gt;&gt; mean(result)
+
+ans =
+
+    0.0257
+
+&gt;&gt; std(result)
+
+ans =
+
+    0.9948
+</code></pre><p><strong>生成双变量的正态分布数据：</strong><br>变量X期望为0，方差为1；变量Y期望为0，方差是100；X与Y的协方差为0；共2000组数据：</p>
+<pre><code>X = [];
+Y = [];
+for i = 1:2000
+    a = mvnrnd([0,0],diag([1,100]));
+    X = [X, a(1)];
+    Y = [Y, a(2)];
+end
+plot(X,Y, &#39;.&#39;);
+xlim([-60 60]);
+ylim([-60 60]);
+</code></pre><p>得到图形如下：<br><img src="/content/images/2014/09/2014-09-06-fenbu.png" alt=""></p>
+<p>验证一下：</p>
+<pre><code>&gt;&gt; mean(X)
+
+ans =
+
+   -0.0228
+
+&gt;&gt; mean(Y)
+
+ans =
+
+   -0.1074
+
+&gt;&gt; cov([X; Y]&#39;)
+
+ans =
+
+    1.0215   -0.3402
+   -0.3402   96.7394
+</code></pre><p>如果需要X与Y的协方差为6，则代码如下：</p>
+<pre><code>X = [];
+Y = [];
+for i = 1:2000
+    a = mvnrnd([0,0],[1,6; 6,100]);
+    X = [X, a(1)];
+    Y = [Y, a(2)];
+end
+plot(X,Y, &#39;.&#39;);
+xlim([-60 60]);
+ylim([-60 60]);
+</code></pre><p>得到图形：<br><img src="/content/images/2014/09/2014-09-06-fenbu2.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-09-06-variance-and-covariance/" title="方差和协方差">http://www.letiantian.me/2014-09-06-variance-and-covariance/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09-02-arrange-activity/" rel="next" title="活动安排问题">
+                <i class="fa fa-chevron-left"></i> 活动安排问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-09-07-k-medoids/" rel="prev" title="K-medoids聚类">
+                K-medoids聚类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#平均值和期望"><span class="nav-text">平均值和期望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方差"><span class="nav-text">方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协方差"><span class="nav-text">协方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正态分布（高斯分布）"><span class="nav-text">正态分布（高斯分布）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matlab实战"><span class="nav-text">matlab实战</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

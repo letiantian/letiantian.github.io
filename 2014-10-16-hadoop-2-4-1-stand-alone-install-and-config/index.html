@@ -1,0 +1,1113 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-10-16 在http://www.carfab.com/apachesoftware/hadoop/common/stable2/下找了个稳定的hadoop2.4.1下载了。 我使用的操作系统：linux mint 16, 64位。 配置java和ssh 设置JAVA_HOME等，并配置ssh，使得执行下面的命令不需要确认和输入密码： $ ssh localhost 具体可以参考这篇文">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop2.4.1单机伪分布式安装和配置">
+<meta property="og:url" content="http://www.letiantian.me/2014-10-16-hadoop-2-4-1-stand-alone-install-and-config/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-10-16 在http://www.carfab.com/apachesoftware/hadoop/common/stable2/下找了个稳定的hadoop2.4.1下载了。 我使用的操作系统：linux mint 16, 64位。 配置java和ssh 设置JAVA_HOME等，并配置ssh，使得执行下面的命令不需要确认和输入密码： $ ssh localhost 具体可以参考这篇文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-11-18T08:18:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hadoop2.4.1单机伪分布式安装和配置">
+<meta name="twitter:description" content="2014-10-16 在http://www.carfab.com/apachesoftware/hadoop/common/stable2/下找了个稳定的hadoop2.4.1下载了。 我使用的操作系统：linux mint 16, 64位。 配置java和ssh 设置JAVA_HOME等，并配置ssh，使得执行下面的命令不需要确认和输入密码： $ ssh localhost 具体可以参考这篇文">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-10-16-hadoop-2-4-1-stand-alone-install-and-config/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>hadoop2.4.1单机伪分布式安装和配置 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-10-16-hadoop-2-4-1-stand-alone-install-and-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hadoop2.4.1单机伪分布式安装和配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-16T22:07:34+08:00">
+                2014-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-10-16</p>
+<p>在<a href="http://www.carfab.com/apachesoftware/hadoop/common/stable2/" target="_blank" rel="noopener">http://www.carfab.com/apachesoftware/hadoop/common/stable2/</a>下找了个稳定的hadoop2.4.1下载了。</p>
+<p>我使用的操作系统：linux mint 16, 64位。</p>
+<h2 id="配置java和ssh"><a href="#配置java和ssh" class="headerlink" title="配置java和ssh"></a>配置java和ssh</h2><hr>
+<p>设置JAVA_HOME等，并配置ssh，使得执行下面的命令不需要确认和输入密码：</p>
+<pre><code>$ ssh localhost
+</code></pre><p>具体可以参考这篇文章<a href="/2013-11-01-hadoop-1-2-pseudo-distributed-mode/">Hadoop1.2配置伪分布式</a></p>
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><hr>
+<p>将下载的hadoop-2.4.1移动到<code>/home/letian/hadoop-2.4.1</code>中。在<code>/home/letian/hadoop-env</code>建立目录<code>2.4.1</code>，并在这个目录下建立目录<code>namenode</code>和<code>datanode</code>。</p>
+<p>在<code>/etc/profile</code>或者<code>~/.zshrc</code>下添加下面的内容：</p>
+<pre><code># set hadoop 2.4.1
+export HADOOP_PREFIX=/home/hadoop-2.4.1
+export HADOOP_HOME=$HADOOP_PREFIX
+export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:$PATH
+export HADOOP_MAPRED_HOME=$HADOOP_PREFIX
+export HADOOP_COMMON_HOME=$HADOOP_PREFIX
+export HADOOP_HDFS_HOME=$HADOOP_PREFIX
+export YARN_HOME=$HADOOP_PREFIX
+export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native
+export HADOOP_OPTS=&quot;$HADOOP_OPTS -Djava.library.path=$HADOOP_PREFIX/lib&quot;
+</code></pre><p>然后：</p>
+<pre><code>$ source /etc/profile
+$ source ~/.bashrc
+</code></pre><p>在<code>/etc/sysctl.conf</code>中加入下面内容：</p>
+<pre><code>net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+</code></pre><p>之后，重启网络：</p>
+<pre><code>$ sudo service networking restart
+</code></pre><p>如果重启失败，那么重启一下电脑吧。</p>
+<h2 id="修改hadoop配置文件"><a href="#修改hadoop配置文件" class="headerlink" title="修改hadoop配置文件"></a>修改hadoop配置文件</h2><hr>
+<p> hadoop-2.4.1/etc/hadoop/hdfs-site.xml ：</p>
+<pre><code>&lt;configuration&gt;
+&lt;property&gt;
+ &lt;name&gt;dfs.replication&lt;/name&gt;
+ &lt;value&gt;1&lt;/value&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;dfs.name.dir&lt;/name&gt;
+    &lt;value&gt;file:///home/letian/hadoop-env/2.4.1/hdfs/namenode&lt;/value&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;dfs.data.dir&lt;/name&gt;
+    &lt;value&gt;file:///home/letian/hadoop-env/2.4.1/hdfs/datanode&lt;/value&gt;
+&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><p>hadoop-2.4.1/etc/hadoop/core-site.xml：</p>
+<pre><code>&lt;configuration&gt;
+&lt;property&gt;
+  &lt;name&gt;fs.default.name&lt;/name&gt;
+    &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+  &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+  &lt;value&gt;/home/letian/hadoop-env/tmp&lt;/value&gt;
+&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><p>hadoop-2.4.1/etc/hadoop/yarn-site.xml：</p>
+<pre><code>&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services.mapreduce_shuffle.class&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
+        &lt;value&gt;localhost:8025&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
+        &lt;value&gt;localhost:8030&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
+        &lt;value&gt;localhost:8050&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><p>hadoop-2.4.1/etc/hadoop/mapred-site.xml.template ：<br>首先：</p>
+<pre><code>$ cp hadoop-2.4.1/etc/hadoop/mapred-site.xml.template hadoop-2.4.1/etc/hadoop/mapred-site.xml
+</code></pre><p>然后编辑<code>hadoop-2.4.1/etc/hadoop/mapred-site.xml</code>：</p>
+<pre><code>&lt;configuration&gt;
+ &lt;property&gt;
+  &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+   &lt;value&gt;yarn&lt;/value&gt;
+ &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><h2 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h2><hr>
+<p>下面的命令已经废弃，不建议使用。</p>
+<pre><code>$ ./bin/hadoop namenode -format
+</code></pre><p>建议使用：</p>
+<pre><code>$ ./bin/hdfs namenode -format
+</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><hr>
+<p>然后：</p>
+<pre><code>$ start-dfs.sh
+$ start-yarn.sh
+</code></pre><p>查看运行的任务：</p>
+<pre><code>$ jps          
+5022 Jps
+2883 DataNode
+3359 NodeManager
+3022 SecondaryNameNode
+3258 ResourceManager
+2785 NameNode
+</code></pre><p>查看NameNode的状态，在浏览器中访问<code>http://localhost:50070/</code>。</p>
+<p>查看SecondaryNameNode的状态，在浏览器中访问<code>http://localhost:50090/</code>。</p>
+<p>查看正在运行的mapreduce任务，在浏览器中访问<code>http://localhost:8088</code>。</p>
+<p>可以通过下面的命令查看启动状态：</p>
+<pre><code>zsh &gt;&gt; hadoop dfsadmin -report
+DEPRECATED: Use of this script to execute hdfs command is deprecated.
+Instead use the hdfs command for it.
+
+14/10/16 15:12:59 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Configured Capacity: 127824457728 (119.05 GB)
+Present Capacity: 96126644224 (89.52 GB)
+DFS Remaining: 96126595072 (89.52 GB)
+DFS Used: 49152 (48 KB)
+DFS Used%: 0.00%
+Under replicated blocks: 2
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+-------------------------------------------------
+Datanodes available: 1 (1 total, 0 dead)
+
+Live datanodes:
+Name: 127.0.0.1:50010 (localhost)
+Hostname: myhost
+Decommission Status : Normal
+Configured Capacity: 127824457728 (119.05 GB)
+DFS Used: 49152 (48 KB)
+Non DFS Used: 31697813504 (29.52 GB)
+DFS Remaining: 96126595072 (89.52 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 75.20%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Last contact: Thu Oct 16 15:12:59 CST 2014
+</code></pre><h2 id="测试wordcount"><a href="#测试wordcount" class="headerlink" title="测试wordcount"></a>测试wordcount</h2><hr>
+<p>假设目录<code>input</code>下文件<code>test1.txt</code>内容如下：</p>
+<pre><code>hello world
+</code></pre><p>文件<code>test2.txt</code>内容如下：</p>
+<pre><code>hi,world
+hello
+</code></pre><p>将该目录复制到hdfs下的<code>/data</code>目录下：</p>
+<pre><code>$ hadoop dfs -put  input/ /data
+</code></pre><p>进入目录<code>hadoop-2.4.1</code>，运行：</p>
+<pre><code>$ hadoop jar ./share/hadoop/mapreduce/sources/hadoop-mapreduce-examples-2.4.1-sources.jar org.apache.hadoop.examples.WordCount /data /output
+</code></pre><p>删除hdfs下的<code>/data</code>目录：</p>
+<pre><code>$ hadoop dfs -rmr /data
+</code></pre><p>查看结果：</p>
+<pre><code>$ hadoop fs -cat /output/part-r-00000 
+hello         2
+hi,world    1
+world        1
+</code></pre><p>删除<code>/data</code>和<code>/output</code>目录：</p>
+<pre><code>hadoop dfs -rmr /data
+hadoop dfs -rmr /output
+</code></pre><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><hr>
+<p>1、找不到JAVA_HOME</p>
+<pre><code>$ start-dfs.sh 
+14/10/16 13:53:02 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Starting namenodes on [localhost]
+localhost: Error: JAVA_HOME is not set and could not be found.
+localhost: Error: JAVA_HOME is not set and could not be found.
+Starting secondary namenodes [0.0.0.0]
+0.0.0.0: Error: JAVA_HOME is not set and could not be found.
+14/10/16 13:53:12 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+</code></pre><p>说是找不到java_home，没办法，明明已经设置了。<br>在<code>hadoop-2.4.0/etc/hadoop/hadoop-env.sh</code>中设置即可。</p>
+<p>2、Unable to load native-hadoop library for your platform</p>
+<pre><code>zsh &gt;&gt; start-dfs.sh                   
+14/10/16 13:57:56 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Starting namenodes on [localhost]
+localhost: starting namenode, logging to /home/letian/hadoop-2.4.0/logs/hadoop-sunlt-namenode-myhost.out
+localhost: starting datanode, logging to /home/letian/hadoop-2.4.0/logs/hadoop-sunlt-datanode-myhost.out
+Starting secondary namenodes [0.0.0.0]
+0.0.0.0: starting secondarynamenode, logging to /home/letian/hadoop-2.4.0/logs/hadoop-sunlt-secondarynamenode-myhost.out
+14/10/16 13:58:18 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+</code></pre><p>出现了一个<code>WARN</code>，原因可见：<a href="http://stackoverflow.com/questions/19943766/hadoop-unable-to-load-native-hadoop-library-for-your-platform-error-on-centos" target="_blank" rel="noopener">http://stackoverflow.com/questions/19943766/hadoop-unable-to-load-native-hadoop-library-for-your-platform-error-on-centos</a>。</p>
+<p>3、SSH 拒绝连接</p>
+<p>我这边是重启电脑后就没问题了。</p>
+<p>4、无法访问<code>http://localhost:50070/</code></p>
+<pre><code>$ stop-all.sh
+$ rm -r /tmp/hadoop-*
+$ hadoop namenode -format
+$ start-all.sh
+</code></pre><p>5、jps的结果没有Datanode<br>清空namenode、datanode对应的目录，然后重启hadoop试一试。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><hr>
+<p><a href="http://hadoop.apache.org/docs/r2.4.1/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank" rel="noopener">Hadoop MapReduce Next Generation - Setting up a Single Node Cluster.</a></p>
+<p><a href="http://tecadmin.net/setup-hadoop-2-4-single-node-cluster-on-linux/" target="_blank" rel="noopener">Steps To Setup Hadoop 2.4.0 (Single Node Cluster) on CentOS/RHEL</a>  </p>
+<p><a href="http://dogdogfish.com/2014/04/26/installing-hadoop-2-4-on-ubuntu-14-04/" target="_blank" rel="noopener">Installing Hadoop 2.4 on Ubuntu 14.04</a>  </p>
+<p><a href="http://www.bogotobogo.com/Hadoop/BigData_hadoop_Install_on_ubuntu_single_node_cluster.php" target="_blank" rel="noopener">adoop 2.4 Installing on Ubuntu 14.04 (Single-Node Cluster) - 2014</a> </p>
+<p><a href="http://blog.csdn.net/pelick/article/details/12065147" target="_blank" rel="noopener">十分钟搭建自己的hadoop2/CDH4集群</a>  </p>
+<p><a href="http://blog.csdn.net/haidao2009/article/details/14897813" target="_blank" rel="noopener">hadoop 2.2 错误总结</a></p>
+<p><a href="http://blog.csdn.net/u012432778/article/details/23964873" target="_blank" rel="noopener">Hadoop-2.4.0安装和wordcount运行验证</a>  </p>
+<p><a href="http://www.cnblogs.com/garinzhang/p/3861576.html" target="_blank" rel="noopener">Hadoop 运行WordCount例子</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-10-16-hadoop-2-4-1-stand-alone-install-and-config/" title="hadoop2.4.1单机伪分布式安装和配置">http://www.letiantian.me/2014-10-16-hadoop-2-4-1-stand-alone-install-and-config/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-10-14-python-convert-file-encoding/" rel="next" title="使用python转换文件编码">
+                <i class="fa fa-chevron-left"></i> 使用python转换文件编码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-10-17-sublime-text-3-run-nodejs-app/" rel="prev" title="如何让sublime text 3运行nodejs程序">
+                如何让sublime text 3运行nodejs程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置java和ssh"><span class="nav-text">配置java和ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境变量"><span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改hadoop配置文件"><span class="nav-text">修改hadoop配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化hdfs"><span class="nav-text">格式化hdfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试wordcount"><span class="nav-text">测试wordcount</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

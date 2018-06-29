@@ -1,0 +1,1024 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-03-31 关于决策树，可以参考李航《统计学习方法》第5章，以及其他资料。 本文介绍如何使用scikit-learn的决策树工具进行分类。 构造数据集 &amp;gt;&amp;gt;&amp;gt; from sklearn.datasets import load_iris &amp;gt;&amp;gt;&amp;gt; import numpy as np &amp;gt;&amp;gt;&amp;gt; iris = load_iris() &amp;gt">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用决策树处理iris数据集">
+<meta property="og:url" content="http://www.letiantian.me/2015-03-31-decision-tree-iris/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-03-31 关于决策树，可以参考李航《统计学习方法》第5章，以及其他资料。 本文介绍如何使用scikit-learn的决策树工具进行分类。 构造数据集 &amp;gt;&amp;gt;&amp;gt; from sklearn.datasets import load_iris &amp;gt;&amp;gt;&amp;gt; import numpy as np &amp;gt;&amp;gt;&amp;gt; iris = load_iris() &amp;gt">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-31-tree1.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-31-tree2.png">
+<meta property="og:updated_time" content="2015-03-31T14:34:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用决策树处理iris数据集">
+<meta name="twitter:description" content="2015-03-31 关于决策树，可以参考李航《统计学习方法》第5章，以及其他资料。 本文介绍如何使用scikit-learn的决策树工具进行分类。 构造数据集 &amp;gt;&amp;gt;&amp;gt; from sklearn.datasets import load_iris &amp;gt;&amp;gt;&amp;gt; import numpy as np &amp;gt;&amp;gt;&amp;gt; iris = load_iris() &amp;gt">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-31-tree1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-03-31-decision-tree-iris/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用决策树处理iris数据集 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-03-31-decision-tree-iris/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用决策树处理iris数据集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-31T18:33:31+08:00">
+                2015-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-03-31</p>
+<p>关于决策树，可以参考李航《统计学习方法》第5章，以及其他资料。</p>
+<p>本文介绍如何使用scikit-learn的决策树工具进行分类。</p>
+<h2 id="构造数据集"><a href="#构造数据集" class="headerlink" title="构造数据集"></a>构造数据集</h2><hr>
+<pre><code>&gt;&gt;&gt; from sklearn.datasets import load_iris
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; iris = load_iris()
+&gt;&gt;&gt; iris.data
+array([[ 5.1,  3.5,  1.4,  0.2],
+       [ 4.9,  3. ,  1.4,  0.2],
+       ....
+       [ 5.9,  3. ,  5.1,  1.8]])
+&gt;&gt;&gt; iris.target
+array([0, 0, 0, 0, 0, 0, ... , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+       2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
+&gt;&gt;&gt; iris.data.shape  
+(150, 4)                   # 150个样本，每个样本4个特征
+&gt;&gt;&gt; iris.target.shape      # 每个样本的类别
+(150,)
+&gt;&gt;&gt; # 下面开始构造训练集/测试集，120/30
+&gt;&gt;&gt; # 训练集
+&gt;&gt;&gt; train_data = np.concatenate((iris.data[0:40, :], iris.data[50:90, :], iris.data[100:140, :]), axis = 0)
+&gt;&gt;&gt; # 训练集样本类别
+&gt;&gt;&gt; train_target = np.concatenate((iris.target[0:40], iris.target[50:90], iris.target[100:140]), axis = 0)
+&gt;&gt;&gt; # 测试集
+&gt;&gt;&gt; test_data = np.concatenate((iris.data[40:50, :], iris.data[90:100, :], iris.data[140:150, :]), axis = 0)
+&gt;&gt;&gt; #测试集样本类别
+&gt;&gt;&gt; test_target = np.concatenate((iris.target[40:50], iris.target[90:100], iris.target[140:150]), axis = 0)
+</code></pre><h2 id="基于gini不纯度的决策树"><a href="#基于gini不纯度的决策树" class="headerlink" title="基于gini不纯度的决策树"></a>基于gini不纯度的决策树</h2><hr>
+<pre><code>&gt;&gt;&gt; from sklearn.tree import DecisionTreeClassifier
+&gt;&gt;&gt; clf = DecisionTreeClassifier(criterion=&#39;gini&#39;)
+&gt;&gt;&gt; clf.fit(train_data, train_target)  # 训练决策树
+DecisionTreeClassifier(criterion=&#39;gini&#39;, max_depth=None, max_features=None,
+            max_leaf_nodes=None, min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, random_state=None,
+            splitter=&#39;best&#39;)
+&gt;&gt;&gt; predict_target = clf.predict(test_data)  # 预测
+&gt;&gt;&gt; predict_target
+array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
+       2, 2, 2, 2, 2, 2, 2])
+&gt;&gt;&gt; sum(predict_target == test_target)  # 预测成功的数量
+30
+</code></pre><p>下面可视化训练好的这颗决策树：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.externals.six import StringIO
+&gt;&gt;&gt; from sklearn.tree import export_graphviz
+&gt;&gt;&gt; with open(&quot;iris.dot&quot;, &#39;w&#39;) as f:
+...     f = export_graphviz(clf, out_file=f)
+</code></pre><p>iris.dot内容如下：</p>
+<pre><code>digraph Tree {
+0 [label=&quot;X[2] &lt;= 2.6000\ngini = 0.666666666667\nsamples = 120&quot;, shape=&quot;box&quot;] ;
+1 [label=&quot;gini = 0.0000\nsamples = 40\nvalue = [ 40.   0.   0.]&quot;, shape=&quot;box&quot;] ;
+0 -&gt; 1 ;
+2 [label=&quot;X[3] &lt;= 1.7500\ngini = 0.5\nsamples = 80&quot;, shape=&quot;box&quot;] ;
+0 -&gt; 2 ;
+3 [label=&quot;X[2] &lt;= 4.9500\ngini = 0.201446280992\nsamples = 44&quot;, shape=&quot;box&quot;] ;
+2 -&gt; 3 ;
+4 [label=&quot;X[3] &lt;= 1.6500\ngini = 0.0512465373961\nsamples = 38&quot;, shape=&quot;box&quot;] ;
+3 -&gt; 4 ;
+5 [label=&quot;gini = 0.0000\nsamples = 37\nvalue = [  0.  37.   0.]&quot;, shape=&quot;box&quot;] ;
+4 -&gt; 5 ;
+6 [label=&quot;gini = 0.0000\nsamples = 1\nvalue = [ 0.  0.  1.]&quot;, shape=&quot;box&quot;] ;
+4 -&gt; 6 ;
+7 [label=&quot;X[3] &lt;= 1.5500\ngini = 0.444444444444\nsamples = 6&quot;, shape=&quot;box&quot;] ;
+3 -&gt; 7 ;
+8 [label=&quot;gini = 0.0000\nsamples = 3\nvalue = [ 0.  0.  3.]&quot;, shape=&quot;box&quot;] ;
+7 -&gt; 8 ;
+9 [label=&quot;X[0] &lt;= 6.9500\ngini = 0.444444444444\nsamples = 3&quot;, shape=&quot;box&quot;] ;
+7 -&gt; 9 ;
+10 [label=&quot;gini = 0.0000\nsamples = 2\nvalue = [ 0.  2.  0.]&quot;, shape=&quot;box&quot;] ;
+9 -&gt; 10 ;
+11 [label=&quot;gini = 0.0000\nsamples = 1\nvalue = [ 0.  0.  1.]&quot;, shape=&quot;box&quot;] ;
+9 -&gt; 11 ;
+12 [label=&quot;X[2] &lt;= 4.8500\ngini = 0.054012345679\nsamples = 36&quot;, shape=&quot;box&quot;] ;
+2 -&gt; 12 ;
+13 [label=&quot;X[0] &lt;= 5.9500\ngini = 0.444444444444\nsamples = 3&quot;, shape=&quot;box&quot;] ;
+12 -&gt; 13 ;
+14 [label=&quot;gini = 0.0000\nsamples = 1\nvalue = [ 0.  1.  0.]&quot;, shape=&quot;box&quot;] ;
+13 -&gt; 14 ;
+15 [label=&quot;gini = 0.0000\nsamples = 2\nvalue = [ 0.  0.  2.]&quot;, shape=&quot;box&quot;] ;
+13 -&gt; 15 ;
+16 [label=&quot;gini = 0.0000\nsamples = 33\nvalue = [  0.   0.  33.]&quot;, shape=&quot;box&quot;] ;
+12 -&gt; 16 ;
+}
+</code></pre><p>然后，进入shell：</p>
+<pre><code>$ sudo apt-get install graphviz 
+$ dot -Tpng iris.dot -o tree.png  # 生成png图片
+$ dot -Tpdf iris.dot -o tree.pdf  # 生成pdf
+</code></pre><p>上图：</p>
+<p><img src="/content/images/2015/03/2015-03-31-tree1.png" alt=""></p>
+<p>很明显，叶子节点具有value属性。iris有3个分类，故value有三个值，若第1个值比较大，认为是第1个分类；若第2个值比较大，认为是第2个分类；…。</p>
+<h2 id="基于信息增益的决策树"><a href="#基于信息增益的决策树" class="headerlink" title="基于信息增益的决策树"></a>基于信息增益的决策树</h2><hr>
+<p>Information Gain，信息增益。</p>
+<pre><code>&gt;&gt;&gt; clf = DecisionTreeClassifier(criterion=&#39;entropy&#39;)
+&gt;&gt;&gt; clf2 = DecisionTreeClassifier(criterion=&#39;entropy&#39;)
+&gt;&gt;&gt; clf2.fit(train_data, train_target)
+DecisionTreeClassifier(criterion=&#39;entropy&#39;, max_depth=None, max_features=None,
+            max_leaf_nodes=None, min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, random_state=None,
+            splitter=&#39;best&#39;)
+&gt;&gt;&gt; predict_target = clf2.predict(test_data)
+&gt;&gt;&gt; sum(predict_target == test_target)
+30
+&gt;&gt;&gt; with open(&quot;iris2.dot&quot;, &#39;w&#39;) as out:
+...     out = export_graphviz(clf2, out_file=out)
+</code></pre><p>上图：</p>
+<p><img src="/content/images/2015/03/2015-03-31-tree2.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><hr>
+<p><a href="http://scikit-learn.org/stable/modules/tree.html#tree" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/tree.html#tree</a>  </p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn-tree-decisiontreeclassifier" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.export_graphviz.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.tree.export_graphviz.html</a>  </p>
+<p><a href="http://stackoverflow.com/questions/10570042/visualizing-a-decision-tree-example-from-scikit-learn" target="_blank" rel="noopener">Visualizing a decision tree ( example from scikit-learn)</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-03-31-decision-tree-iris/" title="使用决策树处理iris数据集">http://www.letiantian.me/2015-03-31-decision-tree-iris/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-03-31-bayes-classifier-for-text/" rel="next" title="基于贝叶斯的文本分类实战">
+                <i class="fa fa-chevron-left"></i> 基于贝叶斯的文本分类实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-03-31-use-gbdt-to-select-features/" rel="prev" title="使用GBDT选取特征">
+                使用GBDT选取特征 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造数据集"><span class="nav-text">构造数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于gini不纯度的决策树"><span class="nav-text">基于gini不纯度的决策树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于信息增益的决策树"><span class="nav-text">基于信息增益的决策树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

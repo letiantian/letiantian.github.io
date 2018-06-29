@@ -1,0 +1,986 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="日常记录," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="感谢西城的投稿。 在linux下工作，我们用的最多的，也是最重要的工具自然是终端模拟器。因为我们几乎可以在里面做任何事情。所以选择一个好用的终端模拟器是一个很重要的事情。linux桌面发展到现在，自然有很多种不同的终端模拟器可供选择，首先大多数桌面环境都会提供一个自己的终端实现，kde的konsole，gnome的gnome-terminal，xfce的xfcr-terminal（Terminal">
+<meta name="keywords" content="日常记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xresources和urxvt">
+<meta property="og:url" content="http://www.letiantian.me/2013-09-01-xresources-urxvt/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="感谢西城的投稿。 在linux下工作，我们用的最多的，也是最重要的工具自然是终端模拟器。因为我们几乎可以在里面做任何事情。所以选择一个好用的终端模拟器是一个很重要的事情。linux桌面发展到现在，自然有很多种不同的终端模拟器可供选择，首先大多数桌面环境都会提供一个自己的终端实现，kde的konsole，gnome的gnome-terminal，xfce的xfcr-terminal（Terminal">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/Urxvt_xdefaults_after2.png">
+<meta property="og:updated_time" content="2014-10-06T15:28:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xresources和urxvt">
+<meta name="twitter:description" content="感谢西城的投稿。 在linux下工作，我们用的最多的，也是最重要的工具自然是终端模拟器。因为我们几乎可以在里面做任何事情。所以选择一个好用的终端模拟器是一个很重要的事情。linux桌面发展到现在，自然有很多种不同的终端模拟器可供选择，首先大多数桌面环境都会提供一个自己的终端实现，kde的konsole，gnome的gnome-terminal，xfce的xfcr-terminal（Terminal">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/10/Urxvt_xdefaults_after2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-09-01-xresources-urxvt/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Xresources和urxvt | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-09-01-xresources-urxvt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Xresources和urxvt</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-06T23:25:44+08:00">
+                2014-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/日常记录/" itemprop="url" rel="index">
+                    <span itemprop="name">日常记录</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>感谢西城的投稿。</p>
+<p>在linux下工作，我们用的最多的，也是最重要的工具自然是终端模拟器。因为我们几乎可以在里面做任何事情。所以选择一个好用的终端模拟器是一个很重要的事情。linux桌面发展到现在，自然有很多种不同的终端模拟器可供选择，首先大多数桌面环境都会提供一个自己的终端实现，kde的konsole，gnome的gnome-terminal，xfce的xfcr-terminal（Terminal）,lxde的lxterminal，e17的terminology，下拉式终端里有kde的yakuake,gnome有guake,tilda。其他的有复古风格的vinterm，轻量级的vilvte等。当然，还有最古老的xterm和urxvt。 linux上的软件大都具有很大的相似性。为了尽可能地给用户以选择和定制的自由，默认情况下几乎都是一个基本的框架，没有什么附加的东西在上面，所有的一切都需要我们自己根据喜好去配置。vim和emacs便是如此，默认的emacs几乎看起来让人难以忍受。xterm和urxvt也如此，没有配置的话看起来就像是五六十年代的东西。但配置过后，其功能和易用性确是任何现有的终端都无法比拟的。下面是从afterstep Wiki上摘的一幅配置过后的效果图:</p>
+<a id="more"></a>
+<p><img src="/content/images/2014/10/Urxvt_xdefaults_after2.png" alt=""></p>
+<p>而urxvt和xterm的配置，则要用到用户的Xresources配置。</p>
+<p>在X系统中，X  resources是指一些应用程序的参数，和命令行参数，程序级配置文件一同用来配置程序的表现效果。这些参数在X server那里只是一些无意义的字符串，具体的语法和含义是由客户端应用程序或库来解释的。</p>
+<p>每一个X resources指定了一个应用程序或其组件的一项参数。一个完全的resource定义如下:</p>
+<pre><code>application.component.subcomponent.subcomponent.attribute: value
+</code></pre><p>其意义是很明确的，可以把一个应用程序的组件看作一层一层的树形结构。这些组件的名字序列形成了一条可以唯一定位一个组件的路径。这个resource的值就是这个组件的某个属性的值。比如说背景颜色等。</p>
+<p>值得注意的是，Xresources允许通过简单的正则表达式来使一个参数对应于多个applications或者其component。比如说下面的resource:</p>
+<pre><code>xmail*background: red
+</code></pre><p>它指定了所有的xmail的compoent的背景颜色均为红色。目前仅支持的正则表达式字符为”?” 和<br>“*”，可分别用来匹配一个或者任意个组件名。需要注意的是attritube(resource最后一项)不能用正则表达式表示（这是不言而喻的）。</p>
+<p>当启动一个X sessions时，X server会使用xrdb程序读取用户目录的.Xresources文件以获取其内容(.Xdefaults也能起到相同的作用，但已不推荐使用，所以尽量使用.Xresources文件)。各个应用程序启动时就不需要再去读取该文件，而是直接从X server得到。另外，因为其内容存在于X server端，所以也可以在其他电脑上的程序也可以通过远程访问获取参数。<br>关于xrdb的一些常见参数如下：</p>
+<ul>
+<li>-query  查询当前的X resources内容</li>
+<li>～/.Xresources 重新读取X resources的内容。</li>
+<li>-merge ~/.Xresources  重新读取内容，同时保留老的resources。</li>
+</ul>
+<p>所以我们可以在~/.Xresources文件中写入很多application的配置，常见的有xclock,xpdf,xterm，urxvt-unicode等。而最常见的自然是两个terminal——xterm和urxvt的配置。<br>同为上古神器，xterm与urxvt之争简直和vim与emacs之争一样激烈。二者都具有极强的可配置性，且各有各的强项。本人常用的是urxvt，对xterm并不是很熟，所以只简单介绍一下urxvt的特点:</p>
+<ul>
+<li>多标签功能。很多其他terminal也提供了多标签功能，但urxvt的功能强大，操作便捷是无出其右的。</li>
+<li>提供CS模式以节省系统资源(从很多方面来看，xterm类似与vim,而urxvt类似于emacs)</li>
+<li>多语言多字体支持</li>
+<li>支持perl扩展</li>
+<li>其他常见terminal支持的功能，点击打开url,半透明等</li>
+</ul>
+<p>其中最常见也最使用的就是其标签功能。可以说,urxvt的多标签已经可以让tmux等分屏软件无存在的必要。而且，其各个tab会根据其输出改变其名字的状态。这样，我们可以紧根据其名字就可判断该tab下的程序是否在正常运行。另外有一个很使用的功能是，如果我们配置了mutt的bell，我们在一个tab里面打开mutt,然后切换到其他tab时，如果有新邮件到达，mutt的tab就会被高亮以提醒。与tab有关的快捷键操作也是极为便捷和快速的，远远好于普通的terminal.具体可自行查阅。</p>
+<p>perl扩展为urxvt提供了很多有用的功能。比如使用鼠标或者不使用鼠标打开url等。具体的扩展可根据自己需要加载。</p>
+<p>下面提供一个配置实例，仅供参考:</p>
+<pre><code>!select url
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,tabbed
+URxvt.url-select.launcher: /usr/bin/firefox
+URxvt.url-select.underline: true
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.colorUL: #4682B4
+
+!general
+Rxvt.geometry:100x40
+Rxvt.fullScreen:false
+
+!colors trans
+URxvt.depth: 32
+URxvt.background: rgba:1111/1111/1111/FFFF
+URxvt.shading:130
+URxvt.title:urxvrt
+Rxvt.background:black
+Rxvt.foreground:green
+Rxvt.colorBD:white
+Rxvt.colorIT:magenta
+Rxvt.colorUL:yellow
+Rxvt.underlineColor:cyan
+Rxvt.tintColor:gray
+Rxvt.cursorColor:wite
+
+!!$HOME/.Xdefaults
+URxvt.preeditType:Root
+
+!!!input method
+URxvt.inputMethod:ibus
+
+!!!scrollbar
+URxvt.scrollBar:True
+URxvt.scrollBar_right:True
+URxvt.scrollBar_floating:False
+URxvt.scrollstyle:plain
+
+!!!滚屏设置
+URxvt.mouseWheelScrollPage:True
+URxvt.scrollTtyOutput:False
+URxvt.scrollWithBuffer:True
+URxvt.scrollTtyKeypress:True
+
+!!!光标闪烁
+URxvt.cursorBlink:True
+URxvt.saveLines:10000
+
+!!!边框
+URxvt.borderLess:False
+
+!!!字体设置
+Xft.dpi:96
+URxvt.font:xft:Monospace:size=9:style=Regular:antialias=true,xft:WenQuanYi Bitmap Song:size=9:style=Regular:antialias=true
+URxvt.boldfont:xft:Monospace:size=10:style=Bold:antialias=true,xft:WenQuanYi Bitmap Song:size=10:style=Bold:antialias=true
+
+!icons
+URxvt.iconFile: /usr/share/icons/Mint-X/apps/32/terminal.png
+
+!login shell
+URxvt.loginShell: false
+!tabs
+URxvt.tabbed.tabbar-fg: 5
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 6
+URxvt.tabbed.tab-bg: 0
+
+!bell
+URxvt.urgentOnBell: True
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-09-01-xresources-urxvt/" title="Xresources和urxvt">http://www.letiantian.me/2013-09-01-xresources-urxvt/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-09-01-redis-session-manager/" rel="next" title="基于Redis的分布式会话管理系统">
+                <i class="fa fa-chevron-left"></i> 基于Redis的分布式会话管理系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-09-05-load-balance/" rel="prev" title="我所理解的负载均衡">
+                我所理解的负载均衡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

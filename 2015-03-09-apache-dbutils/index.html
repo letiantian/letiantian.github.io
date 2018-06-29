@@ -1,0 +1,1297 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-03-09 本文以Insert和Select操作为例子，介绍apache DBUtils的使用方法和实现机制。  The Commons DbUtils library is a small set of classes designed to make working with JDBC easier  准备工作 建立表格： CREATE  TABLE `test`.`user` (">
+<meta name="keywords" content="数据库,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DBUtils简明教程">
+<meta property="og:url" content="http://www.letiantian.me/2015-03-09-apache-dbutils/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-03-09 本文以Insert和Select操作为例子，介绍apache DBUtils的使用方法和实现机制。  The Commons DbUtils library is a small set of classes designed to make working with JDBC easier  准备工作 建立表格： CREATE  TABLE `test`.`user` (">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-03-09T14:17:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DBUtils简明教程">
+<meta name="twitter:description" content="2015-03-09 本文以Insert和Select操作为例子，介绍apache DBUtils的使用方法和实现机制。  The Commons DbUtils library is a small set of classes designed to make working with JDBC easier  准备工作 建立表格： CREATE  TABLE `test`.`user` (">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-03-09-apache-dbutils/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>DBUtils简明教程 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-03-09-apache-dbutils/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DBUtils简明教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-09T22:11:23+08:00">
+                2015-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-03-09</p>
+<p>本文以Insert和Select操作为例子，介绍apache DBUtils的使用方法和实现机制。</p>
+<blockquote>
+<p>The Commons DbUtils library is a small set of classes designed to make working with JDBC easier</p>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><hr>
+<p>建立表格：</p>
+<pre><code>CREATE  TABLE `test`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `age` INT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+</code></pre><p>在<code>http://dev.mysql.com/downloads/connector/j</code>下载<code>mysql-connector-java-5.1.34.tar.gz</code>。</p>
+<p>在<code>http://commons.apache.org/proper/commons-dbutils/download_dbutils.cgi</code>下载<code>commons-dbutils-1.6-bin.tar.gz</code>。</p>
+<p>首先创建DBConf.java，内容如下：</p>
+<pre><code>package hellodbutils;
+
+public class DBConf {
+   static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;  
+   static final String DB_URL = &quot;jdbc:mysql://localhost/test&quot;;
+
+    static final String USER = &quot;username&quot;;
+    static final String PASS = &quot;password&quot;;
+}
+</code></pre><h2 id="先看一个JDBC的示例"><a href="#先看一个JDBC的示例" class="headerlink" title="先看一个JDBC的示例"></a>先看一个JDBC的示例</h2><hr>
+<pre><code>// 类hellodbutils.JDBCInsert
+package hellodbutils;
+import java.sql.*;
+
+public class JDBCInsert {
+    public static void main(String args[]) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName(DBConf.JDBC_DRIVER);
+            conn = DriverManager.getConnection(DBConf.DB_URL, DBConf.USER, DBConf.PASS);
+
+            String sql = &quot;INSERT INTO user(name, age) VALUES(?,?)&quot;;
+            pstmt = conn.prepareStatement(sql);
+            // insert a user
+            pstmt.setString(1, &quot;letian&quot;);
+            pstmt.setInt(2, 18);
+            pstmt.execute();
+            // insert another user
+            pstmt.setString(1, &quot;letiantian&quot;);
+            pstmt.setInt(2, 19);
+            pstmt.execute();
+
+            //select
+            sql = &quot;SELECT * FROM user&quot;;
+            pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                System.out.println(rs.getInt(&quot;id&quot;));
+                System.out.println(rs.getString(&quot;name&quot;));
+                System.out.println(rs.getInt(&quot;age&quot;));
+                System.out.println(&quot;------&quot;);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>1
+letian
+18
+------
+2
+letiantian
+19
+------
+</code></pre><p>MySQL命令行客户端查询结果：</p>
+<pre><code>mysql&gt; select * from user;
++----+------------+-----+
+| id | name       | age |
++----+------------+-----+
+|  1 | letian     |  18 |
+|  2 | letiantian |  19 |
++----+------------+-----+
+</code></pre><h2 id="使用DBUtils插入数据"><a href="#使用DBUtils插入数据" class="headerlink" title="使用DBUtils插入数据"></a>使用DBUtils插入数据</h2><hr>
+<p>首先清空user表中的数据：</p>
+<pre><code>mysql&gt; delete from user;
+mysql&gt; ALTER TABLE user AUTO_INCREMENT = 1;
+</code></pre><p>编写代码：</p>
+<pre><code>// 类hellodbutils.DBUtilsInsert
+package hellodbutils;
+
+import java.sql.*;
+import org.apache.commons.dbutils.*;
+import org.apache.commons.dbutils.handlers.ArrayHandler;
+
+public class DBUtilsInsert {
+    public static void main(String args[]) {
+        Connection conn;
+        QueryRunner queryRunner = new QueryRunner();
+        ArrayHandler arrayHandler = new ArrayHandler();
+        try {
+            Class.forName(DBConf.JDBC_DRIVER);
+            conn = DriverManager.getConnection(DBConf.DB_URL, DBConf.USER, DBConf.PASS);
+
+            String sql = &quot;INSERT INTO user(name, age) VALUES(?,?)&quot;;
+            Object[] objectArr= queryRunner.insert(conn, sql, arrayHandler, &quot;樂天&quot;, 18);
+            System.out.println(&quot;数组长度：&quot; + objectArr.length + &quot;；第0个元素的值：&quot; +objectArr[0]);
+            objectArr = queryRunner.insert(conn, sql, arrayHandler, &quot;樂天天&quot;, 19);
+            System.out.println(&quot;数组长度：&quot; + objectArr.length + &quot;；第0个元素的值：&quot; +objectArr[0]);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+}
+</code></pre><p>运行结果：</p>
+<pre><code>数组长度：1；第0个元素的值：1
+数组长度：1；第0个元素的值：2
+</code></pre><p>MySQL命令行客户端查询结果：</p>
+<pre><code>mysql&gt; select * from user;
++----+-----------+-----+
+| id | name      | age |
++----+-----------+-----+
+|  1 | 樂天      |  18 |
+|  2 | 樂天天    |  19 |
++----+-----------+-----+
+2 rows in set (0.33 sec)
+</code></pre><p><strong>源码分析：</strong></p>
+<p>上面的句子调用了类<code>org.apache.commons.dbutils.QueryRunner</code>的这个方法：</p>
+<pre><code>// 类`org.apache.commons.dbutils.QueryRunner`下方法insert(...)
+public &lt;T&gt; T insert(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+    return insert(conn, false, sql, rsh, params);
+}
+</code></pre><p>最终调用的是下面的重载方法：</p>
+<pre><code>// 类`org.apache.commons.dbutils.QueryRunner`下方法insert(...)
+private &lt;T&gt; T insert(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)
+        throws SQLException {
+
+    // .... 删去了若干代码
+
+    PreparedStatement stmt = null;
+    T generatedKeys = null;
+
+    try {
+        stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        this.fillStatement(stmt, params);
+        stmt.executeUpdate();
+        ResultSet resultSet = stmt.getGeneratedKeys(); 
+        generatedKeys = rsh.handle(resultSet);
+    } catch (SQLException e) {
+        this.rethrow(e, sql, params);
+    } finally {
+        close(stmt);
+        if (closeConn) {
+            close(conn);
+        }
+    }
+
+    return generatedKeys;
+}
+</code></pre><p><code>this.fillStatement</code>方法来自类<code>org.apache.commons.dbutils.QueryRunner</code>的父类<code>org.apache.commons.dbutils.AbstractQueryRunner</code>，<code>fillStatement</code>的主要内容是：</p>
+<pre><code>// 类`org.apache.commons.dbutils.AbstractQueryRunner`下方法fillStatement(...)
+public void fillStatement(PreparedStatement stmt, Object... params)
+        throws SQLException {
+
+    // .... 删去了若干代码
+
+    for (int i = 0; i &lt; params.length; i++) {
+        if (params[i] != null) {
+            stmt.setObject(i + 1, params[i]);
+        } else {
+            // .... 删去了若干代码
+        }
+    }
+}
+</code></pre><p>javadoc中如下介绍<code>stmt.getGeneratedKeys()</code>：</p>
+<pre><code>ResultSet getGeneratedKeys()
+                           throws SQLException
+Retrieves any auto-generated keys created as a result of executing this Statement object. If this Statement object did not generate any keys, an empty ResultSet object is returned.
+Note:If the columns which represent the auto-generated keys were not specified, the JDBC driver implementation will determine the columns which best represent the auto-generated keys.
+</code></pre><p>类<code>org.apache.commons.dbutils.QueryRunner</code>的<code>insert(...)</code>函数有一参数是<code>ResultSetHandler&lt;T&gt; rsh</code>，ResultSetHandler用来处理sql查询后得到的结果。在类<code>hellodbutils.DBUtilsInsert</code>中，我们使用的ResultSetHandler是类<code>org.apache.commons.dbutils.handlers.ArrayHandler</code>：</p>
+<pre><code>// 类`org.apache.commons.dbutils.handlers.ArrayHandler`
+public class ArrayHandler implements ResultSetHandler&lt;Object[]&gt; {
+    // .... 删去了若干代码
+    @Override
+    public Object[] handle(ResultSet rs) throws SQLException {
+        return rs.next() ? this.convert.toArray(rs) : EMPTY_ARRAY;
+    }
+}
+</code></pre><p><code>this.convert</code>默认值是<code>new BasicRowProcessor()</code>。类<code>BasicRowProcessor</code>在包<code>org.apache.commons.dbutils</code>中，其中<code>toArray(...)</code>函数详细如下：</p>
+<pre><code>// 类org.apache.commons.dbutils.BasicRowProcessor下的toArray(...)函数
+@Override
+public Object[] toArray(ResultSet rs) throws SQLException {
+    ResultSetMetaData meta = rs.getMetaData();
+    int cols = meta.getColumnCount();
+    Object[] result = new Object[cols];
+
+    for (int i = 0; i &lt; cols; i++) {
+        result[i] = rs.getObject(i + 1);
+    }
+
+    return result;
+}
+</code></pre><p>好了，到了这里，类<code>hellodbutils.DBUtilsInsert</code>使用DBUtils插入数据的思路也就知道了。</p>
+<h2 id="使用DBUtils获取一条数据"><a href="#使用DBUtils获取一条数据" class="headerlink" title="使用DBUtils获取一条数据"></a>使用DBUtils获取一条数据</h2><hr>
+<p>编写代码：</p>
+<pre><code>// 类hellodbutils.DBUtilsSelect
+package hellodbutils;
+
+import java.util.Map;
+import java.sql.*;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.*;
+
+public class DBUtilsSelect {
+    public static void main(String args[]) {
+        Connection conn;
+        QueryRunner queryRunner = new QueryRunner();
+        try {
+            Class.forName(DBConf.JDBC_DRIVER);
+            conn = DriverManager.getConnection(DBConf.DB_URL, DBConf.USER, DBConf.PASS);
+
+            String sql = &quot;SELECT id, name, age FROM user WHERE id=?&quot;;
+            Map&lt;String, Object&gt; resultMap = queryRunner.query(conn, sql, new MapHandler(), 1);
+            System.out.println(resultMap);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+}
+</code></pre><p>运行结果：</p>
+<pre><code>{id=1, name=樂天, age=18}
+</code></pre><p><strong>源码分析：</strong></p>
+<p>我们看一下<code>org.apache.commons.dbutils.handlers.MapHandler</code>做了什么：</p>
+<pre><code>// 类org.apache.commons.dbutils.handlers.MapHandler
+public class MapHandler implements ResultSetHandler&lt;Map&lt;String, Object&gt;&gt; {
+
+    // .... 删去了若干代码
+
+    @Override
+    public Map&lt;String, Object&gt; handle(ResultSet rs) throws SQLException {
+        return rs.next() ? this.convert.toMap(rs) : null;
+    }
+
+}
+</code></pre><p>这里，<code>this.convert</code>默认值也是<code>new BasicRowProcessor()</code>。看一下<code>toMap(...)</code>函数：</p>
+<pre><code>// 类org.apache.commons.dbutils.BasicRowProcessor下的toMap(...)函数
+@Override
+public Map&lt;String, Object&gt; toMap(ResultSet rs) throws SQLException {
+    Map&lt;String, Object&gt; result = new CaseInsensitiveHashMap();
+    ResultSetMetaData rsmd = rs.getMetaData();
+    int cols = rsmd.getColumnCount();
+
+    for (int i = 1; i &lt;= cols; i++) {
+        String columnName = rsmd.getColumnLabel(i);
+        if (null == columnName || 0 == columnName.length()) {
+          columnName = rsmd.getColumnName(i);
+        }
+        result.put(columnName, rs.getObject(i));
+    }
+
+    return result;
+}
+</code></pre><p><code>CaseInsensitiveHashMap</code>定义在类<code>BasicRowProcessor</code>内部：</p>
+<pre><code>private static class CaseInsensitiveHashMap extends LinkedHashMap&lt;String, Object&gt; {
+
+    private final Map&lt;String, String&gt; lowerCaseMap = new HashMap&lt;String, String&gt;();
+
+    private static final long serialVersionUID = -2848100435296897392L;
+
+    @Override
+    public boolean containsKey(Object key) {
+        Object realKey = lowerCaseMap.get(key.toString().toLowerCase(Locale.ENGLISH));
+        return super.containsKey(realKey);
+    }
+
+    @Override
+    public Object get(Object key) {
+        Object realKey = lowerCaseMap.get(key.toString().toLowerCase(Locale.ENGLISH));
+        return super.get(realKey);
+    }
+
+    @Override
+    public Object put(String key, Object value) {
+        Object oldKey = lowerCaseMap.put(key.toLowerCase(Locale.ENGLISH), key);
+        Object oldValue = super.remove(oldKey);
+        super.put(key, value);
+        return oldValue;
+    }
+
+    @Override
+    public void putAll(Map&lt;? extends String, ?&gt; m) {
+        for (Map.Entry&lt;? extends String, ?&gt; entry : m.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            this.put(key, value);
+        }
+    }
+
+
+    @Override
+    public Object remove(Object key) {
+        Object realKey = lowerCaseMap.remove(key.toString().toLowerCase(Locale.ENGLISH));
+        return super.remove(realKey);
+    }
+}
+</code></pre><h2 id="使用DBUtils获取多条数据"><a href="#使用DBUtils获取多条数据" class="headerlink" title="使用DBUtils获取多条数据"></a>使用DBUtils获取多条数据</h2><hr>
+<p>编写代码：</p>
+<pre><code>// 类hellodbutils.DBUtilsSelect2
+package hellodbutils;
+
+import java.util.Map;
+import java.util.List;
+import java.sql.*;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.*;
+
+public class DBUtilsSelect2 {
+    public static void main(String args[]) {
+        Connection conn;
+        QueryRunner queryRunner = new QueryRunner();
+        try {
+            Class.forName(DBConf.JDBC_DRIVER);
+            conn = DriverManager.getConnection(DBConf.DB_URL, DBConf.USER, DBConf.PASS);
+
+            String sql = &quot;SELECT id, name, age FROM user&quot;;
+            List&lt;Map&lt;String, Object&gt;&gt; result = queryRunner.query(conn, sql, new MapListHandler());
+            System.out.println(result);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }   
+}
+</code></pre><p>运行结果：</p>
+<pre><code>[{id=1, name=樂天, age=18}, {id=2, name=樂天天, age=19}]
+</code></pre><p><strong>源码分析：</strong></p>
+<p>先看一下类<code>org.apache.commons.dbutils.handlers.MapListHandler</code>：</p>
+<pre><code>// 类 org.apache.commons.dbutils.handlers.MapListHandler
+public class MapListHandler extends AbstractListHandler&lt;Map&lt;String, Object&gt;&gt; {
+
+    // .... 删去了若干代码
+
+    public MapListHandler() {
+        this(ArrayHandler.ROW_PROCESSOR);
+    }
+
+    // .... 删去了若干代码
+    @Override
+    protected Map&lt;String, Object&gt; handleRow(ResultSet rs) throws SQLException {
+        return this.convert.toMap(rs);
+    }
+
+}
+</code></pre><p><code>handle(...)</code>方法在MapListHandler的父类<code>org.apache.commons.dbutils.handlers.AbstractListHandler</code>中：</p>
+<pre><code>public abstract class AbstractListHandler&lt;T&gt; implements ResultSetHandler&lt;List&lt;T&gt;&gt; {
+    @Override
+    public List&lt;T&gt; handle(ResultSet rs) throws SQLException {
+        List&lt;T&gt; rows = new ArrayList&lt;T&gt;();
+        while (rs.next()) {
+            rows.add(this.handleRow(rs));
+        }
+        return rows;
+    }
+
+    protected abstract T handleRow(ResultSet rs) throws SQLException;
+}
+</code></pre><p>使用<code>handleRow(...)</code>处理ResultSet rs中当前指向的数据，并转换为Map；而<code>handle()</code>方法将获得ResultSet rs所能找到的所有数据对应的Map构成的ArrayList。</p>
+<p>（完）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-03-09-apache-dbutils/" title="DBUtils简明教程">http://www.letiantian.me/2015-03-09-apache-dbutils/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-03-02-character-encoding/" rel="next" title="字符编码简介">
+                <i class="fa fa-chevron-left"></i> 字符编码简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-03-31-bayes-classifier-for-text/" rel="prev" title="基于贝叶斯的文本分类实战">
+                基于贝叶斯的文本分类实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先看一个JDBC的示例"><span class="nav-text">先看一个JDBC的示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用DBUtils插入数据"><span class="nav-text">使用DBUtils插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用DBUtils获取一条数据"><span class="nav-text">使用DBUtils获取一条数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用DBUtils获取多条数据"><span class="nav-text">使用DBUtils获取多条数据</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

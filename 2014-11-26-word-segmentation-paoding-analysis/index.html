@@ -1,0 +1,1050 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-11-26 作为一款分词工具，“庖丁解牛”（Paoding Analysis）为lucene设计，其官方网站是https://code.google.com/p/paoding/。下面看一看如何用它来分词。 需要的jar 在https://code.google.com/p/paoding/下载paoding-analysis-2.0.4-beta.zip，解压后移动到/home/let">
+<meta name="keywords" content="编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用“庖丁解牛”进行中文分词">
+<meta property="og:url" content="http://www.letiantian.me/2014-11-26-word-segmentation-paoding-analysis/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-11-26 作为一款分词工具，“庖丁解牛”（Paoding Analysis）为lucene设计，其官方网站是https://code.google.com/p/paoding/。下面看一看如何用它来分词。 需要的jar 在https://code.google.com/p/paoding/下载paoding-analysis-2.0.4-beta.zip，解压后移动到/home/let">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-05-22T13:09:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用“庖丁解牛”进行中文分词">
+<meta name="twitter:description" content="2014-11-26 作为一款分词工具，“庖丁解牛”（Paoding Analysis）为lucene设计，其官方网站是https://code.google.com/p/paoding/。下面看一看如何用它来分词。 需要的jar 在https://code.google.com/p/paoding/下载paoding-analysis-2.0.4-beta.zip，解压后移动到/home/let">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-11-26-word-segmentation-paoding-analysis/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用“庖丁解牛”进行中文分词 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-11-26-word-segmentation-paoding-analysis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用“庖丁解牛”进行中文分词</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-11-26T16:45:27+08:00">
+                2014-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-11-26</p>
+<p>作为一款分词工具，“庖丁解牛”（Paoding Analysis）为lucene设计，其官方网站是<a href="https://code.google.com/p/paoding/" target="_blank" rel="noopener">https://code.google.com/p/paoding/</a>。下面看一看如何用它来分词。</p>
+<h2 id="需要的jar"><a href="#需要的jar" class="headerlink" title="需要的jar"></a>需要的jar</h2><hr>
+<p>在<a href="https://code.google.com/p/paoding/" target="_blank" rel="noopener">https://code.google.com/p/paoding/</a>下载paoding-analysis-2.0.4-beta.zip，解压后移动到<code>/home/letian/paoding-analysis-2.0.4-beta</code>。</p>
+<p>Lucene当前版本是4.*，不过对于“庖丁解牛”，建议使用2.*系列的版本，我是在<a href="http://www.java2s.com/Code/Jar/l/Downloadlucenecore293jar.htm" target="_blank" rel="noopener">Download lucene-core-2.9.3.jar</a>下载的Download lucene-core-2.9.3.jar。</p>
+<p>在apache 官网下载commons-logging-1.2.jar。</p>
+<h2 id="创建项目并引入jar"><a href="#创建项目并引入jar" class="headerlink" title="创建项目并引入jar"></a>创建项目并引入jar</h2><hr>
+<p>在eclipse下创建项目<code>Fenci</code>，之后，引入<code>paoding-analysis.jar</code>、<code>lucene-core-2.9.3.jar</code>、<code>commons-logging-1.2.jar</code>。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><hr>
+<p>创建文件<code>PaoDingFenci.java</code>，内容如下：</p>
+<pre><code class="java">import java.io.IOException;
+import java.io.StringReader;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.Token;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+
+import net.paoding.analysis.analyzer.PaodingAnalyzer;
+
+public class PaoDingFenci {
+
+    Analyzer analyzer = new PaodingAnalyzer();
+
+    public PaoDingFenci() {
+        //
+    }
+
+    public String fenci01(String text) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        StringReader reader = new StringReader(text);
+        TokenStream ts = this.analyzer.tokenStream(text, reader);
+
+        TermAttribute termAtt = (TermAttribute) ts
+                .addAttribute(TermAttribute.class);
+        while (ts.incrementToken()) {
+            sb.append(termAtt.term());
+            sb.append(&quot; &quot;);
+        }
+        return sb.toString();
+    }
+
+    public String fenci02(String text) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        StringReader reader = new StringReader(text);
+        TokenStream ts = this.analyzer.tokenStream(text, reader);
+
+        Token t;
+        t = ts.next();
+        while (t != null) {
+            sb.append(t.termText());
+            sb.append(&quot; &quot;);
+            t = ts.next();
+        }
+        return sb.toString();
+    }
+}
+</code></pre>
+<p>方法<code>fenci01</code>和<code>fenci02</code>都可以拿来用，不过<code>fenci02</code>中的<code>ts.next()</code>和<code>t.termText()</code>是被弃用的。</p>
+<p>创建文件<code>FenciMain.java</code>，内容如下：</p>
+<pre><code class="java">import java.io.IOException;
+
+public class FenciMain {
+    public static void main(String[] args) throws IOException {
+        PaoDingFenci pd = new PaoDingFenci();
+        String text = &quot;自己翻译的官方文档，需要的人可以参考一下，有翻译错误还请指正。 \nHello world&quot;;
+        System.out.println(pd.fenci01(text));
+        System.out.println(pd.fenci02(text));
+    }
+}
+</code></pre>
+<p>然后建立文件<code>paoding-dic-home.properties</code>，内容如下：</p>
+<pre><code class="no-highlight"># values are &quot;system-env&quot; or &quot;this&quot;;
+# if value is &quot;this&quot; , using the paoding.dic.home as dicHome if configed!
+paoding.dic.home.config-fisrt=this
+
+# dictionary home (directory)
+# &quot;classpath:xxx&quot; means dictionary home is in classpath.
+# e.g &quot;classpath:dic&quot; means dictionaries are in &quot;classes/dic&quot; directory or any other classpath directory
+paoding.dic.home=/home/letian/paoding-analysis-2.0.4-beta/dic
+
+# seconds for dic modification detection
+# paoding.dic.detector.interval=60
+</code></pre>
+<p>运行<code>FenciMain.java</code>，结果如下：</p>
+<pre><code>翻译 官方 文档 需要 要的 的人 参考 一下 翻译 译错 错误 还请 指正 hello world 
+翻译 官方 文档 需要 要的 的人 参考 一下 翻译 译错 错误 还请 指正 hello world
+</code></pre><h2 id="两种分词模式"><a href="#两种分词模式" class="headerlink" title="两种分词模式"></a>两种分词模式</h2><hr>
+<p>默认模式是<code>most-words</code>。<br>文件<code>FenciMain2.java</code></p>
+<pre><code>import java.io.IOException;
+
+public class FenciMain2 {
+    public static void main(String[] args) throws IOException {
+        PaoDingFenci pd = new PaoDingFenci();
+        String text = &quot;中华人民共和国&quot;;
+        System.out.println(pd.fenci01(text));
+    }
+}
+</code></pre><p>结果如下：</p>
+<pre><code>中华 华人 人民 共和 共和国
+</code></pre><p>在项目中添加<code>paoding-analyzer.properties</code>文件，内容如下：</p>
+<pre><code class="no-highlight"># PaodingAnlyzer Mode, &quot;most-words&quot;, &quot;max-word-length&quot;, &quot;class:com.xxx.MyTokenCollectorImpl&quot;...
+
+paoding.analyzer.mode=most-words
+paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.MostWordsModeDictionariesCompiler
+
+# paoding.analyzer.mode=max-word-length
+# paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
+</code></pre>
+<p>上面的配置代表启用most-words模式，<code>FenciMain2.java</code>运行结果如下：</p>
+<pre><code>中华 华人 人民 共和 共和国
+</code></pre><p>修改<code>paoding-analyzer.properties</code>文件，启用<code>max-word-length</code>模式：</p>
+<pre><code class="no-highlight"># PaodingAnlyzer Mode, &quot;most-words&quot;, &quot;max-word-length&quot;, &quot;class:com.xxx.MyTokenCollectorImpl&quot;...
+
+# paoding.analyzer.mode=most-words
+# paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.MostWordsModeDictionariesCompiler
+
+paoding.analyzer.mode=max-word-length
+paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
+</code></pre>
+<p>注意，“max-word-length”等的后面不要有空格，否则会出现下面的错误：</p>
+<pre><code class="text">java.lang.IllegalArgumentException: 不合法的分析器Mode参数设置:max-word-length
+</code></pre>
+<p>最后一行”net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler”的后面也不要有空格，否则会出现下面的错误：</p>
+<pre><code class="text">java.lang.ClassNotFoundException: net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
+</code></pre>
+<p><code>FenciMain2.java</code>运行结果如下：</p>
+<pre><code>中华人民共和国
+</code></pre><p><strong>下面这段文字：</strong></p>
+<pre><code>互联网安全事件层出不穷，用户每时每刻都有可能会遭受攻击者袭击。
+</code></pre><p><code>most-words</code>模式分词结果如下：</p>
+<pre><code>互联 联网 安全 事件 层出 层出不穷 用户 每时 每刻 都有 可能 有可能 可能会 遭受 攻击 攻击者 袭击
+</code></pre><p><code>max-word-length</code>模式分词结果如下：</p>
+<pre><code>互联网 安全 事件 层出不穷 用户 每时每刻 都有 有可能 可能会 遭受 攻击者 袭击
+</code></pre><h2 id="该工具作者的博客"><a href="#该工具作者的博客" class="headerlink" title="该工具作者的博客"></a>该工具作者的博客</h2><hr>
+<p><a href="http://qieqie.iteye.com/" target="_blank" rel="noopener">Qieqie</a></p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><hr>
+<p>运行时出现下面的错误：</p>
+<pre><code>Caused by: java.lang.ClassNotFoundException: org.apache.commons.logging.LogFactory
+</code></pre><p>原因：没有引入<code>commons-logging-1.2.jar</code>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-11-26-word-segmentation-paoding-analysis/" title="使用“庖丁解牛”进行中文分词">http://www.letiantian.me/2014-11-26-word-segmentation-paoding-analysis/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-11-25-how-to-persistent-the-trained-model-of-scikit-learn/" rel="next" title="如何持久化scikit-learn中训练好的模型">
+                <i class="fa fa-chevron-left"></i> 如何持久化scikit-learn中训练好的模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-11-28-redis-two-levels-of-cache/" rel="prev" title="基于redis的二级缓存">
+                基于redis的二级缓存 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需要的jar"><span class="nav-text">需要的jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目并引入jar"><span class="nav-text">创建项目并引入jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两种分词模式"><span class="nav-text">两种分词模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#该工具作者的博客"><span class="nav-text">该工具作者的博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

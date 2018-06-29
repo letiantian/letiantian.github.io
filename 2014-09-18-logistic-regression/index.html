@@ -1,0 +1,1008 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-09-18 Logistic regression，音译为逻辑斯蒂回归，也可以叫做逻辑回归。  逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型。——《数学之美》 第28章  似然函数与最大似然估计  在数理统计学中，似然函数是一种关于统计模型中的参数的函数，表示模型参数中的似然性。“似然性”与“或然性”或“概率”意思相近，都是指某种事件发生的可能性。最大似然估计是似然函数最初">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logistic regression（逻辑斯蒂回归）">
+<meta property="og:url" content="http://www.letiantian.me/2014-09-18-logistic-regression/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-09-18 Logistic regression，音译为逻辑斯蒂回归，也可以叫做逻辑回归。  逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型。——《数学之美》 第28章  似然函数与最大似然估计  在数理统计学中，似然函数是一种关于统计模型中的参数的函数，表示模型参数中的似然性。“似然性”与“或然性”或“概率”意思相近，都是指某种事件发生的可能性。最大似然估计是似然函数最初">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-18-lr-01.png">
+<meta property="og:updated_time" content="2014-10-07T12:06:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logistic regression（逻辑斯蒂回归）">
+<meta name="twitter:description" content="2014-09-18 Logistic regression，音译为逻辑斯蒂回归，也可以叫做逻辑回归。  逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型。——《数学之美》 第28章  似然函数与最大似然估计  在数理统计学中，似然函数是一种关于统计模型中的参数的函数，表示模型参数中的似然性。“似然性”与“或然性”或“概率”意思相近，都是指某种事件发生的可能性。最大似然估计是似然函数最初">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-18-lr-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-09-18-logistic-regression/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Logistic regression（逻辑斯蒂回归） | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-09-18-logistic-regression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Logistic regression（逻辑斯蒂回归）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-18T20:00:49+08:00">
+                2014-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-09-18</p>
+<p>Logistic regression，音译为逻辑斯蒂回归，也可以叫做逻辑回归。</p>
+<blockquote>
+<p>逻辑回归模型是一种将影响概率的不同因素结合在一起的指数模型。——《数学之美》 第28章</p>
+</blockquote>
+<h2 id="似然函数与最大似然估计"><a href="#似然函数与最大似然估计" class="headerlink" title="似然函数与最大似然估计"></a>似然函数与最大似然估计</h2><hr>
+<blockquote>
+<p>在数理统计学中，似然函数是一种关于统计模型中的参数的函数，表示模型参数中的似然性。“似然性”与“或然性”或“概率”意思相近，都是指某种事件发生的可能性。<br>最大似然估计是似然函数最初也是最自然的应用。</p>
+<p>在数学中，连续型随机变量的概率密度函数（在不至于混淆时可以简称为密度函数）是一个描述这个随机变量的输出值，在某个确定的取值点附近的可能性的函数。而随机变量的取值落在某个区域之内的概率则为概率密度函数在这个区域上的积分。</p>
+<p>最大似然估计，也称为最大概似估计，是一种统计方法，它用来求一个样本集的相关概率密度函数的参数。</p>
+</blockquote>
+<p>上面的内容摘自维基百科的几个词条。</p>
+<p>维基百科词条<a href="http://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1" target="_blank" rel="noopener">最大似然估计</a>给出了一个浅显的例子。如下：</p>
+<p>一个硬币抛出正面的概率为[latex]\frac{1}{3}, \frac{1}{2}, \frac{2}{3}[/latex]这三种取值，在一次抛硬币试验中，结果是49次正面，31次反面。那么隐蔽抛出正面的可能性的概率最有可能是哪一个？</p>
+<p>当概率为[latex]\frac{1}{3}[/latex]，似然函数取值为：</p>
+<p>[latex]<br>(^{80}_{49})(\frac{1}{3})^{49}(\frac{2}{3})^{31} \approx 0.000<br>[/latex]</p>
+<p>当概率为[latex]\frac{1}{2}[/latex]，似然函数取值为：</p>
+<p>[latex]<br>(^{80}_{49})(\frac{1}{2})^{49}(\frac{1}{2})^{31} \approx 0.012<br>[/latex]</p>
+<p>当概率为[latex]\frac{2}{3}[/latex]，似然函数取值为：</p>
+<p>[latex]<br>(^{80}_{49})(\frac{2}{3})^{49}(\frac{1}{3})^{31} \approx 0.054<br>[/latex]</p>
+<p>很明显，抛正面的概率为似然函数的参数，当抛正面的概率是[latex]\frac{2}{3}[/latex]时，似然函数取值最大，所以抛正面的概率的最佳值是[latex]\frac{2}{3}[/latex]。</p>
+<h2 id="二项逻辑斯蒂回归模型"><a href="#二项逻辑斯蒂回归模型" class="headerlink" title="二项逻辑斯蒂回归模型"></a>二项逻辑斯蒂回归模型</h2><hr>
+<p>二项逻辑斯蒂回归， binomial logistic regression。</p>
+<p>对于n维空间的点[latex]\vec{x}[/latex]可能属于类0或者类1，二项逻辑斯蒂回归模型如下：</p>
+<p>[latex]<br>P(Y=1|\vec{x}) = \frac{e^{\vec{w}\vec{x}+b}}{1+e^{\vec{w}\vec{x}+b}}, \\<br>P(Y=0|\vec{x}) = \frac{1}{1+e^{\vec{w}\vec{x}+b}}<br>[/latex]</p>
+<p>很明显：</p>
+<p>[latex]<br>P(Y=1|\vec{x}) + P(Y=0|\vec{x}) = 1<br>[/latex]</p>
+<p>另外，我们看一下[latex] \frac{e^x}{1+e^x}[/latex]的图形：</p>
+<pre><code>x = -6:0.1:6;
+e = exp(1);
+y = e.^x./(1+e.^x);
+plot(x,y);
+hold on;
+plot(0, 0.5, &#39;ro&#39;);
+</code></pre><p><img src="/content/images/2014/09/2014-09-18-lr-01.png" alt=""></p>
+<p>对于给定的[latex]\vec{x}[/latex]，求得[latex]P(Y=0|\vec{x})[/latex]和[latex]P(Y=1|\vec{x})[/latex]，比较这两个概率的值，[latex]\vec{x}[/latex]会被划分到概率较大的那一类中。</p>
+<p>当[latex]\vec{w}\vec{x}+b=0[/latex]时，[latex]P(Y=1|\vec{x})[/latex]和[latex]P(Y=0|\vec{x})[/latex]的值都是0.5，这也意味着此时的[latex]\vec{x}[/latex]很难划分为类0或者类1。</p>
+<p>在n维空间中，向量[latex]\vec{x}[/latex]由n个标量组成，分别是[latex]x_{1}, x_{2}, …, x_{n}[/latex]，向量[latex]\vec{w}[/latex]也是由n个标量组成，可以看成与[latex]\vec{x}[/latex]一一对应的权重。另外，b可以改写成[latex]w_{0}x_{0}[/latex]，其中[latex]w_{0}=b[/latex]，[latex]x_{0}=1[/latex]。如此，原先的n维度就成了n+1维度，上面的条件概率分布可以改写成：</p>
+<p>[latex]<br>P(Y=1|\vec{x}) = \frac{e^{\vec{w}\vec{x}}}{1+e^{\vec{w}\vec{x}}}, \\<br>P(Y=0|\vec{x}) = \frac{1}{1+e^{\vec{w}\vec{x}}}<br>[/latex]</p>
+<p>由于：<br>[latex]<br>ln \frac{P(Y=1|\vec{x})}{P(Y=0|\vec{x})} = \vec{w}\vec{x}<br>[/latex]</p>
+<p>如果已知[latex]\vec{w}[/latex]，上式的计算结果若大于0，则认为向量[latex]\vec{x}[/latex]属于类1，否则属于类0.</p>
+<p>现在的问题是，根据已有的数据，如何求[latex]\vec{w}[/latex]？答案是最大似然估计。</p>
+<p>设[latex]P(Y=1|\vec{x})=\pi(\vec{x})[/latex]，则[latex]P(Y=0|\vec{x})=1-\pi(\vec{x})[/latex]，似然函数是：</p>
+<p>[latex]<br>\prod_{i=1}^{N}[\pi(\vec{x}_{i})]^{y_{i}} [1-\pi(\vec{x}_{i})] ^{1-y_{i}}<br>[/latex]</p>
+<p>要求使得似然函数达到最大值的[latex]\vec{w}[/latex]，可以处理等价的对数似然函数是：</p>
+<p>[latex]<br>L(\vec{w}) = ln(\prod_{i=1}^{N}[\pi(x_{i})]^{y_{i}} [1-\pi(x_{i})] ^{1-y_{i}}) \\<br>= … \\<br>= \sum_{i=1}^{N}[y_{i}(\vec{w}\cdot x_{i}) - ln(1+e^{\vec{w}\cdot x_{i}})]<br>[/latex]</p>
+<p>当[latex]L(\vec{w})[/latex]达到最大值时候的[latex]\vec{w}[/latex]的值便是参数[latex]\vec{w}[/latex]的估计值，一般记做[latex]\widehat{w}[/latex]。</p>
+<p>要求这个估计值，一般选择梯度上升/下降法、拟牛顿法等优化方法。梯度下降法，在<a href="/machine-learning/2014/09-18-gradient-descent/">梯度下降法</a>有介绍。</p>
+<h2 id="多项逻辑斯蒂回归"><a href="#多项逻辑斯蒂回归" class="headerlink" title="多项逻辑斯蒂回归"></a>多项逻辑斯蒂回归</h2><hr>
+<p>多项逻辑斯蒂回归，multi-nominal logistic regression。</p>
+<p>二项逻辑斯蒂回归适合于二类问题，针对多类问题，可以使用多项逻辑斯蒂回归模型。这个模型只是对二项逻辑斯蒂回归模型进行了拓展，具体可以参考<a href="http://en.wikipedia.org/wiki/Multinomial_logistic_regression" target="_blank" rel="noopener">Multinomial logistic regression</a>、李航的《统计学习方法》第6章等内容。</p>
+<h2 id="练练手"><a href="#练练手" class="headerlink" title="练练手"></a>练练手</h2><hr>
+<p>matlab提供了逻辑斯蒂回归的工具，分别是mnrfit和mnrval。下面是一个示例：</p>
+<pre><code>x1 = [1,2]; y1 = 1;
+x2 = [2,1]; y2 = 1;
+x3 = [1,0]; y3 = 1;
+x4 = [4,5]; y4 = 2;
+x5 = [5,6]; y5 = 2;
+x6 = [5,4]; y6 = 2;
+
+X = [x1; x2; x3; x4; x5; x6];
+Y = [y1; y2; y3; y4; y5; y6];
+
+weight = mnrfit(X, Y);
+
+scores = mnrval(weight, [6,1]);
+</code></pre><p>矩阵X代表训练集，一行是一个样本；向量Y代表样本的标号，与X中的样本一一对应。</p>
+<p><code>mnrfit()</code>用来对数据进行逻辑斯蒂回归训练，weight就是上文提到的[latex]\vec{w}[/latex]，其结果是：</p>
+<pre><code>&gt;&gt; weight
+
+weight =
+
+   34.8490
+   -6.1497
+   -5.4667
+</code></pre><p><code>mnrval()</code>函数用来预测新样本的标号，对于样本<code>[6,1]</code>，scores的值为：</p>
+<pre><code>&gt;&gt; scores
+
+scores =
+
+    0.0005    0.9995
+</code></pre><p>这意味着<code>[6,1]</code>属于类别2的概率是0.9995，这个样本应该划分到类别2中。</p>
+<p>我们手动算一下属于类别2的概率：</p>
+<pre><code>&gt;&gt; 34.8490 -6.1497*6 -5.4667
+
+ans =
+
+   -7.5159
+
+&gt;&gt; 1/(1+exp(ans))
+
+ans =
+
+    0.9995
+</code></pre><h2 id="更多资料"><a href="#更多资料" class="headerlink" title="更多资料"></a>更多资料</h2><hr>
+<p>《统计学习方法》 李航<br><a href="http://zh.wikipedia.org/wiki/%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">似然函数</a><br><a href="http://en.wikipedia.org/wiki/Multinomial_logistic_regression" target="_blank" rel="noopener">Multinomial logistic regression</a><br><a href="http://www.cnblogs.com/daniel-D/archive/2013/05/30/3109276.html" target="_blank" rel="noopener">Logistic Regression 之基础知识准备</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-09-18-logistic-regression/" title="Logistic regression（逻辑斯蒂回归）">http://www.letiantian.me/2014-09-18-logistic-regression/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09-18-gradient-descent/" rel="next" title="梯度下降法">
+                <i class="fa fa-chevron-left"></i> 梯度下降法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-09-20-mean-shift/" rel="prev" title="使用 Mean Shift进行聚类">
+                使用 Mean Shift进行聚类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#似然函数与最大似然估计"><span class="nav-text">似然函数与最大似然估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二项逻辑斯蒂回归模型"><span class="nav-text">二项逻辑斯蒂回归模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多项逻辑斯蒂回归"><span class="nav-text">多项逻辑斯蒂回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练练手"><span class="nav-text">练练手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多资料"><span class="nav-text">更多资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

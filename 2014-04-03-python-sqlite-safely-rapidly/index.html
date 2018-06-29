@@ -1,0 +1,1104 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-04-03 本文通过展示在一个table上进行操作来论述如何使用Python快速安全地操作sqlite3。 userinfo表通过使用下面语句创建： create table userinfo(name text, email text)  更快地插入数据 在此用time.clock()来计时，看看以下三种方法的速度。 import sqlite3 import time  def cr">
+<meta name="keywords" content="数据库,编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python快速安全地操作sqlite3">
+<meta property="og:url" content="http://www.letiantian.me/2014-04-03-python-sqlite-safely-rapidly/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-04-03 本文通过展示在一个table上进行操作来论述如何使用Python快速安全地操作sqlite3。 userinfo表通过使用下面语句创建： create table userinfo(name text, email text)  更快地插入数据 在此用time.clock()来计时，看看以下三种方法的速度。 import sqlite3 import time  def cr">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T08:32:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python快速安全地操作sqlite3">
+<meta name="twitter:description" content="2014-04-03 本文通过展示在一个table上进行操作来论述如何使用Python快速安全地操作sqlite3。 userinfo表通过使用下面语句创建： create table userinfo(name text, email text)  更快地插入数据 在此用time.clock()来计时，看看以下三种方法的速度。 import sqlite3 import time  def cr">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-04-03-python-sqlite-safely-rapidly/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用Python快速安全地操作sqlite3 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-04-03-python-sqlite-safely-rapidly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Python快速安全地操作sqlite3</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-03T11:20:00+08:00">
+                2014-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-04-03</p>
+<p>本文通过展示在一个table上进行操作来论述如何使用Python快速安全地操作sqlite3。</p>
+<p>userinfo表通过使用下面语句创建：</p>
+<pre><code>create table userinfo(name text, email text)
+</code></pre><a id="more"></a>
+<h2 id="更快地插入数据"><a href="#更快地插入数据" class="headerlink" title="更快地插入数据"></a>更快地插入数据</h2><hr>
+<p>在此用<code>time.clock()</code>来计时，看看以下三种方法的速度。</p>
+<pre><code>import sqlite3
+import time
+
+def create_tables(dbname):  
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.execute(&#39;&#39;&#39;create table userinfo(name text, email text)&#39;&#39;&#39;)
+    conn.commit()
+    cursor.close()
+    conn.close()
+def drop_tables(dbname):
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.execute(&#39;&#39;&#39;drop table userinfo&#39;&#39;&#39;)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def insert1():
+    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
+            (&#39;ww&#39;,&#39;ww@example.com&#39;),
+            (&#39;ee&#39;,&#39;ee@example.com&#39;),
+            (&#39;rr&#39;,&#39;rr@example.com&#39;),
+            (&#39;tt&#39;,&#39;tt@example.com&#39;),
+            (&#39;yy&#39;,&#39;yy@example.com&#39;),
+            (&#39;uu&#39;,&#39;uu@example.com&#39;)
+            ]
+    start = time.clock()
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    for user in users:
+        cursor.execute(&quot;insert into userinfo(name, email) values(?, ?)&quot;, user)
+        conn.commit()
+    cursor.close()
+    conn.close()
+    end = time.clock()
+    print start, end, end-start
+
+def insert2():
+    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
+            (&#39;ww&#39;,&#39;ww@example.com&#39;),
+            (&#39;ee&#39;,&#39;ee@example.com&#39;),
+            (&#39;rr&#39;,&#39;rr@example.com&#39;),
+            (&#39;tt&#39;,&#39;tt@example.com&#39;),
+            (&#39;yy&#39;,&#39;yy@example.com&#39;),
+            (&#39;uu&#39;,&#39;uu@example.com&#39;)
+            ]
+    start = time.clock()
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    for user in users:
+        cursor.execute(&quot;insert into userinfo(name, email) values(?, ?)&quot;, user)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    end = time.clock()
+    print start, end, end-start
+
+def insert3():
+    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
+            (&#39;ww&#39;,&#39;ww@example.com&#39;),
+            (&#39;ee&#39;,&#39;ee@example.com&#39;),
+            (&#39;rr&#39;,&#39;rr@example.com&#39;),
+            (&#39;tt&#39;,&#39;tt@example.com&#39;),
+            (&#39;yy&#39;,&#39;yy@example.com&#39;),
+            (&#39;uu&#39;,&#39;uu@example.com&#39;)
+            ]
+    start = time.clock()
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.executemany(&quot;insert into userinfo(name, email) values(?, ?)&quot;, users)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    end = time.clock()
+    print start, end, end-start
+
+if __name__ == &#39;__main__&#39;:
+    dbname = &#39;test.db&#39;
+    create_tables(dbname)
+    insert1()
+    drop_tables(dbname)
+    create_tables(dbname)
+    insert2()
+    drop_tables(dbname)
+    create_tables(dbname)
+    insert3()
+    drop_tables(dbname)
+</code></pre><p>某次运行结果：</p>
+<pre><code>4.05223164501e-07 0.531585119557 0.531584714334
+0.755963264089 0.867329935942 0.111366671854
+1.0324360882 1.12175173111 0.0893156429109
+</code></pre><p>另外一次运行结果：</p>
+<pre><code>4.05223164501e-07 0.565988971446 0.565988566223
+0.768132520942 0.843723660494 0.0755911395524
+1.04367819446 1.13247636739 0.0887981729298
+</code></pre><p>在运行结果中，第三列表示插入数据使用的时间。综合看来，方法<code>insert1()</code>的速度很慢，原因在于每次<code>insert</code>都<code>commit()</code>。</p>
+<h2 id="更安全地操作数据库"><a href="#更安全地操作数据库" class="headerlink" title="更安全地操作数据库"></a>更安全地操作数据库</h2><hr>
+<p>先上代码：</p>
+<pre><code>import sqlite3
+
+def create_tables(dbname):  
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.execute(&#39;&#39;&#39;create table userinfo(name text, email text)&#39;&#39;&#39;)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def drop_tables(dbname):
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.execute(&#39;&#39;&#39;drop table userinfo&#39;&#39;&#39;)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def insert():
+    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
+            (&#39;ww&#39;,&#39;ww@example.com&#39;),
+            (&#39;ee&#39;,&#39;ee@example.com&#39;),
+            (&#39;rr&#39;,&#39;rr@example.com&#39;),
+            (&#39;tt&#39;,&#39;tt@example.com&#39;),
+            (&#39;yy&#39;,&#39;yy@example.com&#39;),
+            (&#39;uu&#39;,&#39;uu@example.com&#39;)
+            ]
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    cursor.executemany(&quot;insert into userinfo(name, email) values(?, ?)&quot;, users)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def insecure_select(text):
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    print &quot;select name from userinfo where email=&#39;%s&#39;&quot; % text
+    for row in cursor.execute(&quot;select name from userinfo where email=&#39;%s&#39;&quot; % text):
+        print row
+def secure_select(text):
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    print &quot;select name from userinfo where email=&#39;%s&#39;&quot; % text
+    for row in cursor.execute(&quot;select name from userinfo where email= ? &quot;, (text,)):
+        print row
+
+if __name__ == &#39;__main__&#39;:
+    dbname = &#39;test.db&#39;
+    create_tables(dbname)
+    insert()
+    insecure_select(&quot;uu@example.com&quot;)
+    insecure_select(&quot;&#39; or 1=1;--&quot;)
+    secure_select(&quot;uu@example.com&quot;)
+    secure_select(&quot;&#39; or 1=1;--&quot;)
+    drop_tables(dbname)
+</code></pre><p>运行结果：</p>
+<pre><code>select name from userinfo where email=&#39;uu@example.com&#39;
+(u&#39;uu&#39;,)
+select name from userinfo where email=&#39;&#39; or 1=1;--&#39;
+(u&#39;qq&#39;,)
+(u&#39;ww&#39;,)
+(u&#39;ee&#39;,)
+(u&#39;rr&#39;,)
+(u&#39;tt&#39;,)
+(u&#39;yy&#39;,)
+(u&#39;uu&#39;,)
+select name from userinfo where email=&#39;uu@example.com&#39;
+(u&#39;uu&#39;,)
+select name from userinfo where email=&#39;&#39; or 1=1;--&#39;
+</code></pre><p>函数<code>insecure_select(text)</code>和<code>secure_select(text)</code>的本意都是根据<code>email</code>获取对应的用户名信息。但是<code>insecure_select(text)</code>的实现容易引起sql注入。</p>
+<p><code>insecure_select(&quot;&#39; or 1=1;--&quot;)</code>便是一个例子。在<code>insecure_select()</code>中<code>cursor.execute()</code>只有一个参数，即sql语句，这个生成的sql语句如果有问题，还是会照常执行。</p>
+<p><code>secure_select(text)</code>的实现可以防止sql注入，<code>cursor.execute()</code>的第一个参数使用了占位符?表示要被替代的内容，第二个参数指定每个占位符对应的值，在底层实现上，这种方法<code>（至少）</code>转义了特殊字符，可以防止sql注入。</p>
+<p>可以在资料[1]中看到一个完整的使用<code>sql注入</code>进行入侵的过程。<br>资料[2]中有python如何操作sqlite的更加详细的内容。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><hr>
+<p>[1] <a href="http://www.cnblogs.com/hkncd/archive/2012/03/31/2426274.html" target="_blank">血腥！实况转播SQL注入全过程，让你知道危害有多大 </a></p>
+<p>[2] <a href="https://docs.python.org/2/library/sqlite3.html" target="_blank">DB-API 2.0 interface for SQLite databases</a> </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-04-03-python-sqlite-safely-rapidly/" title="使用Python快速安全地操作sqlite3">http://www.letiantian.me/2014-04-03-python-sqlite-safely-rapidly/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-04-03-hill-climbing-algorithm/" rel="next" title="爬山算法">
+                <i class="fa fa-chevron-left"></i> 爬山算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-04-07-gearman/" rel="prev" title="Gearman入门">
+                Gearman入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更快地插入数据"><span class="nav-text">更快地插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更安全地操作数据库"><span class="nav-text">更安全地操作数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料"><span class="nav-text">资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

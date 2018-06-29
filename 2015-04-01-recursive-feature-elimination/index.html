@@ -1,0 +1,1267 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-04-01 特征递归消除（recursive feature elimination，RFE）是特征选择的一种方法。 http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html给出了RFE的基本思想：   the goal of recursive feature eliminat">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用特征递归消除筛选特征">
+<meta property="og:url" content="http://www.letiantian.me/2015-04-01-recursive-feature-elimination/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-04-01 特征递归消除（recursive feature elimination，RFE）是特征选择的一种方法。 http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html给出了RFE的基本思想：   the goal of recursive feature eliminat">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/04/2015-04-01-rfe.jpg">
+<meta property="og:updated_time" content="2015-04-03T07:03:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用特征递归消除筛选特征">
+<meta name="twitter:description" content="2015-04-01 特征递归消除（recursive feature elimination，RFE）是特征选择的一种方法。 http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html给出了RFE的基本思想：   the goal of recursive feature eliminat">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/04/2015-04-01-rfe.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-04-01-recursive-feature-elimination/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用特征递归消除筛选特征 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-04-01-recursive-feature-elimination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用特征递归消除筛选特征</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-01T10:52:52+08:00">
+                2015-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-04-01</p>
+<p>特征递归消除（recursive feature elimination，RFE）是特征选择的一种方法。</p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html</a>给出了RFE的基本思想：</p>
+<blockquote>
+<p> the goal of recursive feature elimination (RFE) is to select features by recursively considering smaller and smaller sets of features. First, the estimator is trained on the initial set of features and weights are assigned to each one of them. Then, features whose absolute weights are the smallest are pruned from the current set features. That procedure is recursively repeated on the pruned set until the desired number of features to select is eventually reached.</p>
+</blockquote>
+<p>而在<a href="http://book.douban.com/subject/25899625/" target="_blank" rel="noopener">《机器学习系统设计》</a>的第11章也提到了RFE，并给了一个流程图：</p>
+<p><img src="/content/images/2015/04/2015-04-01-rfe.jpg" alt=""></p>
+<p>可以看出RFE是一个迭代的过程（不是递归）。</p>
+<p>下面讲一下如何使用scikit-learn中的RFE工具，本文最后部分介绍RFE的实现。</p>
+<h2 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h2><hr>
+<p>数据集是有8个分类的文本数据集，使用了结巴分词对每个文本分词，每个单词当作特征，再利用二元词串构造更多特征，然后去掉停用词，去掉出现次数太多和太少的特征，得到了19630个特征。取1998个样本用于训练，509个用于测试。基于词袋模型的思路将每个文本转换为向量，训练集和测试集分别转换为矩阵，并用python numpy模块将其保存为npy格式。</p>
+<p>在<a href="https://github.com/letiantian/dataset-for-classifying" target="_blank" rel="noopener">https://github.com/letiantian/dataset-for-classifying</a>下载documents.7z，解压后导入数据：</p>
+<pre><code>$ ls
+test_data.npy  test_labels.npy  training_data.npy  training_labels.npy  
+$ ipython
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; training_data = np.load(&quot;training_data.npy&quot;)
+&gt;&gt;&gt; training_data.shape
+(1998, 19630)
+&gt;&gt;&gt; training_labels = np.load(&quot;training_labels.npy&quot;)
+&gt;&gt;&gt; training_labels
+array([6, 6, 6, ..., 2, 2, 2])  
+&gt;&gt;&gt; training_labels.shape
+(1998,)
+&gt;&gt;&gt; test_data = np.load(&quot;test_data.npy&quot;)
+&gt;&gt;&gt; test_data.shape
+(509, 19630)
+&gt;&gt;&gt; test_labels = np.load(&quot;test_labels.npy&quot;)
+&gt;&gt;&gt; test_labels.shape
+(509,)
+</code></pre><h2 id="使用RFE"><a href="#使用RFE" class="headerlink" title="使用RFE"></a>使用RFE</h2><hr>
+<p>RFE是一个框架，我们需要使用能得到特征重要性的方法嵌入其中。本文使用逻辑斯谛回归（在李航的《统计学习方法》中有介绍）。</p>
+<pre><code>&gt;&gt;&gt; from sklearn.linear_model import LogisticRegression
+&gt;&gt;&gt; from sklearn.feature_selection import RFE
+&gt;&gt;&gt; estimator = LogisticRegression()  # 逻辑斯谛回归
+&gt;&gt;&gt; selector = RFE(estimator, 3000, step=200)
+&gt;&gt;&gt; selector = selector.fit(training_data, training_labels)
+&gt;&gt;&gt; selector.support_   # True的特征就是最终得到的特征
+array([False, False,  True, ..., False, False, False], dtype=bool)
+&gt;&gt;&gt; selector.ranking_  # 值越小，越重要
+array([26, 64,  1, ..., 26, 56, 26])
+&gt;&gt;&gt; new_train_data = training_data[:, selector.support_]
+&gt;&gt;&gt; new_test_data = test_data[:, selector.support_]
+&gt;&gt;&gt; new_train_data.shape
+(1998, 3000)
+&gt;&gt;&gt; new_test_data.shape
+(509, 3000)
+</code></pre><p>其中，<code>selector = RFE(estimator, 3000, step=200)</code>意思是每次迭代删除200个特征，最终保留3000个特征。</p>
+<p><code>selector</code>也可以使用内部训练好的逻辑斯谛回归模型预测样本类别：</p>
+<pre><code>&gt;&gt;&gt; lr_predict_labels = selector.predict(test_data)
+&gt;&gt;&gt; sum(lr_predict_labels == test_labels)   # 预测对了448个样本
+448
+</code></pre><p>而对原始特征集合使用逻辑斯谛回归：</p>
+<pre><code>&gt;&gt;&gt; lr = LogisticRegression()
+&gt;&gt;&gt; lr.fit(training_data, training_labels)
+LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,  
+          intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;,
+          penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
+          verbose=0)
+&gt;&gt;&gt; lr_predict_labels = lr.predict(test_data)
+&gt;&gt;&gt; sum(lr_predict_labels == test_labels)   # 预测对了446个样本
+446
+</code></pre><h2 id="使用多项式贝叶斯处理新数据"><a href="#使用多项式贝叶斯处理新数据" class="headerlink" title="使用多项式贝叶斯处理新数据"></a>使用多项式贝叶斯处理新数据</h2><hr>
+<p>对原始特征集合：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.naive_bayes import MultinomialNB
+&gt;&gt;&gt; bayes = MultinomialNB() 
+&gt;&gt;&gt; bayes.fit(training_data, training_labels)
+MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+&gt;&gt;&gt; bayes_predict_labels = bayes.predict(test_data)
+&gt;&gt;&gt; sum(bayes_predict_labels == test_labels)  # 预测对了454个样本
+454
+</code></pre><p>对新的特征集合：</p>
+<pre><code>&gt;&gt;&gt; bayes = MultinomialNB() 
+&gt;&gt;&gt; bayes.fit(new_train_data, training_labels)
+MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+&gt;&gt;&gt; bayes_predict_labels = bayes.predict(new_test_data)
+&gt;&gt;&gt; sum(bayes_predict_labels == test_labels)   # 预测对了456个样本
+456
+</code></pre><h2 id="使用伯努利贝叶斯处理新数据"><a href="#使用伯努利贝叶斯处理新数据" class="headerlink" title="使用伯努利贝叶斯处理新数据"></a>使用伯努利贝叶斯处理新数据</h2><hr>
+<p>对原始特征集合：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.naive_bayes import BernoulliNB
+&gt;&gt;&gt; bayes = BernoulliNB() 
+&gt;&gt;&gt; bayes.fit(training_data, training_labels)
+BernoulliNB(alpha=1.0, binarize=0.0, class_prior=None, fit_prior=True)
+&gt;&gt;&gt; bayes_predict_labels = bayes.predict(test_data)
+&gt;&gt;&gt; sum(bayes_predict_labels == test_labels) 
+387
+</code></pre><p>对新的特征集合：</p>
+<pre><code>&gt;&gt;&gt; bayes = BernoulliNB()
+&gt;&gt;&gt; bayes.fit(new_train_data, training_labels)
+BernoulliNB(alpha=1.0, binarize=0.0, class_prior=None, fit_prior=True)
+&gt;&gt;&gt; bayes_predict_labels = bayes.predict(new_test_data)
+&gt;&gt;&gt; sum(bayes_predict_labels == test_labels)  # 效果提升了很多
+433
+</code></pre><h2 id="使用随机森林处理新数据"><a href="#使用随机森林处理新数据" class="headerlink" title="使用随机森林处理新数据"></a>使用随机森林处理新数据</h2><hr>
+<p>对原始特征集合：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.ensemble import RandomForestClassifier
+&gt;&gt;&gt; rf = RandomForestClassifier(n_estimators=100)
+&gt;&gt;&gt; rf.fit(training_data, training_labels)
+RandomForestClassifier(bootstrap=True, criterion=&#39;gini&#39;, max_depth=None,
+            max_features=&#39;auto&#39;, max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            n_estimators=100, n_jobs=1, oob_score=False, random_state=None,
+            verbose=0, warm_start=False)
+&gt;&gt;&gt; rf_predict_labels = rf.predict(test_data)
+&gt;&gt;&gt; sum(rf_predict_labels == test_labels)
+422
+</code></pre><p>对新的特征集合：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.ensemble import RandomForestClassifier
+&gt;&gt;&gt; rf = RandomForestClassifier(n_estimators=100)
+&gt;&gt;&gt; rf.fit(new_train_data, training_labels)
+RandomForestClassifier(bootstrap=True, criterion=&#39;gini&#39;, max_depth=None,
+            max_features=&#39;auto&#39;, max_leaf_nodes=None, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            n_estimators=100, n_jobs=1, oob_score=False, random_state=None,
+            verbose=0, warm_start=False)
+&gt;&gt;&gt; rf_predict_labels = rf.predict(new_test_data)
+&gt;&gt;&gt; sum(rf_predict_labels == test_labels)   # 变化不大
+421
+</code></pre><h2 id="如何实现RFE"><a href="#如何实现RFE" class="headerlink" title="如何实现RFE"></a>如何实现RFE</h2><hr>
+<p>从上面可以看到，RFE消除特征后，很多分类器的效果并没有下降，甚至有所提升。那么RFE是如何实现的？</p>
+<p>在scikit-learn源码中，打开文件sklearn/feature_selection/rfe.py，可以看到RFE的实现，下面摘取部分并给出注释：</p>
+<pre><code>class RFE(BaseEstimator, MetaEstimatorMixin, SelectorMixin):
+
+    def __init__(self, estimator, n_features_to_select=None, step=1,
+                 estimator_params={}, verbose=0):
+        self.estimator = estimator
+        self.n_features_to_select = n_features_to_select
+        self.step = step
+        self.estimator_params = estimator_params
+        self.verbose = verbose
+
+    def fit(self, X, y):
+        &quot;&quot;&quot;Fit the RFE model and then the underlying estimator on the selected
+           features.
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            The training input samples.
+
+        y : array-like, shape = [n_samples]
+            The target values.
+        &quot;&quot;&quot;
+        X, y = check_X_y(X, y, &quot;csc&quot;)
+        # Initialization
+        n_features = X.shape[1]
+        if self.n_features_to_select is None:
+            n_features_to_select = n_features / 2
+        else:
+            n_features_to_select = self.n_features_to_select
+
+        if 0.0 &lt; self.step &lt; 1.0:
+            step = int(self.step * n_features)
+        else:
+            step = int(self.step)
+        if step &lt;= 0:
+            raise ValueError(&quot;Step must be &gt;0&quot;)
+
+        support_ = np.ones(n_features, dtype=np.bool)   # true代表就用这个特征吧
+        ranking_ = np.ones(n_features, dtype=np.int)    # 值越小越好
+        # Elimination
+        while np.sum(support_) &gt; n_features_to_select:
+            # Remaining features
+            &#39;&#39;&#39; the function of np.arange
+            np.arange(3) -&gt; array([0, 1, 2]), 
+            np.arange(3)[np.array([True,False,True])]-&gt; array([0, 2])
+            &#39;&#39;&#39;
+            features = np.arange(n_features)[support_]  # 每个值代表是第几个特征；若features中第3个值为9,代表新的第3个特征是原始的第9个特征
+
+            # Rank the remaining features
+            estimator = clone(self.estimator)
+            estimator.set_params(**self.estimator_params)
+            if self.verbose &gt; 0:
+                print(&quot;Fitting estimator with %d features.&quot; % np.sum(support_))
+
+            estimator.fit(X[:, features], y)  # 使用现在的特征集合来训练
+
+            &#39;&#39;&#39; the function of np.argsort
+            &gt;&gt;&gt; x = np.array([3, 1, 2])
+            &gt;&gt;&gt; np.argsort(x)
+            array([1, 2, 0])
+            &#39;&#39;&#39;
+            if estimator.coef_.ndim &gt; 1:
+                ranks = np.argsort(safe_sqr(estimator.coef_).sum(axis=0))  # 将特征按找重要性从小到大来排序
+            else:
+                ranks = np.argsort(safe_sqr(estimator.coef_))
+
+            # for sparse case ranks is matrix
+            &#39;&#39;&#39;the function of np.ravel
+            &gt;&gt;&gt; x = np.array([[1, 2, 3], [4, 5, 6]])
+            &gt;&gt;&gt; print np.ravel(x)
+            [1 2 3 4 5 6]
+
+            &#39;&#39;&#39;
+            ranks = np.ravel(ranks)
+
+            # Eliminate the worse features
+            &#39;&#39;&#39;
+            &gt;&gt;&gt; np.array([89,20,100])[np.array([2,0,1])]
+            &gt;&gt;&gt; array([100,  89,  20])
+            &gt;&gt;&gt; np.logical_not(3)
+            False
+            &gt;&gt;&gt; np.logical_not([True, False, 0, 1])
+            array([False,  True,  True, False], dtype=bool)
+            &#39;&#39;&#39;
+            threshold = min(step, np.sum(support_) - n_features_to_select) # 该删除多少特征
+            support_[features[ranks][:threshold]] = False 
+            ranking_[np.logical_not(support_)] += 1
+
+        # Set final attributes
+        self.estimator_ = clone(self.estimator)
+        self.estimator_.set_params(**self.estimator_params)
+        self.estimator_.fit(X[:, support_], y)
+        self.n_features_ = support_.sum()
+        self.support_ = support_
+        self.ranking_ = ranking_
+
+        return self
+</code></pre><p>实例变量estimator是一个评估器，比如逻辑斯谛回归分类器，评估器需要具有<code>coef_</code>属性。在训练一个评估器后，<code>coef_</code>相当于每个特征的权重。RFE在每一次迭代中得到新的<code>coef_</code>，并删掉权重低的特征，直到剩下的特征达到指定的数量。</p>
+<p><del>这里有一个小问题：根据上面的实现的代码看，评估器需要具有<code>coef_</code>属性来指明每个特征的重要性。决策树也应该可以拿来用，但是决策树只有<code>feature_importances_</code>属性（参考<a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">sklearn.tree.DecisionTreeClassifier</a>），而没有<code>coef_</code>属性。也就是，实际上决策树不能放在上面实现的RFE中。笔者认为原因是：决策树中越重要的特征离树的根越近，越不重要的特征离根越远。在删除决策树认为的不重要的部分特征后，新建的决策树中的特征按照重要性排序，依然和之前的决策树相同。也就是说，使用决策树，直接通过<code>feature_importances_</code>一次性地选取重要特征就行了，多次选取和一次选取的结果是一样的。</del></p>
+<p>这里有一个小问题：根据上面的实现的代码看，评估器需要具有<code>coef_</code>属性来指明每个特征的重要性。决策树也应该可以拿来用，但是决策树只有<code>feature_importances_</code>属性（参考<a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier" target="_blank" rel="noopener">sklearn.tree.DecisionTreeClassifier</a>），而没有<code>coef_</code>属性。也就是，实际上决策树不能放在上面实现的RFE中。既然这样，就自己实现个吧（<code>mytools.py</code>）：</p>
+<pre><code># !/usr/bin/env python
+# -*- encoding:utf-8 -*-
+
+import numpy as np
+from sklearn.feature_selection import RFE
+from sklearn.utils import check_X_y, safe_sqr
+from sklearn.base import clone
+
+class RFE4Tree(RFE):
+
+    def __init__(self, estimator, n_features_to_select=None, step=1,
+                 estimator_params={}, verbose=0):
+        self.estimator = estimator
+        self.n_features_to_select = n_features_to_select
+        self.step = step
+        self.estimator_params = estimator_params
+        self.verbose = verbose
+
+    def fit(self, X, y):
+
+        X, y = check_X_y(X, y, &quot;csc&quot;)
+        # Initialization
+        n_features = X.shape[1]
+        if self.n_features_to_select is None:
+            n_features_to_select = n_features / 2
+        else:
+            n_features_to_select = self.n_features_to_select
+
+        if 0.0 &lt; self.step &lt; 1.0:
+            step = int(self.step * n_features)
+        else:
+            step = int(self.step)
+        if step &lt;= 0:
+            raise ValueError(&quot;Step must be &gt;0&quot;)
+
+        support_ = np.ones(n_features, dtype=np.bool)   # true代表就用这个特征吧
+        ranking_ = np.ones(n_features, dtype=np.int)    # 值越小越好
+        # Elimination
+        while np.sum(support_) &gt; n_features_to_select:
+            print &#39;&gt;once&#39;
+            # Remaining features
+            features = np.arange(n_features)[support_]  # 每个值代表是第几个特征；若features中第3个值为9,代表新的第3个特征是原始的第9个特征
+
+            # Rank the remaining features
+            estimator = clone(self.estimator)
+            estimator.set_params(**self.estimator_params)
+            if self.verbose &gt; 0:
+                print(&quot;Fitting estimator with %d features.&quot; % np.sum(support_))
+
+            estimator.fit(X[:, features], y)  # 使用现在的特征集合来训练
+
+            ranks = np.argsort(estimator.feature_importances_)  # 利用决策树的feature_importances_属性
+
+            # for sparse case ranks is matrix
+            ranks = np.ravel(ranks)
+
+            # Eliminate the worse features
+            threshold = min(step, np.sum(support_) - n_features_to_select) # 该删除多少特征
+            support_[features[ranks][:threshold]] = False 
+            ranking_[np.logical_not(support_)] += 1
+
+        # Set final attributes
+        self.estimator_ = clone(self.estimator)
+        self.estimator_.set_params(**self.estimator_params)
+        self.estimator_.fit(X[:, support_], y)
+        self.n_features_ = support_.sum()
+        self.support_ = support_
+        self.ranking_ = ranking_
+
+        return self
+</code></pre><h2 id="迭代1次与迭代多次选取同样数量特征的效果对比"><a href="#迭代1次与迭代多次选取同样数量特征的效果对比" class="headerlink" title="迭代1次与迭代多次选取同样数量特征的效果对比"></a>迭代1次与迭代多次选取同样数量特征的效果对比</h2><hr>
+<p>使用scikit-learn的RFE：</p>
+<pre><code>&gt;&gt;&gt; from sklearn.feature_selection import RFE
+&gt;&gt;&gt; from sklearn.linear_model import LogisticRegression
+&gt;&gt;&gt; estimator = LogisticRegression()  # 逻辑斯谛回归
+&gt;&gt;&gt; selector1 = RFE(estimator, 3000, step=200)  # 需要迭代多次
+&gt;&gt;&gt; selector1 = selector1.fit(training_data, training_labels)
+&gt;&gt;&gt; training_data.shape
+(1998, 19630)
+&gt;&gt;&gt; selector2 = RFE(estimator, 3000, step=19630-3000)  # 迭代一次就行了
+&gt;&gt;&gt; selector2 = selector2.fit(training_data, training_labels)
+&gt;&gt;&gt; sum(selector1.support_)
+3000
+&gt;&gt;&gt; sum(selector2.support_)
+3000
+&gt;&gt;&gt; sum(selector2.support_ == selector2.support_)
+19630
+&gt;&gt;&gt; sum(selector1.support_ == selector2.support_)  # 两种方法选取的特征是不一样的
+19208
+
+# 构建新数据
+&gt;&gt;&gt; new_train_data2 = training_data[:, selector2.support_]
+&gt;&gt;&gt; new_test_data2 = test_data[:, selector2.support_]
+
+# 使用BernoulliNB
+&gt;&gt;&gt; from sklearn.naive_bayes import BernoulliNB
+&gt;&gt;&gt; bayes = BernoulliNB() 
+&gt;&gt;&gt; bayes.fit(new_train_data2, training_labels)
+BernoulliNB(alpha=1.0, binarize=0.0, class_prior=None, fit_prior=True)
+&gt;&gt;&gt; bayes_predict_labels = bayes.predict(new_test_data2)
+&gt;&gt;&gt; sum(bayes_predict_labels == test_labels)  # 效果差不多
+431
+
+# 使用selector2内置的LogisticRegression
+&gt;&gt;&gt; lr_predict_labels = selector2.predict(test_data)
+&gt;&gt;&gt; sum(lr_predict_labels == test_labels)     # 效果差不多
+449
+</code></pre><p>那决策树呢？</p>
+<pre><code>&gt;&gt;&gt; from sklearn.tree import DecisionTreeClassifier
+&gt;&gt;&gt; import mytools
+&gt;&gt;&gt; estimator = DecisionTreeClassifier(criterion=&#39;entropy&#39;)
+&gt;&gt;&gt; selector1 = mytools.RFE4Tree(estimator, 3000, step=200)  # 迭代多次
+&gt;&gt;&gt; selector2 = mytools.RFE4Tree(estimator, 3000, step=19630-3000)  # 迭代1次
+&gt;&gt;&gt; selector1.fit(training_data, training_labels)
+&gt;&gt;&gt; selector2.fit(training_data, training_labels)
+&gt;&gt;&gt; sum(selector1.support_)
+3000
+&gt;&gt;&gt; sum(selector2.support_)
+3000
+&gt;&gt;&gt; sum(selector1.support_ == selector2.support_)  # 两种方法最终选择的特征并不相同
+13954
+&gt;&gt;&gt; tree_predict_labels = selector1.predict(test_data)  # 利用selector1选择的特征来分类
+&gt;&gt;&gt; sum(tree_predict_labels == test_labels)  # selector1分类正确的数量
+347
+&gt;&gt;&gt; tree_predict_labels = selector2.predict(test_data) # 利用selector2选择的特征来分类
+&gt;&gt;&gt; sum(tree_predict_labels == test_labels)  # selector2分类正确的数量
+340
+&gt;&gt;&gt; estimator.fit(training_data, training_labels)  # 用所有的特征来训练
+&gt;&gt;&gt; tree_predict_labels = estimator.predict(test_data) # 预测
+&gt;&gt;&gt; sum(tree_predict_labels == test_labels)        
+341
+</code></pre><p>（完）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-04-01-recursive-feature-elimination/" title="使用特征递归消除筛选特征">http://www.letiantian.me/2015-04-01-recursive-feature-elimination/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-03-31-use-gbdt-to-select-features/" rel="next" title="使用GBDT选取特征">
+                <i class="fa fa-chevron-left"></i> 使用GBDT选取特征
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-04-03-knn-text-classification/" rel="prev" title="基于KNN的文本分类实战">
+                基于KNN的文本分类实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入数据集"><span class="nav-text">导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用RFE"><span class="nav-text">使用RFE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用多项式贝叶斯处理新数据"><span class="nav-text">使用多项式贝叶斯处理新数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用伯努利贝叶斯处理新数据"><span class="nav-text">使用伯努利贝叶斯处理新数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用随机森林处理新数据"><span class="nav-text">使用随机森林处理新数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现RFE"><span class="nav-text">如何实现RFE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代1次与迭代多次选取同样数量特征的效果对比"><span class="nav-text">迭代1次与迭代多次选取同样数量特征的效果对比</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

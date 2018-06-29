@@ -1,0 +1,1350 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-05-22 本文翻译自：Gson User Guide。 Gson是一个Java库，用来实现Json和Java对象之间的相互转换。Gson是一个托管在http://code.google.com/p/google-gson的开源项目。 Gson中主要的类是Gson，也可以使用类GsonBuilder在创建Gson对象的同时设置一些选项。Gson对象在处理Json时不会保存任何状态，所以使">
+<meta name="keywords" content="编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gson指南——使用Gson库处理Json">
+<meta property="og:url" content="http://www.letiantian.me/2014-05-22-java-gson-json/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-05-22 本文翻译自：Gson User Guide。 Gson是一个Java库，用来实现Json和Java对象之间的相互转换。Gson是一个托管在http://code.google.com/p/google-gson的开源项目。 Gson中主要的类是Gson，也可以使用类GsonBuilder在创建Gson对象的同时设置一些选项。Gson对象在处理Json时不会保存任何状态，所以使">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T13:44:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gson指南——使用Gson库处理Json">
+<meta name="twitter:description" content="2014-05-22 本文翻译自：Gson User Guide。 Gson是一个Java库，用来实现Json和Java对象之间的相互转换。Gson是一个托管在http://code.google.com/p/google-gson的开源项目。 Gson中主要的类是Gson，也可以使用类GsonBuilder在创建Gson对象的同时设置一些选项。Gson对象在处理Json时不会保存任何状态，所以使">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-05-22-java-gson-json/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Gson指南——使用Gson库处理Json | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-05-22-java-gson-json/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Gson指南——使用Gson库处理Json</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-22T14:41:00+08:00">
+                2014-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-05-22</p>
+<p>本文翻译自：<a href="https://sites.google.com/site/gson/gson-user-guide" target="_blank" rel="noopener">Gson User Guide</a>。</p>
+<p>Gson是一个Java库，用来实现Json和Java对象之间的相互转换。Gson是一个托管在<code>http://code.google.com/p/google-gson</code>的开源项目。</p>
+<p>Gson中主要的类是Gson，也可以使用类GsonBuilder在创建Gson对象的同时设置一些选项。<br>Gson对象在处理Json时不会保存任何状态，所以使用者能够很轻松的对同一个Gson对象进行多次序列化、反序列化等操作。</p>
+<a id="more"></a>
+<h2 id="示例：基本使用"><a href="#示例：基本使用" class="headerlink" title="示例：基本使用"></a>示例：基本使用</h2><hr>
+<pre><code class="java">//Serialization
+Gson gson = new Gson();
+gson.toJson(1);            //==&gt; prints 1
+gson.toJson(&quot;abcd&quot;);       //==&gt; prints &quot;abcd&quot;
+gson.toJson(new Long(10)); //==&gt; prints 10
+int[] values = { 1 };
+gson.toJson(values);       //==&gt; prints [1]
+
+//Deserialization
+int one = gson.fromJson(&quot;1&quot;, int.class);
+Integer one = gson.fromJson(&quot;1&quot;, Integer.class);
+Long one = gson.fromJson(&quot;1&quot;, Long.class);
+Boolean f = gson.fromJson(&quot;false&quot;, Boolean.class);
+String str = gson.fromJson(&quot;\&quot;abc\&quot;&quot;, String.class);
+String anotherStr = gson.fromJson(&quot;[\&quot;abc\&quot;]&quot;, String.class);
+
+//Serialization
+BagOfPrimitives obj = new BagOfPrimitives();
+Gson gson = new Gson();
+String json = gson.toJson(obj); 
+//==&gt; json is {&quot;value1&quot;:1,&quot;value2&quot;:&quot;abc&quot;}
+</code></pre>
+<h2 id="示例：对象与Json之间转换"><a href="#示例：对象与Json之间转换" class="headerlink" title="示例：对象与Json之间转换"></a>示例：对象与Json之间转换</h2><hr>
+<p>定义BagOfPrimitives类：</p>
+<pre><code class="java">class BagOfPrimitives {
+  private int value1 = 1;
+  private String value2 = &quot;abc&quot;;
+  private transient int value3 = 3;
+  BagOfPrimitives() {
+    // no-args constructor
+  }
+}
+</code></pre>
+<p>序列化为Json：</p>
+<pre><code class="java">//Serialization
+BagOfPrimitives obj = new BagOfPrimitives();
+Gson gson = new Gson();
+String json = gson.toJson(obj); 
+//==&gt; json is {&quot;value1&quot;:1,&quot;value2&quot;:&quot;abc&quot;}
+</code></pre>
+<p>不要序列化含有循环引用的对象，否则会造成无限的递归。</p>
+<p>反序列化：</p>
+<pre><code class="java">//Deserialization
+BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class); 
+//==&gt; obj2 is just like obj
+</code></pre>
+<p>处理对象时的一些细节：</p>
+<ul>
+<li>推荐使用私有字段（译者：可以通过反射获取私有字段的名称和值）  </li>
+<li>没有必要使用标注指明哪些字段该被序列化或者反序列化。在当前类（也包括其父类）中的所有字段都默认会被序列化/反序列化。  </li>
+<li>如果某字段在声明时使用了关键字<code>transient</code>，默认情况下不会被序列化/反序列化。</li>
+<li>Gson如下处理null字段：<ul>
+<li>序列化时候null字段会被跳过</li>
+<li>反序列化时，类中有但Json中没有的字段将设值为null。</li>
+</ul>
+</li>
+<li><code>synthetic</code>字段不会被序列化/反序列化。</li>
+<li>在外部类(outer classes)中的内部类（inner classes）、匿名类（anonymous classes）和局部类（local classes）中的字段不会被序列化/反序列化。</li>
+</ul>
+<h2 id="嵌套类（包括内部类）的处理"><a href="#嵌套类（包括内部类）的处理" class="headerlink" title="嵌套类（包括内部类）的处理"></a>嵌套类（包括内部类）的处理</h2><hr>
+<p>Gson可以很轻松地序列化嵌套类，且能够反序列化<strong>静态</strong>的嵌套类。Gson无法自动地反序列化纯粹的内部类，是因为内部类的无参构造函数需要引用包含它的对象（即外部类的实例）。要反序列化静态类，可以将内部类静态化或者提供一个自定义的实例创造器（instance creator）。下面是一个示例：</p>
+<pre><code class="java">public class A {
+  public String a;
+
+  class B {
+
+    public String b;
+
+    public B() {
+      // No args constructor for B
+    }
+  }
+}
+</code></pre>
+<p>上面的类B无法被Gson序列化。由于类B是一个（非静态的）内部类，Gson也无法反序列化<code>{&quot;b&quot;:&quot;abc&quot;}</code>到类B的实例中。如果B被声明为<code>static class B</code>，那么Gson就能对这个字符串反序列化了。</p>
+<p>另外一个解决方法是为B写一个实例创建器：</p>
+<pre><code class="java">public class InstanceCreatorForB implements InstanceCreator&lt;A.B&gt; {
+  private final A a;
+  public InstanceCreatorForB(A a)  {
+    this.a = a;
+  }
+  public A.B createInstance(Type type) {
+    return a.new B();
+  }
+}
+</code></pre>
+<p>这种方法是可行的，但是不推荐。（译者表示没看懂这个实例创建器，不知道该怎么用）</p>
+<h2 id="示例：数组"><a href="#示例：数组" class="headerlink" title="示例：数组"></a>示例：数组</h2><hr>
+<pre><code class="java">Gson gson = new Gson();
+int[] ints = {1, 2, 3, 4, 5};
+String[] strings = {&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;};
+
+//Serialization
+gson.toJson(ints);     ==&gt; prints [1,2,3,4,5]
+gson.toJson(strings);  ==&gt; prints [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]
+
+//Deserialization
+int[] ints2 = gson.fromJson(&quot;[1,2,3,4,5]&quot;, int[].class);
+==&gt; ints2 will be same as ints
+</code></pre>
+<p>Gson也支持具有复杂数据类型的多维数组。</p>
+<h2 id="示例：集合（Collection）"><a href="#示例：集合（Collection）" class="headerlink" title="示例：集合（Collection）"></a>示例：集合（Collection）</h2><hr>
+<pre><code class="java">Gson gson = new Gson();
+Collection&lt;Integer&gt; ints = Lists.immutableList(1,2,3,4,5);
+
+//Serialization
+String json = gson.toJson(ints); //==&gt; json is [1,2,3,4,5]
+
+//Deserialization
+Type collectionType = new TypeToken&lt;Collection&lt;Integer&gt;&gt;(){}.getType();
+Collection&lt;Integer&gt; ints2 = gson.fromJson(json, collectionType);
+//ints2 is same as ints
+</code></pre>
+<p>处理集合(Collection)时的限制：</p>
+<ul>
+<li>可以序列化任意对象的集合，反序列化就不行了。</li>
+<li>反序列化时，集合必须是指定的泛型。</li>
+</ul>
+<h2 id="序列化-反序列化泛型"><a href="#序列化-反序列化泛型" class="headerlink" title="序列化/反序列化泛型"></a>序列化/反序列化泛型</h2><hr>
+<p>当使用<code>toJson(obj)</code>时，Gson调用<code>obj.getClass()</code>获取字段信息以在序列化中使用。类似的，也可以将对象<code>MyClass.class</code>作为参数传递给<code>fromJson(json, MyClass.class)</code>方法，这可以在在对象不是泛型的时候使用。不过，当对象是一个泛型类型的对象，由于Java中<code>类型擦除（Type Erasure）</code>这一机制，泛型类型信息会丢失。下面的例子将说明这一点：</p>
+<pre><code class="java">class Foo&lt;T&gt; {
+  T value;
+}
+Gson gson = new Gson();
+Foo&lt;Bar&gt; foo = new Foo&lt;Bar&gt;();
+gson.toJson(foo); // May not serialize foo.value correctly
+
+gson.fromJson(json, foo.getClass()); // Fails to deserialize foo.value as Bar
+</code></pre>
+<p>上面的代码将<code>value</code>解释为<code>Bar</code>类型，这是因为Gson调用<code>foo.getClass()</code>获取类的信息，但是这种那个方法返回的是一个原始的类，即<code>Foo.class</code>。这意味着Gson无法知道这是一个<code>Foo&lt;Bar&gt;</code>类型的对象。</p>
+<p>要解决这个问题，可以是为你的泛型指定正确的参数化的类型。可以使用<code>TypeToken</code>类做到：</p>
+<pre><code class="java">Type fooType = new TypeToken&lt;Foo&lt;Bar&gt;&gt;() {}.getType();
+gson.toJson(foo, fooType);
+gson.fromJson(json, fooType);
+</code></pre>
+<p><code>fooType</code>实际上定义了一个匿名的内部类，这个内部类含有一个可以返回全部参数化类型的<code>getType()</code>方法。</p>
+<h2 id="序列化-反序列化含有任意类型的对象的集合"><a href="#序列化-反序列化含有任意类型的对象的集合" class="headerlink" title="序列化/反序列化含有任意类型的对象的集合"></a>序列化/反序列化含有任意类型的对象的集合</h2><hr>
+<p>有时候处理的JSON包含了混合的类型，例如:</p>
+<pre><code class="java">[&#39;hello&#39;,5,{name:&#39;GREETINGS&#39;,source:&#39;guest&#39;}]
+</code></pre>
+<p>对应的集合应该是：</p>
+<pre><code class="java">Collection collection = new ArrayList();
+collection.add(&quot;hello&quot;);
+collection.add(5);
+collection.add(new Event(&quot;GREETINGS&quot;, &quot;guest&quot;));
+</code></pre>
+<p>其中的Event类如下定义：</p>
+<pre><code class="java">class Event {
+  private String name;
+  private String source;
+  private Event(String name, String source) {
+    this.name = name;
+    this.source = source;
+  }
+}
+</code></pre>
+<p>通过Gson，你不需要做任何特殊的事情就可以序列化集合：<code>toJson(collection)</code>会输出令人满意的结果。</p>
+<p>然而，通过<code>fromJson(json, Collection.class)</code>反序列化是不行的，这是因为Gson无法将<code>json</code>中的的内容与类型对应起来。Gson需要你在<code>fromJson</code>中提供一个通用版本的集合类型。你有三个选择：</p>
+<ul>
+<li>方案1：使用Gson解析器的API（低级的流解析器或者DOM解析器<code>JsonParser</code>）去解析数组元素，然后使用<code>Gson.fromJson()</code>处理每一个数组元素。这是首选的方案。</li>
+<li>方案2：为<code>Collection.class</code>注册一类型适配器将数组中的元素映射到合适的对象。这种方法的缺点是会使你在处理其他的集合类型时候产生不便。</li>
+<li>方案3：为<code>MyCollectionMemberType</code>注册一个类型适配器，在<code>fromJson</code>中使用<code>Collection&lt;MyCollectionMemberType&gt;</code>。只有当数组看起来像一个高级的元素或者你能够将字段类型改成<code>Collection&lt;MyCollectionMemberType&gt;</code>，这种方法才比较可行。</li>
+</ul>
+<h2 id="内置的序列化-反序列化器"><a href="#内置的序列化-反序列化器" class="headerlink" title="内置的序列化/反序列化器"></a>内置的序列化/反序列化器</h2><hr>
+<p>Gson为常用的但是默认表示可能并不合适的类提供了序列化/反序列化器。<br>下面是这些类的一个列表：</p>
+<ul>
+<li><code>java.net.URL</code>，例如会序列化为字符串 <code>http://code.google.com/p/google-gson/</code></li>
+<li><code>java.net.URI</code>，例如会序列化为字符串<code>/p/google-gson/</code></li>
+</ul>
+<h2 id="自定义序列化-反序列化"><a href="#自定义序列化-反序列化" class="headerlink" title="自定义序列化/反序列化"></a>自定义序列化/反序列化</h2><hr>
+<p>有时候，Gson的默认实现并不是你想要的，这在处理一些类库时（例如DateTime）时比较常见。</p>
+<p>Gson允许你注册自定义的序列化/反序列化器。要这样做的话，你需要实现以下几个部分：</p>
+<ul>
+<li>Json序列化器：需要为一个对象自定义序列化</li>
+<li>Json反序列化器：需要为一个类型自定义反序列化</li>
+<li>类创建器：如果存在无参构造函数或者已经注册了一个反序列化器，就不需要了。</li>
+</ul>
+<pre><code class="java">GsonBuilder gson = new GsonBuilder();
+gson.registerTypeAdapter(MyType2.class, new MyTypeAdapter());
+gson.registerTypeAdapter(MyType.class, new MySerializer());
+gson.registerTypeAdapter(MyType.class, new MyDeserializer());
+gson.registerTypeAdapter(MyType.class, new MyInstanceCreator());
+</code></pre>
+<p><code>registerTypeAdapter</code>会检查类型适配器是否实现了多个接口，并为这些接口注册类型适配器。</p>
+<h3 id="写一个序列化器"><a href="#写一个序列化器" class="headerlink" title="写一个序列化器"></a>写一个序列化器</h3><p>下面是一个为DateTime自定义序列化器的示例：</p>
+<pre><code class="java">private class DateTimeSerializer implements JsonSerializer&lt;DateTime&gt; {
+  public JsonElement serialize(DateTime src, Type typeOfSrc, JsonSerializationContext context) {
+    return new JsonPrimitive(src.toString());
+  }
+}
+</code></pre>
+<p>Gson在序列化DateTime实例时会调用<code>toJson()</code>。</p>
+<h3 id="写一个反序列化器"><a href="#写一个反序列化器" class="headerlink" title="写一个反序列化器"></a>写一个反序列化器</h3><p>下面的示例是讲如何写一个DateTime类的反序列化器：</p>
+<pre><code class="java">private class DateTimeDeserializer implements JsonDeserializer&lt;DateTime&gt; {
+  public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+    return new DateTime(json.getAsJsonPrimitive().getAsString());
+  }
+}
+</code></pre>
+<p>当Gson需要将一个JSON字符串发反序列化为DateTime对象时，会调用 <code>fromJson()</code>。</p>
+<h3 id="对于序列化器-反序列化器，应注意："><a href="#对于序列化器-反序列化器，应注意：" class="headerlink" title="对于序列化器/反序列化器，应注意："></a>对于序列化器/反序列化器，应注意：</h3><p>很多情况下，你想要注册一个处理程序将泛型与一个原始类型对应起来，</p>
+<ul>
+<li>例如，假如你有一个叫做<code>Id</code>的类来表示和转换Id</li>
+<li><code>Id&lt;T&gt;</code>类型中，所有的泛型拥有相同的序列化器，这个序列化器就是输出id的值</li>
+<li>反序列化器很像，但并不会完全一样。例如要返回一个<code>Id&lt;T&gt;</code>对象，需要调用<code>new Id(Class&lt;T&gt;, String)</code>。</li>
+</ul>
+<p>Gson支持注册一个处理程序，你也可以为指定的泛型注册指定的处理程序。<code>toJson</code>和<code>fromJson</code>的<code>Type</code>参数包含了泛型信息以帮助你写出一个可以将所有的泛型与同一个原始类型对应起来的处理程序。</p>
+<h2 id="写一个实例创建器"><a href="#写一个实例创建器" class="headerlink" title="写一个实例创建器"></a>写一个实例创建器</h2><hr>
+<p>在反序列化一个对象时，Gson需要创建一个类的实例。在序列化/反序列化时具有良好表现的类是指这个类拥有一个无参构造函数。通常，当处理一个类库中没有无参构造函数的类时，需要使用实例创建器。</p>
+<h3 id="实例创建器示例"><a href="#实例创建器示例" class="headerlink" title="实例创建器示例"></a>实例创建器示例</h3><pre><code class="java">private class MoneyInstanceCreator implements InstanceCreator&lt;Money&gt; {
+  public Money createInstance(Type type) {
+    return new Money(&quot;1000000&quot;, CurrencyCode.USD);
+  }
+}
+</code></pre>
+<h3 id="参数化类型的实例创建器"><a href="#参数化类型的实例创建器" class="headerlink" title="参数化类型的实例创建器"></a>参数化类型的实例创建器</h3><p>有时候要实例化的类型会是一个参数化类型。总的来说，由于真正的实例是一个原始类型，所以这不是什么问题。下面是一个示例：</p>
+<pre><code class="java">class MyList&lt;T&gt; extends ArrayList&lt;T&gt; {
+}
+
+class MyListInstanceCreator implements InstanceCreator&lt;MyList&lt;?&gt;&gt; {
+    @SuppressWarnings(&quot;unchecked&quot;)
+  public MyList&lt;?&gt; createInstance(Type type) {
+    // No need to use a parameterized list since the actual instance will have the raw type anyway.
+    return new MyList();
+  }
+}
+</code></pre>
+<p>不过，有时你需要基于真正的参数化类型来创建实例。在这种情况下，你可以将类型参数传递给<code>createInstance</code>方法。下面是一个例子：</p>
+<pre><code class="java">public class Id&lt;T&gt; {
+  private final Class&lt;T&gt; classOfId;
+  private final long value;
+  public Id(Class&lt;T&gt; classOfId, long value) {
+    this.classOfId = classOfId;
+    this.value = value;
+  }
+}
+
+class IdInstanceCreator implements InstanceCreator&lt;Id&lt;?&gt;&gt; {
+  public Id&lt;?&gt; createInstance(Type type) {
+    Type[] typeParameters = ((ParameterizedType)type).getActualTypeArguments();
+    Type idType = typeParameters[0]; // Id has only one parameterized type T
+    return Id.get((Class)idType, 0L);
+  }
+}
+</code></pre>
+<p>在上面的示例中，如果没有将真正的类型传递给参数化类型，Id类的实例是无法创建的。通过给方法传递参数<code>type</code>，我们才得以解决这个问题。这里，<code>type</code>对象可以看做是<code>Id&lt;Foo&gt;</code>的Java参数化类型的表示，相应的实例应该被绑定到<code>Id&lt;Foo&gt;</code>。由于类<code>Id</code>只有一个参数化类型的参数<code>T</code>，我们使用<code>getActualTypeArgument()</code>返回的类型数组的第0个元素，在这个例子中就是<code>Foo.class</code>。</p>
+<h3 id="紧凑的输出-VS-优美的输出"><a href="#紧凑的输出-VS-优美的输出" class="headerlink" title="紧凑的输出 VS 优美的输出"></a>紧凑的输出 VS 优美的输出</h3><p>Gson中Json默认的输出是紧凑的JSON格式。也就是说在JSON中没有多余的空白符。所以在JSON的输出中字段名和字段值之间、字段之间、数组元素之间是没有空白的。另外，<code>null</code>字段不会被输出（注意：在集合和数组对象中<code>null</code>会被保留的）。</p>
+<p>如果要输出的优美些，你需要使用<code>GsonBuilder</code>对Gson的实例进行配置。<code>JsonFormatter</code>不存在于公有API中，所以客户端无法配置默认的输出设置。现在我们只提供了<code>JsonPrintFormatter</code>，其默认情况下每行80个字符，缩进使用2个字符，右边距是4个字符。</p>
+<p>下面的示例展示了如何让Gson实例使用<code>JsonPrintFormatter</code>，而不是使用默认的<code>JsonCompactFormatter</code>。</p>
+<pre><code class="java">Gson gson = new GsonBuilder().setPrettyPrinting().create();
+String jsonOutput = gson.toJson(someObject);
+</code></pre>
+<h2 id="空对象"><a href="#空对象" class="headerlink" title="空对象"></a>空对象</h2><hr>
+<p>在Gson的默认实现中，<code>null</code>对象是被忽略的。这可以让输出格式（既可以认为是序列化的结果）更加紧密；不过客户端必须为其定义一个默认的值，以使得JSON能够正常的反序列化。</p>
+<p>如果要让Gson实例可以序列化<code>null</code>，可以：</p>
+<pre><code class="java">Gson gson = new GsonBuilder().serializeNulls().create();
+</code></pre>
+<p>注意，当序列化<code>null</code>的时，会在<code>JsonElement</code>结构中添加一个<code>JsonNull</code>元素。因此，我们可以可以在自定义的序列化器/反序列化器中使用这个对象（<code>gson</code>）。</p>
+<p>下面是一个例子：</p>
+<pre><code class="java">public class Foo {
+  private final String s;
+  private final int i;
+
+  public Foo() {
+    this(null, 5);
+  }
+
+  public Foo(String s, int i) {
+    this.s = s;
+    this.i = i;
+  }
+}
+
+Gson gson = new GsonBuilder().serializeNulls().create();
+Foo foo = new Foo();
+String json = gson.toJson(foo);
+System.out.println(json);
+
+json = gson.toJson(null);
+System.out.println(json);
+
+//======== OUTPUT ========
+//{&quot;s&quot;:null,&quot;i&quot;:5}
+//null
+</code></pre>
+<h2 id="版本支持"><a href="#版本支持" class="headerlink" title="版本支持"></a>版本支持</h2><hr>
+<p>可以使用<code>@Since</code>标注来维护同一个对象的多个版本。这个标注可以用在类和字段上，将来也会支持用在方法上。为了使用这个特性，你需要配置<code>Gson</code>实例，让其忽略大于某个版本号的字段和对象。如果没有在<code>Gson</code>对象中设置版本，序列化/反序列化时会使用所有的字段和类。</p>
+<pre><code class="java">public class VersionedClass {
+  @Since(1.1) private final String newerField;
+  @Since(1.0) private final String newField;
+  private final String field;
+
+  public VersionedClass() {
+    this.newerField = &quot;newer&quot;;
+    this.newField = &quot;new&quot;;
+    this.field = &quot;old&quot;;
+  }
+}
+
+VersionedClass versionedObject = new VersionedClass();
+Gson gson = new GsonBuilder().setVersion(1.0).create();
+String jsonOutput = gson.toJson(someObject);
+System.out.println(jsonOutput);
+System.out.println();
+
+gson = new Gson();
+jsonOutput = gson.toJson(someObject);
+System.out.println(jsonOutput);
+
+//======== OUTPUT ========
+//{&quot;newField&quot;:&quot;new&quot;,&quot;field&quot;:&quot;old&quot;}
+
+//{&quot;newerField&quot;:&quot;newer&quot;,&quot;newField&quot;:&quot;new&quot;,&quot;field&quot;:&quot;old&quot;}
+</code></pre>
+<h2 id="从序列化-反序列化中排除字段"><a href="#从序列化-反序列化中排除字段" class="headerlink" title="从序列化/反序列化中排除字段"></a>从序列化/反序列化中排除字段</h2><hr>
+<p>Gson支持使用很多方法来去除类、字段、字段类型。如果下面的方法无法满足你的需求，可以使用自定义序列化/反序列化器的方法。</p>
+<h3 id="Java-Modifier-Exclusion"><a href="#Java-Modifier-Exclusion" class="headerlink" title="Java Modifier Exclusion"></a>Java Modifier Exclusion</h3><p>默认情况下，如果将一个字段声明为<code>transient</code>，这个字段就会被排除。另外，如果一个字段被声明为<code>static</code>，默认情况下这个字段也会被排除。如果要包含某些声明为<code>transient</code>的字段，你可以这样做：</p>
+<pre><code>import java.lang.reflect.Modifier;
+
+Gson gson = new GsonBuilder()
+    .excludeFieldsWithModifiers(Modifier.STATIC)
+    .create();
+</code></pre><p>注意，在<code>excludeFieldsWithModifiers</code>方法中，你可以使用任意数量的<code>Modifier</code>常量。例如：</p>
+<pre><code>Gson gson = new GsonBuilder()
+    .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE)
+    .create();
+</code></pre><h3 id="使用-Expose字段排除"><a href="#使用-Expose字段排除" class="headerlink" title="使用@Expose字段排除"></a>使用@Expose字段排除</h3><p>这个特性允许你在类中标记特定的字段使其在序列化/反序列化中不被排除/被排除。要使用这个标注，你应该使用<code>new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()</code>创建Gson。Gson实例会排除类中所有没被<code>@Expose</code>标注的字段。</p>
+<h3 id="用户定义排除策略"><a href="#用户定义排除策略" class="headerlink" title="用户定义排除策略"></a>用户定义排除策略</h3><p>如果上面的排除方法无法满足需求，你也可以自定义自己的排除策略。更多内容，可以参考<a href="http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/ExclusionStrategy.html" target="_blank" rel="noopener">ExclusionStrategy JavaDoc</a>。</p>
+<p>下面的例子展示了如何排除使用了<code>@Foo</code>标注的字段，排除String类的顶级类型或者声明的字段类型：</p>
+<pre><code>  @Retention(RetentionPolicy.RUNTIME)
+  @Target({ElementType.FIELD})
+  public @interface Foo {
+    // Field tag only annotation
+  }
+
+  public class SampleObjectForTest {
+    @Foo private final int annotatedField;
+    private final String stringField;
+    private final long longField;
+    private final Class&lt;?&gt; clazzField;
+
+    public SampleObjectForTest() {
+      annotatedField = 5;
+      stringField = &quot;someDefaultValue&quot;;
+      longField = 1234;
+    }
+  }
+
+  public class MyExclusionStrategy implements ExclusionStrategy {
+    private final Class&lt;?&gt; typeToSkip;
+
+    private MyExclusionStrategy(Class&lt;?&gt; typeToSkip) {
+      this.typeToSkip = typeToSkip;
+    }
+
+    public boolean shouldSkipClass(Class&lt;?&gt; clazz) {
+      return (clazz == typeToSkip);
+    }
+
+    public boolean shouldSkipField(FieldAttributes f) {
+      return f.getAnnotation(Foo.class) != null;
+    }
+  }
+
+  public static void main(String[] args) {
+    Gson gson = new GsonBuilder()
+        .setExclusionStrategies(new MyExclusionStrategy(String.class))
+        .serializeNulls()
+        .create();
+    SampleObjectForTest src = new SampleObjectForTest();
+    String json = gson.toJson(src);
+    System.out.println(json);
+  }
+
+//======== OUTPUT ========
+//{&quot;longField&quot;:1234}
+</code></pre><h3 id="JSON字段命名的支持"><a href="#JSON字段命名的支持" class="headerlink" title="JSON字段命名的支持"></a>JSON字段命名的支持</h3><p>Gson的一些预定义的字段命名策略，可以将标准的Java字段名称（也就是驼峰命名法，例如<code>sampleFieldNameInJava</code>）转换成一个Json的字段名（也就是<code>sample_field_name_in_java</code>或者<code>SampleFieldNameInJava</code>）。更多信息，可以参考<a href="http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/FieldNamingPolicy.html" target="_blank" rel="noopener">FieldNamingPolicy</a>。</p>
+<p>Gson也有一个基于标注的策略让客户端自定义字段的名称。这个策略下，如果提供了一个非法的字段名作为标注的值，会使Gson抛出<code>Runtime</code>异常。</p>
+<p>下面的示例展示了如何使用这两种Gson命名策略：</p>
+<pre><code>private class SomeObject {
+  @SerializedName(&quot;custom_naming&quot;) private final String someField;
+  private final String someOtherField;
+
+  public SomeObject(String a, String b) {
+    this.someField = a;
+    this.someOtherField = b;
+  }
+}
+
+SomeObject someObject = new SomeObject(&quot;first&quot;, &quot;second&quot;);
+Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+String jsonRepresentation = gson.toJson(someObject);
+System.out.println(jsonRepresentation);
+
+//======== OUTPUT ========
+//{&quot;custom_naming&quot;:&quot;first&quot;,&quot;SomeOtherField&quot;:&quot;second&quot;}
+</code></pre><p>如果要自定义名称，可以使用<code>@SerializedName</code>标注。</p>
+<h2 id="在序列化器和反序列化器之间共享状态"><a href="#在序列化器和反序列化器之间共享状态" class="headerlink" title="在序列化器和反序列化器之间共享状态"></a>在序列化器和反序列化器之间共享状态</h2><hr>
+<p>有时你会需要在序列化器和反序列化器之间共享状态，你可以使用下面的三个方法达到目的：</p>
+<ul>
+<li>在一个静态字段中存储共享状态</li>
+<li>将序列化/反序列化器声明为一个父类型的内部类，然后使用父类型的实例的字段存储共享状态</li>
+<li>使用Java中的<code>ThreadLocal</code></li>
+</ul>
+<p>前两种方法不是线程安全的，第三种是。</p>
+<h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><hr>
+<p>除了Gson的对象模型和数据绑定，你可以使用Gson从流中读取数据或者向流中写入数据。具体信息，可以参考<a href="https://sites.google.com/site/gson/streaming" target="_blank" rel="noopener">Streaming</a>。</p>
+<h2 id="译者补充"><a href="#译者补充" class="headerlink" title="译者补充"></a>译者补充</h2><hr>
+<p>在Java中，关键字 <code>transient</code> 用来声明一个字段不应被序列化。</p>
+<p>关于synthetic字段，可以参考<a href="http://stackoverflow.com/questions/17072899/what-are-synthetic-fields-in-java" target="_blank" rel="noopener">What are synthetic fields in Java?</a>。</p>
+<p>关于内部类，可以参考<a href="http://docs.oracle.com/javase/tutorial/java/javaOO/innerclasses.html" target="_blank" rel="noopener">Inner Class Example</a>。</p>
+<p>关于匿名类，可以参考<a href="http://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html" target="_blank" rel="noopener">Anonymous Classes</a>。</p>
+<p>关于局部类，可以参考<a href="http://docs.oracle.com/javase/tutorial/java/javaOO/localclasses.html" target="_blank" rel="noopener">Local Classes</a>。</p>
+<p>Java泛型的处理几乎都在编译器中进行，编译器生成的bytecode是不包涵泛型信息的，泛型类型信息将在编译处理时被擦除，这个过程即类型擦除。（摘自<a href="http://blog.csdn.net/caihaijiang/article/details/6403349" target="_blank" rel="noopener">Java泛型－类型擦除</a>）</p>
+<p>关于ThreadLocal，这两篇文章很不错：<a href="http://veerasundar.com/blog/2010/11/java-thread-local-how-to-use-and-code-sample/" target="_blank" rel="noopener">Java Thread Local – How to use and code sample</a>、<a href="http://www.appneta.com/blog/introduction-to-javas-threadlocal-storage/" target="_blank" rel="noopener">A Painless Introduction to Java’s ThreadLocal Storage</a>。</p>
+<p><a href="http://stackoverflow.com/questions/1688099/converting-json-to-java/1688182" target="_blank" rel="noopener">Converting JSON to Java</a>中有一个关于Gson的很不错的示例。</p>
+<p>在GSON库中还有一个很实用的<code>JsonParser</code>类。下面是一个示例：</p>
+<pre><code>package test;
+
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+public class LearnJSON {
+    public static void main(String[] args) {
+        String json = &quot;{\&quot;name\&quot;:\&quot;reiz\&quot;}&quot;;   
+        JsonElement root = new JsonParser().parse(json);
+        String value1 = root.getAsJsonObject().get(&quot;name&quot;).getAsString();
+        System.out.println(value1);
+    }
+}
+</code></pre><p>关于<code>JsonParser</code>，可以参考<a href="http://jilongliang.iteye.com/blog/1910882" target="_blank" rel="noopener">灵活组装Json的数据使用Gson的JsonParser和JsonReader解析Json详解例子</a>、<a href="http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java" target="_blank" rel="noopener">JSON parsing using Gson for java</a>。</p>
+<blockquote>
+<p>笔者无心在翻译上花费太大精力,另外也可能在正文中加入笔者的一些想法，有不当处还请指正。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-05-22-java-gson-json/" title="Gson指南——使用Gson库处理Json">http://www.letiantian.me/2014-05-22-java-gson-json/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-05-20-naive-bayes/" rel="next" title="使用朴素贝叶斯分类器划分邮件">
+                <i class="fa fa-chevron-left"></i> 使用朴素贝叶斯分类器划分邮件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-05-22-chart-js/" rel="prev" title="使用Chart.js实现数据可视化">
+                使用Chart.js实现数据可视化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：基本使用"><span class="nav-text">示例：基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：对象与Json之间转换"><span class="nav-text">示例：对象与Json之间转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套类（包括内部类）的处理"><span class="nav-text">嵌套类（包括内部类）的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：数组"><span class="nav-text">示例：数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：集合（Collection）"><span class="nav-text">示例：集合（Collection）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化-反序列化泛型"><span class="nav-text">序列化/反序列化泛型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化-反序列化含有任意类型的对象的集合"><span class="nav-text">序列化/反序列化含有任意类型的对象的集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置的序列化-反序列化器"><span class="nav-text">内置的序列化/反序列化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义序列化-反序列化"><span class="nav-text">自定义序列化/反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#写一个序列化器"><span class="nav-text">写一个序列化器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写一个反序列化器"><span class="nav-text">写一个反序列化器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于序列化器-反序列化器，应注意："><span class="nav-text">对于序列化器/反序列化器，应注意：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写一个实例创建器"><span class="nav-text">写一个实例创建器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实例创建器示例"><span class="nav-text">实例创建器示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数化类型的实例创建器"><span class="nav-text">参数化类型的实例创建器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#紧凑的输出-VS-优美的输出"><span class="nav-text">紧凑的输出 VS 优美的输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空对象"><span class="nav-text">空对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本支持"><span class="nav-text">版本支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从序列化-反序列化中排除字段"><span class="nav-text">从序列化/反序列化中排除字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Modifier-Exclusion"><span class="nav-text">Java Modifier Exclusion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Expose字段排除"><span class="nav-text">使用@Expose字段排除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户定义排除策略"><span class="nav-text">用户定义排除策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON字段命名的支持"><span class="nav-text">JSON字段命名的支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在序列化器和反序列化器之间共享状态"><span class="nav-text">在序列化器和反序列化器之间共享状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#译者补充"><span class="nav-text">译者补充</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

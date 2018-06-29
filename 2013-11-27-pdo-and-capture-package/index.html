@@ -1,0 +1,1093 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mysql,php," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-11-27 PDO是什么？  PHP Data Objects (PDO) is an interface for accessing databases.   创建table 先在MySQL5的数据库test下创建users表： CREATE  TABLE `test`.`users` (     `id` INT NOT NULL AUTO_INCREMENT ,     `name">
+<meta name="keywords" content="mysql,php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用PDO并抓包分析">
+<meta property="og:url" content="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-11-27 PDO是什么？  PHP Data Objects (PDO) is an interface for accessing databases.   创建table 先在MySQL5的数据库test下创建users表： CREATE  TABLE `test`.`users` (     `id` INT NOT NULL AUTO_INCREMENT ,     `name">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-001.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-002.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-003.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-1.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-2.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-3.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-4.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-005.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-1.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-2.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-3.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-4.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-5.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-6.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-7.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-8.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-1.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-2.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-3.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-4.png">
+<meta property="og:updated_time" content="2016-02-29T06:40:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用PDO并抓包分析">
+<meta name="twitter:description" content="2013-11-27 PDO是什么？  PHP Data Objects (PDO) is an interface for accessing databases.   创建table 先在MySQL5的数据库test下创建users表： CREATE  TABLE `test`.`users` (     `id` INT NOT NULL AUTO_INCREMENT ,     `name">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-001.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用PDO并抓包分析 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用PDO并抓包分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-11-27T19:20:00+08:00">
+                2013-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-11-27</p>
+<p>PDO是什么？</p>
+<blockquote>
+<p>PHP Data Objects (PDO) is an interface for accessing databases.</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="创建table"><a href="#创建table" class="headerlink" title="创建table"></a>创建table</h2><hr>
+<p>先在MySQL5的数据库test下创建users表：</p>
+<pre><code class="sql">CREATE  TABLE `test`.`users` (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `name` VARCHAR(45) NOT NULL ,
+    `email` VARCHAR(45) NOT NULL ,
+    `passwd` VARCHAR(45) NOT NULL ,
+    PRIMARY KEY (`id`) ,
+    UNIQUE INDEX `name_UNIQUE` (`name` ASC) 
+) DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+</code></pre>
+<h2 id="创建文件connection-php"><a href="#创建文件connection-php" class="headerlink" title="创建文件connection.php"></a>创建文件connection.php</h2><hr>
+<p>connection.php内容如下：</p>
+<pre><code class="php">&lt;?php 
+$dsn = &#39;mysql:dbname=test;host=127.0.0.1&#39;; 
+$user = &#39;root&#39;; 
+$password = &#39;123456&#39;; 
+try { 
+    $db = new PDO($dsn, $user, $password); 
+    $db-&gt;setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
+    $db-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+    echo &#39;Connection failed: &#39; . $e-&gt;getMessage();
+}
+</code></pre>
+<p>将<code>PDO::ATTR_EMULATE_PREPARES</code>属性设置为false，是为了禁止PDO只是在语法上模仿预处理。</p>
+<h2 id="创建文件insert1-php"><a href="#创建文件insert1-php" class="headerlink" title="创建文件insert1.php"></a>创建文件insert1.php</h2><hr>
+<p>insert1.php内容如下：</p>
+<pre><code class="php">&lt;?php 
+include_once &#39;connection.php&#39;; 
+$user1 = [&#39;id&#39; =--&gt; 1,&#39;name&#39; =&gt; &#39;a&#39;, &#39;email&#39; =&gt; &#39;a@163.com&#39;, &#39;passwd&#39; =&gt; &#39;aaa&#39;];
+$user2 = [&#39;id&#39; =&gt; 2,&#39;name&#39; =&gt; &#39;b&#39;, &#39;email&#39; =&gt; &#39;b@163.com&#39;, &#39;passwd&#39; =&gt; &#39;bbb&#39;];
+
+$db-&gt;exec(&quot;DELETE FROM users;&quot;);
+
+$stmt = $db-&gt;prepare(&quot;INSERT INTO users (id, name, email, passwd) VALUES (:id, :name, :email, :passwd)&quot;);
+$stmt-&gt;bindParam(&#39;:id&#39;, $user1[&#39;id&#39;]);
+$stmt-&gt;bindParam(&#39;:name&#39;, $user1[&#39;name&#39;]);
+$stmt-&gt;bindParam(&#39;:email&#39;, $user1[&#39;email&#39;]);
+$stmt-&gt;bindParam(&#39;:passwd&#39;, $user1[&#39;passwd&#39;]);
+$stmt-&gt;execute();
+
+$stmt = $db-&gt;prepare(&quot;INSERT INTO users (id, name, email, passwd) VALUES (:id, :name, :email, :passwd)&quot;);
+$stmt-&gt;bindParam(&#39;:id&#39;, $user2[&#39;id&#39;]);
+$stmt-&gt;bindParam(&#39;:name&#39;, $user2[&#39;name&#39;]);
+$stmt-&gt;bindParam(&#39;:email&#39;, $user2[&#39;email&#39;]);
+$stmt-&gt;bindParam(&#39;:passwd&#39;, $user2[&#39;passwd&#39;]);
+$stmt-&gt;execute();
+</code></pre>
+<p>执行命令：</p>
+<pre><code>sudo tcpdump  -i lo &#39;port 3306&#39; -w insert1.cap
+</code></pre><p>运行insert1.php：</p>
+<pre><code>php insert1.php
+</code></pre><p>用wireshark分析insert1.cap文件。可以看到叫做MySQL的协议。</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-001.png" alt="图001"></p>
+<p>上图显示了授权的过程。展开上图中的第一个数据包，能够看到下面的信息：</p>
+<pre><code>.....
+Charset: latin1 COLLATE latin1_swedish_ci (8)
+Username: root
+Password: ************
+Schema: test
+.....
+</code></pre><p>注：Password后是密码加密后的字符，这里用*代替了。图001的第三个数据包的内容如下：<br><img src="/content/images/2013/11/2013-11-27-pdo-002.png" alt="图002"></p>
+<p>我们在插入第一个用户的信息时候，经过了以下过程：</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-003.png" alt="图003"></p>
+<p>图004-1、图004-2、图004-3、图004-4分别是[1]、[2]、[3]、[4]这四个包的具体信息。</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-004-1.png" alt="图004-1"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-004-2.png" alt="图004-2"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-004-3.png" alt="图004-3"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-004-4.png" alt="图004-4"></p>
+<h2 id="创建文件insert2-php"><a href="#创建文件insert2-php" class="headerlink" title="创建文件insert2.php"></a>创建文件insert2.php</h2><hr>
+<p>这次看一下事务的数据包，insert2.php内容如下：</p>
+<pre><code class="php">&lt;?php 
+include_once &#39;connection.php&#39;; 
+$user1 = [&#39;id&#39; =--&gt; 1,&#39;name&#39; =&gt; &#39;a&#39;, &#39;email&#39; =&gt; &#39;a@163.com&#39;, &#39;passwd&#39; =&gt; &#39;aaa&#39;];
+
+$db-&gt;exec(&quot;DELETE FROM users;&quot;);
+
+$db-&gt;beginTransaction();
+
+$stmt = $db-&gt;prepare(&quot;INSERT INTO users (id, name, email, passwd) VALUES (:id, :name, :email, :passwd)&quot;);
+$stmt-&gt;bindParam(&#39;:id&#39;, $user1[&#39;id&#39;]);
+$stmt-&gt;bindParam(&#39;:name&#39;, $user1[&#39;name&#39;]);
+$stmt-&gt;bindParam(&#39;:email&#39;, $user1[&#39;email&#39;]);
+$stmt-&gt;bindParam(&#39;:passwd&#39;, $user1[&#39;passwd&#39;]);
+$stmt-&gt;execute();
+
+$db-&gt;commit();
+</code></pre>
+<p>准备抓包：</p>
+<pre><code>sudo tcpdump -i lo &#39;port 3306&#39; -w insert2.cap
+</code></pre><p>运行insert2.php：</p>
+<pre><code>php insert2.php
+</code></pre><p>使用wireshark分析数据包insert2.cap，这个事务过程大致如下：</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-005.png" alt="图005"></p>
+<p>图005的8个主要过程的具体信息分别对应006-1到 006-8：</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-1.png" alt="图006-1"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-2.png" alt="图006-2"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-3.png" alt="图006-3"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-4.png" alt="图006-4"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-5.png" alt="图006-5"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-6.png" alt="图006-6"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-7.png" alt="图006-7"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-006-8.png" alt="图006-8"></p>
+<p>注意到在图006-2中server status的In transaction位被设置为了1。</p>
+<h2 id="创建文件select1-php"><a href="#创建文件select1-php" class="headerlink" title="创建文件select1.php"></a>创建文件select1.php</h2><hr>
+<p>select1.php内容如下：</p>
+<pre><code class="php">&lt;?php 
+include_once &#39;connection.php&#39;; 
+$stmt = $db-&gt;prepare(&quot;SELECT * FROM users;&quot;);
+if ($stmt-&gt;execute()) {
+    print_r($stmt-&gt;fetchAll());
+}
+</code></pre>
+<p>先运行insert2.php：</p>
+<pre><code>php insert2.php
+</code></pre><p>执行命令以抓包：</p>
+<pre><code>sudo tcpdump -i lo &#39;port 3306&#39; -w select1.cap
+</code></pre><p>运行select1.php：</p>
+<pre><code>php select1.php
+</code></pre><p>运行结果如下：</p>
+<pre><code class="plain">Array
+(
+    [0] =&gt; Array
+        (
+            [id] =&gt; 1
+            [0] =&gt; 1
+            [name] =&gt; a
+            [1] =&gt; a
+            [email] =&gt; a@163.com
+            [2] =&gt; a@163.com
+            [passwd] =&gt; aaa
+            [3] =&gt; aaa
+        )
+)
+</code></pre>
+<p>fetchAll()函数产生的数据包的内容如下:</p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-007-1.png" alt="图007-1"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-007-2.png" alt="图007-2"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-007-3.png" alt="图007-3"></p>
+<p><img src="/content/images/2013/11/2013-11-27-pdo-007-4.png" alt="图007-4"></p>
+<h2 id="PDO的一些资料"><a href="#PDO的一些资料" class="headerlink" title="PDO的一些资料"></a>PDO的一些资料</h2><hr>
+<p><a href="http://www.php.net/manual/zh/class.pdo.php" target="_blank" rel="noopener">PDO类</a></p>
+<p><a href="http://www.php.net/manual/zh/class.pdostatement.php" target="_blank" rel="noopener">PDOStatement类</a></p>
+<p><a href="http://www.php.net/manual/zh/book.pdo.php" target="_blank" rel="noopener">PHP数据对象</a> </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/" title="使用PDO并抓包分析">http://www.letiantian.me/2013-11-27-pdo-and-capture-package/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-11-27-masonry-pinterest/" rel="next" title="使用masonry实现瀑布流">
+                <i class="fa fa-chevron-left"></i> 使用masonry实现瀑布流
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-12-04-tpp-framework/" rel="prev" title="TPP —— 一个简单的PHP框架">
+                TPP —— 一个简单的PHP框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建table"><span class="nav-text">创建table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件connection-php"><span class="nav-text">创建文件connection.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件insert1-php"><span class="nav-text">创建文件insert1.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件insert2-php"><span class="nav-text">创建文件insert2.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件select1-php"><span class="nav-text">创建文件select1.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PDO的一些资料"><span class="nav-text">PDO的一些资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

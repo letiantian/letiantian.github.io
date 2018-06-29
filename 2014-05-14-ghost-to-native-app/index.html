@@ -1,0 +1,976 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="其他," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-05-14 这里的Ghost是一个基于Node.js的博客系统，已经非常流行，其更加关注于如何去写作。Ghost的编辑器使用Markdown语法，可以进入markdown语法说明了解markdown。 Ghost官网在这里，貌似已经被防火墙认证了。不过大部分资源可以在github中找到，若感兴趣，请移步Ghost@Github。 若要下载Ghost，一种方法是clone其在github中">
+<meta name="keywords" content="其他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将Ghost打造成一个本地APP">
+<meta property="og:url" content="http://www.letiantian.me/2014-05-14-ghost-to-native-app/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-05-14 这里的Ghost是一个基于Node.js的博客系统，已经非常流行，其更加关注于如何去写作。Ghost的编辑器使用Markdown语法，可以进入markdown语法说明了解markdown。 Ghost官网在这里，貌似已经被防火墙认证了。不过大部分资源可以在github中找到，若感兴趣，请移步Ghost@Github。 若要下载Ghost，一种方法是clone其在github中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-00.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-02.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-03.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-04.png">
+<meta property="og:updated_time" content="2014-10-07T08:19:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="将Ghost打造成一个本地APP">
+<meta name="twitter:description" content="2014-05-14 这里的Ghost是一个基于Node.js的博客系统，已经非常流行，其更加关注于如何去写作。Ghost的编辑器使用Markdown语法，可以进入markdown语法说明了解markdown。 Ghost官网在这里，貌似已经被防火墙认证了。不过大部分资源可以在github中找到，若感兴趣，请移步Ghost@Github。 若要下载Ghost，一种方法是clone其在github中">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/05/2014-5-14-gen-native-app-00.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-05-14-ghost-to-native-app/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>将Ghost打造成一个本地APP | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-05-14-ghost-to-native-app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">将Ghost打造成一个本地APP</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-14T20:41:00+08:00">
+                2014-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-05-14</p>
+<p>这里的Ghost是一个基于Node.js的博客系统，已经非常流行，其更加关注于如何去写作。Ghost的编辑器使用Markdown语法，可以进入<a href="http://markdown.tw/" title="markdown语法说明" target="_blank" rel="noopener">markdown语法说明</a>了解markdown。</p>
+<p>Ghost官网在<a href="https://ghost.org/" title="ghost官网" target="_blank" rel="noopener">这里</a>，貌似已经被防火墙认证了。不过大部分资源可以在github中找到，若感兴趣，请移步<a href="https://github.com/TryGhost/Ghost" title="Ghost@Github" target="_blank" rel="noopener">Ghost@Github</a>。</p>
+<p>若要下载Ghost，一种方法是clone其在github中的代码，另外一种可以到<a href="https://github.com/TryGhost/Ghost/releases/tag/0.4.2" title="Download Ghost 0.4.2" target="_blank" rel="noopener">Download Ghost 0.4.2</a>下载0.4.2版本。</p>
+<a id="more"></a>
+<h2 id="将Ghost打造成本地APP的思路"><a href="#将Ghost打造成本地APP的思路" class="headerlink" title="将Ghost打造成本地APP的思路"></a>将Ghost打造成本地APP的思路</h2><hr>
+<p>这里是指windows平台，linux和其他平台笔者未做尝试，想来是可以的。<br>其实很简单，安装配置好Ghost后将其加入系统服务以开机启动，使用chrome浏览器的“创建应用快捷方式”将其放在桌面即可。<br>如果要拥有一个本地的不错的mardown笔记本，这是一个不错的选择。</p>
+<h2 id="安装Ghost"><a href="#安装Ghost" class="headerlink" title="安装Ghost"></a>安装Ghost</h2><hr>
+<h3 id="安装sqlite3"><a href="#安装sqlite3" class="headerlink" title="安装sqlite3"></a>安装sqlite3</h3><p>Ghost默认使用sqlite3存储数据，如果您还没有安装sqlite3，请移步<a href="http://www.sqlite.org/download.html" title="download sqlite" target="_blank" rel="noopener">download sqlite</a>下载dll和exe文件，并将其加入系统Path范围之内。</p>
+<h3 id="安装Nodejs"><a href="#安装Nodejs" class="headerlink" title="安装Nodejs"></a>安装Nodejs</h3><p>请移步<a href="http://nodejs.org/download/" title="download nodejs" target="_blank" rel="noopener">Download Nodejs</a>下载windows版本并安装，安装后将其加入系统Path。要注意的是，安装文件中已经包含的较新版本的<code>npm</code>。</p>
+<h3 id="安装Ghost-1"><a href="#安装Ghost-1" class="headerlink" title="安装Ghost"></a>安装Ghost</h3><p>笔者在<a href="https://github.com/TryGhost/Ghost/releases/tag/0.4.2" title="Download Ghost 0.4.2" target="_blank" rel="noopener">Download Ghost 0.4.2</a>处下载的0.4.2版本<code>Ghost-0.4.2.zip</code>。将其解压，例如解压到<code>G:/Ghost-0.4.2</code>。  进入<code>G:/Ghost-0.4.2</code>。下面的步骤参考自<a href="https://github.com/TryGhost/Ghost" title="Ghost@Github" target="_blank" rel="noopener">Ghost@Github</a>：</p>
+<p>首先安装依赖：</p>
+<pre><code>npm install --production
+</code></pre><p>笔者遇到这样一个错误：</p>
+<pre><code>npm http GET https://registry.npmjs.org/grunt-contrib-jshint
+npm ERR! not found: git
+npm ERR!
+npm ERR! Failed using git.
+npm ERR! This is most likely not a problem with npm itself.
+npm ERR! Please check if you have git installed and in your PATH.
+</code></pre><p>错误原因是没找到git程序，解决方法是在<a href="http://git-scm.com/downloads" title="download windows git" target="_blank" rel="noopener">Download Git</a>下载windows版本的git，将git.exe所在目录加入path就解决了。</p>
+<p>如果没什么问题的话，就可以运行了：</p>
+<pre><code>npm start
+</code></pre><p>打开浏览器，访问<code>http://127.0.0.1:2368/ghost</code>，输入用户名、邮箱、密码，注册成功后就可以使用Ghost博客了。</p>
+<p>笔者在使用Firefox29初次访问的时候出现了没有字体图标的问题，使用firebug发现获取/ghost/fonts/icons.woff以及另外一个字体文件时是响应为404，不过这个错误在重新启动Firefox进行访问时候就消失了。</p>
+<p>后台相当简洁易用，这里就不上图了。</p>
+<h3 id="配置Ghost使其仅供本地访问"><a href="#配置Ghost使其仅供本地访问" class="headerlink" title="配置Ghost使其仅供本地访问"></a>配置Ghost使其仅供本地访问</h3><p>进入<code>G:/Ghost-0.4.2</code>，打开<code>config.js</code>，将<code>development: {}</code>和<code>production:{}</code>中的<code>url</code>更改为<code>http://127.0.0.1:2368</code>。</p>
+<h3 id="配置为系统服务"><a href="#配置为系统服务" class="headerlink" title="配置为系统服务"></a>配置为系统服务</h3><p>配置系统服务的常见方法是以管理员身份使用sc命令，例如这里要添加其为服务可以：</p>
+<pre><code>sc create ghost-blog binpath= &quot;node G:\Ghost-0.4.2\index.js&quot;
+</code></pre><p>运行<code>services.msc</code>，可以找到ghost-blog服务。</p>
+<p><strong>不过</strong>，我在启动该服务的时候出现了这么个错误：</p>
+<pre><code>服务没有响应控制功能。
+</code></pre><p>好吧，笔者懒得去解决这个问题，下载了<a href="http://nssm.cc/commands" title="nssm 管理windows服务的好工具" target="_blank" rel="noopener">NSSM工具</a>。<br>首先关掉<code>services.msc</code>窗口，执行以下命令卸载服务：</p>
+<pre><code>sc delete ghost-blog
+</code></pre><p>（注意，一定要先关闭<code>services.msc</code>窗口，否则会出现“指定的服务已标记为删除。”这一提示信息，意思是系统会帮你删除的，但是现在还在；这样的话下面的命令就会出现错误）。<br>以管理员身份运行以下命令：</p>
+<pre><code>nssm install ghost-blog node G:\Ghost-0.4.2\index.js
+</code></pre><p>好了，服务安装完毕，默认情况下是开机启动。</p>
+<h3 id="生成本地快捷方式"><a href="#生成本地快捷方式" class="headerlink" title="生成本地快捷方式"></a>生成本地快捷方式</h3><p>如上所示，使用谷歌浏览器访问<code>http://127.0.0.1:2368/ghost/</code>，然后在<code>工具</code>中选择<code>创建应用快捷方式</code>，生成本地桌面快捷方式。<br><img src="/content/images/2014/05/2014-5-14-gen-native-app-00.png" alt=""><br><img src="/content/images/2014/05/2014-5-14-gen-native-app-01.png" alt=""></p>
+<p>打开桌面快捷方式，效果如下：<br><img src="/content/images/2014/05/2014-5-14-gen-native-app-02.png" alt=""></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><hr>
+<h3 id="npm-start-命令"><a href="#npm-start-命令" class="headerlink" title="npm start 命令"></a>npm start 命令</h3><p>原型是：</p>
+<pre><code>npm start &lt;name&gt;
+</code></pre><p>官方介绍如下：</p>
+<pre><code>This runs a package&#39;s &quot;start&quot; script, if one was provided.
+</code></pre><p>可以在<code>G:/Ghost-0.4.2/package.json</code>中找到：</p>
+<pre><code>    &quot;scripts&quot;: {
+        &quot;start&quot;: &quot;node index&quot;,
+        &quot;test&quot;: &quot;./node_modules/.bin/grunt validate --verbose&quot;
+    },
+</code></pre><p>所以要运行Ghost，也可以执行以下命令：</p>
+<pre><code>node index.js
+</code></pre><p>或者</p>
+<pre><code>node index
+</code></pre><h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><p>将主题解压到<code>G:/Ghost-0.4.2/content/themes</code>目录，登陆后台在“SETTINGS”下设置。</p>
+<h3 id="如何为文章添加图片"><a href="#如何为文章添加图片" class="headerlink" title="如何为文章添加图片"></a>如何为文章添加图片</h3><p>在编辑器中输入<code>![]()</code>，预览窗口中会出现添加图片的窗口：<br><img src="/content/images/2014/05/2014-5-14-gen-native-app-03.png" alt=""></p>
+<p>可以拖拽上传、选择文件进行上传、或者指定网络图片。</p>
+<h3 id="为文章添加标签"><a href="#为文章添加标签" class="headerlink" title="为文章添加标签"></a>为文章添加标签</h3><p>目前是无法为文章添加分类的，但是可以添加标签，在编辑器的右下角能找到输入框用来添加标签，标签之间用<code>,</code>分割。<br><img src="/content/images/2014/05/2014-5-14-gen-native-app-04.png" alt=""></p>
+<h3 id="导入导出数据"><a href="#导入导出数据" class="headerlink" title="导入导出数据"></a>导入导出数据</h3><p>访问<code>http://127.0.0.1:2368/ghost/debug/</code>有相关选项。</p>
+<h2 id="对Ghost的使用感受"><a href="#对Ghost的使用感受" class="headerlink" title="对Ghost的使用感受"></a>对Ghost的使用感受</h2><hr>
+<p>Ghost是一个很令人满意的博客系统，而且是基于nodejs这个新的平台开发，也符合潮流。如果后台<code>CONTENT</code>标签可以由两栏变成三栏，左栏是分类列表，中栏是分类下的文章列表，右栏是文章内容，会更符合笔者本人的需求。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-05-14-ghost-to-native-app/" title="将Ghost打造成一个本地APP">http://www.letiantian.me/2014-05-14-ghost-to-native-app/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-05-10-atom-editor/" rel="next" title="试用Atom编辑器">
+                <i class="fa fa-chevron-left"></i> 试用Atom编辑器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-05-15-sougou-entity-relationship-extraction/" rel="prev" title="搜狗实体关系提取比赛">
+                搜狗实体关系提取比赛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#将Ghost打造成本地APP的思路"><span class="nav-text">将Ghost打造成本地APP的思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ghost"><span class="nav-text">安装Ghost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装sqlite3"><span class="nav-text">安装sqlite3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Nodejs"><span class="nav-text">安装Nodejs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Ghost-1"><span class="nav-text">安装Ghost</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Ghost使其仅供本地访问"><span class="nav-text">配置Ghost使其仅供本地访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置为系统服务"><span class="nav-text">配置为系统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成本地快捷方式"><span class="nav-text">生成本地快捷方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#npm-start-命令"><span class="nav-text">npm start 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更换主题"><span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何为文章添加图片"><span class="nav-text">如何为文章添加图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为文章添加标签"><span class="nav-text">为文章添加标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入导出数据"><span class="nav-text">导入导出数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对Ghost的使用感受"><span class="nav-text">对Ghost的使用感受</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

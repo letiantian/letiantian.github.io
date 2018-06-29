@@ -1,0 +1,975 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,分布式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-6-16 Dynamo是Amazon的一个分布式的键值系统，P2P架构，没有主从的概念，数据一致性做到了最终一致。Apache Cassandra参考了它的实现方法。  一致性哈希关于一致性哈希的具体内容，可以参考一致性哈希。 容错由于一致性哈希的使用，Dynamo集群中的节点在逻辑上可以认为是一个圆环。假设有M个节点，我们从某个节点开始顺时针地依次为每个节点标号为1、2、3、…、M。出">
+<meta name="keywords" content="数据库,分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dynamo涉及的算法和协议">
+<meta property="og:url" content="http://www.letiantian.me/2014-06-16-dynamo-algorithm-protocol/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-6-16 Dynamo是Amazon的一个分布式的键值系统，P2P架构，没有主从的概念，数据一致性做到了最终一致。Apache Cassandra参考了它的实现方法。  一致性哈希关于一致性哈希的具体内容，可以参考一致性哈希。 容错由于一致性哈希的使用，Dynamo集群中的节点在逻辑上可以认为是一个圆环。假设有M个节点，我们从某个节点开始顺时针地依次为每个节点标号为1、2、3、…、M。出">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-08-16T05:38:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dynamo涉及的算法和协议">
+<meta name="twitter:description" content="2014-6-16 Dynamo是Amazon的一个分布式的键值系统，P2P架构，没有主从的概念，数据一致性做到了最终一致。Apache Cassandra参考了它的实现方法。  一致性哈希关于一致性哈希的具体内容，可以参考一致性哈希。 容错由于一致性哈希的使用，Dynamo集群中的节点在逻辑上可以认为是一个圆环。假设有M个节点，我们从某个节点开始顺时针地依次为每个节点标号为1、2、3、…、M。出">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-06-16-dynamo-algorithm-protocol/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Dynamo涉及的算法和协议 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-06-16-dynamo-algorithm-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Dynamo涉及的算法和协议</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-16T17:29:04+08:00">
+                2014-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/分布式/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-6-16</p>
+<p>Dynamo是Amazon的一个分布式的键值系统，P2P架构，没有主从的概念，数据一致性做到了最终一致。Apache Cassandra参考了它的实现方法。</p>
+<a id="more"></a>
+<h3 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h3><p>关于一致性哈希的具体内容，可以参考<a href="/2014-06-05-consistent-hash/">一致性哈希</a>。</p>
+<h3 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h3><p>由于一致性哈希的使用，Dynamo集群中的节点在逻辑上可以认为是一个圆环。假设有M个节点，我们从某个节点开始顺时针地依次为每个节点标号为1、2、3、…、M。出于容错的需要，假设一份数据存3份。如果某份数据通过一致性哈希被存储到了节点2中，那么这份数据的另外两个副本存储在节点3和节点4中。如果节点3临时性的宕机了，那么在节点3恢复之前，会把增量数据存入节点5中；待节点3恢复后，节点5通过Gossip协议发现节点3恢复了，节点5会将那些暂存的数据“数据回传”给节点5。判断节点3的宕机是临时性的还是永久性的方法比较简单，就是看它宕(dang)机的时间长短。如果节点3永久性宕机了，那么需要使用有效的方式将这份数据的完整版本同步到节点5中。</p>
+<h3 id="Gossip协议"><a href="#Gossip协议" class="headerlink" title="Gossip协议"></a>Gossip协议</h3><p>Gossip协议，也就是闲话协议。主要用来让每个节点知道集群的最新状态。这个协议其实就是：</p>
+<blockquote>
+<p>with a given frequency, each machine picks another machine at random and shares any hot rumors.</p>
+</blockquote>
+<p>节点之间以固定的时间频率交换信息。在交换信息时，一节点随机选取集群中的其他某个节点交换各自对集群的掌握情况，并据此更新到最新（或者较新）的集群状态信息。</p>
+<h3 id="NWR"><a href="#NWR" class="headerlink" title="NWR"></a>NWR</h3><p>N表示一份数据的副本数量。W代表写操作成功所至少需要的副本数，即在一次写入操作中至少W个副本写成功了，这次写操作才算成功。R代表读操作成功所至少需要的副本数。Dynamo认为只要R+W&gt;N，可以保证集群的可用性。N、W、R的值是可以设定的。如果注重读的效率，可以把R的值设置小些；如果注重写的效率，可以把W的值设置小些。NWR并不能保证数据一致。如果R=N且W=N，那么可以保证一致性。</p>
+<h3 id="向量时钟"><a href="#向量时钟" class="headerlink" title="向量时钟"></a>向量时钟</h3><p>对于小型的或者要求不高的分布式系统而言，可以使用时间戳的方式保证副本之间数据的一致性，在时间戳方式下，多使用NTP协议同步时钟，节点之间的时钟有较小的误差。不过在大型分布式系统中，还是换种方式比较好。</p>
+<p>向量时钟（Vector Clock），Amazon Dynamo使用的解决数据一致性问题的方法。这是一个逻辑上的时钟。假设一份数据三个副本，这三个副本分别命名为<code>n1</code>、<code>n2</code>、<code>n3</code>，每个副本都会记录所有副本的时钟（包括自身的），一个副本一个向量，三个副本则共有三个向量。所谓时钟，其实就是所存储数据的版本号，一般从0递增即可。更新时钟的规则如下：</p>
+<ul>
+<li>初始化所有时钟，即全部置0。</li>
+<li>某副本有数据更新时，将其自身的向量中自身的时钟的值加一个步长，一般步长设置为1。</li>
+<li>当一副本向其他副本发送消息时（一般是为了同步数据），这个副本会把自身的向量一起发送给其他副本。</li>
+<li>若一副本接收到消息，<del>将其自身的向量中自身的时钟的值加一个步长，并</del>  比较自身的向量和发送来的向量，如果发送来的消息是希望同步数据，那么需要判断是否更新数据。对每个向量的元素比较并取最大值，以此更新自身的向量。那么，如何更新数据？ 该副本自身存储的向量的每一个值都小于发送来的向量的每一个值，说明发送来的数据比较新，那么更新数据。如果都大于，则不需要更新数据。当然，第三种情况是既有大于的关系，也有小于的关系；还有一种情况是向量相同，但是数据不同。这种情况下，需要进行冲突的解决，比如再比较时间戳。</li>
+</ul>
+<p>举个例子。</p>
+<p>假设，<code>n1</code>、<code>n2</code>、<code>n3</code>要存储的用户id为1的用户的昵称。<br>最开始，三个副本的向量时钟以及数据如下表示：</p>
+<pre><code>n1: { vector: {n1:0, n2:0, n3:0}, data: null }
+n2: { vector: {n1:0, n2:0, n3:0}, data: null }
+n3: { vector: {n1:0, n2:0, n3:0}, data: null }
+</code></pre><p>时刻1，n1将用户昵称更新为john，向量时钟以及数据更新后如下：</p>
+<pre><code>n1: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n2: { vector: {n1:0, n2:0, n3:0}, data: null }
+n3: { vector: {n1:0, n2:0, n3:0}, data: null }
+</code></pre><p>此时对系统进行读操作，结果应是’jian’。n1给n2、n3发送了消息，更新后如下：</p>
+<pre><code>n1: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n2: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n3: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+</code></pre><p>此时对系统进行读操作，结果应是’jian’。</p>
+<p>时刻2，n3将用户昵称改为’fan’，更新后如下：</p>
+<pre><code>n1: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n2: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n3: { vector: {n1:1, n2:0, n3:1}, data: &#39;fan&#39; }
+</code></pre><p>此时对系统进行读操作，结果应是’fan’。n3先给n2发送了消息，更新后如下：</p>
+<pre><code>n1: { vector: {n1:1, n2:0, n3:0}, data: &#39;jian&#39; }
+n2: { vector: {n1:1, n2:0, n3:1}, data: &#39;fan&#39; }
+n3: { vector: {n1:1, n2:0, n3:1}, data: &#39;fan&#39; }
+</code></pre><p>当n3要给n1发消息之前，n1却对数据进行了修改，例如将用户昵称改为’ ruan’，更新后如下：</p>
+<pre><code>n1: { vector: {n1:2, n2:0, n3:0}, data: &#39;ruan&#39; }
+n2: { vector: {n1:1, n2:0, n3:1}, data: &#39;fan&#39; }
+n3: { vector: {n1:1, n2:0, n3:1}, data: &#39;fan&#39; }
+</code></pre><p>此后，可能会出现下面两种冲突：</p>
+<ul>
+<li>对系统进行读操作，发现n2、n3与n1的向量没有偏序关系（即不小于也不大于），而且存的数据的值是不同的。此时需要解决冲突。</li>
+<li>n1收到了n3发送来的消息，比较了两者的向量，发现了冲突，于是想办法解决。</li>
+</ul>
+<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><p><a href="http://en.wikipedia.org/wiki/Vector_clock" target="_blank" rel="noopener">Vector clock</a></p>
+<p><a href="http://en.wikipedia.org/wiki/Gossip_protocol" target="_blank" rel="noopener">Gossip protocol</a></p>
+<p><a href="http://book.51cto.com/art/201303/386896.htm" target="_blank" rel="noopener">2.4.5 向量时钟（1）</a></p>
+<p>《大规模分布式存储系统——原理解析与架构实践》第五章  杨传辉 著<br>《深入NoSQL》 Shashank Tiwari 著  巨成 译</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-06-16-dynamo-algorithm-protocol/" title="Dynamo涉及的算法和协议">http://www.letiantian.me/2014-06-16-dynamo-algorithm-protocol/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-06-14-hadoop-1-2-hive/" rel="next" title="为Hadoop1.2配备Hive">
+                <i class="fa fa-chevron-left"></i> 为Hadoop1.2配备Hive
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-06-18-db-undo-redo-checkpoint/" rel="prev" title="理解数据库中的undo日志、redo日志、检查点">
+                理解数据库中的undo日志、redo日志、检查点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一致性哈希"><span class="nav-text">一致性哈希</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容错"><span class="nav-text">容错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gossip协议"><span class="nav-text">Gossip协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NWR"><span class="nav-text">NWR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向量时钟"><span class="nav-text">向量时钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资料"><span class="nav-text">资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,nodejs," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta name="keywords" content="编程实践,nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket.io入门">
+<meta property="og:url" content="http://www.letiantian.me/2014-03-20-socket-io/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-01.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-02.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-03.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-04.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-05.jpg">
+<meta property="og:updated_time" content="2014-10-07T10:08:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket.io入门">
+<meta name="twitter:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-03-20-socket-io/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>socket.io入门 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-03-20-socket-io/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">socket.io入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-20T19:20:00+08:00">
+                2014-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-03-20</p>
+<p>本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。</p>
+<a id="more"></a>
+<h2 id="关于websocket等反向ajax技术"><a href="#关于websocket等反向ajax技术" class="headerlink" title="关于websocket等反向ajax技术"></a>关于websocket等反向ajax技术</h2><hr>
+<p>在实时web应用中，常见的方法是<code>反向Ajax</code>。资料[2]中如下定义反向Ajax：</p>
+<blockquote>
+<p>反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向Ajax可以某些特定的方式来模拟发出一个Ajax请求，这些方式本文都会论及，这样的话，服务器就可以尽可能快地向客户端发送事件（低延迟通信）。</p>
+</blockquote>
+<p>资料[1][2][3][4][5]介绍了以前常用的反向Ajax技术。这些反向Ajax技术主要有两点内容：一是服务器端保持住TCP连接直到其有数据发送给客户端（可以使用循环和睡眠实现），二是客户端js编程技巧。</p>
+<p>websocket是html5的规范，也属于反ajax技术，具体请见资料[6][7][8][9]。</p>
+<p>笔者在资料[8]游荡的时候发现了<code>socket.io</code>，决定尝试一下。</p>
+<h2 id="关于socket-io"><a href="#关于socket-io" class="headerlink" title="关于socket.io"></a>关于socket.io</h2><hr>
+<p>以下是官方介绍：</p>
+<blockquote>
+<p>Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It’s care-free realtime 100% in JavaScript.</p>
+<p>In order to provide realtime connectivity on every browser, Socket.IO selects the most capable transport at runtime, without it affecting the API.</p>
+<p>WebSocket<br>Adobe® Flash® Socket<br>AJAX long polling<br>AJAX multipart streaming<br>Forever Iframe<br>JSONP Polling</p></blockquote><p></p>
+
+<p>简单来说<code>socket.io</code>是一个基于<code>nodejs</code>的库，其对多种反向ajax技术进行了包装并统一了接口。在运行时候socket.io自动根据浏览器的情况选择合适的反向ajax技术与socket.io服务器进行交互。如果说websocket等技术是规范的话，那么socket.io则属于应用。其官方网站见资料[10]。</p>
+<p>下面说一下如何安装（笔者使用Linux Mint 16）：</p>
+<h3 id="安装node-js："><a href="#安装node-js：" class="headerlink" title="安装node.js："></a>安装node.js：</h3><hr>
+<pre><code>sudo apt-get install nodejs
+</code></pre><p>输入命令nodejs即可进入shell模式。</p>
+<h3 id="安装npm："><a href="#安装npm：" class="headerlink" title="安装npm："></a>安装npm：</h3><hr>
+<pre><code>sudo apt-get install npm
+</code></pre><h3 id="安装socket-io："><a href="#安装socket-io：" class="headerlink" title="安装socket.io："></a>安装socket.io：</h3><hr>
+<pre><code>sudo npm install socket.io
+</code></pre><p>安装包存放在<code>~/node_modules</code>目录下，客户端<code>socket.io.js</code>存放在<code>~/node_modules/socket.io/node_modules/socket.io-client/dist</code>目录下。</p>
+<h2 id="socket-io示例"><a href="#socket-io示例" class="headerlink" title="socket.io示例"></a>socket.io示例</h2><hr>
+<p>以下示例来自官方网站并做了适当修改。</p>
+<p>首先建立server端（服务端）代码（文件<code>test.js</code>）：</p>
+<pre><code>var io = require(&#39;socket.io&#39;).listen(8080);
+
+io.sockets.on(&#39;connection&#39;, function (socket) {
+socket.emit(&#39;news&#39;, { hello: &#39;world&#39; });
+socket.on(&#39;my other event&#39;, function (data) {
+console.log(data);
+});
+});
+</code></pre><p><code>服务端test.js</code>绑定了<code>8080</code>端口，当一个客户端连接服务端test.js时候，服务端test.js向客户端发出news指令并传送数据<code>{ hello: &#39;world&#39; }</code>；而服务端test.js收到<code>my other event</code>指令时候会调用回调函数<code>function (data) { console.log(data);}</code>来处理接收到的数据<code>data</code>。</p>
+<p>笔者搭建了nginx服务器，其使用的80端口，web根目录为<code>/usr/share/nginx/html</code>。将<code>~/node_modules/socket.io/node_modules/socket.io-client/dist</code>下的<code>socket.io.min.js</code>复制到web根目录，并在在web根目录下建立文件<code>index.php</code>（作为客户端），内容如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;script src=&quot;socket.io.min.js&quot;&gt;&lt;/script&gt;
+&lt;body&gt;
+&lt;script&gt;
+  var socket = io.connect(&#39;http://localhost:8080&#39;);
+  socket.on(&#39;news&#39;, function (data) {
+    console.log(data);
+    console.log(data[&quot;hello&quot;]);
+    socket.emit(&#39;my other event&#39;, { my: &#39;data&#39; });
+  });
+&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre><p>上面代码中，<code>socket</code>绑定了<code>8080</code>端口，也就是绑定了server端。<code>socket.on()</code>指定了当收到<code>news</code>指令时候，应该如何处理收到的指令对应的数据，<code>socket.emit()</code>向server端发送指令和数据。</p>
+<p>运行server端：</p>
+<pre><code>$ nodejs test.js
+</code></pre><p>运行客户端并进行观察：打开浏览器，进入<code>http://127.0.0.1</code>访问index.php，并打开firebug查看信息。</p>
+<p><img src="/content/images/2014/03/20140320-socketio-01.jpg" alt="image"></p>
+<p>上图来自firebug，表明了客户端index.php连接服务端test.js后收到了来自服务端test.js的数据{hello:”world”}。同时也能够看到index.php访问server的网址并非简单的<a href="http://localhost:8080。" target="_blank" rel="noopener">http://localhost:8080。</a></p>
+<p><img src="/content/images/2014/03/20140320-socketio-02.jpg" alt="image"></p>
+<p>上图显示了服务端test.js的处理过程。</p>
+<p><img src="/content/images/2014/03/20140320-socketio-03.jpg" alt="image"></p>
+<p>上图是客户端index.php第一次向服务端test.js发送的http头。</p>
+<p><img src="/content/images/2014/03/20140320-socketio-04.jpg" alt="image"></p>
+<p>上图是客户端index.php第2次向服务端test.js发送的http头。使用了websocket规范。</p>
+<p><img src="/content/images/2014/03/20140320-socketio-05.jpg" alt="image"></p>
+<p>当关掉服务端test.js时候客户端index.php出现很多Aborted状态（红字部分）。</p>
+<p>分析结束。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><hr>
+<p>[1] <a href="http://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank">使用HTML5WebSocket构建实时Web应用</a><br>[2] <a href="http://django-china.cn/topic/118/" target="_blank">由浅入深学习long polling(反向Ajax, Comet)</a><br>[3] <a href="http://www.cnblogs.com/likwo/archive/2010/12/03/1895362.html" target="_blank">基于AJAX的长轮询（long-polling）方式实现简单的聊天室程序 </a><br>[4] <a href="http://www.cnblogs.com/hoojo/p/longPolling_comet_jquery_iframe_ajax.html" target="_blank">Web 通信 之 长连接、长轮询（long polling） </a><br>[5] <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/" target="_blank">Comet：基于 HTTP 长连接的“服务器推”技术</a><br>[6] <a href="http://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank">使用 HTML5 WebSocket 构建实时 Web 应用 </a><br>[7] <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax2/" target="_blank">反向 Ajax，第 2 部分: WebSockets </a><br>[8] <a href="http://www.html5rocks.com/zh/tutorials/websockets/basics/" target="_blank">WebSockets 简介：将套接字引入网络</a><br>[9] <a href="http://www.cnblogs.com/twaver/archive/2012/05/08/2489664.html" target="_blank">HTML5 WebSocket 技术介绍</a><br>[10] <a href="http://socket.io/" target="_blank">socket.io官方网站</a>   </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-03-20-socket-io/" title="socket.io入门">http://www.letiantian.me/2014-03-20-socket-io/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-03-20-ubuntu-install-lemp/" rel="next" title="在Ubuntu下安装LEMP">
+                <i class="fa fa-chevron-left"></i> 在Ubuntu下安装LEMP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-03-22-mapreduce-in-mongodb/" rel="prev" title="MapReduce in MongoDB">
+                MapReduce in MongoDB <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于websocket等反向ajax技术"><span class="nav-text">关于websocket等反向ajax技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于socket-io"><span class="nav-text">关于socket.io</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装node-js："><span class="nav-text">安装node.js：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装npm："><span class="nav-text">安装npm：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装socket-io："><span class="nav-text">安装socket.io：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#socket-io示例"><span class="nav-text">socket.io示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料"><span class="nav-text">资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

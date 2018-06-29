@@ -1,0 +1,1050 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-12-23 什么是PCA 假设要将n维空间中的数据降低到m维（m &amp;lt; n）。首先在n维空间中找一个点作为m维空间的坐标原点O，然后找到m个n维的向量，这些向量的原点是O。将n维的数据对应的点投影到这m个向量上，可以将n维数据降低到m维。 设一个n维数据点X(i)，将其投影到m维空间后的点在n维空间的位置记为Y(i)。如果有k个n维的数据，PCA的目标是最小化下面的式子： [late">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用PCA处理MNIST数据集">
+<meta property="og:url" content="http://www.letiantian.me/2014-12-23-pca-mnist/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-12-23 什么是PCA 假设要将n维空间中的数据降低到m维（m &amp;lt; n）。首先在n维空间中找一个点作为m维空间的坐标原点O，然后找到m个n维的向量，这些向量的原点是O。将n维的数据对应的点投影到这m个向量上，可以将n维数据降低到m维。 设一个n维数据点X(i)，将其投影到m维空间后的点在n维空间的位置记为Y(i)。如果有k个n维的数据，PCA的目标是最小化下面的式子： [late">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-01.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-02.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-03.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-04.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-05.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-06.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-07.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-08.jpg">
+<meta property="og:updated_time" content="2015-05-17T02:51:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用PCA处理MNIST数据集">
+<meta name="twitter:description" content="2014-12-23 什么是PCA 假设要将n维空间中的数据降低到m维（m &amp;lt; n）。首先在n维空间中找一个点作为m维空间的坐标原点O，然后找到m个n维的向量，这些向量的原点是O。将n维的数据对应的点投影到这m个向量上，可以将n维数据降低到m维。 设一个n维数据点X(i)，将其投影到m维空间后的点在n维空间的位置记为Y(i)。如果有k个n维的数据，PCA的目标是最小化下面的式子： [late">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-23-mnist-pca-01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-12-23-pca-mnist/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用PCA处理MNIST数据集 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-12-23-pca-mnist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用PCA处理MNIST数据集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-23T15:42:04+08:00">
+                2014-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-12-23</p>
+<h2 id="什么是PCA"><a href="#什么是PCA" class="headerlink" title="什么是PCA"></a>什么是PCA</h2><hr>
+<p>假设要将n维空间中的数据降低到m维（m &lt; n）。首先在n维空间中找一个点作为m维空间的坐标原点<code>O</code>，然后找到m个n维的向量，这些向量的原点是<code>O</code>。将n维的数据对应的点投影到这m个向量上，可以将n维数据降低到m维。</p>
+<p>设一个n维数据点X(i)，将其投影到m维空间后的点在n维空间的位置记为Y(i)。如果有k个n维的数据，PCA的目标是最小化下面的式子：</p>
+<p>[latex]<br>\sum_{i=1}^{k} (X(i)-Y(i))^2<br>[/latex]</p>
+<p>在一系列的计算后，扯到了协方差矩阵的特征值和特征向量上。</p>
+<p>这就是PCA。</p>
+<p><strong>补充：</strong>上面的式子叫做投影误差。PCA是将投影误差最小化。其实PCA也在最大化一个方差。这个方差是原始数据集在新的低维度空间对应的所有的数据点之间的方差。</p>
+<h2 id="数据集准备"><a href="#数据集准备" class="headerlink" title="数据集准备"></a>数据集准备</h2><hr>
+<p>在数据堂下载的<a href="http://www.datatang.com/data/44085" target="_blank" rel="noopener">手写数字数据集MNIST</a>，已经被预处理了。解压后可以找到<code>mnist_all.mat</code>，该文件存储了图片的数据。每个图片大小是28×28=784。</p>
+<h2 id="用哪些图片呢？"><a href="#用哪些图片呢？" class="headerlink" title="用哪些图片呢？"></a>用哪些图片呢？</h2><hr>
+<p>在Matlab中导入<code>mnist_all.mat</code>，然后：</p>
+<pre><code>imgs = [train0(1:10, :); 
+    train1(1:10, :);
+    train2(1:10, :);
+    train3(1:10, :);
+    train4(1:10, :)];
+
+imgs = im2double(imgs);
+
+for i = 1:50
+    subplot(5, 10, i);
+    imshow(reshape(imgs(i, :), 28, 28));
+end
+</code></pre><p>效果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-01.jpg" alt=""></p>
+<p>每个图片大小为28×28=784，共有50张图片。故<code>imgs</code>大小为：</p>
+<pre><code>&gt;&gt; size(imgs)
+
+ans =
+
+    50   784
+</code></pre><h2 id="PCA一下"><a href="#PCA一下" class="headerlink" title="PCA一下"></a>PCA一下</h2><hr>
+<pre><code>[coeff,score,latent] = pca(double(imgs));
+size(coeff)
+size(score)
+latent
+</code></pre><p>结果如下：</p>
+<pre><code>ans =
+
+   784    49
+
+
+ans =
+
+    50    49
+
+
+latent =
+
+   1.0e+05 *
+
+    6.0345
+    3.4149
+    2.7540
+    2.6989
+    2.0999
+    1.8697
+    1.4234
+    1.3323
+    1.2419
+    1.0725
+    ...
+    ...
+</code></pre><p><code>latent</code>从大到小保存了样本协方差矩阵所有的特征值。<code>coeff</code>的每一列是样本协方差矩阵的特征向量（主成分分量），并与<code>latent</code>中的特征值一一对应。<code>score</code>第i行前n个数值代表着样本i降到n维的结果。在这个例子中，协方差矩阵共有49个特征值。</p>
+<p><strong>取前两维，并可视化：</strong></p>
+<pre><code>plot(score(1:10, 1), score(1:10, 2), &#39;r*&#39;);
+hold on;
+plot(score(11:20, 1), score(11:20, 2), &#39;g*&#39;);
+hold on;
+plot(score(21:30, 1), score(21:30, 2), &#39;b*&#39;);
+hold on;
+plot(score(31:40, 1), score(31:40, 2), &#39;go&#39;);
+hold on;
+plot(score(41:50, 1), score(41:50, 2), &#39;ro&#39;);
+hold on;
+</code></pre><p><img src="/content/images/2014/12/2014-12-23-mnist-pca-02.jpg" alt=""></p>
+<p><strong>可视化“特征脸”</strong></p>
+<p>“特征脸”这个词出现在使用PCA处理人脸数据集的相关文章中，在这里我借用一下。</p>
+<p>主成分分量<code>coeff</code>大小为784×49，每一列可以构造一个“特征脸”。下面，对这些特征脸可视化：</p>
+<pre><code>for i=1:49
+    subplot(7, 7, i);
+    imshow(reshape(coeff(:, i), 28, 28));
+end
+</code></pre><p>效果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-03.jpg" alt=""></p>
+<p>不太清楚，反转一下：</p>
+<pre><code>for i=1:49
+    subplot(7, 7, i);
+    imshow(1.0 - reshape(coeff(:, i), 28, 28));
+end
+</code></pre><p>效果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-04.jpg" alt=""></p>
+<h3 id="重建图像"><a href="#重建图像" class="headerlink" title="重建图像"></a>重建图像</h3><p><code>score</code>第i行前n个数值代表着样本i降到n维的结果。score第i行的第j个数值代表着第j个“特征脸”在原图像i中的权重。这些权值有正有负，例如：</p>
+<pre><code>&gt;&gt; score(:,1)
+
+ans =
+
+    4.0235
+    4.2079
+    3.3788
+    4.3208
+    6.4901
+    4.3880
+    5.7397
+   -0.8090
+    5.4659
+    4.5928
+   -3.3578
+   -3.6533
+   ...
+   ...
+</code></pre><p>据此，可以重构图像。下面以第一张图像为例。</p>
+<p>计算样本均值：</p>
+<pre><code>base_img =  mean(imgs);
+imshow(reshape(base_img, 28, 28));
+</code></pre><p>结果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-05.jpg" alt=""></p>
+<p>使用前2个“特征脸”重建第一个图片：</p>
+<pre><code>base_img =  mean(imgs);
+img = base_img&#39;;
+for i = 1:2
+    img = img + coeff(:, i).*score(1, i);
+end
+imshow(reshape(img, 28, 28));
+</code></pre><p>结果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-06.jpg" alt=""></p>
+<p>使用前10个“特征脸”重建第一个图片，结果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-07.jpg" alt=""></p>
+<p>使用前30个“特征脸”重建第一个图片，结果如下：</p>
+<p><img src="/content/images/2014/12/2014-12-23-mnist-pca-08.jpg" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-12-23-pca-mnist/" title="使用PCA处理MNIST数据集">http://www.letiantian.me/2014-12-23-pca-mnist/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-12-22-latent-factor-model-and-nmf/" rel="next" title="隐语义模型和NMF（非负矩阵分解）">
+                <i class="fa fa-chevron-left"></i> 隐语义模型和NMF（非负矩阵分解）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-12-23-nmf-pca-vq/" rel="prev" title="比较NMF、PCA和VQ">
+                比较NMF、PCA和VQ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是PCA"><span class="nav-text">什么是PCA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集准备"><span class="nav-text">数据集准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用哪些图片呢？"><span class="nav-text">用哪些图片呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCA一下"><span class="nav-text">PCA一下</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重建图像"><span class="nav-text">重建图像</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

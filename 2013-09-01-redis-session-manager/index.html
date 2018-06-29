@@ -1,0 +1,1506 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,分布式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta name="keywords" content="编程实践,分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Redis的分布式会话管理系统">
+<meta property="og:url" content="http://www.letiantian.me/2013-09-01-redis-session-manager/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-redis.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-files.png">
+<meta property="og:updated_time" content="2014-10-07T08:44:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Redis的分布式会话管理系统">
+<meta name="twitter:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-redis.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-09-01-redis-session-manager/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>基于Redis的分布式会话管理系统 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-09-01-redis-session-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Redis的分布式会话管理系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-06T23:08:40+08:00">
+                2014-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/分布式/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。</p>
+<a id="more"></a>  
+<p>以PHP为例，其使用session时候相应session信息是保存在文件中的，当然也可以设置以保存在数据库中。由于最近对redis有了些许的了解，同时考虑使用Java练练手，所以萌生了使用Redis做分布式会话管理系统的想法。</p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><hr>
+<p>Linux Mint 15，运行多个Redis实例；Windows 7，运行PostgreSQL 9.2，以及管理系统。</p>
+<p><img src="/content/images/2014/10/2013-09-01-redis.png" alt=""></p>
+<h2 id="Redis配置"><a href="#Redis配置" class="headerlink" title="Redis配置"></a>Redis配置</h2><hr>
+<p>最好的方式是这些服务器全在内网中运行，由于懒得去找路由器，故做如下布局：4个Redis实例所在的linux mint使用ip 202.201.13.186，分别使用这些端口6301、6302、6303、6304。</p>
+<p>首先在mint中安装redis-server：</p>
+<pre><code>sudo apt-get install redis-server
+</code></pre><p>这同时会把redis-cli等工具安装了。<br>在某处新建一个目录redis，在redis目录下依次建立以下文件：</p>
+<pre><code>redis-01.conf redis-01.pid redis-01.log
+redis-02.conf redis-02.pid redis-02.log
+redis-03.conf redis-03.pid redis-03.log
+redis-04.conf redis-04.pid redis-04.log
+</code></pre><p>redis-01.conf内容如下：</p>
+<pre><code>daemonize yes
+pidfile ./redis-01.pid
+port 6301
+timeout 300
+loglevel debug
+logfile ./redis-01.log
+requirepass 111
+</code></pre><p>redis-02.conf内容如下：</p>
+<pre><code>daemonize yes
+pidfile ./redis-02.pid
+port 6302
+timeout 300
+loglevel debug
+logfile ./redis-02.log
+requirepass 222
+</code></pre><p>redis-03.conf内容如下：</p>
+<pre><code>daemonize yes
+pidfile ./redis-03.pid
+port 6303
+timeout 300
+loglevel debug
+logfile ./redis-03.log
+requirepass 333
+</code></pre><p>redis-04.conf内容如下：</p>
+<pre><code>daemonize yes
+pidfile ./redis-04.pid
+port 6304
+timeout 300
+loglevel debug
+logfile ./redis-04.log
+requirepass 444
+</code></pre><p>关于这些配置文件，以redis-04.conf为例，<code>daemonize</code>指定redis是否以DAEMON形式运行，<code>pidfile</code>指定保存redis实例的pid的文件，<code>port</code>指定端口，<code>timeout</code>指定超时时间（以秒为单位），<code>loglevel</code>指定日志记录等级，<code>logfile</code>指定日志输入位置，<code>requirepass</code>指定连接redis需要的密码。</p>
+<p>配置文件完成后，依次启动四个redis server实例：</p>
+<pre><code>user@myhost ~/Desktop/redis $ redis-server redis-01.conf
+user@myhost ~/Desktop/redis $ redis-server redis-02.conf
+user@myhost ~/Desktop/redis $ redis-server redis-03.conf
+user@myhost ~/Desktop/redis $ redis-server redis-04.conf
+</code></pre><p>随机测试一个启动的server：</p>
+<pre><code>user@myhost ~/Desktop/redis $ redis-cli -h 127.0.0.1 -p 6301 -a 111
+redis 127.0.0.1:6301&gt; set mykey myvalue
+OK
+redis 127.0.0.1:6301&gt; get mykey
+&quot;myvalue&quot;
+redis 127.0.0.1:6301&gt; del mykey
+(integer) 1
+redis 127.0.0.1:6301&gt; get mykey
+(nil)
+redis 127.0.0.1:6301&gt; exit
+</code></pre><h2 id="使用PostgreSQL保存用户信息"><a href="#使用PostgreSQL保存用户信息" class="headerlink" title="使用PostgreSQL保存用户信息"></a>使用PostgreSQL保存用户信息</h2><hr>
+<p>我们使用PostgreSQL保存用户的信息，下面是一些必要的数据库、表创建语句：</p>
+<pre><code>CREATE DATABASE test_db ENCODING=&#39;UTF8&#39;;
+CREATE SEQUENCE increment_num INCREMENT 1 START 1;
+CREATE TABLE session (
+user_id INT DEFAULT NEXTVAL(&#39;increment_num&#39;),
+user_name VARCHAR(20),
+user_email VARCHAR(40),
+user_passwd VARCHAR(50),
+CONSTRAINT primary_key PRIMARY KEY (user_id),
+CONSTRAINT unique_email UNIQUE (user_email),
+CONSTRAINT unique_name UNIQUE (user_name)
+);
+CREATE USER test_user PASSWORD &#39;123456&#39;;
+GRANT ALL ON session  TO test_user;
+GRANT ALL ON increment_num  TO test_user;
+</code></pre><p>在数据库<code>test_db</code>中创建表session，而用户<code>test_user</code>具有对session表的所有权限。</p>
+<p>插入三条数据：</p>
+<pre><code>INSERT INTO session (user_name, user_email, user_passwd) VALUES (&#39;hei&#39;,&#39;hei@163.com&#39;,md5(&#39;111&#39;));
+INSERT INTO session (user_name, user_email, user_passwd) VALUES (&#39;xiaoming&#39;,&#39;xiaoming@163.com&#39;,md5(&#39;111&#39;));
+INSERT INTO session (user_name, user_email, user_passwd) VALUES (&#39;obama&#39;,&#39;obama@163.com&#39;,md5(&#39;111&#39;));
+</code></pre><p>注意不可写成下面的形式：</p>
+<pre><code>INSERT INTO session (user_name, user_email, user_passwd) VALUES (&quot;hei&quot;,&quot;hei@163.com&quot;,md5(&quot;111&quot;));
+</code></pre><p>这会产生找不到某某字段的错误。</p>
+<h2 id="使用redis分布式存储session信息"><a href="#使用redis分布式存储session信息" class="headerlink" title="使用redis分布式存储session信息"></a>使用redis分布式存储session信息</h2><hr>
+<p>用户登陆时候需要输入用户名，密码和登录IP。当然在实际生活中我们并不需要输入IP，你的机子已经帮你做了，这里要输入IP是为了简化代码。</p>
+<p>假定所有用户名都是以字母开头，设该字母为firstLetter。</p>
+<p>如果firstLetter介于a和g以及A和G之间，则该用户登陆时候将其session信息保存在port为6301的redis server中；<br>如果firstLetter介于h和n以及H和N之间，则该用户登陆时候将其session信息保存在port为6302的redis server中；<br>如果firstLetter介于o和t以及O和T之间，则该用户登陆时候将其session信息保存在port为6303的redis server中；<br>如果firstLetter介于u和z以及U和Z之间，则该用户登陆时候将其session信息保存在port为6304的redis server中。</p>
+<p>每个session为一条记录，出于简化目的，key是IP和用户名和登录时间连在一起，例如可能是”192.168.1.222obama20130505120343”，当然在实际项目中可不能这样；value是一个map，map中三个key分别是<code>user_id</code>，<code>user_name</code>，<code>user_email</code>。</p>
+<h2 id="Java如何操作redis中的数据"><a href="#Java如何操作redis中的数据" class="headerlink" title="Java如何操作redis中的数据"></a>Java如何操作redis中的数据</h2><hr>
+<p>采用的是jedis包，下载见点<a href="https://github.com/xetorthio/jedis/downloads" target="_blank" rel="noopener">这里</a>。</p>
+<p><a href="http://hdxiong.iteye.com/blog/1523788" target="_blank" rel="noopener">java操作redis</a></p>
+<h2 id="APP测试"><a href="#APP测试" class="headerlink" title="APP测试"></a>APP测试</h2><hr>
+<p>源文件布局如下：</p>
+<p><img src="/content/images/2014/10/2013-09-01-files.png" alt=""></p>
+<p>运行User类：</p>
+<pre><code>help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;4
+请输入您的name&gt;&gt;&gt;obama
+请输入您的session ID&gt;&gt;&gt;            } else if (4 == choose) {
+                userLogout();姓名：obama
+成功退出
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;1
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;1
+开始登录吧
+请输入用户名&gt;&gt;&gt;obama
+请输入密码&gt;&gt;&gt;111
+请输入登录IP&gt;&gt;&gt;192.168.1.123
+信息正确，进行登录。。。
+登录时间:201383117367
+用户名为：obama ，获取相应的server
+姓名：obama
+redis server信息：ip：202.201.13.186；port：6303
+登录成功，请记住你的session id：192.168.1.123obama201383117367
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;4
+请输入您的name&gt;&gt;&gt;obama
+请输入您的session ID&gt;&gt;&gt;192.168.1.123obama201383117367
+姓名：obama
+成功退出
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;2
+请输入您的name&gt;&gt;&gt;obama
+请输入您的session ID&gt;&gt;&gt;192.168.1.123obama201383117367
+姓名：obama
+尚未登录 或者 会话过期
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;1
+开始登录吧
+请输入用户名&gt;&gt;&gt;obama
+请输入密码&gt;&gt;&gt;111
+请输入登录IP&gt;&gt;&gt;192.168.1.222
+信息正确，进行登录。。。
+登录时间:2013831173751
+用户名为：obama ，获取相应的server
+姓名：obama
+redis server信息：ip：202.201.13.186；port：6303
+登录成功，请记住你的session id：192.168.1.222obama2013831173751
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;3
+请输入您的name&gt;&gt;&gt;obama
+请输入您的session ID&gt;&gt;&gt;192.168.1.222obama2013831173751
+姓名：obama
+您已经登录
+姓名：obama
+会话失效时间已经更新
+help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出
+&gt;&gt;
+</code></pre><p>运行User期间在redis server中观测数据情况：</p>
+<pre><code>user@myhost ~/Desktop/redis $ redis-cli -h 127.0.0.1 -p 6303 -a 333
+redis 127.0.0.1:6303&gt; keys *
+(empty list or set)
+redis 127.0.0.1:6303&gt; keys *
+1) &quot;192.168.1.222obama2013831173751&quot;
+redis 127.0.0.1:6303&gt; ttl 192.168.1.222obama2013831173751
+(integer) 1169
+redis 127.0.0.1:6303&gt; ttl 192.168.1.222obama2013831173751
+(integer) 1168
+redis 127.0.0.1:6303&gt; ttl 192.168.1.222obama2013831173751
+(integer) 1196
+redis 127.0.0.1:6303&gt;
+</code></pre><h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><hr>
+<p>User.java：</p>
+<pre><code>import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Calendar;
+import java.util.Scanner;
+
+public class User {
+    /*
+     * 模拟登陆
+     */
+    public static void userLogin() throws IOException {
+        String userName = &quot;&quot;;
+        String userPasswd = &quot;&quot;;
+        String userIp = &quot;&quot;;
+        String loginTime = &quot;&quot;;
+        RedisAdmin myRedisAdmin = new RedisAdmin();
+        // 输入信息
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf(&quot;请输入用户名&gt;&gt;&gt;&quot;);
+        userName = br.readLine();
+        System.out.printf(&quot;请输入密码&gt;&gt;&gt;&quot;);
+        userPasswd = br.readLine();
+        System.out.printf(&quot;请输入登录IP&gt;&gt;&gt;&quot;);
+        userIp = br.readLine();
+        // br.close(); //若不注释，那么多次调用userLogin()函数时候就会有错误，why？
+        // 原因见：http://zhidao.baidu.com/question/25112752.html
+        // 判断用户是否存在
+        if (PsqlAdmin.isUserExists(userName, userPasswd)) {
+            System.out.println(&quot;信息正确，进行登录。。。&quot;);
+        } else {
+            System.out.println(&quot;对不起，用户名或密码错误！&quot;);
+        }
+        // 获取登录时间
+        Calendar now = Calendar.getInstance();
+        loginTime = &quot;&quot; + now.get(Calendar.YEAR) + (now.get(Calendar.MONTH) + 1)
+                + now.get(Calendar.DAY_OF_MONTH)
+                + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+                + now.get(Calendar.SECOND);
+        System.out.println(&quot;登录时间:&quot; + loginTime);
+        // 基本信息已经获得，现在就把它放在redis中
+        if (myRedisAdmin.addSession(userIp, userName, userPasswd, loginTime)) {
+            System.out.println(&quot;登录成功，请记住你的session id：&quot;
+                    + myRedisAdmin.genSessionID(userIp, userName, loginTime));
+        } else {
+            System.out.println(&quot;登录失败&quot;);
+        }
+    }
+    /*
+     * 判断是否已经登录
+     */
+    public static void isLogin() throws IOException {
+        String userName;
+        String sessionID;
+        RedisAdmin myRedisAdmin = new RedisAdmin();
+        // 输入信息
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf(&quot;请输入您的name&gt;&gt;&gt;&quot;);
+        userName = br.readLine();
+        System.out.printf(&quot;请输入您的session ID&gt;&gt;&gt;&quot;);
+        sessionID = br.readLine();
+        if (myRedisAdmin.existsSession(userName, sessionID)) {
+            System.out.println(&quot;您已经登录&quot;);
+        } else {
+            System.out.println(&quot;尚未登录 或者 会话过期&quot;);
+        }
+    }
+    /*
+     * 用户做些动作，更新session的expire time
+     */
+    public static void userAction() throws IOException {
+        String userName = &quot;&quot;;
+        String sessionID = &quot;&quot;;
+        RedisAdmin myRedisAdmin = new RedisAdmin();
+        // 输入信息
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf(&quot;请输入您的name&gt;&gt;&gt;&quot;);
+        userName = br.readLine();
+        System.out.printf(&quot;请输入您的session ID&gt;&gt;&gt;&quot;);
+        sessionID = br.readLine();
+        if (myRedisAdmin.existsSession(userName, sessionID)) {
+            System.out.println(&quot;您已经登录&quot;);
+            if (myRedisAdmin.updateSession(userName, sessionID)) {
+                System.out.println(&quot;会话失效时间已经更新&quot;);
+            } else {
+                System.out.println(&quot;会话失效时间更新失败%&gt;_&lt;%&quot;);
+            }
+        } else {
+            System.out.println(&quot;尚未登录 或者 会话过期&quot;);
+        }
+    }
+    /*
+     * 用户注销
+     */
+    public static void userLogout() throws IOException {
+        String userName = &quot;&quot;;
+        String sessionID = &quot;&quot;;
+        RedisAdmin myRedisAdmin = new RedisAdmin();
+        // 输入信息
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf(&quot;请输入您的name&gt;&gt;&gt;&quot;);
+        userName = br.readLine();
+        System.out.printf(&quot;请输入您的session ID&gt;&gt;&gt;&quot;);
+        sessionID = br.readLine();
+        if (myRedisAdmin.delSession(userName, sessionID)) {
+            System.out.println(&quot;成功退出&quot;);
+        } else {
+            System.out.println(&quot;尚未登录 或者 会话过期&quot;);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        int choose = 0;
+        Scanner input;
+        while (true) {
+            System.out.println(&quot;help &gt;&gt;1：登录，2：看看自己是否登录，3：登录后做一些操作，4：注销，5：退出&quot;);
+            System.out.printf(&quot;&gt;&gt;&quot;);
+            choose = 0;
+            input = new Scanner(System.in);
+            if (input.hasNextInt()) {
+                choose = input.nextInt();
+            }
+
+            if (1 == choose) {
+                System.out.println(&quot;开始登录吧&quot;);
+                userLogin();
+            } else if (2 == choose) {
+                isLogin();
+            } else if (3 == choose) {
+                userAction();
+            } else if (4 == choose) {
+                userLogout();
+            } else if (5 == choose) {
+                break;
+            } else { // do nothing
+            } 
+        }
+        input.close();
+    }
+}
+</code></pre><p>RedisAdmin.java：</p>
+<pre><code>import java.util.HashMap;
+import java.util.Map;
+
+import redis.clients.jedis.Jedis;
+
+public class RedisAdmin {
+    private int EXPIRE_TIME = 1200;
+    private HashMap&lt;String, String&gt; redisServer01, redisServer02,
+            redisServer03, redisServer04;
+
+    /*
+     * 初始化各个redis server的信息
+     */
+    public RedisAdmin() {
+        redisServer01 = new HashMap&lt;String, String&gt;();
+        redisServer01.put(&quot;ip&quot;, &quot;202.201.13.186&quot;);
+        redisServer01.put(&quot;port&quot;, &quot;6301&quot;);
+        redisServer01.put(&quot;pass&quot;, &quot;111&quot;);
+        redisServer02 = new HashMap&lt;String, String&gt;();
+        redisServer02.put(&quot;ip&quot;, &quot;202.201.13.186&quot;);
+        redisServer02.put(&quot;port&quot;, &quot;6302&quot;);
+        redisServer02.put(&quot;pass&quot;, &quot;222&quot;);
+        redisServer03 = new HashMap&lt;String, String&gt;();
+        redisServer03.put(&quot;ip&quot;, &quot;202.201.13.186&quot;);
+        redisServer03.put(&quot;port&quot;, &quot;6303&quot;);
+        redisServer03.put(&quot;pass&quot;, &quot;333&quot;);
+        redisServer04 = new HashMap&lt;String, String&gt;();
+        redisServer04.put(&quot;ip&quot;, &quot;202.201.13.186&quot;);
+        redisServer04.put(&quot;port&quot;, &quot;6304&quot;);
+        redisServer04.put(&quot;pass&quot;, &quot;444&quot;);
+    }
+
+    /*
+     * 根据用户名判断该用户的session信息应该放在哪个redis server中
+     */
+    public HashMap&lt;String, String&gt; getServer(String name) {
+        System.out.println(&quot;姓名：&quot; + name);
+        char firstLetter = name.charAt(0);
+        if ((&#39;a&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;g&#39;)
+                || (&#39;A&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;G&#39;)) {
+            return this.redisServer01;
+        } else if ((&#39;h&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;n&#39;)
+                || (&#39;H&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;N&#39;)) {
+            return this.redisServer02;
+        } else if ((&#39;o&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;t&#39;)
+                || (&#39;O&#39; &lt;= firstLetter &amp;&amp; firstLetter &lt;= &#39;T&#39;)) {
+            return this.redisServer03;
+        } else {
+            return this.redisServer04;
+        }
+
+    }
+
+    /*
+     * 生成sessionId
+     */
+    public String genSessionID(String ip, String userName, String loginTime) {
+        String sessionID = ip + userName + loginTime;
+        return sessionID;
+    }
+
+    /*
+     * 判断sessionId是否存在
+     */
+    public boolean existsSession(String userName, String sessionID) {
+        try {
+            HashMap&lt;String, String&gt; server = this.getServer(userName);
+            Jedis redis = new Jedis(server.get(&quot;ip&quot;), Integer.parseInt(server
+                    .get(&quot;port&quot;)));// 连接redis
+            redis.auth(server.get(&quot;pass&quot;));// 验证密码
+            return redis.exists(sessionID);
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+        return false;
+    }
+
+    /*
+     * 向redis集群中添加session
+     */
+    public boolean addSession(String ip, String userName, String passwd,
+            String loginTime) {
+        try {
+            System.out.println(&quot;用户名为：&quot; + userName + &quot; ，获取相应的server&quot;);
+            HashMap&lt;String, String&gt; server = this.getServer(userName);
+            System.out.println(&quot;redis server信息：ip：&quot; + server.get(&quot;ip&quot;)
+                    + &quot;；port：&quot; + server.get(&quot;port&quot;));
+            HashMap&lt;String, String&gt; userInfo = PsqlAdmin.getUserInfo(userName,
+                    passwd);
+            Map&lt;String, String&gt; session = new HashMap&lt;&gt;();
+            session.put(&quot;user_id&quot;, userInfo.get(&quot;user_id&quot;));
+            session.put(&quot;user_name&quot;, userInfo.get(&quot;user_name&quot;));
+            session.put(&quot;user_email&quot;, userInfo.get(&quot;user_email&quot;));
+            String sessionID = genSessionID(ip, userName, loginTime);
+            Jedis redis = new Jedis(server.get(&quot;ip&quot;), Integer.parseInt(server
+                    .get(&quot;port&quot;)));// 连接redis
+            redis.auth(server.get(&quot;pass&quot;));// 验证密码
+            redis.hmset(sessionID, session);
+            redis.expire(sessionID, EXPIRE_TIME);
+            return true;
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+        return false;
+    }
+
+    /*
+     * 更新EXPIRE TIME（过期时间）
+     */
+    public boolean updateSession(String userName, String sessionID) {
+        try {
+            HashMap&lt;String, String&gt; server = this.getServer(userName);
+            Jedis redis = new Jedis(server.get(&quot;ip&quot;), Integer.parseInt(server
+                    .get(&quot;port&quot;)));// 连接redis
+            redis.auth(server.get(&quot;pass&quot;));// 验证密码
+            redis.expire(sessionID, EXPIRE_TIME);
+            return true;
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+        return false;
+    }
+
+    /*
+     * 删除session
+     */
+    public boolean delSession(String userName, String sessionID) {
+        try {
+            HashMap&lt;String, String&gt; server = this.getServer(userName);
+            Jedis redis = new Jedis(server.get(&quot;ip&quot;), Integer.parseInt(server
+                    .get(&quot;port&quot;)));// 连接redis
+            redis.auth(server.get(&quot;pass&quot;));// 验证密码
+            redis.expire(sessionID, 0); // 0 秒后过期
+            return true;
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+        return false;
+    }
+}
+</code></pre><p>PsqlAdmin.java：</p>
+<pre><code>/*
+ * 代码结构不够好啊
+ */
+import java.sql.*;
+import java.util.HashMap;
+
+public class PsqlAdmin {
+    public PsqlAdmin() {
+
+    }
+    /*
+     * 向数据库中添加用户
+     */
+    public static boolean addUser(String userName, String userEmail,
+            String userPasswd) {
+        String sql = &quot; INSERT INTO session (user_name, user_email, user_passwd) VALUES (&#39;&quot;
+                + userName
+                + &quot;&#39;,&#39;&quot;
+                + userEmail
+                + &quot;&#39;,&quot;
+                + &quot;md5(&#39;&quot;
+                + userPasswd
+                + &quot;&#39;))&quot;; // 别用这个引号“&quot;”
+        System.out.println(sql);
+        try {
+            Class.forName(&quot;org.postgresql.Driver&quot;).newInstance();
+            String url = &quot;jdbc:postgresql://localhost:5432/test_db&quot;;
+            Connection con = DriverManager.getConnection(url, &quot;test_user&quot;,
+                    &quot;123456&quot;);
+            Statement st = con.createStatement();
+            int count = st.executeUpdate(sql); // 这句有问题
+            System.out.println(sql);
+            System.out.println(&quot;插入记录的数目：&quot; + count);
+            st.close();
+            con.close();
+            return true;
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return false;
+        }
+    }
+    /*
+     * 显示数据库中已有的用户的信息
+     */
+    public static boolean showUser() {
+        try {
+            Class.forName(&quot;org.postgresql.Driver&quot;).newInstance();
+            String url = &quot;jdbc:postgresql://localhost:5432/test_db&quot;;
+            Connection con = DriverManager.getConnection(url, &quot;test_user&quot;,
+                    &quot;123456&quot;);
+            Statement st = con.createStatement();
+            String sql = &quot;SELECT user_name, user_email FROM session&quot;;
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                System.out.println(&quot;姓名：&quot; + rs.getString(&quot;user_name&quot;));
+                System.out.println(&quot;电邮：&quot; + rs.getString(&quot;user_email&quot;));
+            }
+            rs.close();
+            st.close();
+            con.close();
+            return true;
+        } catch (Exception ee) {
+            return false;
+        }
+    }
+    /*
+     * 根据用户名和密码判断数据库中是否存在相应的记录
+     */
+    public static boolean isUserExists(String name, String passwd) {
+        try {
+            Class.forName(&quot;org.postgresql.Driver&quot;).newInstance();
+            String url = &quot;jdbc:postgresql://localhost:5432/test_db&quot;;
+            Connection con = DriverManager.getConnection(url, &quot;test_user&quot;,
+                    &quot;123456&quot;);
+            Statement st = con.createStatement();
+            String sql = &quot;SELECT COUNT(*) AS num FROM session WHERE user_name = \&#39;&quot;
+                    + name + &quot;\&#39; and user_passwd=md5(\&#39;&quot; + passwd + &quot;\&#39;)&quot;;
+            // System.out.println(sql);
+            ResultSet rs = st.executeQuery(sql);
+            int exist = 0;
+            while (rs.next()) {
+                exist = rs.getInt(&quot;num&quot;);
+            }
+            rs.close();
+            st.close();
+            con.close();
+            if (0 == exist) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception ee) {
+            ee.printStackTrace();
+            return false;
+        }
+    }
+    /*
+     * 根据用户名和密码从数据库中获取详尽的用户信息
+     */
+    public static HashMap&lt;String, String&gt; getUserInfo(String name, String passwd) {
+        HashMap&lt;String, String&gt; userInfo = new HashMap&lt;&gt;();
+        try {
+            Class.forName(&quot;org.postgresql.Driver&quot;).newInstance();
+            String url = &quot;jdbc:postgresql://localhost:5432/test_db&quot;;
+            Connection con = DriverManager.getConnection(url, &quot;test_user&quot;,
+                    &quot;123456&quot;);
+            Statement st = con.createStatement();
+            String sql = &quot;SELECT *  FROM session WHERE user_name = \&#39;&quot;
+                    + name + &quot;\&#39; and user_passwd=md5(\&#39;&quot; + passwd + &quot;\&#39;)&quot;;
+            // System.out.println(sql);
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                userInfo.put(&quot;user_id&quot;, String.valueOf(rs.getInt(&quot;user_id&quot;)));
+                userInfo.put(&quot;user_name&quot;, rs.getString(&quot;user_name&quot;));
+                userInfo.put(&quot;user_email&quot;, rs.getString(&quot;user_email&quot;));
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+        return userInfo;
+    }
+    /*
+     * public static void main(String[] args) { boolean state = addUser(&quot;obama&quot;,
+     * &quot;obama@163.com&quot;, &quot;111&quot;); if (state == false) {
+     * System.out.println(&quot;插入失败&quot;); } state = showUser(); if (state == false) {
+     * System.out.println(&quot;查询失败&quot;); } }
+     */
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-09-01-redis-session-manager/" title="基于Redis的分布式会话管理系统">http://www.letiantian.me/2013-09-01-redis-session-manager/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-08-10-mysql-charset/" rel="next" title="关于MySQL的字符集">
+                <i class="fa fa-chevron-left"></i> 关于MySQL的字符集
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-09-01-xresources-urxvt/" rel="prev" title="Xresources和urxvt">
+                Xresources和urxvt <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发环境"><span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis配置"><span class="nav-text">Redis配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用PostgreSQL保存用户信息"><span class="nav-text">使用PostgreSQL保存用户信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用redis分布式存储session信息"><span class="nav-text">使用redis分布式存储session信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java如何操作redis中的数据"><span class="nav-text">Java如何操作redis中的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APP测试"><span class="nav-text">APP测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

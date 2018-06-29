@@ -1,0 +1,1188 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,异步编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-10-04 requests库是python一个优秀的HTTP库，使用它可以非常简单地执行HTTP的各种操作，例如GET、POST等。不过，这个库所执行的网络请求都是同步了，即cpu发出请求指令后，IO执行发送和等待等操作，在这段IO执行的时间里，cpu什么也不做，这样cpu的计算能力就被浪费了。所以，可以尝试把网络请求修改为异步的，也就是在IO发挥作用的这段时间，CPU去做这个程序里的">
+<meta name="keywords" content="编程实践,异步编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将requests变成一个异步HTTP库">
+<meta property="og:url" content="http://www.letiantian.me/2014-10-04-asynchronous-requests/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-10-04 requests库是python一个优秀的HTTP库，使用它可以非常简单地执行HTTP的各种操作，例如GET、POST等。不过，这个库所执行的网络请求都是同步了，即cpu发出请求指令后，IO执行发送和等待等操作，在这段IO执行的时间里，cpu什么也不做，这样cpu的计算能力就被浪费了。所以，可以尝试把网络请求修改为异步的，也就是在IO发挥作用的这段时间，CPU去做这个程序里的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T12:01:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何将requests变成一个异步HTTP库">
+<meta name="twitter:description" content="2014-10-04 requests库是python一个优秀的HTTP库，使用它可以非常简单地执行HTTP的各种操作，例如GET、POST等。不过，这个库所执行的网络请求都是同步了，即cpu发出请求指令后，IO执行发送和等待等操作，在这段IO执行的时间里，cpu什么也不做，这样cpu的计算能力就被浪费了。所以，可以尝试把网络请求修改为异步的，也就是在IO发挥作用的这段时间，CPU去做这个程序里的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-10-04-asynchronous-requests/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>如何将requests变成一个异步HTTP库 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-10-04-asynchronous-requests/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何将requests变成一个异步HTTP库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-04T10:59:20+08:00">
+                2014-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/异步编程/" itemprop="url" rel="index">
+                    <span itemprop="name">异步编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-10-04</p>
+<p>requests库是python一个优秀的HTTP库，使用它可以非常简单地执行HTTP的各种操作，例如GET、POST等。不过，这个库所执行的网络请求都是同步了，即cpu发出请求指令后，IO执行发送和等待等操作，在这段IO执行的时间里，cpu什么也不做，这样cpu的计算能力就被浪费了。所以，可以尝试把网络请求修改为异步的，也就是在IO发挥作用的这段时间，CPU去做这个程序里的其他事情，等IO收到响应的数据，CPU回来处理。下面介绍一下如何将requests变成一个异步HTTP库。</p>
+<h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><hr>
+<p>安装：</p>
+<pre><code>sudo pip install requests
+</code></pre><p>一个获取页面的示例（test01.py）：</p>
+<pre><code># -*- coding: utf-8 -*- 
+
+import sys
+reload(sys)
+sys.setdefaultencoding(&#39;utf-8&#39;) 
+
+import requests
+r = requests.get(&#39;http://letiantian.me/&#39;)
+print r.text
+</code></pre><p>如果网络没问题，会获取<code>http://letiantian.me/</code>页面的html代码。</p>
+<h2 id="gevent"><a href="#gevent" class="headerlink" title="gevent"></a>gevent</h2><hr>
+<blockquote>
+<p> gevent is a coroutine-based Python networking library that uses greenlet to provide a high-level synchronous API on top of the libev event loop.</p>
+</blockquote>
+<p>话是这样说，gevent的效果是异步的。</p>
+<hr>
+<p>安装：</p>
+<pre><code>sudo pip install gevent
+</code></pre><p>不使用gevent，test02.py代码为：</p>
+<pre><code># -*- coding: utf-8 -*- 
+
+import sys
+reload(sys)
+sys.setdefaultencoding(&#39;utf-8&#39;) 
+
+import urllib2
+
+urls = [&quot;http://letiantian.me/&quot;] *10
+
+def get_content(url):
+    data = urllib2.urlopen(url).read()
+    return data
+
+for url in urls:
+    get_content(url)
+</code></pre><p>使用gevent，test03.py代码为：</p>
+<pre><code># -*- coding: utf-8 -*- 
+
+import sys
+reload(sys)
+sys.setdefaultencoding(&#39;utf-8&#39;) 
+
+import gevent
+from gevent import monkey
+monkey.patch_socket()
+
+import urllib2
+
+urls = [&quot;http://letiantian.me/&quot;] *10
+
+def get_content(url):
+    data = urllib2.urlopen(url).read()
+    return data
+
+
+jobs = [gevent.spawn(get_content, url) for url in urls]
+gevent.joinall(jobs)
+
+# print jobs[0].value
+</code></pre><p>比较两者的运行时间：</p>
+<pre><code>zsh &gt;&gt; time  python test02.py 
+python test02.py  0.05s user 0.02s system 0% cpu 7.362 total
+zsh &gt;&gt; time  python test03.py
+python test03.py  0.06s user 0.01s system 3% cpu 2.100 total
+</code></pre><p>可见，使用gevent时，cpu利用率较高，且程序速度也较快（3倍速度，也可能更快）。</p>
+<h2 id="grequests库：使用gevent封装requests"><a href="#grequests库：使用gevent封装requests" class="headerlink" title="grequests库：使用gevent封装requests"></a>grequests库：使用gevent封装requests</h2><hr>
+<p>安装：</p>
+<pre><code>sudo pip install grequests
+</code></pre><p>使用grequests库，test04.py代码如下：</p>
+<pre><code># -*- coding: utf-8 -*- 
+
+import sys
+reload(sys)
+sys.setdefaultencoding(&#39;utf-8&#39;) 
+
+import grequests
+
+urls = [&quot;http://letiantian.me/&quot;] *10
+reqs = [grequests.get(url) for url in urls ]
+response = grequests.map(reqs)
+
+response0 = response[0]
+
+# print response0.text
+</code></pre><p>运行时间：</p>
+<pre><code>zsh &gt;&gt; time  python test04.py
+python test04.py  0.13s user 0.06s system 10% cpu 1.698 total
+</code></pre><p>grequests库存放在<a href="https://github.com/kennethreitz/grequests" target="_blank" rel="noopener">https://github.com/kennethreitz/grequests</a>，代码很少，很容易看懂。</p>
+<p><strong>下面结合grequests的源码分析一下test04.py。</strong><br><code>grequests.get(url)</code>其实就是<code>grequests.AsyncRequest(&#39;GET&#39;, url)</code>，grequests中是使用了<code>functools.partial</code>对此进行了转换。<br>类<code>AsyncRequest</code>的<code>__init__</code>函数做了一些初始化函数，self.url就是初始化该对象时给出的url，self.session是一个requests.Session()对象。<br>类<code>AsyncRequest</code>有一个send()方法，该方法就是调用self.session的request方法，将请求结果放入self.response中。<br><code>grequests</code>下也有一个send方法，其内容是：</p>
+<pre><code>def send(r, pool=None, stream=False):
+    if pool != None:
+        return pool.spawn(r.send, stream=stream)
+    return gevent.spawn(r.send, stream=stream)
+</code></pre><p>pool是gevent.pool.Pool的一个实例，用来管理一组greenlet。无论是pool.spawn还是gevent.spawn都是负责执行异步请求。</p>
+<p>上面的说通了，那么grequests下的map函数也好理解了。</p>
+<pre><code>def map(requests, stream=False, size=None, exception_handler=None):
+    requests = list(requests)
+    pool = Pool(size) if size else None
+    jobs = [send(r, pool, stream=stream) for r in requests]
+    gevent.joinall(jobs)
+    ret = []
+    for request in requests:
+        if request.response:
+            ret.append(request.response)
+        elif exception_handler:
+            exception_handler(request, request.exception)
+    return ret
+</code></pre><p>后面贴了grequests的源码。</p>
+<h2 id="requests-futures库"><a href="#requests-futures库" class="headerlink" title="requests-futures库"></a>requests-futures库</h2><hr>
+<p><a href="https://github.com/ross/requests-futures" target="_blank" rel="noopener">requests-futures库</a>也是将requests库封装成了一个异步库，不过使用的是python3中的新特性（在python2中也能使用，但需要额外安装futures库），实现得也很简单，此处就不介绍了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><hr>
+<p><a href="http://www.gevent.org/" target="_blank" rel="noopener">http://www.gevent.org/</a><br><a href="https://github.com/kennethreitz/grequests" target="_blank" rel="noopener">https://github.com/kennethreitz/grequests</a><br><a href="http://www.gevent.org/gevent.monkey.html#gevent.monkey.patch_all" target="_blank" rel="noopener">http://www.gevent.org/gevent.monkey.html#gevent.monkey.patch_all</a><br><a href="https://github.com/ross/requests-futures" target="_blank" rel="noopener">https://github.com/ross/requests-futures</a><br><a href="https://pypi.python.org/pypi/futures" target="_blank" rel="noopener">https://pypi.python.org/pypi/futures</a><br><a href="http://www.2cto.com/kf/201308/232824.html" target="_blank" rel="noopener">http://www.2cto.com/kf/201308/232824.html</a><br><a href="http://www.gevent.org/gevent.pool.html" target="_blank" rel="noopener">http://www.gevent.org/gevent.pool.html</a></p>
+<h2 id="grequests的源码"><a href="#grequests的源码" class="headerlink" title="grequests的源码"></a>grequests的源码</h2><pre><code># -*- coding: utf-8 -*-
+
+&quot;&quot;&quot;
+grequests
+~~~~~~~~~
+
+This module contains an asynchronous replica of ``requests.api``, powered
+by gevent. All API methods return a ``Request`` instance (as opposed to
+``Response``). A list of requests can be sent with ``map()``.
+&quot;&quot;&quot;
+from functools import partial
+
+try:
+    import gevent
+    from gevent import monkey as curious_george
+    from gevent.pool import Pool
+except ImportError:
+    raise RuntimeError(&#39;Gevent is required for grequests.&#39;)
+
+# Monkey-patch.
+curious_george.patch_all(thread=False, select=False)
+
+from requests import Session
+
+
+__all__ = (
+    &#39;map&#39;, &#39;imap&#39;,
+    &#39;get&#39;, &#39;options&#39;, &#39;head&#39;, &#39;post&#39;, &#39;put&#39;, &#39;patch&#39;, &#39;delete&#39;, &#39;request&#39;
+)
+
+
+class AsyncRequest(object):
+    &quot;&quot;&quot; Asynchronous request.
+
+    Accept same parameters as ``Session.request`` and some additional:
+
+    :param session: Session which will do request
+    :param callback: Callback called on response.
+                     Same as passing ``hooks={&#39;response&#39;: callback}``
+    &quot;&quot;&quot;
+    def __init__(self, method, url, **kwargs):
+        #: Request method
+        self.method = method
+        #: URL to request
+        self.url = url
+        #: Associated ``Session``
+        self.session = kwargs.pop(&#39;session&#39;, None)
+        if self.session is None:
+            self.session = Session()
+
+        callback = kwargs.pop(&#39;callback&#39;, None)
+        if callback:
+            kwargs[&#39;hooks&#39;] = {&#39;response&#39;: callback}
+
+        #: The rest arguments for ``Session.request``
+        self.kwargs = kwargs
+        #: Resulting ``Response``
+        self.response = None
+
+    def send(self, **kwargs):
+        &quot;&quot;&quot;
+        Prepares request based on parameter passed to constructor and optional ``kwargs```.
+        Then sends request and saves response to :attr:`response`
+
+        :returns: ``Response``
+        &quot;&quot;&quot;
+        merged_kwargs = {}
+        merged_kwargs.update(self.kwargs)
+        merged_kwargs.update(kwargs)
+        try:
+            self.response =  self.session.request(self.method,
+                                                self.url, **merged_kwargs)
+        except Exception as e:
+            self.exception = e
+        return self
+
+
+def send(r, pool=None, stream=False):
+    &quot;&quot;&quot;Sends the request object using the specified pool. If a pool isn&#39;t
+    specified this method blocks. Pools are useful because you can specify size
+    and can hence limit concurrency.&quot;&quot;&quot;
+    if pool != None:
+        return pool.spawn(r.send, stream=stream)
+
+    return gevent.spawn(r.send, stream=stream)
+
+
+# Shortcuts for creating AsyncRequest with appropriate HTTP method
+get = partial(AsyncRequest, &#39;GET&#39;)
+options = partial(AsyncRequest, &#39;OPTIONS&#39;)
+head = partial(AsyncRequest, &#39;HEAD&#39;)
+post = partial(AsyncRequest, &#39;POST&#39;)
+put = partial(AsyncRequest, &#39;PUT&#39;)
+patch = partial(AsyncRequest, &#39;PATCH&#39;)
+delete = partial(AsyncRequest, &#39;DELETE&#39;)
+
+# synonym
+def request(method, url, **kwargs):
+    return AsyncRequest(method, url, **kwargs)
+
+
+def map(requests, stream=False, size=None, exception_handler=None):
+    &quot;&quot;&quot;Concurrently converts a list of Requests to Responses.
+
+    :param requests: a collection of Request objects.
+    :param stream: If True, the content will not be downloaded immediately.
+    :param size: Specifies the number of requests to make at a time. If None, no throttling occurs.
+    :param exception_handler: Callback function, called when exception occured. Params: Request, Exception
+    &quot;&quot;&quot;
+
+    requests = list(requests)
+
+    pool = Pool(size) if size else None
+    jobs = [send(r, pool, stream=stream) for r in requests]
+    gevent.joinall(jobs)
+
+    ret = []
+
+    for request in requests:
+        if request.response:
+            ret.append(request.response)
+        elif exception_handler:
+            exception_handler(request, request.exception)
+
+    return ret
+
+
+def imap(requests, stream=False, size=2, exception_handler=None):
+    &quot;&quot;&quot;Concurrently converts a generator object of Requests to
+    a generator of Responses.
+
+    :param requests: a generator of Request objects.
+    :param stream: If True, the content will not be downloaded immediately.
+    :param size: Specifies the number of requests to make at a time. default is 2
+    :param exception_handler: Callback function, called when exception occured. Params: Request, Exception
+    &quot;&quot;&quot;
+
+    pool = Pool(size)
+
+    def send(r):
+        return r.send(stream=stream)
+
+    for request in pool.imap_unordered(send, requests):
+        if request.response:
+            yield request.response
+        elif exception_handler:
+            exception_handler(request, request.exception)
+
+    pool.join()
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-10-04-asynchronous-requests/" title="如何将requests变成一个异步HTTP库">http://www.letiantian.me/2014-10-04-asynchronous-requests/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09-21-affinity-propagation/" rel="next" title="使用Affinity Propagation进行聚类">
+                <i class="fa fa-chevron-left"></i> 使用Affinity Propagation进行聚类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-08-10-mysql-charset/" rel="prev" title="关于MySQL的字符集">
+                关于MySQL的字符集 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#requests"><span class="nav-text">requests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gevent"><span class="nav-text">gevent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grequests库：使用gevent封装requests"><span class="nav-text">grequests库：使用gevent封装requests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#requests-futures库"><span class="nav-text">requests-futures库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grequests的源码"><span class="nav-text">grequests的源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

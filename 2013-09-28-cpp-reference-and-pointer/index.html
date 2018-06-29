@@ -1,0 +1,995 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,c++," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-09-28 感谢antou的投稿。 许多人对于引用和指针的区别与联系很纠结（包括我在内O(∩_∩)O哈哈~），最近看到一篇关于引用和指针区别和联系的文章，感觉茅塞顿开，在这里和大家分享下：  C++中的引用和指针 ★ 相同点：  都是地址的概念；指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名（java中的引用其实也是别名的意思）。  ★ 区别：  指针是一个实体，而引用">
+<meta name="keywords" content="编程实践,c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++中引用和指针的区别">
+<meta property="og:url" content="http://www.letiantian.me/2013-09-28-cpp-reference-and-pointer/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-09-28 感谢antou的投稿。 许多人对于引用和指针的区别与联系很纠结（包括我在内O(∩_∩)O哈哈~），最近看到一篇关于引用和指针区别和联系的文章，感觉茅塞顿开，在这里和大家分享下：  C++中的引用和指针 ★ 相同点：  都是地址的概念；指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名（java中的引用其实也是别名的意思）。  ★ 区别：  指针是一个实体，而引用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T09:03:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++中引用和指针的区别">
+<meta name="twitter:description" content="2013-09-28 感谢antou的投稿。 许多人对于引用和指针的区别与联系很纠结（包括我在内O(∩_∩)O哈哈~），最近看到一篇关于引用和指针区别和联系的文章，感觉茅塞顿开，在这里和大家分享下：  C++中的引用和指针 ★ 相同点：  都是地址的概念；指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名（java中的引用其实也是别名的意思）。  ★ 区别：  指针是一个实体，而引用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-09-28-cpp-reference-and-pointer/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>c++中引用和指针的区别 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-09-28-cpp-reference-and-pointer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">c++中引用和指针的区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-28T19:20:00+08:00">
+                2013-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/c/" itemprop="url" rel="index">
+                    <span itemprop="name">c++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-09-28</p>
+<p>感谢antou的投稿。</p>
+<p>许多人对于引用和指针的区别与联系很纠结（包括我在内O(∩_∩)O哈哈~），最近看到一篇关于引用和指针区别和联系的文章，感觉茅塞顿开，在这里和大家分享下：</p>
+<a id="more"></a>
+<p>C++中的引用和指针</p>
+<p>★ 相同点：</p>
+<ol>
+<li>都是地址的概念；<br>指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名（java中的引用其实也是别名的意思）。</li>
+</ol>
+<p>★ 区别：</p>
+<ol>
+<li>指针是一个实体，而引用仅是个别名；  </li>
+<li>引用使用时无需解引用(*)，指针需要解引用；  </li>
+<li>引用只能在定义时被初始化一次，之后不可变；指针可变； 引用“从一而终”   </li>
+<li>引用没有 const，指针有 const，const 的指针不可变；  </li>
+<li>引用不能为空，指针可以为空；  </li>
+<li>“sizeof 引用”得到的是所指向的变量(对象)的大小，而“sizeof 指针”得到的是指针本身(所指向的变量或对象的地址)的大小；typeid(T) == typeid(T&amp;) 恒为真，sizeof(T) == sizeof(T&amp;) 恒为真，但是当引用作为成员时，其占用空间与指针相同（没找到标准的规定）。  </li>
+<li>指针和引用的自增(++)运算意义不一样；   </li>
+</ol>
+<p>★ 联系  </p>
+<ol>
+<li>引用在语言内部用指针实现（如何实现？）。  </li>
+<li><p>对一般应用而言，把引用理解为指针，不会犯严重语义错误。引用是操作受限了的指针（仅容许取内容操作）。<br>引用是C++中的概念，初学者容易把引用和指针混淆一起。一下程序中，n 是m 的一个引用（reference），m 是被引用物（referent）。   </p>
+<p> int m;<br> int &amp;n = m;</p>
+</li>
+</ol>
+<p>n 相当于m 的别名（绰号），对n 的任何操作就是对m 的操作。例如有人名叫王小毛，他的绰号是“三毛”。说“三毛”怎么怎么的，其实就是对王小毛说三道四。所以n 既不<br>是m 的拷贝，也不是指向m 的指针，其实n 就是m 它自己。 </p>
+<p>引用的一些规则如下：<br>（1）引用被创建的同时必须被初始化（指针则可以在任何时候被初始化）。<br>（2）不能有NULL 引用，引用必须与合法的存储单元关联（指针则可以是NULL）。<br>（3）一旦引用被初始化，就不能改变引用的关系（指针则可以随时改变所指的对象）。<br>以下示例程序中，k 被初始化为i 的引用。语句k = j 并不能将k 修改成为j 的引用，只是把k 的值改变成为6。由于k 是i 的引用，所以i 的值也变成了6。  </p>
+<pre><code>int i = 5;
+int j = 6;
+int &amp;k = i;
+k = j; // k 和i 的值都变成了6; 
+</code></pre><p>上面的程序看起来象在玩文字游戏，没有体现出引用的价值。引用的主要功能是传递函数的参数和返回值。C++语言中，函数的参数和返回值的传递方式有三种：值传递、<br>指针传递和引用传递。  </p>
+<p>以下是“值传递”的示例程序。由于Func1 函数体内的x 是外部变量n 的一份拷贝，改变x 的值不会影响n, 所以n 的值仍然是0。   </p>
+<pre><code>void Func1(int x)
+{
+x = x + 10;
+}
+int n = 0;
+Func1(n);
+cout &lt;&lt; “n = ” &lt;&lt; n &lt;&lt; endl;// n = 0 
+</code></pre><p>以下是“指针传递”的示例程序。由于Func2 函数体内的x 是指向外部变量n 的指<br>针，改变该指针的内容将导致n 的值改变，所以n 的值成为10。 </p>
+<pre><code>void Func2(int *x)
+{
+(* x) = (* x) + 10;
+}
+⋯
+int n = 0;
+Func2(&amp;n);
+cout &lt;&lt; “n = ” &lt;&lt; n &lt;&lt; endl; // n = 10 
+</code></pre><p>以下是“引用传递”的示例程序。由于Func3 函数体内的x 是外部变量n 的引用，x<br>和n 是同一个东西，改变x 等于改变n，所以n 的值成为10。 </p>
+<pre><code>void Func3(int &amp;x)
+{
+x = x + 10;
+}
+⋯
+int n = 0;
+Func3(n);
+cout &lt;&lt; “n = ” &lt;&lt; n &lt;&lt; endl; // n = 10 
+</code></pre><p>对比上述三个示例程序，会发现“引用传递”的性质象“指针传递”，而书写方式象<br>“值传递”。实际上“引用”可以做的任何事情“指针”也都能够做，为什么还要“引用”<br>这东西？<br>答案是“用适当的工具做恰如其分的工作”。<br>指针能够毫无约束地操作内存中的如何东西，尽管指针功能强大，但是非常危险。<br>就象一把刀，它可以用来砍树、裁纸、修指甲、理发等等，谁敢这样用？<br>如果的确只需要借用一下某个对象的“别名”，那么就用“引用”，而不要用“指针”，<br>以免发生意外。比如说，某人需要一份证明，本来在文件上盖上公章的印子就行了，如<br>果把取公章的钥匙交给他，那么他就获得了不该有的权利。</p>
+<p>注意：若定义<code>string s1(“abc”);string * p=&amp;s1;</code>,那么p值为s1的地址（即指针p内的内容），所以<code>cout&lt;&lt;p1</code>输出值等于<code>cout&lt;&lt;&amp;s1</code>,；<code>*p</code>值为指针p所指地址内存放的内容，所以<code>cout&lt;&lt;*p</code>等于<code>abc</code>；<code>&amp;p</code>为指针p自己本身所在的地址，该地址内存放的值为所指内容的地址，<code>cout&lt;&lt;&amp;p</code>等于指针p自身所在内存的地址</p>
+<p>可敲入如下代码验证：（并可验证“引用不可变，指针可变”）</p>
+<pre><code>#include&lt;string&gt;
+
+#include&lt;iostream&gt;
+
+#include&lt;conio.h&gt;
+
+using namespace std;
+
+void main()
+
+{
+
+string s1(&quot;Nancy&quot;);
+
+string s2(&quot;Clancy&quot;);
+
+string &amp;rs=s1;
+
+string *ps=&amp;s1;
+
+cout&lt;&lt;&amp;rs&lt;&lt;&quot; &quot;&lt;&lt;ps&lt;&lt;&quot;\n&quot;;
+
+rs=s2;
+
+ps=&amp;s2;
+
+cout&lt;&lt;rs&lt;&lt;&quot; &quot;&lt;&lt;*ps&lt;&lt;&quot;\n&quot;;
+
+cout&lt;&lt;&amp;rs&lt;&lt;&quot; &quot;&lt;&lt;&amp;s2&lt;&lt;&quot; &quot;&lt;&lt;ps&lt;&lt;&quot; &quot;&lt;&lt;&amp;ps;
+//引用rs的地址同之前相同，还是等于s1的地址，未发生改变，
+//而指针ps的地址发生了改变，且指向了s2，引用rs内的值和
+//指针ps所指地址内存放的值都变为了s2
+
+_getch();
+
+
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-09-28-cpp-reference-and-pointer/" title="c++中引用和指针的区别">http://www.letiantian.me/2013-09-28-cpp-reference-and-pointer/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-09-19-the-spirit-of-softwares/" rel="next" title="The spirit of softwares">
+                <i class="fa fa-chevron-left"></i> The spirit of softwares
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-10-12-remain-past/" rel="prev" title="给现在一点时间，让过去不再过去">
+                给现在一点时间，让过去不再过去 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

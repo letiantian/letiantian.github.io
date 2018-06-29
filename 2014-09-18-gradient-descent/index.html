@@ -1,0 +1,1005 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-09-18 偏导数与梯度 有时候，遇到的数学公式会有多个变量，例如： [latex]f(x,y) = x+x^2+y^2[/latex] 将变量y看做常量，对x进行求导，可得： [latex]1+2x[/latex] 这个结果可以就是f(x,y)关于x的偏导数，可以写成： [latex]\frac{\partial f}{\partial x} = 1+2x[/latex] 同理，可以得">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梯度下降法">
+<meta property="og:url" content="http://www.letiantian.me/2014-09-18-gradient-descent/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-09-18 偏导数与梯度 有时候，遇到的数学公式会有多个变量，例如： [latex]f(x,y) = x+x^2+y^2[/latex] 将变量y看做常量，对x进行求导，可得： [latex]1+2x[/latex] 这个结果可以就是f(x,y)关于x的偏导数，可以写成： [latex]\frac{\partial f}{\partial x} = 1+2x[/latex] 同理，可以得">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-18-gd-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-18-gd-02.png">
+<meta property="og:updated_time" content="2014-10-07T06:30:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="梯度下降法">
+<meta name="twitter:description" content="2014-09-18 偏导数与梯度 有时候，遇到的数学公式会有多个变量，例如： [latex]f(x,y) = x+x^2+y^2[/latex] 将变量y看做常量，对x进行求导，可得： [latex]1+2x[/latex] 这个结果可以就是f(x,y)关于x的偏导数，可以写成： [latex]\frac{\partial f}{\partial x} = 1+2x[/latex] 同理，可以得">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/09/2014-09-18-gd-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-09-18-gradient-descent/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>梯度下降法 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-09-18-gradient-descent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">梯度下降法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-18T11:00:49+08:00">
+                2014-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-09-18</p>
+<h2 id="偏导数与梯度"><a href="#偏导数与梯度" class="headerlink" title="偏导数与梯度"></a>偏导数与梯度</h2><hr>
+<p>有时候，遇到的数学公式会有多个变量，例如：</p>
+<p>[latex]<br>f(x,y) = x+x^2+y^2<br>[/latex]</p>
+<p>将变量y看做常量，对x进行求导，可得：</p>
+<p>[latex]<br>1+2x<br>[/latex]</p>
+<p>这个结果可以就是f(x,y)关于x的偏导数，可以写成：</p>
+<p>[latex]<br>\frac{\partial f}{\partial x} = 1+2x<br>[/latex]</p>
+<p>同理，可以得到f(x,y)关于y的偏导数：<br>[latex]<br>\frac{\partial f}{\partial y} = 2y<br>[/latex]</p>
+<p>我们画一下f(x,y)的mesh图：</p>
+<pre><code>%% matlab
+x=-10:0.1:10;
+y=x;
+[X,Y]=meshgrid(x,y);
+Z = X + X.^2 +Y.^2;
+mesh(X,Y,Z);
+xlabel(&#39;x&#39;);
+ylabel(&#39;y&#39;);
+zlabel(&#39;z&#39;);
+</code></pre><p>结果如下：<br><img src="/content/images/2014/09/2014-09-18-gd-01.png" alt=""></p>
+<p>说白了，偏导数就是斜率。以点(x,y,z)=(1,1,3)为例，我们找到过点(1,1,3)且与x轴、z轴都平行的那个唯一的平面，曲面f(x,y)与这个平面相交得到一曲线。这个曲线在y=1处的斜率就是f(x,y)在点(1,1)处关于y的偏导数的值。</p>
+<p>如果把f(x,y)这个多元函数退化成一元函数f(x)，只能得到一个偏导数，且就是斜率。</p>
+<p>将[latex]\frac{\partial f}{\partial x}[/latex]和[latex]\frac{\partial f}{\partial y}[/latex]整合起来，称作<strong>梯度</strong>。</p>
+<p>梯度指明了局部范围内在哪个方向上函数增长最快，可以用来快速的得到局部最大值/最小值。</p>
+<h2 id="梯度上升和梯度下降"><a href="#梯度上升和梯度下降" class="headerlink" title="梯度上升和梯度下降"></a>梯度上升和梯度下降</h2><hr>
+<p>换个抛物线函数作为示例：<br>[latex]<br>f(x) = x^2<br>[/latex]</p>
+<p>有：<br>[latex]<br>\frac{\partial f}{\partial x} = 2x<br>[/latex]</p>
+<p>plot下f(x)：</p>
+<p><img src="/content/images/2014/09/2014-09-18-gd-02.png" alt=""></p>
+<p>当x=2时，f(x)=4，对于这个点，关于x的偏导数的值为4，即梯度为4，也就是说如果x沿着+4的方向改变，那么f(x)的值将增大，这就是梯度上升；相反，如果x沿着-4的方向改变，那么f(x)的值将减小，这意味着我们可以通过这种方式来得到f(x)的最小值以及相应的x，这就是梯度下降和它的意义。当然，如果将f(x)关于x轴反过来，梯度上升可以帮助我们得到最大值。</p>
+<p>现在只说梯度下降。一般，开始时随机地选择一个种子点，从这个种子点开始，种子点沿着其梯度的相反方向下降。下降的方向是可以求的，下降的程度（即“步长”）需要根据经验指定，例如x下降的方向是<code>-4</code>，步长可以是<code>0.1</code>，于是x会由2变成<code>2-0.1*4</code>=1.6。这个过程需要重复多次，当觉得已经达到最小值的目标时，就可以结束了。可以通过下面的方法判断是否达到目标：</p>
+<ol>
+<li>迭代次数达到指定的值。</li>
+<li>相邻的两次的结果达到某个可以允许的误差范围。</li>
+<li>下一次的运行结果大于这一次的运行结果。</li>
+<li>梯度非常接近0时。</li>
+</ol>
+<p>下面理一下[latex]f(x) = x^2[/latex]使用梯度下降法时迭代的过程（假定步长一直为0.1）：</p>
+<ol>
+<li>x=2，梯度为2*2=4。</li>
+<li>x=2-0.1*4 = 1.6，梯度为2*1.6 = 3.2。</li>
+<li>x = 1.6 - 0.1*3.2 = 1.28，梯度为2*1.28 = 2.56。</li>
+<li>……</li>
+</ol>
+<p>注意，考虑到一个函数可能有多个极小值/极大值，以及种子点是随机选取的，用梯度上升/下降法得到的结果只能说是局部最优。</p>
+<p>梯度下降也可以用来解非线性函数，请移步<a href="http://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/Gradient_descent</a>。</p>
+<h2 id="使用梯度下降法训练线性单元"><a href="#使用梯度下降法训练线性单元" class="headerlink" title="使用梯度下降法训练线性单元"></a>使用梯度下降法训练线性单元</h2><hr>
+<p>假设在一个平面上有两类点，可以用一条直线将它们划分开来，那么如何求这根直线？如果是高维空间中有两类点可以用一个超平面（类似二维空间的线）区分开，如何求这个超平面？</p>
+<p>在二维空间中，直线的表达式是：<br>[latex]<br>w_{1}x_{1}+w_{2}x_{2}+b = 0<br>[/latex]<br>其中，[latex]x_{1}, x_{2}[/latex]分别代表一个维度，[latex]w_{1}, w_{2}[/latex]是权重，b是偏置项，线性回归的目的是求得权重和偏置项。</p>
+<p>将这个公式延伸到n维空间，就变成了寻找合适的超平面：<br>在二维空间中，直线的表达式是：<br>[latex]<br>w_{1}x_{1}+w_{2}x_{2}+…+w_{n}x_{n}+b = 0<br>[/latex]</p>
+<p>假设我们将这些点所属的类分别叫做类+1和类-1，其实我们要找的就是这样一个函数：</p>
+<p>[latex]<br>O(\vec{x}) = \vec{w}\vec{x} +b =\sum_{i=1}^{n}w_{i}x_{i} + b<br>[/latex]</p>
+<p>向量[latex]\vec{x}[/latex]代表n空间中的一个点。[latex]O(\vec{x})[/latex]若大于0，则认为[latex]\vec{x}[/latex]属于类+1的可能性较大，若小于0，则属于类-1的可能性较大。</p>
+<p>令[latex]x_{0}=1, w_{0}=b[/latex]，那么可以将上面的[latex]O(\vec{x})[/latex]简化为：</p>
+<p>[latex]<br>O(\vec{x}) = \vec{w}\vec{x} +b =\sum_{i=0}^{n}w_{i}x_{i}<br>[/latex]</p>
+<p>这相当于给[latex]\vec{x}[/latex]增加了一个维度，且值都为1。</p>
+<p>我们需要一个标准来衡量计算出的[latex]\vec{w}[/latex]的好坏，一般可以采用平方误差：</p>
+<p>[latex]<br>E(\vec{w}) = \frac{1}{2}\sum_{d \in D}(t_{d}-o_{d})^2<br>[/latex]</p>
+<p>D是数据集合，[latex]t_{d}[/latex]是点d的目标输出（即类别-1或者+1），[latex]o_{d}[/latex]则是我们计算出的类别（但这个类别可能是小数，例如0.2，代表更有可能是+1类）。很明显，上面的公式是关于向量[latex]\vec{w}[/latex]的二次函数，所以必然有一个确定的[latex]\vec{w}[/latex]，是的平方误差最小。</p>
+<p>在开始时，给权重向量中的每个权重一个随机值，接着，我们要找出这个向量的每个值应该沿着哪个梯度的负方向前进。</p>
+<p>以[latex]w_{i}[/latex]为例：</p>
+<p>[latex]<br>\frac{\partial E}{\partial w_{i}} \\<br>= \frac{\partial}{\partial w_{i}} [\frac{1}{2}\sum_{d \in D}(t_{d}-o_{d})^2] \\<br>= \frac{1}{2}\sum_{d \in D}\frac{\partial}{\partial w_{i}}(t_{d}-o_{d})^2 \\<br>= \frac{1}{2} \sum_{d \in D} 2 (t_{d}-o_{d}) \frac{\partial}{\partial w_{i}}(t_{d}-o_{d}) \\<br>= \sum_{d \in D}(t_{d}-o_{d}) \frac{\partial}{\partial w_{i}}(t_{d}-\vec{w} \vec{x}_{d})  \\<br>= \sum_{d \in D}(t_{d}-o_{d}) (-\vec{x}_{di})<br>[/latex]</p>
+<p>其中，[latex]\vec{x}_{di}[/latex]是向量[latex]\vec{x}_{d}[/latex]的第i个分量，是一个标量。由上面的求导结果可以看出，对于[latex]w_{i}[/latex]，要最小化[latex]E(\vec{w})[/latex]，[latex]w_{i}[/latex]需要朝下面的方向前进：</p>
+<p>[latex]<br>\sum_{d \in D}(t_{d}-o_{d})\vec{x}_{di}<br>[/latex]</p>
+<p>我们把已被分类的点记做[latex]&lt;\vec{x}, t&gt;[/latex]，[latex]t[/latex]是[latex]\vec{x}[/latex]的类别(class)，设步长为[latex]\eta[/latex]，这里步长也可以叫做学习率。综上，可以得到相应的梯度下降算法：</p>
+<hr>
+<blockquote>
+<p>// 梯度下降</p>
+<p>将[latex]\vec{w}[/latex]中的每个权值[latex]w_{i}[/latex]取随机值；</p>
+<p>WHILE 没有达到某个终止条件之前 DO {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;初始化每个[latex]\Delta w_{i}=0[/latex]；</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;FOR 每个已分类的数据点[latex]&lt;\vec{x}, t&gt;[/latex] DO {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据公式[latex]O(\vec{x}) = \sum_{i=0}^{n}w_{i}x_{i}[/latex]，计算[latex]\vec{x}[/latex]的目标输出[latex]o[/latex]；</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于每个[latex]\Delta w_{i}[/latex]，更新为[latex]\Delta w_{i}=\Delta w_{i}+\eta (t-o)x_{i}[/latex];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;对每个[latex]\Delta w_{i}[/latex]进行更新，即[latex]w_{i} = w_{i} + \Delta w_{i}[/latex]</p>
+<p>}</p>
+</blockquote>
+<p>上面的梯度下降算法有两个问题：</p>
+<p>1、收敛过程可能很慢<br>2、E(w)存在一个最小值，但也可能存在存在多个极小值，上面的算法不一定能找到最小值。</p>
+<p>为了缓解上面提出的问题，可以使用增量梯度下降算法（也叫随机梯度下降算法）：</p>
+<blockquote>
+<p>//增量梯度下降</p>
+<p>将[latex]\vec{w}[/latex]中的每个权值[latex]w_{i}[/latex]取随机值；</p>
+<p>WHILE 没有达到某个终止条件之前 DO {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;FOR 每个已分类的数据点[latex]&lt;\vec{x}, t&gt;[/latex] DO {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据公式[latex]O(\vec{x}) = \sum_{i=0}^{n}w_{i}x_{i}[/latex]，计算[latex]\vec{x}[/latex]的目标输出[latex]o[/latex]；</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于每个[latex]w_{i}[/latex]，更新为[latex]w_{i}=w_{i}+\eta (t-o)x_{i}[/latex];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>}</p>
+</blockquote>
+<p>注意：数据点的类别也可以使用其他数字表示，梯度下降也可以用于多类问题。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-09-18-gradient-descent/" title="梯度下降法">http://www.letiantian.me/2014-09-18-gradient-descent/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09-17-float-string/" rel="next" title="如何float一个字符串">
+                <i class="fa fa-chevron-left"></i> 如何float一个字符串
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-09-18-logistic-regression/" rel="prev" title="Logistic regression（逻辑斯蒂回归）">
+                Logistic regression（逻辑斯蒂回归） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#偏导数与梯度"><span class="nav-text">偏导数与梯度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度上升和梯度下降"><span class="nav-text">梯度上升和梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用梯度下降法训练线性单元"><span class="nav-text">使用梯度下降法训练线性单元</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

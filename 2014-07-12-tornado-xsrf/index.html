@@ -1,0 +1,1101 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,web,tornado," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-07-12 Tornado是一个基于python的非阻塞式web框架，具有很好的性能。  XSRF又叫做CSRF，全称为Cross-site request forgery，即跨站请求伪造。关于XSRF，浅谈CSRF攻击方式给出了三个极好的示例。下面是地一个示例： 银行网站A，它以GET请求来完成银行转账的操作，如：http://www.mybank.com/Transfer.php?t">
+<meta name="keywords" content="编程实践,web,tornado">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tornado解决跨站请求伪造XSRF">
+<meta property="og:url" content="http://www.letiantian.me/2014-07-12-tornado-xsrf/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-07-12 Tornado是一个基于python的非阻塞式web框架，具有很好的性能。  XSRF又叫做CSRF，全称为Cross-site request forgery，即跨站请求伪造。关于XSRF，浅谈CSRF攻击方式给出了三个极好的示例。下面是地一个示例： 银行网站A，它以GET请求来完成银行转账的操作，如：http://www.mybank.com/Transfer.php?t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/07/2014-07-12-tornado-xsrf-00.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/07/2014-07-12-tornado-xsrf-01.png">
+<meta property="og:updated_time" content="2014-10-07T07:14:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tornado解决跨站请求伪造XSRF">
+<meta name="twitter:description" content="2014-07-12 Tornado是一个基于python的非阻塞式web框架，具有很好的性能。  XSRF又叫做CSRF，全称为Cross-site request forgery，即跨站请求伪造。关于XSRF，浅谈CSRF攻击方式给出了三个极好的示例。下面是地一个示例： 银行网站A，它以GET请求来完成银行转账的操作，如：http://www.mybank.com/Transfer.php?t">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/07/2014-07-12-tornado-xsrf-00.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-07-12-tornado-xsrf/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Tornado解决跨站请求伪造XSRF | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-07-12-tornado-xsrf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tornado解决跨站请求伪造XSRF</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-12T10:30:14+08:00">
+                2014-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/tornado/" itemprop="url" rel="index">
+                    <span itemprop="name">tornado</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-07-12</p>
+<p>Tornado是一个基于python的非阻塞式web框架，具有很好的性能。</p>
+<a id="more"></a>
+<p>XSRF又叫做CSRF，全称为Cross-site request forgery，即跨站请求伪造。关于XSRF，<a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">浅谈CSRF攻击方式</a>给出了三个极好的示例。下面是地一个示例：</p>
+<pre><code>银行网站A，它以GET请求来完成银行转账的操作，如：http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000
+
+危险网站B，它里面有一段HTML的代码如下：
+　　&lt;img src=http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000&gt;
+
+首先，你登录了银行网站A，然后访问危险网站B，噢，这时你会发现你的银行账户少了1000块......
+
+为什么会这样呢？原因是银行网站A违反了HTTP规范，使用GET请求更新资源。在访问危险网站B的之前，
+你已经登录了银行网站A，而B中的&lt;img&gt;以GET的方式请求第三方资源（这里的第三方就是指银行网站了，
+原本这是一个合法的请求，但这里被不法分子利用了），所以你的浏览器会带上你的银行网站A的Cookie
+发出Get请求，去获取资源“http://www.mybank.com/Transfer.php?toBankId=11&amp;money=1000”，
+结果银行网站服务器收到请求后，认为这是一个更新资源操作（转账操作），所以就立刻进行转账操作。
+</code></pre><p>值得注意的是，即使使用POST更新数据，仍然可以进行XSRF攻击，比如可以利用iframe。<a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">浅谈CSRF攻击方式</a>中的示例3给出了一个使用iframe的XSRF攻击。下面，循序渐进地讲一下如何使用Tornado预防xsrf攻击。</p>
+<h2 id="Tornado安装"><a href="#Tornado安装" class="headerlink" title="Tornado安装"></a>Tornado安装</h2><hr>
+<pre><code>sudo pip install unittest2
+sudo pip install futures
+sudo pip install pycurl
+sudo pip install twisted
+sudo pip install pycares
+sudo pip install monotime
+sudo pip install tornado  #笔者安装的版本是3.2.2
+</code></pre><h2 id="简单的Hello-World"><a href="#简单的Hello-World" class="headerlink" title="简单的Hello World"></a>简单的Hello World</h2><hr>
+<p>编写server.py：</p>
+<pre><code>import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write(&quot;Hello, world&quot;)
+
+application = tornado.web.Application([
+    (r&quot;/&quot;, MainHandler),
+])
+
+if __name__ == &quot;__main__&quot;:
+    application.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
+</code></pre><p>运行server.py，浏览器访问<code>http://127.0.0.1:8888/</code>,浏览器会显示<code>Hello, world</code>。</p>
+<h2 id="使用模板"><a href="#使用模板" class="headerlink" title="使用模板"></a>使用模板</h2><hr>
+<p>将server.py改写为：</p>
+<pre><code>import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        items = [&quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;]
+        self.render(&quot;template.html&quot;, title=&quot;My title&quot;, items=items)
+
+application = tornado.web.Application([
+    (r&quot;/&quot;, MainHandler),
+])
+
+if __name__ == &quot;__main__&quot;:
+    application.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
+</code></pre><p>在同样的目录中创建模板文件template.html：</p>
+<pre><code>&lt;html&gt;
+   &lt;head&gt;
+      &lt;title&gt;{{ title }}&lt;/title&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;ul&gt;
+       {% for item in items %}
+         &lt;li&gt;{{ escape(item) }}&lt;/li&gt;
+       {% end %}
+     &lt;/ul&gt;
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>访问效果如下：<br><img src="/content/images/2014/07/2014-07-12-tornado-xsrf-00.png" alt=""></p>
+<h2 id="如何防止XSRF攻击"><a href="#如何防止XSRF攻击" class="headerlink" title="如何防止XSRF攻击"></a>如何防止XSRF攻击</h2><hr>
+<p>将server.py改写为：</p>
+<pre><code>import tornado.ioloop
+import tornado.web
+
+settings = {
+    &quot;cookie_secret&quot;: &quot;afalihqifacn7q!@as&quot;,
+    &quot;xsrf_cookies&quot;: True,
+}
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render(&quot;index.html&quot;)
+
+class LoginHandler(tornado.web.RequestHandler):
+    def post(self):
+        self.write(&quot;hello&quot;)
+
+router = [(r&quot;/&quot;, MainHandler),
+          (r&quot;/login&quot;, LoginHandler)]
+
+application = tornado.web.Application(router, **settings)
+
+if __name__ == &quot;__main__&quot;:
+    application.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
+</code></pre><p>在同一目录下创建模板文件index.html：</p>
+<pre><code>&lt;html&gt;
+   &lt;head&gt;
+      &lt;title&gt;&lt;/title&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+
+    &lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+      {% raw xsrf_form_html() %}
+      &lt;input type=&quot;text&quot; name=&quot;message&quot;/&gt;
+      &lt;input type=&quot;submit&quot; value=&quot;Post1&quot;/&gt;
+    &lt;/form&gt;
+
+    &lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+      &lt;input type=&quot;text&quot; name=&quot;message&quot;/&gt;
+      &lt;input type=&quot;submit&quot; value=&quot;Post2&quot;/&gt;
+    &lt;/form&gt;
+
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>运行server.py，现在使用浏览器打开<code>http://127.0.0.1:8888/</code>，会看到：</p>
+<p><img src="/content/images/2014/07/2014-07-12-tornado-xsrf-01.png" alt=""></p>
+<p>我们通过<code>&quot;xsrf_cookies&quot;: True</code>启用了预防xsrf攻击的功能。第一个表单可以正常跳转到<code>/login</code>。下面根据访问过程论述一下预防的原理：</p>
+<p>首先，访问<code>http://127.0.0.1:8888/</code>时，http请求头类似于下面的内容：</p>
+<pre><code>GET / HTTP/1.1
+Host: 127.0.0.1:8888
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) 
+Accept-Encoding: gzip,deflate,sdch
+</code></pre><p>服务器server.py响应头如下：</p>
+<pre><code>HTTP/1.1 200 OK
+Date: Sat, 12 Jul 2014 05:48:21 GMT
+Content-Length: 395
+Etag: &quot;c8a35073b1b6af47460c7318c8e9069ef998615d&quot;
+Content-Type: text/html; charset=UTF-8
+Server: TornadoServer/3.2.2
+Set-Cookie: _xsrf=2|fbe9aed0|553cc0b9bb7f3d7de9271add4199c185|1405144101; Path=/
+</code></pre><p>在最后一行可以看到，服务器需要对客户端设置键为<code>_xsrf</code>的cookie，值得注意的是每次请求得到的<code>_xsrf</code>的值是变化的。</p>
+<p>响应主体是html：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;_xsrf&quot; value=&quot;2|fbe9aed0|553cc0b9bb7f3d7de9271add4199c185|1405144101&quot;/&gt;
+&lt;input type=&quot;text&quot; name=&quot;message&quot;/&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Post1&quot;/&gt;
+&lt;/form&gt;
+
+&lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;message&quot;/&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Post2&quot;/&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>注意到第一个表单的的第一个input是隐藏的，且其value和响应头cookie中设置的<code>_xsrf</code>的值是相同的。</p>
+<p>点击表单1的按钮后，表单中<code>_xsrf</code>和<code>message</code>的值会以post的方式传到<code>http://127.0.0.1:8888/login</code>，http请求头中也包含了之前设置的cookie（即<code>_xsrf</code>）。server.py会对这两个<code>_xsrf</code>进行比较，相同的话则意味着不是XSRF攻击，浏览器会显示<code>hello</code>。</p>
+<p>如果点击表格2的按钮<code>Post2</code>，由于两个<code>_xsrf</code>不相同（其实表单中就没有<code>_xsrf</code>），得到的响应会是：</p>
+<pre><code>403: Forbidden
+</code></pre><p><strong>如果在其他的域下设法向<code>http://127.0.0.1:8888/login</code>POST数据，由于cookie中没有<code>_xsrf</code>或者没有正确的<code>_xsrf</code>，POST将无法成功。这也就防范了XSRF攻击。</strong></p>
+<h2 id="一些资料"><a href="#一些资料" class="headerlink" title="一些资料"></a>一些资料</h2><hr>
+<p><a href="http://www.tornadoweb.cn/" target="_blank" rel="noopener">http://www.tornadoweb.cn/</a><br><a href="http://www.tornadoweb.cn/documentation" target="_blank" rel="noopener">Tornado概览</a><br><a href="http://www.tornadoweb.org/en/stable/documentation.html" target="_blank" rel="noopener">Tornado Documentation</a><br><a href="http://demo.pythoner.com/itt2zh/index.html" target="_blank" rel="noopener">Introduction to Tornado——中文版</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-07-12-tornado-xsrf/" title="Tornado解决跨站请求伪造XSRF">http://www.letiantian.me/2014-07-12-tornado-xsrf/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-06-30-flask-datum-collected/" rel="next" title="Flask框架资料整理">
+                <i class="fa fa-chevron-left"></i> Flask框架资料整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-07-12-ffmpeg-avconv/" rel="prev" title="使用ffmpeg/avconv处理音频、视频">
+                使用ffmpeg/avconv处理音频、视频 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tornado安装"><span class="nav-text">Tornado安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单的Hello-World"><span class="nav-text">简单的Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用模板"><span class="nav-text">使用模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何防止XSRF攻击"><span class="nav-text">如何防止XSRF攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些资料"><span class="nav-text">一些资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

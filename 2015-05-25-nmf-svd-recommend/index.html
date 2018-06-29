@@ -1,0 +1,1195 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-05-25 本文以NMF和经典SVD为例，讲一讲矩阵分解在推荐系统中的应用。 数据item\userBenTomJohnFreditem 15505item 25034item 33403item 40053item 55445item 65455  user\itemitem 1item 2item 3item 4item 5item 6Ben553055Tom504044John03">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵分解在推荐系统中的应用：NMF和经典SVD实战">
+<meta property="og:url" content="http://www.letiantian.me/2015-05-25-nmf-svd-recommend/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-05-25 本文以NMF和经典SVD为例，讲一讲矩阵分解在推荐系统中的应用。 数据item\userBenTomJohnFreditem 15505item 25034item 33403item 40053item 55445item 65455  user\itemitem 1item 2item 3item 4item 5item 6Ben553055Tom504044John03">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-item-01.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-user-01.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-user-02.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-user-item-svd.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-formula-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-formula-02.png">
+<meta property="og:updated_time" content="2015-05-26T01:07:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="矩阵分解在推荐系统中的应用：NMF和经典SVD实战">
+<meta name="twitter:description" content="2015-05-25 本文以NMF和经典SVD为例，讲一讲矩阵分解在推荐系统中的应用。 数据item\userBenTomJohnFreditem 15505item 25034item 33403item 40053item 55445item 65455  user\itemitem 1item 2item 3item 4item 5item 6Ben553055Tom504044John03">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-25-nmf-svd-item-01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-05-25-nmf-svd-recommend/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>矩阵分解在推荐系统中的应用：NMF和经典SVD实战 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-05-25-nmf-svd-recommend/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">矩阵分解在推荐系统中的应用：NMF和经典SVD实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-25T19:25:06+08:00">
+                2015-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-05-25</p>
+<p>本文以NMF和经典SVD为例，讲一讲矩阵分解在推荐系统中的应用。</p>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><table><thead><br><tr><th>item\user</th><th>Ben</th><th>Tom</th><th>John</th><th>Fred</th></tr></thead><br><tbody><br><tr><td>item 1</td><td>5</td><td>5</td><td>0</td><td>5</td></tr><br><tr><td>item 2</td><td>5</td><td>0</td><td>3</td><td>4</td></tr><br><tr><td>item 3</td><td>3</td><td>4</td><td>0</td><td>3</td></tr><br><tr><td>item 4</td><td>0</td><td>0</td><td>5</td><td>3</td></tr><br><tr><td>item 5</td><td>5</td><td>4</td><td>4</td><td>5</td></tr><br><tr><td>item 6</td><td>5</td><td>4</td><td>5</td><td>5</td></tr><br></tbody></table>
+
+<table><br><thead><tr><th>user\item</th><th>item 1</th><th>item 2</th><th>item 3</th><th>item 4</th><th>item 5</th><th>item 6</th></tr></thead><br><tbody><br><tr><td>Ben</td><td>5</td><td>5</td><td>3</td><td>0</td><td>5</td><td>5</td></tr><br><tr><td>Tom</td><td>5</td><td>0</td><td>4</td><td>0</td><td>4</td><td>4</td></tr><br><tr><td>John</td><td>0</td><td>3</td><td>0</td><td>5</td><td>4</td><td>5</td></tr><br><tr><td>Fred</td><td>5</td><td>4</td><td>3</td><td>3</td><td>5</td><td>5</td></tr><br></tbody></table>
+
+<h2 id="NMF"><a href="#NMF" class="headerlink" title="NMF"></a>NMF</h2><p>关于NMF，在<a href="/2014-12-22-latent-factor-model-and-nmf/">隐语义模型和NMF（非负矩阵分解）</a>已经有过介绍。</p>
+<h3 id="用户和物品的主题分布"><a href="#用户和物品的主题分布" class="headerlink" title="用户和物品的主题分布"></a>用户和物品的主题分布</h3><pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from sklearn.decomposition import NMF
+import matplotlib.pyplot as plt
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+nmf = NMF(n_components=2)  # 设有2个隐主题
+user_distribution = nmf.fit_transform(RATE_MATRIX)
+item_distribution = nmf.components_
+
+print &#39;用户的主题分布：&#39;
+print user_distribution
+print &#39;物品的主题分布：&#39;
+print item_distribution
+</code></pre><p>运行后输出：</p>
+<pre><code class="text">用户的主题分布：
+[[ 2.20884275  0.84137492]
+ [ 2.08253282 -0.        ]
+ [-0.          3.18154406]
+ [ 1.84992603  1.60839505]]
+物品的主题分布：
+[[ 2.4129931   1.02524235  1.62258152  0.          1.80111078  1.69591943]
+ [ 0.0435741   1.13506094  0.          1.54526337  1.21253494  1.48756118]]
+</code></pre>
+<p>可视化物品的主题分布：</p>
+<pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from sklearn.decomposition import NMF
+import matplotlib.pyplot as plt
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+nmf = NMF(n_components=2)
+user_distribution = nmf.fit_transform(RATE_MATRIX)
+item_distribution = nmf.components_
+
+item_distribution = item_distribution.T
+plt.plot(item_distribution[:, 0], item_distribution[:, 1], &quot;b*&quot;)
+plt.xlim((-1, 3))
+plt.ylim((-1, 3))
+
+plt.title(u&#39;the distribution of items (NMF)&#39;)
+count = 1
+for item in item_distribution:
+    plt.text(item[0], item[1], &#39;item &#39;+str(count), bbox=dict(facecolor=&#39;red&#39;, alpha=0.2),)
+    count += 1
+
+plt.show()
+</code></pre><p>结果：<br><img src="/content/images/2015/05/2015-05-25-nmf-svd-item-01.jpg" alt=""></p>
+<p>从距离的角度来看，item 5和item 6比较类似；从余弦相似度角度看，item 2、5、6 比较相似，item 1、3比较相似。</p>
+<p>可视化用户的主题分布：</p>
+<pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from sklearn.decomposition import NMF
+import matplotlib.pyplot as plt
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+nmf = NMF(n_components=2)
+user_distribution = nmf.fit_transform(RATE_MATRIX)
+item_distribution = nmf.components_
+
+users = [&#39;Ben&#39;, &#39;Tom&#39;, &#39;John&#39;, &#39;Fred&#39;]
+zip_data = zip(users, user_distribution)
+
+plt.title(u&#39;the distribution of users (NMF)&#39;)
+plt.xlim((-1, 3))
+plt.ylim((-1, 4))
+for item in zip_data:
+    user_name = item[0]
+    data = item[1]
+    plt.plot(data[0], data[1], &quot;b*&quot;)
+    plt.text(data[0], data[1], user_name, bbox=dict(facecolor=&#39;red&#39;, alpha=0.2),)
+
+plt.show()
+</code></pre><p>结果：</p>
+<p><img src="/content/images/2015/05/2015-05-25-nmf-svd-user-01.jpg" alt=""></p>
+<p>从距离的角度来看，Fred、Ben、Tom的口味差不多；从余弦相似度角度看，Fred、Ben、Tom的口味还是差不多。</p>
+<h3 id="如何推荐"><a href="#如何推荐" class="headerlink" title="如何推荐"></a>如何推荐</h3><p>现在对于用户A，如何向其推荐物品呢？</p>
+<p><strong>方法1：</strong> 找出与用户A最相似的用户B，将B评分过的、评分较高、A没评分过的的若干物品推荐给A。</p>
+<p><strong>方法2：</strong> 找出用户A评分较高的若干物品，找出与这些物品相似的、且A没评分的若干物品推荐给A。</p>
+<p><strong>方法3：</strong> 找出用户A最感兴趣的k个主题，找出最符合这k个主题的、且A没评分的若干物品推荐给A。</p>
+<p><strong>方法4：</strong> 由NMF得到的两个矩阵，重建评分矩阵。例如：</p>
+<pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from sklearn.decomposition import NMF
+import matplotlib.pyplot as plt
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+RATE_MATRIX[1, 2] = 0  # 对评分矩阵略做修改
+print &#39;新评分矩阵：&#39;
+print RATE_MATRIX
+
+nmf = NMF(n_components=2)
+user_distribution = nmf.fit_transform(RATE_MATRIX)
+item_distribution = nmf.components_
+
+reconstruct_matrix = np.dot(user_distribution, item_distribution)
+filter_matrix = RATE_MATRIX &lt; 1e-6  # 小于0
+print &#39;重建矩阵，并过滤掉已经评分的物品：&#39;
+print reconstruct_matrix*filter_matrix
+</code></pre><p>运行结果：</p>
+<pre><code class="text">新评分矩阵：
+[[5 5 3 0 5 5]
+ [5 0 0 0 4 4]
+ [0 3 0 5 4 5]
+ [5 4 3 3 5 5]]
+重建矩阵，并过滤掉已经评分的物品：
+[[ 0.          0.          0.          0.80443133  0.          0.        ]
+ [ 0.          2.19148602  1.73560797  0.          0.          0.        ]
+ [ 0.02543568  0.          0.48692891  0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.        ]]
+</code></pre>
+<p>对于Tom（评分矩阵的第2行），其未评分过的物品是item 2、item 3、item 4。item 2的推荐值是<code>2.19148602</code>，item 3的推荐值是<code>1.73560797</code>，item 4的推荐值是<code>0</code>，若要推荐一个物品，推荐item 2。</p>
+<h3 id="如何处理有评分记录的新用户"><a href="#如何处理有评分记录的新用户" class="headerlink" title="如何处理有评分记录的新用户"></a>如何处理有评分记录的新用户</h3><p>NMF是将非负矩阵V分解为两个非负矩阵W和H：</p>
+<pre><code>V = W×H
+</code></pre><p>在本文上面的实现中，V对应评分矩阵，W是用户的主题分布，H是物品的主题分布。</p>
+<p>对于有评分记录的新用户，如何得到其主题分布？</p>
+<p><strong>方法1：</strong> 有评分记录的新用户的评分数据放入评分矩阵中，使用NMF处理新的评分矩阵。</p>
+<p><strong>方法2：</strong> 物品的主题分布矩阵H保持不变，将V更换为新用户的评分组成的行向量，求W即可。</p>
+<p>下面尝试一下方法2。</p>
+<p>设新用户Bob的评分记录为：</p>
+<pre><code>[5,5,0,0,0,5]
+</code></pre><pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from sklearn.decomposition import NMF
+import matplotlib.pyplot as plt
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+nmf = NMF(n_components=2)
+user_distribution = nmf.fit_transform(RATE_MATRIX)
+item_distribution = nmf.components_
+
+bob = [5, 5, 0, 0, 0, 5]
+print &#39;Bob的主题分布：&#39;
+print nmf.transform(bob)
+</code></pre><p>运行结果是：</p>
+<pre><code class="text">Bob的主题分布：
+[[ 1.37800534  0.69236738]]
+</code></pre>
+<p><img src="/content/images/2015/05/2015-05-25-nmf-svd-user-02.jpg" alt=""></p>
+<h2 id="经典SVD"><a href="#经典SVD" class="headerlink" title="经典SVD"></a>经典SVD</h2><p>关于SVD的一篇好文章：<a href="http://www.cnblogs.com/leftnoteasy/archive/2011/01/19/svd-and-applications.html" target="_blank" rel="noopener">强大的矩阵奇异值分解(SVD)及其应用</a>。</p>
+<p>相关分析与上面类似，这里就直接上代码了。</p>
+<pre><code># !/usr/bin/python2.7
+# coding: UTF-8
+import numpy as np
+from scipy.sparse.linalg import svds
+from scipy import sparse
+import matplotlib.pyplot as plt
+
+def vector_to_diagonal(vector):
+    &quot;&quot;&quot;
+    将向量放在对角矩阵的对角线上
+    :param vector:
+    :return:
+    &quot;&quot;&quot;
+    if (isinstance(vector, np.ndarray) and vector.ndim == 1) or \
+            isinstance(vector, list):
+        length = len(vector)
+        diag_matrix = np.zeros((length, length))
+        np.fill_diagonal(diag_matrix, vector)
+        return diag_matrix
+    return None
+
+RATE_MATRIX = np.array(
+    [[5, 5, 3, 0, 5, 5],
+     [5, 0, 4, 0, 4, 4],
+     [0, 3, 0, 5, 4, 5],
+     [5, 4, 3, 3, 5, 5]]
+)
+
+RATE_MATRIX = RATE_MATRIX.astype(&#39;float&#39;)
+U, S, VT = svds(sparse.csr_matrix(RATE_MATRIX),  k=2, maxiter=200) # 2个隐主题
+S = vector_to_diagonal(S)
+
+print &#39;用户的主题分布：&#39;
+print U
+print &#39;奇异值：&#39;
+print S
+print &#39;物品的主题分布：&#39;
+print VT
+print &#39;重建评分矩阵，并过滤掉已经评分的物品：&#39;
+print np.dot(np.dot(U, S), VT) * (RATE_MATRIX &lt; 1e-6)
+</code></pre><p>运行结果：</p>
+<pre><code class="text">用户的主题分布：
+[[-0.22279713  0.57098887]
+ [-0.51723555  0.4274751 ]
+ [ 0.82462029  0.38459931]
+ [ 0.05319973  0.58593526]]
+奇异值：
+[[  6.39167145   0.        ]
+ [  0.          17.71392084]]
+物品的主题分布：
+[[-0.53728743  0.24605053 -0.40329582  0.67004393  0.05969518  0.18870999]
+ [ 0.44721867  0.35861531  0.29246336  0.20779151  0.50993331  0.53164501]]
+重建评分矩阵，并过滤掉已经评分的物品：
+[[ 0.          0.          0.          1.14752376  0.          0.        ]
+ [ 0.          1.90208543  0.         -0.64171368  0.          0.        ]
+ [ 0.21491237  0.         -0.13316888  0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.        ]]
+</code></pre>
+<p>可视化一下：<br><img src="/content/images/2015/05/2015-05-25-nmf-svd-user-item-svd.jpg" alt=""></p>
+<h2 id="经典SVD-协同过滤"><a href="#经典SVD-协同过滤" class="headerlink" title="经典SVD + 协同过滤"></a>经典SVD + 协同过滤</h2><p><code>0</code>代表没有评分，但是上面的方法（<code>如何推荐</code>这一节的<code>方法4</code>）又确实把0看作了评分，所以最终得到的只是一个推荐值（而且总体都偏小），而无法当作预测的评分。在<a href="http://stats.stackexchange.com/questions/31096/how-do-i-use-the-svd-in-collaborative-filtering" target="_blank" rel="noopener">How do I use the SVD in collaborative filtering?</a>有这方面的讨论。</p>
+<h3 id="SVD简要介绍"><a href="#SVD简要介绍" class="headerlink" title="SVD简要介绍"></a>SVD简要介绍</h3><p>SVD的目标是将<code>m*n</code>大小的矩阵A分解为三个矩阵的乘积：</p>
+<p>[latex]<br>A = U <em> S </em> V^{T}<br>[/latex]</p>
+<p>U和V都是正交矩阵，大小分别是<code>m*m</code>、<code>n*n</code>。S是一个对角矩阵，大小是<code>m*n</code>，对角线存放着奇异值，从左上到右下依次减小，设奇异值的数量是<code>r</code>。</p>
+<p>取<code>k</code>，<code>k&lt;&lt;r</code>。</p>
+<p>取得[latex]U[/latex]的前k列得到[latex]U_{k}[/latex]，[latex]S[/latex]的前k个奇异值对应的方形矩阵得到[latex]S_{k}[/latex]，[latex]V^{T}[/latex]的前k行得到[latex]V^{T}_{k}[/latex]，于是有</p>
+<p>[latex]<br>A_{k} = U_{k} <em> S_{k} </em> V^{T}_{k}<br>[/latex]</p>
+<p>[latex]A_{k}[/latex]可以认为是[latex]A[/latex]的近似。</p>
+<p>下面的算法将协同过滤和SVD结合了起来。</p>
+<h3 id="Item-based-Filtering-Enhanced-by-SVD"><a href="#Item-based-Filtering-Enhanced-by-SVD" class="headerlink" title="Item-based Filtering Enhanced by SVD"></a>Item-based Filtering Enhanced by SVD</h3><p>这个算法来自下面这篇论文：</p>
+<blockquote>
+<p>Vozalis M G, Margaritis K G. Applying SVD on Generalized Item-based Filtering[J]. IJCSA, 2006, 3(3): 27-51.</p>
+</blockquote>
+<p><strong>1、</strong> 设评分矩阵为<code>R</code>，大小为<code>m*n</code>，m个用户，n个物品。<code>R</code>中元素[latex]r_{ij}[/latex]代表着用户[latex]u_{i}[/latex]对物品[latex]i_{j}[/latex]的评分。</p>
+<p><strong>2、</strong> 预处理<code>R</code>，消除掉其中未评分数据（即值为0）的评分。</p>
+<ul>
+<li>计算<code>R</code>中每一行的平均值（平均值的计算中不包括值为0的评分），令[latex]R_{filled-in}=R[/latex]，然后将[latex]R_{filled-in}[/latex]中的0设置为该行的平均值。</li>
+<li>计算<code>R</code>中每一列的平均值（平均值的计算中不包括值为0的评分）[latex]r_{i}[/latex]，[latex]R_{filled-in}[/latex]中的所有元素减去对应的[latex]r_{i}[/latex]，得到正规化的矩阵[latex]R_{norm}[/latex]。(norm，即normalized)。</li>
+</ul>
+<p><strong>3、</strong> 对[latex]R_{norm}[/latex]进行奇异值分解，得到：<br>[latex]<br>R_{norm} = U <em> S </em> V^{T}<br>[/latex]</p>
+<p><strong>4、</strong> 设正整数k，取得[latex]U[/latex]的前k列得到[latex]U_{k}[/latex]，[latex]S[/latex]的前k个奇异值对应的方形矩阵得到[latex]S_{k}[/latex]，[latex]V^{T}[/latex]的前k行得到[latex]V^{T}_{k}[/latex]，于是有</p>
+<p>[latex]<br>R_{red} = U_{k} <em> S_{k} </em> V^{T}_{k}<br>[/latex]</p>
+<p>red，即dimensionality reduction中的reduction。可以认为k是指最重要的k个主题。定义[latex]R_{red}[/latex]中元素[latex]rr_{ij}[/latex]用户i对物品j在矩阵[latex]R_{red}[/latex]中的值。</p>
+<p><strong>5、</strong> [latex] U_{k} <em> S_{k}^{\frac{1}{2}}[/latex]，是用户相关的降维后的数据，其中的每行代表着对应用户在新特征空间下位置。[latex] S_{k}^{\frac{1}{2}}</em>V^{T}_{k}[/latex]，是物品相关的降维后的数据，其中的每列代表着对应物品在新特征空间下的位置。</p>
+<p>[latex] S_{k}^{\frac{1}{2}}*V^{T}_{k}[/latex]中的元素[latex]mr_{ij}[/latex]代表<code>物品j</code>在新空间下<code>维度i</code>中的值，也可以认为是<code>物品j</code>属于<code>主题i</code>的程度。（共有k个主题）。</p>
+<p><strong>6、</strong> 获取物品之间相似度。</p>
+<ul>
+<li><p>根据[latex] S_{k}^{\frac{1}{2}}*V^{T}_{k}[/latex]计算物品之间的相似度，例如使用余弦相似度计算物品j和f的相似度：<br><img src="/content/images/2015/05/2015-05-25-nmf-svd-formula-01.png" alt=""></p>
+</li>
+<li><p>相似度计算出来后就可以得到每个物品最相似的若干物品了。</p>
+</li>
+</ul>
+<p><strong>7、</strong> 使用下面的公式预测用户a对物品j的评分：<br><img src="/content/images/2015/05/2015-05-25-nmf-svd-formula-02.png" alt=""><br>这个公式里有些变量的使用和上面的冲突了（例如k）。<br>[latex]l[/latex]是指取物品j最相似的[latex]l[/latex]个物品。<br>[latex]mr_{ij}[/latex]代表<code>物品j</code>在新空间下<code>维度i</code>中的值，也可以认为是<code>物品j</code>属于<code>主题i</code>的程度。<br>[latex]sim_{jk}[/latex]是物品j和物品k的相似度。<br>[latex]R_{red}[/latex]中元素[latex]rr_{ak}[/latex]是用户a对物品k在矩阵[latex]R_{red}[/latex]中对应的评分。[latex]\bar{r_{a}}[/latex]是指用户a在评分矩阵[latex]R[/latex]中评分的平均值（平均值的计算中不包括值为0的评分）。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.igvita.com/2007/01/15/svd-recommendation-system-in-ruby/" target="_blank" rel="noopener">SVD Recommendation System in Ruby</a>  这篇文章使用的数据来自该链接，里面处理新用户的方法表示没看懂。</p>
+<p><a href="http://stats.stackexchange.com/questions/31096/how-do-i-use-the-svd-in-collaborative-filtering" target="_blank" rel="noopener">How do I use the SVD in collaborative filtering?</a></p>
+<p>Vozalis M G, Margaritis K G. Applying SVD on Generalized Item-based Filtering[J]. IJCSA, 2006, 3(3): 27-51.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-05-25-nmf-svd-recommend/" title="矩阵分解在推荐系统中的应用：NMF和经典SVD实战">http://www.letiantian.me/2015-05-25-nmf-svd-recommend/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/topic-learn-flask/" rel="next" title="专题：浅入浅出Flask框架">
+                <i class="fa fa-chevron-left"></i> 专题：浅入浅出Flask框架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-05-25-bayes-text-classify-system-db-design/" rel="prev" title="基于贝叶斯的文本分类系统的数据库设计">
+                基于贝叶斯的文本分类系统的数据库设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据"><span class="nav-text">数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NMF"><span class="nav-text">NMF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户和物品的主题分布"><span class="nav-text">用户和物品的主题分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何推荐"><span class="nav-text">如何推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何处理有评分记录的新用户"><span class="nav-text">如何处理有评分记录的新用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#经典SVD"><span class="nav-text">经典SVD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#经典SVD-协同过滤"><span class="nav-text">经典SVD + 协同过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD简要介绍"><span class="nav-text">SVD简要介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Item-based-Filtering-Enhanced-by-SVD"><span class="nav-text">Item-based Filtering Enhanced by SVD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

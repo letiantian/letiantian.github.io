@@ -1,0 +1,978 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
+<meta name="keywords" content="编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符编码简介">
+<meta property="og:url" content="http://www.letiantian.me/2015-03-02-character-encoding/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-02-utf-8.png">
+<meta property="og:updated_time" content="2015-03-02T11:41:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符编码简介">
+<meta name="twitter:description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-02-utf-8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-03-02-character-encoding/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>字符编码简介 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-03-02-character-encoding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">字符编码简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-02T19:34:38+08:00">
+                2015-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-03-02</p>
+<h2 id="字符集、代码点、代码单元"><a href="#字符集、代码点、代码单元" class="headerlink" title="字符集、代码点、代码单元"></a>字符集、代码点、代码单元</h2><hr>
+<p>将所有的字符放在一起就是<code>字符集</code>。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。</p>
+<p>对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的字符集中有52个字符（小写字母26个，大写字母26个），可以将这些字符依次编号为0、1、2、…、51。一个字符的编号称为该字符的<code>代码点（Code Point）</code>。这种编码后的字符集叫做<code>编码字符集</code>。常见的编码字符集有ASCII、Unicode、GBK等。值得注意的是，有些编码字符集中的代码点不一定被使用了，例如Unicode。</p>
+<p><code>代码单元（Code Unit）</code>是编码时使用的最小单元。这个和如何存储一个字符的编码有关。以为下文将提到的UTF-8为例，其代码单元是8bit，由于UTF-8是变长编码，这意味着在UTF-8有些字符用8bit来存储和表示，有些是8×2bit存储和表示，还有8×3bit等等。</p>
+<h2 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h2><hr>
+<p>Unicode的目标是包含世界上所有语言的文字。Unicode 6.0中已经包含了超过109 000个字符。要了解Unicode，先给出下面的等式：</p>
+<pre><code>2^16 = 65_536
+17 × 65536 = 1_114_112
+0x10FFFF = 1_114_111
+</code></pre><p>Unicode个定义了1 114 112个代码点，值的范围是0～0x10FFFF。这些代码点当前只被使用了一小部分。</p>
+<p>Unicode被分为17个区域，一个区域叫一个平面（plane），每个平面有65 536个字符。<code>0x10FFFF</code>的最高两位为<code>0x10</code>，由0到<code>0x10</code>，刚好17个平面，每个平面是16进制表示的最低4位是从<code>0x0000</code>到<code>0xFFFF</code>。</p>
+<p>第一个平面的范围是<code>0x000000</code>到<code>0x00FFFF</code>，叫做基本多语言平面（BMP），包含了最常用的字符和符号。第2、3、4平面作补充了一些字符。第5到14个平面尚未分配。第15个平面主要包含非非图形化字符。第16、17个平面叫做私有使用区域平面（PUA），供第三方自定义。</p>
+<h2 id="如何表示和存储Unicode"><a href="#如何表示和存储Unicode" class="headerlink" title="如何表示和存储Unicode"></a>如何表示和存储Unicode</h2><hr>
+<p>一个比较简单的思路是，既然Unicode代码点的值的范围是0～0x10FFF，那么可以直接用3个字节来表示，即使用定长的3个字节来表示所有Unicode代码点对应的字符。但是这存在一个空间使用的问题，例如对于使用英语的人而言，ASCII基本可以满足他的使用。如果使用ASCII，只需要1个字节来存储和表示字符，如果使用Unicode的3个字节来存储，显然是浪费空间的。那么让我们来看看现实中的编码方案。</p>
+<h3 id="UTF-8编码"><a href="#UTF-8编码" class="headerlink" title="UTF-8编码"></a>UTF-8编码</h3><p>UTF-8使用8bit作为一个代码单元，是变长编码。先看一下<a href="http://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/UTF-8</a>给出的表格。</p>
+<p><img src="/content/images/2015/03/2015-03-02-utf-8.png" alt=""></p>
+<p>可以看出，Unicode中代码点可以用7bit表示的字符在UTF-8中均用1字节表示，代码点可以分别用8到11（8、9、10、11）bit表示的字符在UTF-8中均用2字节表示，依次类推。总的来说UTF-8与Unicode兼容，但是可以表示比目前的Unicode更多的字符。</p>
+<p>下面举例说明UTF-8与Unicode的映射方式。</p>
+<p>汉字“你”的Unicode代码点是<code>Ox4F60</code>，其二进制形式（下划线用于优化阅读体验，无特殊意义）：</p>
+<pre><code>0100_1111 0110_0000
+</code></pre><p>至少需要15bit才能表示“你”，所以其对应的UTF-8编码需要3字节：</p>
+<pre><code>1110_0100 10_111101 10_100000
+</code></pre><p>即<code>E4BDA0</code>。把每个字节<code>_</code>后的bit位提取出来放在一起，就是Unicode中对应的代码点了。</p>
+<h3 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h3><p>UTF-16使用16bit作为一个代码单元，是变长编码。首先记住这一点：<strong>在Unicode中，代码点0xD800～0xDFFF是没有定义字符的。</strong></p>
+<p>对于Unicode中代码点位于<code>0x0000</code>～<code>0xFFFF</code>中字符，UTF-16使用一个代码单元即可，那么额对于Unicode中代码点不在<code>0x0000</code>～<code>0xFFFF</code>之间的字符呢？即对于Unicode中代码点位于<code>0x10000</code>～<code>0x10FFFF</code>中字符，UTF-16该怎么表示？</p>
+<p><strong>思路是这样的：</strong>使用两个代码单元来表示这些字符，其中第一个代码单元的值在0xD800~0xDBFF之间，第二个代码单元的值在0xDC00~0xDFFF之间，前者称为<code>高位代理</code>，后者称为<code>低位代理</code>，两者一起称为<code>代理项对</code>（surrogate pair）。</p>
+<p><strong>下面计算UTF-16能否表示所有的Unicode字符。</strong>使用一个UTF-16代码单元可以表示的字符数量是<code>2^16</code>，<code>0xD800～0xDFFF</code>对于Unicode或者UTF-16的一个代理单元都是不可用的。使用两个UTF-16代码单元可以表示的字符数量为：</p>
+<pre><code>(0xdbff-0xd800+1) * (0xdfff-0xdc00+1)
+= 1024 * 1024
+= 1048576
+</code></pre><p>所以UTF-16可以表示的字符数量为：</p>
+<pre><code>1048576 + 2^16 = 1114112
+</code></pre><p>这和Unicode表示的字符数量是相同的。</p>
+<p><strong>对于Unicode中代码点位于<code>0x10000</code>～<code>0x10FFFF</code>中字符，如何转化为<code>代理项对</code>？</strong><br>首先，将代码点减去<code>0x10000</code>，这样新的代码点的范围变成了<code>0</code>～<code>0xFFFFF</code>，这些代码点可以用20bit来表示。将这20bit的前10bit（<code>0～0x3FF</code>）加上<code>0xD800</code>可得到高位代理，将这20bit的后10bit（<code>0～0x3FF</code>）加上<code>0xDC00</code>可得到低位代理。</p>
+<p>对于utf-16还有字节序的问题（即大端序、小端序、混合序），可以参考<a href="http://zh.wikipedia.org/zh-cn/%E5%AD%97%E8%8A%82%E5%BA%8F" target="_blank" rel="noopener">维基百科-字节序</a>。</p>
+<h3 id="UTF-32"><a href="#UTF-32" class="headerlink" title="UTF-32"></a>UTF-32</h3><p>一个代理单元是32bit，所以一个代码单元就可以表示所有的Unicode字符，是定长编码，与Unicode代码点一一对应。</p>
+<h3 id="UCS-2"><a href="#UCS-2" class="headerlink" title="UCS-2"></a>UCS-2</h3><p>定长编码，使用2个字节表示字符，是UTF-16的子集，只能表示Unicode中代码点位于<code>0x0000</code>～<code>0xFFFF</code>中字符。</p>
+<h2 id="Java的编码"><a href="#Java的编码" class="headerlink" title="Java的编码"></a>Java的编码</h2><hr>
+<p>java平台内部统一使用UTF-16编码。</p>
+<pre><code>// 文件是utf-8编码
+public static void main(String[] args) throws UnsupportedEncodingException {
+    // “你” -&gt; utf-8编码：E4BDA0 ， unicode代码点：4F60
+    byte[] bs = new byte[]{(byte)0xE4, (byte)0xBD, (byte)0xA0};
+    String str = new String(bs, &quot;UTF-8&quot;);
+    System.out.println(str);
+    char c0 = str.charAt(0);
+    System.out.println( (int)c0 );
+    System.out.println(Integer.toHexString( (int)c0 ));
+    System.out.println(new String(&quot;你&quot;).equals(str));
+}
+</code></pre><p>运行结果：</p>
+<pre><code>你
+20320
+4f60
+true
+</code></pre><p><code>0xE4</code>等16进制表示的整数默认是int类型，由于只有8bit，所以是正数。将<code>0xE4</code>强制转换为byte，就是保留int的低8位。byte是有符号的，所以<code>(byte)0xE4</code>是负数。</p>
+<p>String内部使用char数组存放数据，char是16bit，无符号，一个char相当于UTF-16的一个代码单元。new <code>new String(bs, &quot;UTF-8&quot;);</code>将UTF-8编码的<code>E4BDA0</code>，转换成UTF-16表示。<code>“你”</code>的UTF-16表示是<code>4F60</code>，这也是<code>Integer.toHexString( (int)c0 )</code>的结果。</p>
+<p>由于<code>new String(&quot;你&quot;).equals(str)</code>输出<code>true</code>，可以看出java自动将字符串<code>&quot;你&quot;</code>转换成为UTF-16编码。</p>
+<h2 id="参考-amp-amp-更多相关"><a href="#参考-amp-amp-更多相关" class="headerlink" title="参考&amp;&amp;更多相关"></a>参考&amp;&amp;更多相关</h2><hr>
+<p>成富 《深入理解Java7 核心技术与最佳实践》 第四章 国际化与本地化</p>
+<p><a href="http://zh.wikipedia.org/zh-cn/%E5%AD%97%E8%8A%82%E5%BA%8F" target="_blank" rel="noopener">字节序</a>  </p>
+<p><a href="http://en.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener">wikiedia- Unicode</a></p>
+<p><a href="http://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">wikipedia - UTF-8</a></p>
+<p><a href="http://unicode.org/" target="_blank" rel="noopener">http://unicode.org/</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">字符编码笔记：ASCII，Unicode和UTF-8</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-03-02-character-encoding/" title="字符编码简介">http://www.letiantian.me/2015-03-02-character-encoding/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-01-29-java-bitwise-operation/" rel="next" title="java拾遗：通过示例理解位运算">
+                <i class="fa fa-chevron-left"></i> java拾遗：通过示例理解位运算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-03-09-apache-dbutils/" rel="prev" title="DBUtils简明教程">
+                DBUtils简明教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集、代码点、代码单元"><span class="nav-text">字符集、代码点、代码单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unicode"><span class="nav-text">Unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示和存储Unicode"><span class="nav-text">如何表示和存储Unicode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-8编码"><span class="nav-text">UTF-8编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-16"><span class="nav-text">UTF-16</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-32"><span class="nav-text">UTF-32</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UCS-2"><span class="nav-text">UCS-2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的编码"><span class="nav-text">Java的编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考-amp-amp-更多相关"><span class="nav-text">参考&amp;&amp;更多相关</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

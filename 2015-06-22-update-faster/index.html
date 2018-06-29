@@ -1,0 +1,1509 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,mysql," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-06-22 环境：ubuntu 14.04，Mysql 5.6，python 2.7。 本文使用python的MySQLdb这个库，MySQL Python tutorial这个教程很赞。 MySQLDBdb处理INSERT、UPDATE、DELETE时需要显式得commit()才能使更新有效，这也意味着commit之前的更新语句是放在一个事务中的。  For databases tha">
+<meta name="keywords" content="数据库,mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何快速更新数据库中的百万条数据">
+<meta property="og:url" content="http://www.letiantian.me/2015-06-22-update-faster/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-06-22 环境：ubuntu 14.04，Mysql 5.6，python 2.7。 本文使用python的MySQLdb这个库，MySQL Python tutorial这个教程很赞。 MySQLDBdb处理INSERT、UPDATE、DELETE时需要显式得commit()才能使更新有效，这也意味着commit之前的更新语句是放在一个事务中的。  For databases tha">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-07-22T15:11:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何快速更新数据库中的百万条数据">
+<meta name="twitter:description" content="2015-06-22 环境：ubuntu 14.04，Mysql 5.6，python 2.7。 本文使用python的MySQLdb这个库，MySQL Python tutorial这个教程很赞。 MySQLDBdb处理INSERT、UPDATE、DELETE时需要显式得commit()才能使更新有效，这也意味着commit之前的更新语句是放在一个事务中的。  For databases tha">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-06-22-update-faster/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>如何快速更新数据库中的百万条数据 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-06-22-update-faster/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何快速更新数据库中的百万条数据</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-06-22T14:40:27+08:00">
+                2015-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-06-22</p>
+<p>环境：ubuntu 14.04，Mysql 5.6，python 2.7。</p>
+<p>本文使用python的MySQLdb这个库，<a href="http://zetcode.com/db/mysqlpython/" target="_blank" rel="noopener">MySQL Python tutorial</a>这个教程很赞。</p>
+<p>MySQLDBdb处理INSERT、UPDATE、DELETE时需要显式得commit()才能使更新有效，这也意味着commit之前的更新语句是放在一个事务中的。</p>
+<blockquote>
+<p>For databases that support transactions, the Python interface silently starts a transaction when the cursor is created. The commit() method commits the updates made using that cursor, and the rollback() method discards them. Each method starts a new transaction.</p>
+</blockquote>
+<p>对比如下：</p>
+<table>
+<thead>
+<tr>
+<th>更新方式</th>
+<th>总时间(ms)</th>
+<th>rows</th>
+<th>平均(ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>57831</td>
+<td>1000</td>
+<td>57.8</td>
+</tr>
+<tr>
+<td>2</td>
+<td>89695</td>
+<td>10</td>
+<td>896</td>
+</tr>
+<tr>
+<td>3</td>
+<td>92941</td>
+<td>40×10000</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>4</td>
+<td>47956</td>
+<td>40×10000</td>
+<td>0.119</td>
+</tr>
+<tr>
+<td>5</td>
+<td>28407</td>
+<td>40×10000</td>
+<td>0.071</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3272</td>
+<td>48×10000</td>
+<td>0.008</td>
+</tr>
+</tbody>
+</table>
+<p>方式1是单线程，where使用了索引，一个更新对应一个commit。<br>方式2是单线程，where没有使用索引，所有更新对应一个commit。<br>方式3是单线程，where使用了索引，所有更新对应一个commit。<br>方式4使用了2个进程来更新，where使用了索引，每个进程里的所有更新对应一个commit。<br>方式5使用了4个进程来更新，where使用了索引，每个进程里的所有更新对应一个commit。<br>方式6是在一个update语句里面更新所有的数据。  </p>
+<a id="more"></a>
+<h2 id="建立表"><a href="#建立表" class="headerlink" title="建立表"></a>建立表</h2><pre><code class="sql">mysql&gt; CREATE TABLE `test`.`number` (
+  `id` INT NOT NULL COMMENT &#39;&#39;,
+  `num` INT NULL COMMENT &#39;&#39;,
+  PRIMARY KEY (`id`)  COMMENT &#39;&#39;);
+
+mysql&gt; show create table number \G
+*************************** 1. row ***************************
+       Table: number
+Create Table: CREATE TABLE `number` (
+  `id` int(11) NOT NULL,
+  `num` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+1 row in set (0.00 sec)
+</code></pre>
+<h2 id="使用mysqldb插入数据-100-000条"><a href="#使用mysqldb插入数据-100-000条" class="headerlink" title="使用mysqldb插入数据(100*000条)"></a>使用mysqldb插入数据(100*000条)</h2><pre><code class="python"># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+
+start_time = time.time()
+
+conn = MySQLdb.connect(host, user, passwd, db, port)
+cur = conn.cursor()
+
+for x in xrange(100*10000): # 0 到 999999
+    print x
+    sql = &quot;INSERT INTO number VALUES(%s,%s)&quot; % (x, x)
+    cur.execute(sql)
+
+conn.commit()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre>
+<p>运行结果：</p>
+<pre><code>...
+999997
+999998
+999999
+用时：219.332565069
+</code></pre><p>挺快。</p>
+<p>看下数据：</p>
+<pre><code>mysql&gt; select count(*) from number;
++----------+
+| count(*) |
++----------+
+|  1000000 |
++----------+
+1 row in set (0.60 sec)
+
+mysql&gt; select * from number limit 3;
++----+------+
+| id | num  |
++----+------+
+|  0 |    0 |
+|  1 |    1 |
+|  2 |    2 |
++----+------+
+3 rows in set (0.00 sec)
+</code></pre><h2 id="更新方式1：单线程，使用索引，多个commmit，更新1000条"><a href="#更新方式1：单线程，使用索引，多个commmit，更新1000条" class="headerlink" title="更新方式1：单线程，使用索引，多个commmit，更新1000条"></a>更新方式1：单线程，使用索引，多个commmit，更新1000条</h2><pre><code># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+
+start_time = time.time()
+
+conn = MySQLdb.connect(host, user, passwd, db, port)
+cur = conn.cursor()
+
+for x in xrange(1000):
+    print x
+    sql = &quot;UPDATE number SET num=%s where id=%s&quot; % (x+1, x)
+    cur.execute(sql)
+    conn.commit()
+
+cur.close()
+conn.close()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre><p>输出：</p>
+<pre><code>...
+997
+998
+999
+用时：57.8318688869
+</code></pre><p>1000条用时约60秒。</p>
+<p>为什么慢？</p>
+<p>先explain一下：</p>
+<pre><code>mysql&gt; explain update number set num=3 where id=2 \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: number
+         type: range
+possible_keys: PRIMARY
+          key: PRIMARY
+      key_len: 4
+          ref: const
+         rows: 1
+        Extra: Using where
+1 row in set (0.06 sec)
+</code></pre><p>sql语句没什么问题。</p>
+<p>再看一下磁盘IO：</p>
+<pre><code>letian $ iostat -d -k 1 100
+Linux 3.13.0-37-generic (myhost)  06/22/2015  _x86_64_  (4 CPU)
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              57.00         4.00       468.00          4        468
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              71.00        28.00       404.00         28        404
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              71.00        28.00       608.00         28        608
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              61.00         4.00       492.00          4        492
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              73.00         0.00       536.00          0        536
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              69.00         4.00       516.00          4        516
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              61.00         4.00       472.00          4        472
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              63.00         4.00       452.00          4        452
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              16.00         0.00      1804.00          0       1804
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               3.00         0.00        16.00          0         16
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               0.00         0.00         0.00          0          0
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               2.00         0.00        12.00          0         12
+</code></pre><p><code>tps</code>代表每秒IO传输的次数，与下面的<code>更新方式4</code>对比一下，可以看出当前的更新方式IO较多。（为什么呢？移步<a href="http://stackoverflow.com/questions/14675147/why-does-transaction-commit-improve-performance-so-much-with-php-mysql-innodb" target="_blank" rel="noopener">Why does TRANSACTION / COMMIT improve performance so much with PHP/MySQL (InnoDB)?</a>）</p>
+<h2 id="更新方式2，单线程，不使用索引，一个commit，更新100条"><a href="#更新方式2，单线程，不使用索引，一个commit，更新100条" class="headerlink" title="更新方式2，单线程，不使用索引，一个commit，更新100条"></a>更新方式2，单线程，不使用索引，一个commit，更新100条</h2><pre><code># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+
+start_time = time.time()
+
+conn = MySQLdb.connect(host, user, passwd, db, port)
+cur = conn.cursor()
+
+for x in xrange(100):
+    print x
+    sql = &quot;UPDATE number SET num=%s where num=%s&quot; % (x*2, x)
+    cur.execute(sql)
+
+conn.commit()
+cur.close()
+conn.close()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre><p>输出：</p>
+<pre><code>...
+97
+98
+99
+用时： 89.695207119
+</code></pre><p>为什么这么慢：</p>
+<pre><code>mysql&gt; explain update number set num=4 where num=2 \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: number
+         type: index
+possible_keys: NULL
+          key: PRIMARY
+      key_len: 4
+          ref: NULL
+         rows: 979800
+        Extra: Using where
+1 row in set (0.05 sec)
+</code></pre><p>可以看到，每次update几乎要扫全表（rows: 979800）。</p>
+<h2 id="更新方式3：单线程，使用索引，一个commit，更新40×10000条"><a href="#更新方式3：单线程，使用索引，一个commit，更新40×10000条" class="headerlink" title="更新方式3：单线程，使用索引，一个commit，更新40×10000条"></a>更新方式3：单线程，使用索引，一个commit，更新40×10000条</h2><pre><code class="python"># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+start_time = time.time()
+
+conn = MySQLdb.connect(host, user, passwd, db, port)
+cur = conn.cursor()
+
+for x in xrange(40*10000): # 0 到 999999
+    print x
+    sql = &quot;UPDATE number SET num=%s where id=%s&quot; % (x+1, x)
+    cur.execute(sql)
+
+conn.commit()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre>
+<p>输出：</p>
+<pre><code>...
+399997
+399998
+399999
+用时：92.9413559437
+</code></pre><p>查看磁盘IO：</p>
+<pre><code>letian $ iostat -d -k 1 100
+Linux 3.13.0-37-generic (myhost)  06/22/2015  _x86_64_  (4 CPU)
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              20.88       288.50       283.18    2458129    2412772
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              18.00       116.00       328.00        116        328
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              17.00         8.00       548.00          8        548
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              11.00        12.00       396.00         12        396
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       488.00          4        488
+
+............
+
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       460.00          4        460
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       448.00          4        448
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       464.00          4        464
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       456.00          4        456
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               9.00         4.00       452.00          4        452
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               9.00         0.00       140.00          0        140
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              15.00         4.00      2448.00          4       2448
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              43.00       144.00      2544.00        144       2544
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               9.00         0.00       516.00          0        516
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       512.00          4        512
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              12.00         4.00       540.00          4        540
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              14.00         4.00      2288.00          4       2288
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              10.00         4.00       528.00          4        528
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               6.00         0.00       184.00          0        184
+
+............
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              14.00         0.00      3868.00          0       3868
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              15.00         0.00      2604.00          0       2604
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              15.00         0.00      1516.00          0       1516
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               3.00         0.00        16.00          0         16
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              12.00         0.00        68.00          0         68
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               4.00         0.00        28.00          0         28
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               0.00         0.00         0.00          0          0
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               0.00         0.00         0.00          0          0
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda               0.00         0.00         0.00          0          0
+</code></pre><h2 id="更新方式4：2个进程，一个进程里一个commit，共更新40-10000条"><a href="#更新方式4：2个进程，一个进程里一个commit，共更新40-10000条" class="headerlink" title="更新方式4：2个进程，一个进程里一个commit，共更新40*10000条"></a>更新方式4：2个进程，一个进程里一个commit，共更新40*10000条</h2><p>两个进程：</p>
+<pre><code class="python"># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+import multiprocessing
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+start_time = time.time()
+
+def update(int_iter):
+    conn = MySQLdb.connect(host, user, passwd, db, port)
+    cur = conn.cursor()
+    for x in int_iter:
+        print x
+        sql = &quot;UPDATE number SET num=%s where id=%s&quot; % (x+5, x)
+        cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+pool = multiprocessing.Pool(processes = 2)
+
+pool.apply_async(update, (xrange(20*10000), ))
+pool.apply_async(update, (xrange(20*10000, 40*10000), ))
+pool.close()
+pool.join()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre>
+<p>输出：</p>
+<pre><code>...
+199998
+199999
+用时： 47.9561839104
+</code></pre><p>看下数据：</p>
+<pre><code>mysql&gt; select * from number where id=1;
++----+------+
+| id | num  |
++----+------+
+|  1 |    6 |
++----+------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from number where id=399999;
++--------+--------+
+| id     | num    |
++--------+--------+
+| 399999 | 400004 |
++--------+--------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="更新方式5：4个进程，一个进程里一个commit，共更新40-10000条"><a href="#更新方式5：4个进程，一个进程里一个commit，共更新40-10000条" class="headerlink" title="更新方式5：4个进程，一个进程里一个commit，共更新40*10000条"></a>更新方式5：4个进程，一个进程里一个commit，共更新40*10000条</h2><pre><code># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+import multiprocessing
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+start_time = time.time()
+
+def update(int_iter):
+    conn = MySQLdb.connect(host, user, passwd, db, port)
+    cur = conn.cursor()
+    for x in int_iter:
+        print x
+        sql = &quot;UPDATE number SET num=%s where id=%s&quot; % (x+10, x)
+        cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+pool = multiprocessing.Pool(processes = 4)
+
+pool.apply_async(update, (xrange(10*10000), ))
+pool.apply_async(update, (xrange(10*10000, 20*10000), ))
+pool.apply_async(update, (xrange(20*10000, 30*10000), ))
+pool.apply_async(update, (xrange(30*10000, 40*10000), ))
+
+pool.close()
+pool.join()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre><p>运行结果：</p>
+<pre><code>299996
+299997
+299998
+299999
+用时： 28.4070010185
+</code></pre><p>查看更新效果：</p>
+<pre><code>mysql&gt; select * from number where id=1;
++----+------+
+| id | num  |
++----+------+
+|  1 |   11 |
++----+------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from number where id=399999;
++--------+--------+
+| id     | num    |
++--------+--------+
+| 399999 | 400009 |
++--------+--------+
+1 row in set (0.00 sec)
+</code></pre><h2 id="更新方式6：一次更新多行，更新40-10000条"><a href="#更新方式6：一次更新多行，更新40-10000条" class="headerlink" title="更新方式6：一次更新多行，更新40*10000条"></a>更新方式6：一次更新多行，更新40*10000条</h2><pre><code># coding: UTF-8
+__author__ = &#39;letian&#39;
+
+import MySQLdb
+import time
+
+host=&#39;127.0.0.1&#39;
+user=&#39;root&#39;
+passwd=&#39;123456&#39;
+db=&#39;test&#39;
+port = 3306
+
+start_time = time.time()
+
+conn = MySQLdb.connect(host, user, passwd, db, port)
+cur = conn.cursor()
+
+sql = &quot;UPDATE number SET num=id+100 where id&lt;%s&quot; % (40*10000, )
+cur.execute(sql)
+conn.commit()
+
+cur.close()
+conn.close()
+
+end_time = time.time()
+
+print &#39;用时：&#39;, end_time - start_time
+</code></pre><p>输出：</p>
+<pre><code>用时： 3.27281808853
+</code></pre><p>查看更新效果：</p>
+<pre><code>mysql&gt; select * from number where id=1;
++----+------+
+| id | num  |
++----+------+
+|  1 |  101 |
++----+------+
+1 row in set (0.00 sec)
+
+mysql&gt; select * from number where id=399999;
++--------+--------+
+| id     | num    |
++--------+--------+
+| 399999 | 400099 |
++--------+--------+
+1 row in set (0.00 sec)
+</code></pre><p>分析使用的sql语句：</p>
+<pre><code>mysql&gt; explain UPDATE number SET num=id+100 where id&lt;400000 \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: number
+         type: range
+possible_keys: PRIMARY
+          key: PRIMARY
+      key_len: 4
+          ref: const
+         rows: 489900
+        Extra: Using where
+1 row in set (0.00 sec)
+</code></pre><p>这种方式非常快，灵活性不够。</p>
+<p>如果遇到这样一个场景：将id为0、1、2的num置为2,其他全部置为4，可以先全部置为4,然后在更新id为0、1、2的记录，这样速度会很快。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-06-22-update-faster/" title="如何快速更新数据库中的百万条数据">http://www.letiantian.me/2015-06-22-update-faster/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-05-27-java-concurrency-summary/" rel="next" title="Java并发概念汇总">
+                <i class="fa fa-chevron-left"></i> Java并发概念汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-09-10-understand-python-wsgi/" rel="prev" title="理解Python WSGI">
+                理解Python WSGI <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立表"><span class="nav-text">建立表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用mysqldb插入数据-100-000条"><span class="nav-text">使用mysqldb插入数据(100*000条)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式1：单线程，使用索引，多个commmit，更新1000条"><span class="nav-text">更新方式1：单线程，使用索引，多个commmit，更新1000条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式2，单线程，不使用索引，一个commit，更新100条"><span class="nav-text">更新方式2，单线程，不使用索引，一个commit，更新100条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式3：单线程，使用索引，一个commit，更新40×10000条"><span class="nav-text">更新方式3：单线程，使用索引，一个commit，更新40×10000条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式4：2个进程，一个进程里一个commit，共更新40-10000条"><span class="nav-text">更新方式4：2个进程，一个进程里一个commit，共更新40*10000条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式5：4个进程，一个进程里一个commit，共更新40-10000条"><span class="nav-text">更新方式5：4个进程，一个进程里一个commit，共更新40*10000条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新方式6：一次更新多行，更新40-10000条"><span class="nav-text">更新方式6：一次更新多行，更新40*10000条</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

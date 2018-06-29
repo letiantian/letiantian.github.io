@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-05-26 本文是下面这篇论文的阅读笔记：  Ma C C. A Guide to Singular Value Decomposition for Collaborative Filtering[J]. 2008.  注意，这里的SVD，和经典的分解为3个矩阵的方法是不一样的。 提出问题直接使用传统的SVD进行协同过滤的的效果可能会很差，所以考虑一些SVD的变体来进行协同过滤。 用户可">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SVD的协同过滤">
+<meta property="og:url" content="http://www.letiantian.me/2015-05-26-a-guide-to-svd-for-collaborative-filtering/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-05-26 本文是下面这篇论文的阅读笔记：  Ma C C. A Guide to Singular Value Decomposition for Collaborative Filtering[J]. 2008.  注意，这里的SVD，和经典的分解为3个矩阵的方法是不一样的。 提出问题直接使用传统的SVD进行协同过滤的的效果可能会很差，所以考虑一些SVD的变体来进行协同过滤。 用户可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-02.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-03.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-04.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-05.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-06.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-07.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-08.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-09.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-10.png">
+<meta property="og:updated_time" content="2015-05-26T08:50:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于SVD的协同过滤">
+<meta name="twitter:description" content="2015-05-26 本文是下面这篇论文的阅读笔记：  Ma C C. A Guide to Singular Value Decomposition for Collaborative Filtering[J]. 2008.  注意，这里的SVD，和经典的分解为3个矩阵的方法是不一样的。 提出问题直接使用传统的SVD进行协同过滤的的效果可能会很差，所以考虑一些SVD的变体来进行协同过滤。 用户可">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/05/2015-05-26-svd-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-05-26-a-guide-to-svd-for-collaborative-filtering/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>基于SVD的协同过滤 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-05-26-a-guide-to-svd-for-collaborative-filtering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于SVD的协同过滤</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-26T10:11:06+08:00">
+                2015-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-05-26</p>
+<p>本文是下面这篇论文的阅读笔记：</p>
+<blockquote>
+<p>Ma C C. A Guide to Singular Value Decomposition for Collaborative Filtering[J]. 2008.</p>
+</blockquote>
+<p>注意，这里的SVD，和经典的分解为3个矩阵的方法是不一样的。</p>
+<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>直接使用传统的SVD进行协同过滤的的效果可能会很差，所以考虑一些SVD的变体来进行协同过滤。</p>
+<p>用户可以对电影评分，分数范围是1到5。一般，一个用户不会给所有的电影都评分，有些用户评分的电影很多，有些用户只给很少的电影打评分。</p>
+<p>一般评分矩阵中的0代表着对应的用户没有给对应的物品（电影）评分，0并不能看作分值。</p>
+<p>设[latex]V[/latex]是大小为<code>n×m</code>的评分矩阵，n个用户，m个电影。[latex]I[/latex]也是大小为<code>n×m</code>的矩阵，其元素的值只有0和1，若[latex]I_{ij}[/latex]为1，则用户i给物品j打过分，这也意味着[latex]V_{ij}[/latex]不为0；若[latex]I_{ij}[/latex]为0,则用户i没给物品j打过分，这也意味着[latex]V_{ij}[/latex]为0。故矩阵[latex]I[/latex]是矩阵[latex]V[/latex]的指示器（indicator）。矩阵[latex]V[/latex]也可以以稀疏矩阵的形式保存，只保存打过分的数据。</p>
+<p>矩阵[latex]V[/latex]作为协同过滤算法的训练数据，而协同过滤算法的目标是预测某个用户对某个物品的评分（该用户之前没有对该物品评分）。</p>
+<p>算法的评测标准：一般是比较真实评分和预测的评分之间的误差，例如<a href="http://en.wikipedia.org/wiki/Mean_squared_error" target="_blank" rel="noopener">Mean squared error</a>、<a href="https://www.kaggle.com/wiki/RootMeanSquaredError" target="_blank" rel="noopener">Root Mean Squared Error</a>。</p>
+<h2 id="算法1：Batch-learning-of-Singular-Value-Decomposition"><a href="#算法1：Batch-learning-of-Singular-Value-Decomposition" class="headerlink" title="算法1：Batch learning of Singular Value Decomposition"></a>算法1：Batch learning of Singular Value Decomposition</h2><p>设n个用户，m个物品，<code>n×m</code>大小的矩阵[latex]V[/latex]是评分矩阵，大小为<code>n×m</code>的矩阵[latex]I[/latex]作为[latex]V[/latex]指示器。SVD算法的目标是找到两个矩阵：<code>f×n</code>大小的[latex]U[/latex]作为用户的特征矩阵，<code>f×m</code>大小的[latex]M[/latex]作为物品的特征矩阵。预测函数[latex]p[/latex]根据[latex]U[/latex]和[latex]M[/latex]预测评分。</p>
+<p>[latex]V_{ij}[/latex]的预测值为：</p>
+<p>[latex]<br>p(U_{i}, M_{j})<br>[/latex]</p>
+<p>其中，[latex]U_{i}[/latex]为用户i的特征向量（feature vector，不是eigenvector，f个元素），[latex]M_{j}[/latex]为物品j的特征向量（f个元素），这两个特征向量从矩阵[latex]U[/latex]和[latex]M[/latex]中直接拿就行了。</p>
+<p>然后，我们要最小化下面的式子：</p>
+<p><img src="/content/images/2015/05/2015-05-26-svd-01.png" alt=""></p>
+<p>其中，[latex]k_{u}[/latex]和[latex]k_{m}[/latex]是防止过拟合的正则化系数，是两个已知的擦书，需要我们自己事先指定。</p>
+<p>函数[latex]p[/latex]的一般实现如下：</p>
+<p>[latex]<br>p(U_{i}, M_{j}) = U_{i}^{T}M_{j}<br>[/latex]<br>就是两个向量的内积（数量积）。</p>
+<p>不过，V中的评分是在<code>[a,b]</code>这个范围里，其中<code>a</code>是最小的评分，<code>b</code>是最大的评分。所以预测函数优化为：</p>
+<p><img src="/content/images/2015/05/2015-05-26-svd-02.png" alt=""></p>
+<p>好了，现在对于<code>公式(2)</code>，[latex]I,V,n,m,p,k_{u},k_{m}[/latex]都是已知的，通过最小化<code>公式(2)</code>就可以得到[latex]U和M[/latex]。</p>
+<p>可以用梯度下降解决这个问题，下面两个式子是负向的梯度：</p>
+<p><img src="/content/images/2015/05/2015-05-26-svd-03.png" alt=""></p>
+<p>而梯度很明显是：</p>
+<p>[latex]<br>\nabla{U_{i}} = \frac{\partial{E}}{\partial{U_{i}}} \\<br>\nabla{M_{j}} = \frac{\partial{E}}{\partial{M_{j}}}<br>[/latex]</p>
+<p>由此，得到下面的算法：</p>
+<ul>
+<li><p>给矩阵U、M赋初始值（例如使用随机值），建议使用下面的方法赋值：<br><img src="/content/images/2015/05/2015-05-26-svd-04.png" alt=""><br>其中，[latex]\bar{V}[/latex]是指V中评分的平均值，a是i所有评分的最小值，f是用户和物品在新特征空间下的维度，<code>n(r)</code>是基于区间[-r, r]生成均匀分布的随机数，r取一个较小的值就行了。</p>
+</li>
+<li><p>设置学习速率[latex]\mu[/latex]，重复下面两个步骤直到评估方法RMSE的值开始上升：<br>(a). 计算梯度[latex]\nabla{U}和\nabla{M}[/latex]<br>(b). 更新U和M：[latex]U\leftarrow U- \mu \nabla{U}，~~M\leftarrow M- \mu \nabla{M}[/latex]  </p>
+</li>
+</ul>
+<p>迭代停止的判断条件可以有很多，例如RMSE基本不变，或者U、M基本不变时停止迭代。</p>
+<p>批量学习（Batch learning）是SVD的标准方法。</p>
+<h2 id="算法2：Incomplete-incremental-learning-of-Singular-Value-Decomposition"><a href="#算法2：Incomplete-incremental-learning-of-Singular-Value-Decomposition" class="headerlink" title="算法2：Incomplete incremental learning of Singular Value Decomposition"></a>算法2：Incomplete incremental learning of Singular Value Decomposition</h2><p>对用户i，目标函数是：<br><img src="/content/images/2015/05/2015-05-26-svd-05.png" alt=""><br>负方向梯度为：<br><img src="/content/images/2015/05/2015-05-26-svd-06.png" alt=""><br>对于用户i来说，如果[latex]I_{ij}=0[/latex]，即用户i未对物品j评分，则[latex]M_{j}[/latex]的梯度为0，不会造成M的更新。</p>
+<p>算法如下：</p>
+<p><img src="/content/images/2015/05/2015-05-26-svd-07.png" alt=""></p>
+<h2 id="算法3：Complete-incremental-learning-of-Singular-Value-Decomposition"><a href="#算法3：Complete-incremental-learning-of-Singular-Value-Decomposition" class="headerlink" title="算法3：Complete incremental learning of Singular Value Decomposition"></a>算法3：Complete incremental learning of Singular Value Decomposition</h2><p>这个方法中的目标函数，以及对应的负方向梯度如下：<br><img src="/content/images/2015/05/2015-05-26-svd-08.png" alt=""></p>
+<p>算法如下：<br><img src="/content/images/2015/05/2015-05-26-svd-09.jpg" alt=""></p>
+<h2 id="算法4：Batch-learning-of-SVD-with-Momentum"><a href="#算法4：Batch-learning-of-SVD-with-Momentum" class="headerlink" title="算法4：Batch learning of SVD with Momentum"></a>算法4：Batch learning of SVD with Momentum</h2><p>这是对算法1的修改：<br><img src="/content/images/2015/05/2015-05-26-svd-10.png" alt=""></p>
+<h2 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h2><blockquote>
+<p>Ma C C. A Guide to Singular Value Decomposition for Collaborative Filtering[J]. 2008.</p>
+</blockquote>
+<p>本文的内容都来自这篇论文，论文中<strong>Further Improvements</strong>章节还提到了在目标函数中添加针对用户和物品的偏置向量，在得到U和M的同时，得到偏置向量，这种方法的评估效果会更好些。</p>
+<hr>
+<blockquote>
+<p>Paterek A. Improving regularized singular value decomposition for collaborative filtering[C]//Proceedings of KDD cup and workshop. 2007, 2007: 5-8.</p>
+</blockquote>
+<p>里面提到了若干基于SVD的算法，还提到了一些有趣的协同过滤算法，例如基于聚类的协同过滤算法。</p>
+<hr>
+<blockquote>
+<p>Funk, Simon. “Netflix update: Try this at home.” (2006).</p>
+</blockquote>
+<p>放在博客里的一篇有名的文章。</p>
+<hr>
+<blockquote>
+<p>Koren, Yehuda. “Factorization meets the neighborhood: a multifaceted collaborative filtering model.” Proceedings of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2008.</p>
+</blockquote>
+<p>SVD++就在这里。 关于SVD++：<br><a href="http://www.recsyswiki.com/wiki/SVD%2B%2B" target="_blank" rel="noopener">SVD++ - recsyswiki</a>、<br><a href="http://superjom.duapp.com/machine-learning/svd1.html" target="_blank" rel="noopener">推荐系统常用模型(2) – SVD/SVD++</a>、<br><a href="http://www.quora.com/Whats-the-difference-between-SVD-and-SVD++" target="_blank" rel="noopener">What’s the difference between SVD and SVD++?</a>。</p>
+<hr>
+<blockquote>
+<p>Koren, Yehuda. “The bellkor solution to the netflix grand prize.” Netflix prize documentation 81 (2009).</p>
+</blockquote>
+<p>（完）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-05-26-a-guide-to-svd-for-collaborative-filtering/" title="基于SVD的协同过滤">http://www.letiantian.me/2015-05-26-a-guide-to-svd-for-collaborative-filtering/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-05-25-bayes-text-classify-system-db-design/" rel="next" title="基于贝叶斯的文本分类系统的数据库设计">
+                <i class="fa fa-chevron-left"></i> 基于贝叶斯的文本分类系统的数据库设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-05-27-java-concurrency-summary/" rel="prev" title="Java并发概念汇总">
+                Java并发概念汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#提出问题"><span class="nav-text">提出问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法1：Batch-learning-of-Singular-Value-Decomposition"><span class="nav-text">算法1：Batch learning of Singular Value Decomposition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法2：Incomplete-incremental-learning-of-Singular-Value-Decomposition"><span class="nav-text">算法2：Incomplete incremental learning of Singular Value Decomposition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法3：Complete-incremental-learning-of-Singular-Value-Decomposition"><span class="nav-text">算法3：Complete incremental learning of Singular Value Decomposition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法4：Batch-learning-of-SVD-with-Momentum"><span class="nav-text">算法4：Batch learning of SVD with Momentum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多"><span class="nav-text">更多</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1337 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-07-24  这是一年前的笔记。  环境：mint 13 64bit,gcc 4.6.3如无特殊，均为gcc test.c -o test的类似方式编译源文件。  相关基础：汇编，编译原理 在这里主要讨论int*,int**,char*,char**等这些比较基本的指针类型,主要以int类型为示例。在64bit环境中地址用8B表示,int类型是4B。 直接寻址、间接寻址 在汇编语言的学习">
+<meta name="keywords" content="编程实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再学习c指针-int型指针及其他">
+<meta property="og:url" content="http://www.letiantian.me/2014-07-24-c-int-pointer/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-07-24  这是一年前的笔记。  环境：mint 13 64bit,gcc 4.6.3如无特殊，均为gcc test.c -o test的类似方式编译源文件。  相关基础：汇编，编译原理 在这里主要讨论int*,int**,char*,char**等这些比较基本的指针类型,主要以int类型为示例。在64bit环境中地址用8B表示,int类型是4B。 直接寻址、间接寻址 在汇编语言的学习">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-07T07:08:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="再学习c指针-int型指针及其他">
+<meta name="twitter:description" content="2014-07-24  这是一年前的笔记。  环境：mint 13 64bit,gcc 4.6.3如无特殊，均为gcc test.c -o test的类似方式编译源文件。  相关基础：汇编，编译原理 在这里主要讨论int*,int**,char*,char**等这些比较基本的指针类型,主要以int类型为示例。在64bit环境中地址用8B表示,int类型是4B。 直接寻址、间接寻址 在汇编语言的学习">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-07-24-c-int-pointer/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>再学习c指针-int型指针及其他 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-07-24-c-int-pointer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">再学习c指针-int型指针及其他</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-24T14:30:14+08:00">
+                2014-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-07-24</p>
+<blockquote>
+<p>这是一年前的笔记。</p>
+</blockquote>
+<p>环境：mint 13 64bit,gcc 4.6.3<br>如无特殊，均为<code>gcc test.c -o test</code>的类似方式编译源文件。</p>
+<a id="more"></a>
+<p>相关基础：汇编，编译原理</p>
+<p>在这里主要讨论<code>int*</code>,<code>int**</code>,<code>char*</code>,<code>char**</code>等这些比较基本的指针类型,主要以int类型为示例。在64bit环境中地址用8B表示,int类型是4B。</p>
+<h2 id="直接寻址、间接寻址"><a href="#直接寻址、间接寻址" class="headerlink" title="直接寻址、间接寻址"></a>直接寻址、间接寻址</h2><hr>
+<p>在汇编语言的学习中，寻址方式对于了解指针很重要。</p>
+<h2 id="关于int"><a href="#关于int" class="headerlink" title="关于int *"></a>关于int *</h2><hr>
+<p><code>int *p</code>定以了一个整型指针变量p,p本身存放的是一个int变量的地址，即在32位机器上int变量为2Bytes，p实际为4Bytes，因为地址要用32bits表示。<br>若有以下代码：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+    int *p;
+    printf(&quot;%p\n&quot;,p);
+    printf(&quot;%d\n&quot;,*p);
+    return 1;                       
+}
+</code></pre><p>编译时会提示：<code>warning: ‘p’ is used uninitialized in this function [-Wuninitialized]</code><br>运行时显示：</p>
+<pre><code>(nil)
+Segmentation fault (core dumped)
+</code></pre><p>这是因为声明p时候，分配的8个字节原先的内容并没有被抹去，故p指向的内容不定，甚至指向内核，这是OS不允许的。（现在觉得p的值每个bit应该为0更合适一些，还是主要看编译器如何去实现）。</p>
+<p>下面这段代码就可以正常运行：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+    int i;  //默认初始化为0
+    int *p=&amp;i;
+    printf(&quot;%p\n&quot;,&amp;i);  //打印int变量i的地址
+    printf(&quot;%p\n&quot;,&amp;p);  //打印int指针变量p的地址
+    printf(&quot;%p\n&quot;,p);   //打印p本身的内容
+    printf(&quot;%d\n&quot;,*p);  //打印p本地代表的内存地址指向的值，即i的值。
+    return 1;                       
+}
+</code></pre><p>运行结果为:(注意内存对齐的概念)</p>
+<pre><code>0x7fffcbaecf5c
+0x7fffcbaecf50
+0x7fffcbaecf5c
+0
+</code></pre><p>内存组织如下：从内存<code>0x7fffcbaecf5c</code>处开始4个Byte存放int变量i，从<code>0x7fffcbaecf50</code>开始的8个Byte开始int指针变量p的值，而这个值对应的内存单元在使用<code>*p</code>取值时只会取4个Byte。调用i时候类似直接寻址，调用<code>*p</code>时候类似间接寻址。因为p是<code>int</code>型指针。注意<code>int i;int*p=&amp;i;</code>与<code>int i;int *p;p=&amp;i;</code>是等价的，从这个角度来讲，可以把<code>int *</code>单独看作一种类型。虽然<code>int i;(int *)p=&amp;i;</code>是错误的，但是比较容易理解（至少对我而言），例如在经典的交换数值问题上：</p>
+<pre><code>#include &lt;stdio.h&gt;
+void swap(int *p1,int *p2);
+int main()
+{
+    int i=0,j=1;
+    swap(&amp;i,&amp;j);
+    printf(&quot;i=%d,j=%d\n&quot;,i,j);
+    return 1;                       
+}
+void swap(int *p1,int *p2)
+{
+    int temp;
+    temp=*p2;
+    *p2=*p1;
+    *p1=temp;    
+}
+</code></pre><p>对于swap函数的参数<code>int *p1</code>,<code>int *p2</code>，只看p1、p2，两者是int型指针，本身代表地址。 所以调用的时候需要把地址填入里面，也就是&amp;i、&amp;j，注意i和j必须是int类型。<br>在上面的swap代码修改如下：</p>
+<pre><code>#include &lt;stdio.h&gt;
+void swap(int *p1,int *p2);
+int main()
+{
+    int i=0,j=1;
+    printf(&quot;i addr:%p ,value:%d ; j addr :%p ,value:%d \n&quot;,&amp;i,i,&amp;j,j);
+    swap(&amp;i,&amp;j);
+    printf(&quot;i addr:%p ,value:%d ; j addr :%p ,value:%d \n&quot;,&amp;i,i,&amp;j,j);
+    return 1;                       
+}
+void swap(int *p1,int *p2)
+{
+    printf(&quot;p1 value:%p , p2 value:%p ; *p1 value :%d , *p2 value:%d \n&quot;,p1,p2,*p1,*p2);
+    int temp;
+    temp=*p2;
+    *p2=*p1;
+    *p1=temp;   
+    printf(&quot;p1 value:%p , p2 value:%p ; *p1 value :%d , *p2 value:%d \n&quot;,p1,p2,*p1,*p2);
+}
+</code></pre><p>输出可能如下：</p>
+<pre><code>i addr:0x7fff6ce4b608 ,value:0 ; j addr :0x7fff6ce4b60c ,value:1 
+p1 value:0x7fff6ce4b608 , p2 value:0x7fff6ce4b60c ; *p1 value :0 , *p2 value:1 
+p1 value:0x7fff6ce4b608 , p2 value:0x7fff6ce4b60c ; *p1 value :1 , *p2 value:0 
+i addr:0x7fff6ce4b608 ,value:1 ; j addr :0x7fff6ce4b60c ,value:0 
+</code></pre><p>可以看出，在main()中调用swap()时候传递的是地址。如果是传值方式，则在swap中打印的地址肯定会不同，见下：</p>
+<pre><code>#include &lt;stdio.h&gt;
+void swap(int p1,int p2);
+int main()
+{
+    int i=0,j=1;
+    printf(&quot;i addr:%p ,value:%d ; j addr :%p ,value:%d \n&quot;,&amp;i,i,&amp;j,j);
+    swap(i,j);
+    printf(&quot;i addr:%p ,value:%d ; j addr :%p ,value:%d \n&quot;,&amp;i,i,&amp;j,j);
+    return 1;                       
+}
+void swap(int p1,int p2)
+{
+    printf(&quot;p1 addr:%p , p1 value:%d ; p2 addr :%p , p2 value:%d \n&quot;,&amp;p1,p1,&amp;p2,p2);
+    int temp;
+    temp=p2;
+    p2=p1;
+    p1=temp;   
+    printf(&quot;p1 addr:%p , p1 value:%d ; p2 addr :%p , p2 value:%d \n&quot;,&amp;p1,p1,&amp;p2,p2);
+}
+</code></pre><p>运行结果可能如下：</p>
+<pre><code>i addr:0x7fffef6b9f98 ,value:0 ; j addr :0x7fffef6b9f9c ,value:1 
+p1 addr:0x7fffef6b9f6c , p1 value:0 ; p2 addr :0x7fffef6b9f68 , p2 value:1 
+p1 addr:0x7fffef6b9f6c , p1 value:1 ; p2 addr :0x7fffef6b9f68 , p2 value:0 
+i addr:0x7fffef6b9f98 ,value:0 ; j addr :0x7fffef6b9f9c ,value:1 
+</code></pre><p>既然这样，我们可以利用<code>int *</code>使函数“返回”多个数值。如下：</p>
+<pre><code>#include &lt;stdio.h&gt;
+void fun(int *p1,int *p2);
+int main(int argc, const char *argv[])
+{
+    int m=0,n=1;
+    printf(&quot;m=%d\tn=%d\n&quot;,m,n);
+    fun(&amp;m,&amp;n);
+    printf(&quot;m=%d\tn=%d\n&quot;,m,n);
+}
+void fun(int *p1,int *p2)
+{
+    *p1=*p1+1;
+    *p2=*p2+1;
+}
+</code></pre><p>使用指针时候应该注意防止发生下面两种情况：<br>第一种：</p>
+<pre><code>int *p;
+*p=20;
+</code></pre><p>这个可以看成错误，在gcc下编译是类似<code>warning: ‘p’ is used uninitialized in this function [-Wuninitialized]</code>这样的警告。运行程序时候会出现这样的结果：<code>Segmentation fault (core dumped)</code>。因为指针p只是被定义了，但是并没有指向具体的内存单元。</p>
+<p>第二种：</p>
+<pre><code>float f=1.2;
+int *p;
+p=&amp;f;
+</code></pre><p>这个在编译时候也只是出现警告，运行结果为<code>Segmentation fault (core dumped)</code>。p指向的应该是int型变量，而非float——至少int和float变量所占内存就不一样。</p>
+<h2 id="int-与一维int数组"><a href="#int-与一维int数组" class="headerlink" title="int *与一维int数组"></a>int *与一维int数组</h2><hr>
+<p>在应用中,<code>int *</code>不只是可以用来指向一个int变量，也可以指向一个int数组——虽然本质是一样的。下面是示例：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main(int argc, const char *argv[])
+{
+    int a[3]={1,2,3};
+    int *p;
+    p=a;
+    printf(&quot;1---%d\t%d\t%d\n&quot;,a[0],a[1],a[2]);
+    printf(&quot;2---%d\t%d\t%d\n&quot;,p[0],p[1],p[2]);
+    printf(&quot;3---%d\t%d\t%d\n&quot;,*a,*(a+1),*(a+2));
+    printf(&quot;4---%d\t%d\t%d\n&quot;,*p,*(p+1),*(p+2));
+    printf(&quot;4---%d\t%d\t%d\n&quot;,*p,*(p+1),*(p+2));
+    printf(&quot;5---%d\t%d\t%d\n&quot;,*p,*p++,*p++);  //++比*优先级高，所以相当于*(p),*(p++),*(p++)
+    p=a;
+    printf(&quot;6---%p\t%p\t%p\n&quot;,a,a+1,a+2);
+    printf(&quot;7---%p\t%p\t%p\n&quot;,p,p+1,p+2);    
+    printf(&quot;%d\n&quot;,a[3]);
+    return 0;
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>1---1   2   3
+2---1   2   3
+3---1   2   3
+4---1   2   3
+4---1   2   3
+5---3   2   1
+6---0x7fff74e47a20  0x7fff74e47a24  0x7fff74e47a28
+7---0x7fff74e47a20  0x7fff74e47a24  0x7fff74e47a28
+0
+</code></pre><p>对于数组a来说，<code>a</code>代表的是数组a的首地址，<code>*a</code>则是首地址对应的元素a[0]。<code>a+1</code>代表a首地址再偏移一个int大小后的地址——即a[1]的地址，所以<code>*(a+1)</code>代表的是a[1]。为什么是偏移int大小呢，因为数组是int类型，所以这种类似<code>*(a+1)</code>的调用同样适用于float、char、struct数组。<br><code>printf(&quot;5---%d\t%d\t%d\n&quot;,*p,*p++,*p++);</code>的输出是<code>3 2 1</code>是因为printf的可变参数列表是从右向左读取的。<br>在<code>printf(&quot;%d\n&quot;,a[3]);</code>中a[3]已经越界，但是程序依然可以运行。</p>
+<h2 id="int-与malloc"><a href="#int-与malloc" class="headerlink" title="int *与malloc"></a>int *与malloc</h2><hr>
+<p>首先man一下malloc： </p>
+<pre><code>zsh &gt;&gt; man 3 malloc | cat
+MALLOC(3)                  Linux Programmer&#39;s Manual                 MALLOC(3)
+NAME
+       malloc, free, calloc, realloc - Allocate and free dynamic memory
+SYNOPSIS
+       #include &lt;stdlib.h&gt;
+       void *malloc(size_t size);
+       void free(void *ptr);
+       void *calloc(size_t nmemb, size_t size);
+       void *realloc(void *ptr, size_t size);
+DESCRIPTION
+       The malloc() function allocates size bytes and returns a pointer to the
+       allocated memory.  The memory is not initialized.  If size is  0,  then
+       malloc()  returns either NULL, or a unique pointer value that can later
+       be successfully passed to free().
+...省略部分内容...
+RETURN VALUE
+       The malloc() and calloc() functions return a pointer to  the  allocated
+       memory  that  is  suitably aligned for any kind of variable.  On error,
+       these functions return NULL.  NULL may also be returned by a successful
+       call  to  malloc() with a size of zero, or by a successful call to cal‐
+       loc() with nmemb or size equal to zero.
+...省略部分内容...
+</code></pre><p>malloc函数的原型是<code>void *malloc(size_t size);</code>，void<em> 表示未确定类型的指针，void </em>可以指向任何类型的数据，在使用该函数时候应该明确指定这个新申请的空间保存什么数据类型。例如<code>(int*)malloc(8)</code>表示申请的空间保存两个int数(int为4B),更直观的写法应该是<code>(int *)malloc(2*sizeof(int))</code>。很显然,把<code>(double *)malloc(2*sizeof(double))</code>的地址提供给一个int指针是不合适的。如下：  </p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int *p;
+    double *p1;
+    p=(double*)malloc(2*sizeof(double));
+    p[0]=1.2;
+    p[1]=2;
+    printf(&quot;%d\t%d\n&quot;,p[0],p[1]);
+    printf(&quot;%ld\n&quot;,sizeof(p[0]));
+    p1=p;
+    printf(&quot;%ld\n&quot;,sizeof(p1[0]));
+    printf(&quot;%lf\n&quot;,p1[0]);
+    return 0;
+}
+</code></pre><p>编译时候会有下面的警告：</p>
+<pre><code>7:6: warning: assignment from incompatible pointer type [enabled by default]
+12:7: warning: assignment from incompatible pointer type [enabled by default]
+</code></pre><p>像<code>(double*)malloc(1)</code>这样，也会引发警告。</p>
+<p>有一点需要注意，malloc的空间是分配出来了，但是对应内存中的内容与原先不变，即这些内存空间未被初始化。</p>
+<h2 id="int-与NULL"><a href="#int-与NULL" class="headerlink" title="int *与NULL"></a>int *与NULL</h2><hr>
+<p>NULL是一个宏定义，用来表示空指针常量。用哪个具体的地址值表示空指针取决于系统的实现。通过下面这个简单的示例可以更好的理解NULL：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main(int argc, const char *argv[])
+{
+    int i=1;
+    int *p1=&amp;i;
+    int *p2;
+    int *p3=NULL;
+    if(&amp;i==NULL)
+    {
+        printf(&quot;&amp;i is NULL\n&quot;);
+    }
+    if(p1==NULL)
+    {
+        printf(&quot;p1 is NULL\n&quot;);
+    }
+    if(p2==NULL)
+    {
+        printf(&quot;p2 is NULL\n&quot;);
+    }
+    if(p3==NULL)
+    {
+        printf(&quot;p3 is NULL\n&quot;);
+    }
+    return 0;
+}
+</code></pre><p>编译时候会对<code>if(&amp;i==NULL)</code>作出警告：<code>warning: the comparison will always evaluate as ‘false’ for the address of ‘i’ will never be NULL [-Waddress]</code>。同时也会对<code>if(p2==NULL)</code>作出警告：<code>warning: ‘p2’ is used uninitialized in this function [-Wuninitialized]</code>。运行结果如下：</p>
+<pre><code>p3 is NULL
+</code></pre><p>如果程序中需要对一些指针进行NULL判断，那么<code>int *p3=NULL;</code>这种写法是一个好习惯。</p>
+<h2 id="int-与二维int数组"><a href="#int-与二维int数组" class="headerlink" title="int *与二维int数组"></a>int *与二维int数组</h2><hr>
+<p>二维数组默认是行优先存储，且存放在连续的内存中。示例如下：</p>
+<pre><code>{% raw %}
+    #include <stdio.h>
+    int main(int argc, const char *argv[])
+    {
+        int a[2][3]={{1,2,3},{4,5,6}};
+        printf("1--%d\n",a[1][2]);
+        printf("2--%d\t%d\t%d\t%d\n",a[1][2],*(*(a+1)+2),*(a[1]+2),*(&a[1][2]));
+        printf("3--%p\t%p\t%p\n",&a[1][2],*(a+1)+2,a[1]+2);
+        printf("4--%p\t%p\t%p\t%p\n",a,*a,a[0],*(a+0));
+        printf("5--%p\t%d\t%d\t%d\n",*a,*(*a),*(a[0]),*(*(a+0)));
+        return 0;
+    }
+    {% endraw %}
+</stdio.h></code></pre><p>运行结果如下：</p>
+<pre><code>1--6
+2--6    6   6   6
+3--0x7fff8ef28404   0x7fff8ef28404  0x7fff8ef28404
+4--0x7fff8ef283f0   0x7fff8ef283f0  0x7fff8ef283f0  0x7fff8ef283f0
+5--0x7fff8ef283f0   1   1   1
+</code></pre><p><code>a</code>本身代表的是二维数组a的首地址，<code>*a</code>代表的是a的第一行的首地址。这也就意味着<code>a</code>虽然和<code>a[0][0]</code>地址相同，但<code>*a</code>并不是<code>a[0][0]</code>。也就是说，要获取二维数组某一元素，必须通过两次取地址，类似地适用于更高维的数组，至于原因，肯定实在代码区。</p>
+<p><code>int *</code>与一维维数组的差别不在为数据分配的内存上(当然，两者分配的地方不同，一个堆，一个栈)，而在代码段。<br>不能想当然的认为<code>int**</code>与二维数组区别也不大，若要使用<code>int**</code>做一个“二维数组”还是比较麻烦的。</p>
+<p><code>int *</code>不能比较正规的表示表示多维数组，如下：</p>
+<pre><code>{% raw %}
+    #include <stdio.h>
+    int main(int argc, const char *argv[])
+    {
+        int a[2][3]={{1,2,3},{4,5,6}};
+        int i=1,j=2;
+        int *p=a;
+        printf("%d\n",a[i][j]);
+        printf("%d",*(p+i*3+j));
+    }
+    {% endraw %}
+</stdio.h></code></pre><p>编译时候会有类型不一致的警告，运行结果如下：</p>
+<pre><code>6
+6
+</code></pre><h2 id="int-模拟二维数组"><a href="#int-模拟二维数组" class="headerlink" title="int **模拟二维数组"></a>int **模拟二维数组</h2><hr>
+<p>先看一下sizeof()一个指针是什么结果：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int *p=(int *)malloc(10*sizeof(int));
+    printf(&quot;%d\n&quot;,sizeof(int *));
+    printf(&quot;%d\n&quot;,sizeof(p));
+    printf(&quot;%d\n&quot;,sizeof(*p));
+    return 0;
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>8
+8
+4
+</code></pre><p>无论指针指向多大的内存空间，sizeof()永远是一个存放内存地址所需空间的大小。</p>
+<p>再看一个<code>int**</code>的代码：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main(int argc, const char *argv[])
+{
+    int m=10;
+    int *p;
+    int **p1;
+    p=&amp;m;
+    p1=&amp;p;
+    printf(&quot;%d\n&quot;,m);
+    printf(&quot;%d\n&quot;,*p);
+    printf(&quot;%d\n&quot;,**p1);
+    return 0;
+}
+</code></pre><p>很明显，运行结果为：</p>
+<pre><code>10
+10
+10
+</code></pre><p>下面模拟一下二维数组：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int **p;
+    p=(int **)malloc(2*sizeof(int *));
+    p[0]=(int *)malloc(10*sizeof(int));
+    p[1]=(int *)malloc(10*sizeof(int));
+    printf(&quot;%ld\n&quot;,sizeof(p[0]));
+    printf(&quot;%ld\n&quot;,sizeof(p[0][1]));
+    p[0][0]=100;
+    p[0][1]=101;
+    printf(&quot;%d,%d\n&quot;,p[0][0],p[0][1]);
+    //内存地址
+    printf(&quot;%p,%p\n&quot;,&amp;p[0],&amp;p[1]);
+    printf(&quot;%p,%p\n&quot;,p[0],p[1]);
+    return 0;
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>8
+4
+100,101
+0x2128010,0x2128018
+0x2128030,0x2128060
+</code></pre><p>话说模拟完之后，真感觉应该把“模拟”二字去掉，但是这个还是和<code>int a[2][10]</code>不同。<br>对于<code>int a[2][10]</code>，例如取元素<code>a[1][2]</code>，获取<code>a[1][2]</code>地址的过程应该是<code>a首地址 + 1*10*sizeof(int) + 2*sizeof(int)</code>。(假定数组元素由低地址向高地址方向存放)。<br>对于上面代码中的自定义二维数组p，取元素<code>p[1][2]</code>过程应该是在将获取的p对应的那个地址偏移8B(即<code>1*sizeof(int*)</code>)的后得到新的地址，在新地址取得8B的数据作为新地址，跳到新地址后，便宜8B(即<code>2*sizeof(int)</code>)，如此便获得元素p[1][2]。</p>
+<h2 id="malloc"><a href="#malloc" class="headerlink" title="malloc"></a>malloc</h2><hr>
+<p>要使得程序健壮，malloc的内存空间在不使用后一定要用free释放，这同样适用于非main函数。这其中还包含内存泄漏的问题。<br>如果程序是这样：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int *p;
+    p=(int *)malloc(2*sizeof(int));
+    printf(&quot;%p\n&quot;,p);
+    p=(int *)malloc(2*sizeof(int));
+    printf(&quot;%p\n&quot;,p);
+    return 0;
+}
+</code></pre><p>很显然，第一次malloc申请的内存是想释放也释放不了，除非程序结束，OS回收内存。</p>
+<h2 id="int-与const"><a href="#int-与const" class="headerlink" title="int *与const"></a>int *与const</h2><hr>
+<p>用关键字const修饰一个符号后，该符号不能被赋值，但是这并不代表这个符号变成了常量。const可以理解为read-only。</p>
+<p>对于<code>const int m=10;</code>：<br>const修饰m，代表之后不能再给m赋值，例如<code>m=0</code>就会报错。<code>const int m=10;</code>与<code>int const m=10;</code>同义。  </p>
+<p>对于<code>int i=0;const int *m=&amp;i;</code>：<br>const修饰<code>*m</code>，这也就代表着之后执行<code>*m=10;</code>是错误的。不过改变m自身的内容倒是没有什么问题，例如<code>int i=0,j=1;const int * p = &amp;i;p=&amp;j;</code>。<code>const int *m=&amp;i</code>与<code>int const *m=&amp;i</code>同义。</p>
+<p>对于<code>int i=0，j=1;int  * const p = &amp;i;*p=7;</code>：<br>const修饰p，代表着<code>p=&amp;j</code>是错误的。  </p>
+<p>对于<code>int i=0,j=1;const int * const p=&amp;i;</code>：<br>在这种情况下，<code>*p=20</code>和<code>p=&amp;j</code>都是错误的。  </p>
+<h2 id="int-p-4-与int-p-4"><a href="#int-p-4-与int-p-4" class="headerlink" title="int *p[4]与int (*p)[4]"></a><code>int *p[4]</code>与<code>int (*p)[4]</code></h2><hr>
+<p>对于<code>int *p[4]</code>，<code>[]</code>的优先级高于取值运算符<code>*</code>，所以可以看作<code>int *</code>修饰数组p的四个元素，即四个元素本身都是一个int指针。请参考下面的程序：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int *p[4];
+    p[0]=(int *)malloc(2*sizeof(int));
+    p[1]=(int *)malloc(2*sizeof(int));
+    p[2]=(int *)malloc(2*sizeof(int));
+    p[3]=(int *)malloc(2*sizeof(int));
+    p[0][0]=10;
+    printf(&quot;%d\n&quot;,p[0][0]);
+    return 0;
+}
+</code></pre><p>对于<code>int (*p)[4]</code>：<br>这声明了一个指向数组的指针，数组内有4个int元素。注意<code>int (*p)[4]</code>只是作了声明，并未初始化。示例如下：  </p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(int argc, const char *argv[])
+{
+    int (*p)[4];
+    p=(int (*)[4])malloc(4*sizeof(int));
+    (*p)[0]=1;
+    printf(&quot;%d\n&quot;,(*p)[0]);
+    return 0;
+}
+</code></pre><p>其中<code>p=(int (*)[4])malloc(4*sizeof(int));</code>对p做了初始化。如果是<code>p=(int *)malloc(4*sizeof(int));</code>则会有类型不兼容的警告。</p>
+<h2 id="int-func-、-int-func-与int-func"><a href="#int-func-、-int-func-与int-func" class="headerlink" title="int *func()、(int *)func()与int (*func)()"></a><code>int *func()</code>、<code>(int *)func()</code>与<code>int (*func)()</code></h2><hr>
+<p>对于<code>int *func()</code>：<br>这个函数应该返回一个指针，例如：  </p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int *func();
+int main(int argc, const char *argv[])
+{
+    int *p=func();
+    printf(&quot;%d,%d\n&quot;,p[0],p[1]);
+    free(p);
+    return 0;
+}
+int *func()
+{
+    int *p=(int *)malloc(2*sizeof(int));
+    p[0]=1;p[1]=2;
+    return p;
+}
+</code></pre><p>对于<code>(int *)func()</code>：<br><code>()</code>的优先级比<code>*</code>高，自己的理解是这种声明在意思上和<code>int *func()</code>相同，不过这是错误的，请遵守规则.</p>
+<p>对于<code>int (*func)()</code>：<br><a href="/2014/07/24/再学习c指针-int型指针及其他/">点击这里</a></p>
+<h2 id="char"><a href="#char" class="headerlink" title="char *"></a><code>char *</code></h2><hr>
+<p>float、double类型的指针和int完全一样，倒是char型指针有一些不一样的地方。<br>char指针可以这样声明：<code>char *p=&quot;qweasd&quot;;</code>，而int指针不可以这样<code>int *p=123;</code>。<br>另外一维的char数组认为是一个字符串，可以使用<code>printf(&quot;%s&quot;,p);</code>直接输出数组内荣，直到遇到<code>\0</code>。</p>
+<h2 id="关于地址的一件有意思的事情"><a href="#关于地址的一件有意思的事情" class="headerlink" title="关于地址的一件有意思的事情"></a>关于地址的一件有意思的事情</h2><hr>
+<p>看下面这个程序：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+    int i=0;
+    int a[2];
+    int b[2][3];
+    printf(&quot;%p\n&quot;,&amp;i);
+    printf(&quot;%p\n&quot;,&amp;a[1]);
+    printf(&quot;%p,%p\n&quot;,b[1],&amp;b[1]);
+    return 0;
+}
+</code></pre><p>运行结果是：</p>
+<pre><code>0x7fffa0ac4f2c
+0x7fffa0ac4f24
+0x7fffa0ac4f0c,0x7fffa0ac4f0c
+</code></pre><p>对于二维数组b，b[1]和&amp;b[1]都是输出b第一行的首地址，但是&amp;&amp;b[1]就会报错，还未理解。</p>
+<p>准备找个时间看看Kenneth A.Reek的《C和指针》这本书。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-07-24-c-int-pointer/" title="再学习c指针-int型指针及其他">http://www.letiantian.me/2014-07-24-c-int-pointer/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-07-14-install-mysql-from-source-code/" rel="next" title="ubuntu下源码安装MySQL">
+                <i class="fa fa-chevron-left"></i> ubuntu下源码安装MySQL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-07-24-c-pointer-and-struct/" rel="prev" title="再学习c指针-结构体">
+                再学习c指针-结构体 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接寻址、间接寻址"><span class="nav-text">直接寻址、间接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于int"><span class="nav-text">关于int *</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-与一维int数组"><span class="nav-text">int *与一维int数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-与malloc"><span class="nav-text">int *与malloc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-与NULL"><span class="nav-text">int *与NULL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-与二维int数组"><span class="nav-text">int *与二维int数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-模拟二维数组"><span class="nav-text">int **模拟二维数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#malloc"><span class="nav-text">malloc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-与const"><span class="nav-text">int *与const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-p-4-与int-p-4"><span class="nav-text">int *p[4]与int (*p)[4]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-func-、-int-func-与int-func"><span class="nav-text">int *func()、(int *)func()与int (*func)()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#char"><span class="nav-text">char *</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于地址的一件有意思的事情"><span class="nav-text">关于地址的一件有意思的事情</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

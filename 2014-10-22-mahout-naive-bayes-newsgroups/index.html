@@ -1,0 +1,1013 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用mahout下的朴素贝叶斯分类器对新闻分类">
+<meta property="og:url" content="http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2014-10-23T01:17:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用mahout下的朴素贝叶斯分类器对新闻分类">
+<meta name="twitter:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用mahout下的朴素贝叶斯分类器对新闻分类 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用mahout下的朴素贝叶斯分类器对新闻分类</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-22T11:58:06+08:00">
+                2014-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-10-22</p>
+<p>mahout版本是0.9；hadoop版本是1.2.1。</p>
+<p>下载数据集<a href="http://people.csail.mit.edu/jrennie/20Newsgroups/20news-bydate.tar.gz" target="_blank" rel="noopener">20 newsgroups dataset</a>，解压后得到<code>20news-bydate</code>目录：</p>
+<pre><code>$ cp -R 20news-bydate/*/* 20news-all
+</code></pre><p>在<code>20news-all</code>目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。</p>
+<p>然后，复制到hdfs中：</p>
+<pre><code>$ hadoop  distcp file:///home/sunlt/20news-all 20news-all
+</code></pre><p>查看一下：</p>
+<pre><code>$ hadoop  dfs -ls                                              
+Warning: $HADOOP_HOME is deprecated.
+
+Found 6 items
+......
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 10:09 /user/sunlt/20news-all
+......
+</code></pre><h2 id="转换成的序列文件："><a href="#转换成的序列文件：" class="headerlink" title="转换成的序列文件："></a>转换成<text,text>的序列文件：</text,text></h2><hr>
+<pre><code>$ mahout seqdirectory \                 
+-i 20news-all \
+-o 20news-seq \
+-ow
+</code></pre><h2 id="转换成-lt-Text-VectorWritable-gt-的序列文件："><a href="#转换成-lt-Text-VectorWritable-gt-的序列文件：" class="headerlink" title="转换成&lt; Text, VectorWritable &gt;的序列文件："></a>转换成&lt; Text, VectorWritable &gt;的序列文件：</h2><hr>
+<pre><code>$ mahout seq2sparse -i 20news-seq -o 20news-vectors -lnorm  -nv -wt tfidf
+</code></pre><p>此处使用了<a href="https://mahout.apache.org/users/classification/bayesian.html" target="_blank" rel="noopener">TF-IDF（词频-逆文档频率）</a>生成向量，也可以指定为<code>TF</code>。</p>
+<p>更多参数，可以使用<code>mahout seq2sparse --help</code>查看。</p>
+<h2 id="拆分数据"><a href="#拆分数据" class="headerlink" title="拆分数据"></a>拆分数据</h2><hr>
+<p>将60%的数据用于训练，40%的数据用于测试。</p>
+<pre><code>$ mahout split \
+        -i 20news-vectors/tfidf-vectors \
+        --trainingOutput 20news-train-vectors \
+        --testOutput 20news-test-vectors  \
+        --randomSelectionPct 40 \
+        --overwrite --sequenceFiles -xm sequential
+</code></pre><p>此时：</p>
+<pre><code>$ hadoop dfs -ls                                                         
+Warning: $HADOOP_HOME is deprecated.
+
+Found 10 items
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 09:52 /user/sunlt/20_newsgroups
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 10:09 /user/sunlt/20news-all
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 10:28 /user/sunlt/20news-seq
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 11:17 /user/sunlt/20news-test-vectors
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 11:17 /user/sunlt/20news-train-vectors
+drwxr-xr-x   - sunlt supergroup          0 2014-10-13 10:55 /user/sunlt/20news-vectors
+</code></pre><h2 id="训练："><a href="#训练：" class="headerlink" title="训练："></a>训练：</h2><hr>
+<pre><code>$ mahout trainnb \
+        -i 20news-train-vectors\
+        -el  \
+        -o model \
+        -li labelindex \
+        -ow \
+        -c
+</code></pre><h2 id="测试训练好的贝叶斯分类器："><a href="#测试训练好的贝叶斯分类器：" class="headerlink" title="测试训练好的贝叶斯分类器："></a>测试训练好的贝叶斯分类器：</h2><hr>
+<pre><code>$ mahout testnb \
+        -i 20news-test-vectors \
+        -m model \
+        -l labelindex \
+        -ow \
+        -o 20news-testing  \
+        -c
+</code></pre><p>运行结果：</p>
+<pre><code>.......
+=======================================================
+Summary
+-------------------------------------------------------
+Correctly Classified Instances          :       3023       93.7946%
+Incorrectly Classified Instances        :        200        6.2054%
+Total Classified Instances              :       3223
+
+=======================================================
+Confusion Matrix
+-------------------------------------------------------
+a        b        c        d        e        f        g        h        i        &lt;--Classified as
+306      1        0        0        1        2        1        1        16        |  328       a     = alt.atheism
+0        391      2        1        3        1        0        0        2         |  400       b     = comp.windows.x
+0        7        345      6        12       12       2        5        1         |  390       c     = misc.forsale
+0        1        2        399      2        1        1        0        0         |  406       d     = rec.motorcycles
+0        5        10       2        371      3        0        3        1         |  395       e     = sci.electronics
+0        5        0        1        4        371      1        2        1         |  385       f     = sci.med
+1        3        0        2        1        1        317      8        0         |  333       g     = talk.politics.guns
+1        0        0        1        2        3        11       311      5         |  334       h     = talk.politics.misc
+22       1        2        1        0        0        8        6        212       |  252       i     = talk.religion.misc
+
+=======================================================
+Statistics
+-------------------------------------------------------
+Kappa                                       0.9105
+Accuracy                                   93.7946%
+Reliability                                84.0504%
+Reliability (standard deviation)            0.2984
+</code></pre><p>对角线代表预测正确的数量。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><hr>
+<p>导出数据：</p>
+<pre><code>$ mahout seqdumper -i 20news-testing/part-m-00000 -o ./20news_testing.res
+</code></pre><p>查看：</p>
+<pre><code>$ gedit ./20news_testing.res
+</code></pre><p>也可以这样查看：</p>
+<pre><code>$ hadoop dfs -cat 20news-testing/part-m-00000
+</code></pre><p>由于是sequence文件，查看的结果是乱码。</p>
+<p>将hdfs中某个目录中的文件拷贝到本地：</p>
+<pre><code>$ hadoop dfs -copyToLocal 20news-vectors/* .
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><hr>
+<p><a href="http://mahout.apache.org/users/classification/twenty-newsgroups.html" target="_blank" rel="noopener">Twenty Newsgroups Classification Example</a>  </p>
+<p><a href="http://openresearch.baidu.com/platform/494.jhtml;jsessionid=C26F96441F909487F25848BEC300F851" target="_blank" rel="noopener">贝叶斯分类算法示例</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/" title="使用mahout下的朴素贝叶斯分类器对新闻分类">http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-10-19-node-markdown-marked-convert-markdown/" rel="next" title="使用nodejs的markdown和marked模块解析markdown">
+                <i class="fa fa-chevron-left"></i> 使用nodejs的markdown和marked模块解析markdown
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-10-28-logistic-regression-python-implement/" rel="prev" title="逻辑斯谛回归代码实现">
+                逻辑斯谛回归代码实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成的序列文件："><span class="nav-text">转换成的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成-lt-Text-VectorWritable-gt-的序列文件："><span class="nav-text">转换成&lt; Text, VectorWritable &gt;的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拆分数据"><span class="nav-text">拆分数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练："><span class="nav-text">训练：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试训练好的贝叶斯分类器："><span class="nav-text">测试训练好的贝叶斯分类器：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

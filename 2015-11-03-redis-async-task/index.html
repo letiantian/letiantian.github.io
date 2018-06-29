@@ -1,0 +1,1396 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,redis," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-11-03 如果一些任务没必要马上知道结果，可以将其放入队列中，让后台处理程序去处理，这同时也达到了异步的效果。本文围绕python的rq模块，介绍如何使用redis构建异步任务处理程序。 rq官方地址：  http://python-rq.org/Github：    https://github.com/nvie/rq  本文分为以下几个部分：    如何安装rq 命令行工具的实现">
+<meta name="keywords" content="python,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用redis构建异步任务处理程序">
+<meta property="og:url" content="http://www.letiantian.me/2015-11-03-redis-async-task/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-11-03 如果一些任务没必要马上知道结果，可以将其放入队列中，让后台处理程序去处理，这同时也达到了异步的效果。本文围绕python的rq模块，介绍如何使用redis构建异步任务处理程序。 rq官方地址：  http://python-rq.org/Github：    https://github.com/nvie/rq  本文分为以下几个部分：    如何安装rq 命令行工具的实现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-11-04T13:25:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用redis构建异步任务处理程序">
+<meta name="twitter:description" content="2015-11-03 如果一些任务没必要马上知道结果，可以将其放入队列中，让后台处理程序去处理，这同时也达到了异步的效果。本文围绕python的rq模块，介绍如何使用redis构建异步任务处理程序。 rq官方地址：  http://python-rq.org/Github：    https://github.com/nvie/rq  本文分为以下几个部分：    如何安装rq 命令行工具的实现">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-11-03-redis-async-task/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>如何使用redis构建异步任务处理程序 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-11-03-redis-async-task/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用redis构建异步任务处理程序</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-03T21:57:24+08:00">
+                2015-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-11-03</p>
+<p>如果一些任务没必要马上知道结果，可以将其放入队列中，让后台处理程序去处理，这同时也达到了异步的效果。本文围绕python的rq模块，介绍如何使用redis构建异步任务处理程序。</p>
+<p>rq官方地址：  <a href="http://python-rq.org/" target="_blank" rel="noopener">http://python-rq.org/</a><br>Github：    <a href="https://github.com/nvie/rq" target="_blank" rel="noopener">https://github.com/nvie/rq</a> </p>
+<p>本文分为以下几个部分：  </p>
+<ul>
+<li>如何安装rq</li>
+<li>命令行工具的实现</li>
+<li>rq如何在redis中存储数据</li>
+<li>rq的设计思路</li>
+<li>关于rq的源码</li>
+<li>python、redis基础</li>
+</ul>
+<a id="more"></a>
+<h2 id="如何安装rq"><a href="#如何安装rq" class="headerlink" title="如何安装rq"></a>如何安装rq</h2><h3 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h3><p>解压源码，将<code>rq</code>的目录放在PYTHONPATH变量里。然后：</p>
+<pre><code class="shell">export PYTHONPATH=$PYTHONPATH:/home/letian/Desktop/rq/
+</code></pre>
+<h3 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h3><pre><code class="plain">$ sudo python setup.py install
+</code></pre>
+<h3 id="方法3："><a href="#方法3：" class="headerlink" title="方法3："></a>方法3：</h3><p>该方法是将rq安装到当前用户目录，我也是采用的该方法：</p>
+<pre><code class="plain">$ python setup.py install --user
+...
+Installed /home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg
+Processing dependencies for rq==0.5.6
+...
+</code></pre>
+<p>另外，rq会在<code>$HOME/.local/bin</code>安装几个命令行工具(rq、rqinfo、rqworker)，所以需要：</p>
+<pre><code class="plain">$ export PATH=$PATH:$HOME/.local/bin
+</code></pre>
+<p>注意，rq对click包有依赖，如果安装rq时出现问题，可以先安装<a href="https://github.com/mitsuhiko/click" target="_blank" rel="noopener">click</a>。  </p>
+<h3 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h3><p><a href="https://docs.python.org/2/install/" target="_blank" rel="noopener">Installing Python Modules</a><br><a href="http://scicomp.stackexchange.com/questions/2987/what-is-the-simplest-way-to-do-a-user-local-install-of-a-python-package" target="_blank" rel="noopener">What is the simplest way to do a user-local install of a python package?</a><br><a href="http://stackoverflow.com/questions/7465445/how-to-install-python-modules-without-root-access" target="_blank" rel="noopener">How to install python modules without root access?</a>  </p>
+<h2 id="命令行工具的实现"><a href="#命令行工具的实现" class="headerlink" title="命令行工具的实现"></a>命令行工具的实现</h2><p>我们看一下命令行工具的实现：</p>
+<p>首先rq源码中的setup.py中有以下内容：</p>
+<pre><code class="json">entry_points={
+    &#39;console_scripts&#39;: [
+        &#39;rq = rq.cli:main&#39;,
+
+        # NOTE: rqworker/rqinfo are kept for backward-compatibility,
+        # remove eventually (TODO)
+        &#39;rqinfo = rq.cli:info&#39;,
+        &#39;rqworker = rq.cli:worker&#39;,
+    ],
+},
+</code></pre>
+<p>很容易看懂，rq就是执行rq.cli模块下main函数，另外两个类似。</p>
+<p>查看rqworker的代码：</p>
+<pre><code class="plain">$ cd ~/.local/bin
+letian@myhost:~/.local/bin
+
+$ cat rqworker 
+# !/usr/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: &#39;rq==0.5.6&#39;,&#39;console_scripts&#39;,&#39;rqworker&#39;
+__requires__ = &#39;rq==0.5.6&#39;
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == &#39;__main__&#39;:
+    sys.exit(
+        load_entry_point(&#39;rq==0.5.6&#39;, &#39;console_scripts&#39;, &#39;rqworker&#39;)()
+    )
+</code></pre>
+<p>其中<code>rq=0.5.6</code>代表着包<code>site-packages/rq-0.5.6-py2.7.egg</code>，在这里，实际位置是<code>~/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg</code>。进入该目录，查看<code>EGG-INFO/entry_points.txt</code>的内容：</p>
+<pre><code class="plain">$ cat EGG-INFO/entry_points.txt 
+[console_scripts]
+rq = rq.cli:main
+rqinfo = rq.cli:info
+rqworker = rq.cli:worker
+</code></pre>
+<p>相关资料：<br><a href="http://www.cnblogs.com/babykick/archive/2012/03/09/2387808.html" target="_blank" rel="noopener">pkg_resources—-Entry Points为程序提供扩展点</a><br><a href="https://pythonhosted.org/setuptools/pkg_resources.html" target="_blank" rel="noopener">Package Discovery and Resource Access using pkg_resources</a>  </p>
+<h2 id="rq如何在redis中存储数据"><a href="#rq如何在redis中存储数据" class="headerlink" title="rq如何在redis中存储数据"></a>rq如何在redis中存储数据</h2><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>按照<a href="http://python-rq.org/" target="_blank" rel="noopener">rq官网</a>给的例子写代码：</p>
+<p>建立项目目录<code>python-code</code>和文件，结构如下：</p>
+<pre><code class="plain">$ tree python-code/
+python-code/
+├── my_module.py
+└── test.py
+</code></pre>
+<p><code>my_module.py</code>内容如下：</p>
+<pre><code class="py">import requests
+
+def count_words_at_url(url):
+    resp = requests.get(url)
+    return len(resp.text.split())
+</code></pre>
+<p><code>test.py</code>内容如下：</p>
+<pre><code class="py">from redis import Redis
+from rq import Queue
+from my_module import count_words_at_url
+
+q = Queue(connection=Redis())
+result = q.enqueue(count_words_at_url, &#39;http://www.baidu.com&#39;)
+print result
+</code></pre>
+<p>执行<code>test.py</code>，</p>
+<pre><code class="plain">$ python test.py 
+&lt;Job ca82af29-5744-4d62-afe0-3cba45b2d31d: my_module.count_words_at_url(&#39;http://www.baidu.com&#39;)&gt;
+</code></pre>
+<h3 id="查看redis"><a href="#查看redis" class="headerlink" title="查看redis"></a>查看redis</h3><p>现在看下redis：</p>
+<pre><code class="plain">$ redis-cli 
+127.0.0.1:6379&gt; KEYS *
+1) &quot;rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d&quot;
+2) &quot;rq:queue:default&quot;
+3) &quot;rq:queues&quot;
+</code></pre>
+<p>出现三个键值对。</p>
+<p>看看<code>rq:queues</code>有什么：  </p>
+<pre><code class="plain">127.0.0.1:6379&gt; TYPE rq:queues
+set
+127.0.0.1:6379&gt; SMEMBERS rq:queues
+1) &quot;rq:queue:default&quot;
+</code></pre>
+<p><code>rq:queues</code>是一个集合，保存着有哪些队列。</p>
+<p><code>rq:queue:default</code>就是当一个队列来用了：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; TYPE rq:queue:default
+list
+127.0.0.1:6379&gt; LRANGE rq:queue:default 0 12
+1) &quot;ca82af29-5744-4d62-afe0-3cba45b2d31d&quot;
+</code></pre>
+<p>default队列中有一个任务，任务的标识是<code>ca82af29-5744-4d62-afe0-3cba45b2d31d</code>，这正好和<code>rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d</code>对应。</p>
+<p>接着看看这个job里有什么：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; TYPE rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d
+hash
+127.0.0.1:6379&gt; HGETALL rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d
+ 1) &quot;origin&quot;
+ 2) &quot;default&quot;
+ 3) &quot;status&quot;
+ 4) &quot;queued&quot;
+ 5) &quot;created_at&quot;
+ 6) &quot;2015-11-03T02:42:35Z&quot;
+ 7) &quot;enqueued_at&quot;
+ 8) &quot;2015-11-03T02:42:35Z&quot;
+ 9) &quot;data&quot;
+10) &quot;\x80\x02(X\x1c\x00\x00\x00my_module.count_words_at_urlq\x01NU\x14http://www.baidu.comq\x02\x85q\x03}q\x04tq\x05.&quot;
+11) &quot;description&quot;
+12) &quot;my_module.count_words_at_url(&#39;http://www.baidu.com&#39;)&quot;
+13) &quot;timeout&quot;
+14) &quot;180&quot;
+</code></pre>
+<p>这个job的信息是以hash形式存储的，奇数行是key，偶数是value。我们看下data的内容：</p>
+<pre><code class="plain">$ ipython
+&gt;&gt;&gt; aa
+&#39;\x80\x02(X\x1c\x00\x00\x00my_module.count_words_at_urlq\x01NU\x14http://www.baidu.comq\x02\x85q\x03}q\x04tq\x05.&#39;
+&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; pickle.loads(aa)
+(u&#39;my_module.count_words_at_url&#39;, None, (&#39;http://www.baidu.com&#39;,), {})
+</code></pre>
+<h3 id="不在项目目录中执行rqworker"><a href="#不在项目目录中执行rqworker" class="headerlink" title="不在项目目录中执行rqworker"></a>不在项目目录中执行rqworker</h3><pre><code class="plain">$ rqworker 
+13:38:17 RQ worker u&#39;rq:worker:myhost.10179&#39; started, version 0.5.6
+13:38:17 
+13:38:17 *** Listening on default...
+13:38:17 default: my_module.count_words_at_url(&#39;http://www.baidu.com&#39;) (ca82af29-5744-4d62-afe0-3cba45b2d31d)
+13:38:17 ImportError: No module named my_module
+Traceback (most recent call last):
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/worker.py&quot;, line 568, in perform_job
+    rv = job.perform()
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py&quot;, line 495, in perform
+    self._result = self.func(*self.args, **self.kwargs)
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py&quot;, line 206, in func
+    return import_attribute(self.func_name)
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/utils.py&quot;, line 150, in import_attribute
+    module = importlib.import_module(module_name)
+  File &quot;/usr/lib/python2.7/importlib/__init__.py&quot;, line 37, in import_module
+    __import__(name)
+ImportError: No module named my_module
+Traceback (most recent call last):
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/worker.py&quot;, line 568, in perform_job
+    rv = job.perform()
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py&quot;, line 495, in perform
+    self._result = self.func(*self.args, **self.kwargs)
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py&quot;, line 206, in func
+    return import_attribute(self.func_name)
+  File &quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/utils.py&quot;, line 150, in import_attribute
+    module = importlib.import_module(module_name)
+  File &quot;/usr/lib/python2.7/importlib/__init__.py&quot;, line 37, in import_module
+    __import__(name)
+ImportError: No module named my_module
+13:38:17 Moving job to u&#39;failed&#39; queue
+13:38:17 
+13:38:17 *** Listening on default...
+</code></pre>
+<p>执行失败，因为<code>No module named my_module</code>。</p>
+<p>注意，<code>rqworker</code>输出的第一行中<code>rq:worker:myhost.10179</code>是该worker的标识。</p>
+<p>我们看一下redis中内容的变化：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; KEYS *
+1) &quot;rq:queue:failed&quot;
+2) &quot;rq:workers&quot;
+3) &quot;rq:queues&quot;
+4) &quot;rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d&quot;
+5) &quot;rq:worker:myhost.10179&quot;
+</code></pre>
+<p>新增加了一个<code>rq:queue:failed</code>队列，<code>rq:workers</code>集合。</p>
+<p>查看<code>rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d</code>的变化：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; HGETALL rq:job:ca82af29-5744-4d62-afe0-3cba45b2d31d
+ 1) &quot;ttl&quot;
+ 2) &quot;-1&quot;
+ 3) &quot;created_at&quot;
+ 4) &quot;2015-11-03T02:42:35Z&quot;
+ 5) &quot;ended_at&quot;
+ 6) &quot;2015-11-03T05:38:17Z&quot;
+ 7) &quot;origin&quot;
+ 8) &quot;default&quot;
+ 9) &quot;enqueued_at&quot;
+10) &quot;2015-11-03T02:42:35Z&quot;
+11) &quot;exc_info&quot;
+12) &quot;Traceback (most recent call last):\n  File \&quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/worker.py\&quot;, line 568, in perform_job\n    rv = job.perform()\n  File \&quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py\&quot;, line 495, in perform\n    self._result = self.func(*self.args, **self.kwargs)\n  File \&quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/job.py\&quot;, line 206, in func\n    return import_attribute(self.func_name)\n  File \&quot;/home/letian/.local/lib/python2.7/site-packages/rq-0.5.6-py2.7.egg/rq/utils.py\&quot;, line 150, in import_attribute\n    module = importlib.import_module(module_name)\n  File \&quot;/usr/lib/python2.7/importlib/__init__.py\&quot;, line 37, in import_module\n    __import__(name)\nImportError: No module named my_module\n&quot;
+13) &quot;data&quot;
+14) &quot;\x80\x02(X\x1c\x00\x00\x00my_module.count_words_at_urlq\x01NU\x14http://www.baidu.comq\x02\x85q\x03}q\x04tq\x05.&quot;
+15) &quot;description&quot;
+16) &quot;my_module.count_words_at_url(&#39;http://www.baidu.com&#39;)&quot;
+17) &quot;timeout&quot;
+18) &quot;180&quot;
+19) &quot;status&quot;
+20) &quot;failed&quot;
+</code></pre>
+<p>可以看到出现了新的键值对，例如<code>ended_at</code>、<code>exc_info</code>。<code>status</code>的值也发生了变化：由<code>queued</code>变成了<code>failed</code>。</p>
+<p>查看<code>rq:workers</code>中的内容：  </p>
+<pre><code class="plain">127.0.0.1:6379&gt; TYPE rq:workers
+set
+127.0.0.1:6379&gt; SMEMBERS rq:workers
+1) &quot;rq:worker:myhost.10179&quot;
+</code></pre>
+<p>有一个worker，其中myhost是hostname，10179是该worker的pid，查看其信息：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; TYPE rq:worker:myhost.10179
+hash
+
+127.0.0.1:6379&gt; HGETALL rq:worker:myhost.10179
+1) &quot;birth&quot;
+2) &quot;2015-11-03T05:38:17Z&quot;
+3) &quot;queues&quot;
+4) &quot;default&quot;
+5) &quot;state&quot;
+6) &quot;idle&quot;
+7) &quot;current_job&quot;
+8) &quot;ca82af29-5744-4d62-afe0
+</code></pre>
+<p>查看队列<code>rq:queue:default</code>中的内容：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; LRANGE rq:queue:default 0 12
+(empty list or set)
+</code></pre>
+<p>查看队列<code>rq:queue:failed</code>中的内容：</p>
+<pre><code>127.0.0.1:6379&gt; LRANGE rq:queue:failed 0 12
+1) &quot;ca82af29-5744-4d62-afe0-3cba45b2d31d&quot;
+</code></pre><h3 id="应该这样执行"><a href="#应该这样执行" class="headerlink" title="应该这样执行"></a>应该这样执行</h3><p>把上面运行的rqworker停掉，清空redis：</p>
+<pre><code class="plain">127.0.0.1:6379&gt; FLUSHALL
+OK
+</code></pre>
+<p>重新在redis中添加job：</p>
+<pre><code class="plain">$ python test.py 
+&lt;Job 4122eed3-d521-4738-8cf6-20d9501d0ab0: my_module.count_words_at_url(&#39;http://www.baidu.com&#39;)&gt;
+</code></pre>
+<p>然后，<strong>在项目目录下执行rqworker</strong>：</p>
+<pre><code class="plain">$ rqworker 
+20:17:21 RQ worker u&#39;rq:worker:myhost.27283&#39; started, version 0.5.6
+20:17:21 
+20:17:21 *** Listening on default...
+20:17:21 default: my_module.count_words_at_url(&#39;http://www.baidu.com&#39;) (4122eed3-d521-4738-8cf6-20d9501d0ab0)
+20:17:22 Job OK
+</code></pre>
+<p>查看redis：</p>
+<pre><code class="plain"># rqworker运行之前
+127.0.0.1:6379&gt; KEYS *
+1) &quot;rq:job:4122eed3-d521-4738-8cf6-20d9501d0ab0&quot;
+2) &quot;rq:queue:default&quot;
+3) &quot;rq:queues&quot;
+
+# rqworker运行之后
+127.0.0.1:6379&gt; KEYS *
+1) &quot;rq:worker:myhost.27283&quot;
+2) &quot;rq:workers&quot;
+3) &quot;rq:finished:default&quot;
+4) &quot;rq:queues&quot;
+5) &quot;rq:job:4122eed3-d521-4738-8cf6-20d9501d0ab0&quot;
+
+127.0.0.1:6379&gt; HGETALL rq:job:4122eed3-d521-4738-8cf6-20d9501d0ab0
+ 1) &quot;ttl&quot;
+ 2) &quot;-1&quot;
+ 3) &quot;created_at&quot;
+ 4) &quot;2015-11-03T12:17:12Z&quot;
+ 5) &quot;ended_at&quot;
+ 6) &quot;2015-11-03T12:17:22Z&quot;
+ 7) &quot;origin&quot;
+ 8) &quot;default&quot;
+ 9) &quot;enqueued_at&quot;
+10) &quot;2015-11-03T12:17:12Z&quot;
+11) &quot;result&quot;
+12) &quot;\x80\x02K-.&quot;
+13) &quot;data&quot;
+14) &quot;\x80\x02(X\x1c\x00\x00\x00my_module.count_words_at_urlq\x01NU\x14http://www.baidu.comq\x02\x85q\x03}q\x04tq\x05.&quot;
+15) &quot;timeout&quot;
+16) &quot;180&quot;
+17) &quot;description&quot;
+18) &quot;my_module.count_words_at_url(&#39;http://www.baidu.com&#39;)&quot;
+19) &quot;status&quot;
+20) &quot;finished&quot;
+
+# zset是有序集合
+127.0.0.1:6379&gt; TYPE rq:finished:default
+zset
+
+127.0.0.1:6379&gt; ZRANGE rq:finished:default 0 -1
+1) &quot;4122eed3-d521-4738-8cf6-20d9501d0ab0&quot;
+</code></pre>
+<p>可以看到job的<code>status</code>是<code>finished</code>；<code>result</code>是<code>\x80\x02K-.</code>，用pickle处理这个值：</p>
+<pre><code class="plain">&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; pickle.loads(&quot;\x80\x02K-.&quot;)
+45
+</code></pre>
+<p>注意，可以同时执行多个<code>rqworker</code>。</p>
+<h2 id="rq的设计思路"><a href="#rq的设计思路" class="headerlink" title="rq的设计思路"></a>rq的设计思路</h2><h3 id="redis中如何存储一个job"><a href="#redis中如何存储一个job" class="headerlink" title="redis中如何存储一个job"></a>redis中如何存储一个job</h3><p>一个job，在这里就是一个函数或者可执行对象。</p>
+<p>job的id由uuid模块生成，加上固定前缀<code>rq:job:</code>，作为该job在redis中的key。value是hash类型，同样以键值对保存该job的信息。一个job的信息包括：入队时间，job使用的函数（或者可执行对象）本身的名称、所属的module名称，函数（或者可执行对象）的参数，状态（排队中、完成、失败等），执行结果等。这些信息有些是直接保存，有些用pickle模块处理之后才保存。</p>
+<h3 id="如何将job添加到队列"><a href="#如何将job添加到队列" class="headerlink" title="如何将job添加到队列"></a>如何将job添加到队列</h3><p>假设待处理job队列只有一个，即默认的<code>rq:queue:default</code>，这个队列名称同时也是它在redis中的键，对应的值是list类型，在这个list中记录job的id即可。</p>
+<p>job如果执行失败，则将其记录到失败队列（即<code>rq:queue:failed</code>）中。如果执行成功，则记录到<code>rq:finished:default</code>对应的有序集合中。</p>
+<h3 id="rqworker命令如何工作"><a href="#rqworker命令如何工作" class="headerlink" title="rqworker命令如何工作"></a>rqworker命令如何工作</h3><p>rqworker从给定的队列中取出一个job，提取job的信息，其中最重要的是：</p>
+<ul>
+<li>job使用的函数（或者可执行对象）所属的module名称</li>
+<li>job使用的函数（或者可执行对象）本身的名称</li>
+<li>job使用的函数（或者可执行对象）的参数</li>
+</ul>
+<p>job基本是我们自己写的，都是放在当前项目下的某个模块中，rqworker使用<code>importlib</code>库导入模块，使用<code>getattr</code>函数从模块中拿到job使用的函数（或者可执行对象），然后就可以执行任务了。也因为这个原因，rqworker命令需要在当前项目的目录中执行。</p>
+<p>rqworker在处理完一个job后，将该job放入成功队列或者失败队列。</p>
+<p>rqworker在执行job时候会fork一个子进程去处理job，但是父进程会等待子进程完成，所以认为rqworker是串行执行的。若要加快处理速度，可以执行多个rqworker。</p>
+<p>如果要在多台主机上去处理一个任务队列执行rqworker，这些主机都应该部署项目源码。</p>
+<h3 id="job依赖"><a href="#job依赖" class="headerlink" title="job依赖"></a>job依赖</h3><p>假设场景是job B需要在job A完成后再执行，那么：</p>
+<ul>
+<li>在job A中保存job B的的id，也就是在redis中保存依赖关系。</li>
+<li>如果job A的状态是已经完成，那么直接把job B放入待处理任务队列。</li>
+<li>如果job A的状态不是已经完成，把job B的状态设置为延迟（deferred）。</li>
+<li>rqworker执行完job A后发现了job B对job A的依赖，将job B放入待处理队列。</li>
+</ul>
+<p>上面的部分操作在rq的实现中用到了redis事务。</p>
+<h2 id="关于rq的源码"><a href="#关于rq的源码" class="headerlink" title="关于rq的源码"></a>关于rq的源码</h2><p>可以到github上下载rq的源码。源码中最主要的是三个文件：<code>queue.py</code>，<code>worker.py</code>，<code>job.py</code>。 如果要阅读，不建议从细节下手，建议由顶向下。<code>local.py</code>中的代码也很有趣。 我对部分代码做了注释，放在了 <a href="https://github.com/letiantian/rq-source" target="_blank" rel="noopener">https://github.com/letiantian/rq-source</a> 。 </p>
+<h2 id="python、redis基础"><a href="#python、redis基础" class="headerlink" title="python、redis基础"></a>python、redis基础</h2><p>以下是阅读源码时候遇到的一些基本概念，很基础，但是我之前不了解/熟练。</p>
+<h3 id="python操作redis"><a href="#python操作redis" class="headerlink" title="python操作redis"></a>python操作redis</h3><pre><code class="shell">$ sudo pip install redis
+</code></pre>
+<pre><code class="python">import redis
+r = redis.StrictRedis(host=&#39;localhost&#39;, port=6379, db=0)
+r.set(&#39;foo&#39;, &#39;bar&#39;)
+r.get(&#39;foo&#39;)
+</code></pre>
+<p>示例2：</p>
+<pre><code class="py">import redis
+r = redis.StrictRedis(host=&#39;localhost&#39;, port=6300, db=0)
+r.set(r, &#39;bar&#39;)
+print r
+print r.get(r)
+</code></pre>
+<p>运行结果输出：</p>
+<pre><code>StrictRedis&lt;ConnectionPool&lt;Connection&lt;host=localhost,port=6300,db=0&gt;&gt;&gt;
+bar
+</code></pre><p>看下redis：</p>
+<pre><code>$ redis-cli -h 127.0.0.1 -p 6300
+127.0.0.1:6300&gt; KEYS *
+1) &quot;StrictRedis&lt;ConnectionPool&lt;Connection&lt;host=localhost,port=6300,db=0&gt;&gt;&gt;&quot;
+2) &quot;name&quot;
+127.0.0.1:6300&gt; exit
+</code></pre><h3 id="python-slots"><a href="#python-slots" class="headerlink" title="python __slots__"></a>python __slots__</h3><p>默认情况下每个类都会有一个dict,通过<strong>dict</strong>访问，这个dict维护了这个实例的所有属性。slots的作用是阻止在实例化类时为实例分配dict。具体见<a href="http://blog.csdn.net/tianqio/article/details/2374086" target="_blank" rel="noopener">http://blog.csdn.net/tianqio/article/details/2374086</a>。  </p>
+<h3 id="python-thread下的get-ident-函数"><a href="#python-thread下的get-ident-函数" class="headerlink" title="python thread下的get_ident()函数"></a>python thread下的get_ident()函数</h3><p>返回当前线程的标识，是一个非0的整数。</p>
+<blockquote>
+<p>Return the ‘thread identifier’ of the current thread. This is a nonzero integer. Its value has no direct meaning; it is intended as a magic cookie to be used e.g. to index a dictionary of thread-specific data. Thread identifiers may be recycled when a thread exits and another thread is created.</p>
+</blockquote>
+<h3 id="python-property函数"><a href="#python-property函数" class="headerlink" title="python property函数"></a>python property函数</h3><p>摘自<a href="http://blog.csdn.net/yatere/article/details/6658457" target="_blank" rel="noopener">http://blog.csdn.net/yatere/article/details/6658457</a>。</p>
+<p>就是为类定义一个属性。</p>
+<pre><code class="python">class C(object):
+    def __init__(self): self._x = None
+    def getx(self): print &quot;get x&quot;;return self._x
+    def setx(self, value): print &quot;set x&quot;; self._x = value
+    def delx(self): print &quot;del x&quot;;del self._x
+    x = property(getx, setx, delx, &quot;I&#39;m the &#39;x&#39; property.&quot;)
+</code></pre>
+<p>使用</p>
+<pre><code class="plain">&gt;&gt;&gt; t=C()
+&gt;&gt;&gt; t.x
+get x
+&gt;&gt;&gt; t.x=&quot;en&quot;
+set x
+&gt;&gt;&gt; print t.x
+get x
+en
+&gt;&gt;&gt; del t.x
+del x
+&gt;&gt;&gt; t.x
+get x
+</code></pre>
+<h3 id="python-property装饰器"><a href="#python-property装饰器" class="headerlink" title="python property装饰器"></a>python property装饰器</h3><pre><code class="py">class C(object):
+    def __init__(self):
+        self.__x = 10
+
+    @property
+    def x(self):
+        return self.__x
+
+if __name__ == &quot;__main__&quot;:
+    c = C()
+    print c.x   # 10
+    c.x = 10    # 报错 AttributeError: can’t set attribute
+</code></pre>
+<h3 id="python-all函数的用法"><a href="#python-all函数的用法" class="headerlink" title="python all函数的用法"></a>python all函数的用法</h3><pre><code class="plain">&gt;&gt;&gt; print all.__doc__
+all(iterable) -&gt; bool
+
+Return True if bool(x) is True for all values x in the iterable.
+If the iterable is empty, return True.
+&gt;&gt;&gt; all([1==1, &#39;a&#39; != &#39;b&#39;])
+True
+</code></pre>
+<h3 id="function模块下的partial函数"><a href="#function模块下的partial函数" class="headerlink" title="function模块下的partial函数"></a>function模块下的partial函数</h3><p><a href="https://docs.python.org/2/library/functools.html#functools.partial" target="_blank" rel="noopener">https://docs.python.org/2/library/functools.html#functools.partial</a>  </p>
+<p>举个例子，先看一下int函数的用法：</p>
+<pre><code class="plain">&gt;&gt;&gt; print int.__doc__
+int(x=0) -&gt; int or long
+int(x, base=10) -&gt; int or long
+
+Convert a number or string to an integer, or return 0 if no arguments
+are given.  If x is floating point, the conversion truncates towards zero.
+If x is outside the integer range, the function returns a long instead.
+
+If x is not a number or if base is given, then x must be a string or
+Unicode object representing an integer literal in the given base.  The
+literal can be preceded by &#39;+&#39; or &#39;-&#39; and be surrounded by whitespace.
+The base defaults to 10.  Valid bases are 0 and 2-36.  Base 0 means to
+interpret the base from the string as an integer literal.
+&gt;&gt;&gt; int(&#39;0b100&#39;, base=0)
+4
+</code></pre>
+<pre><code class="plain">&gt;&gt;&gt; from functools import partial
+&gt;&gt;&gt; basetwo = partial(int, base=2)
+&gt;&gt;&gt; basetwo.__doc__ = &#39;Convert base 2 string to an int.&#39;
+&gt;&gt;&gt; basetwo(&#39;10010&#39;)
+18
+</code></pre>
+<h3 id="function模块下的total-ordering数"><a href="#function模块下的total-ordering数" class="headerlink" title="function模块下的total_ordering数"></a>function模块下的total_ordering数</h3><p>见<a href="https://docs.python.org/2/library/functools.html#functools.total_ordering" target="_blank" rel="noopener">https://docs.python.org/2/library/functools.html#functools.total_ordering</a>。  </p>
+<p>是一个装饰器，使相同类的对象之间可以使用各种比较符号。</p>
+<h3 id="python相对导入和绝对导入"><a href="#python相对导入和绝对导入" class="headerlink" title="python相对导入和绝对导入"></a>python相对导入和绝对导入</h3><p><a href="http://blog.tankywoo.com/python/2013/10/07/python-relative-and-absolute-import.html" target="_blank" rel="noopener">Python Relative and Absolute Import</a>  </p>
+<h3 id="python-signal"><a href="#python-signal" class="headerlink" title="python signal"></a>python signal</h3><p>SIG_DFL：默认信号处理程序。<br>SIG_IGN：忽略信号的处理程序。<br>SIGALRM是在定时器终止时发送给进程的信号。<br>signal.alarm函数。将signal文档，<a href="https://docs.python.org/2/library/signal.html" target="_blank" rel="noopener">signal — Set handlers for asynchronous events</a>。  </p>
+<blockquote>
+<p>signal.alarm(time)<br>    If time is non-zero, this function requests that a SIGALRM signal be sent to the process in time seconds. Any previously scheduled alarm is canceled (only one alarm can be scheduled at any time). The returned value is then the number of seconds before any previously set alarm was to have been delivered. If time is zero, no alarm is scheduled, and any scheduled alarm is canceled. If the return value is zero, no alarm is currently scheduled. (See the Unix man page alarm(2).) Availability: Unix.</p>
+</blockquote>
+<h3 id="python-from-contextlib-import-contextmanager"><a href="#python-from-contextlib-import-contextmanager" class="headerlink" title="python from contextlib import contextmanager"></a>python from contextlib import contextmanager</h3><p>见<a href="http://www.cnblogs.com/coser/archive/2013/01/28/2880328.html" target="_blank" rel="noopener">python中关于with及contextlib的用法</a>。  </p>
+<p>示例：</p>
+<pre><code class="py">from contextlib import contextmanager
+
+@contextmanager
+def make_context() :
+    print &#39;enter&#39;
+    try :
+        yield {}
+    except RuntimeError, err :
+        print &#39;error&#39; , err
+    finally :
+        print &#39;exit&#39;
+
+with make_context() as value :
+    print value
+</code></pre>
+<p>运行结果：</p>
+<pre><code class="plain">enter
+{}
+exit
+</code></pre>
+<h3 id="python-all"><a href="#python-all" class="headerlink" title="python __all__"></a>python __all__</h3><p><code>__all__</code>可用于模块导入时限制，如：<br>from module import *<br>此时被导入模块若定义了<strong>all</strong>属性，则只有all内指定的属性、方法、类可被导入~<br>若没定义，则模块内的所有将被导入。</p>
+<p>见<a href="http://leequery.blog.163.com/blog/static/16842209620117184345180/" target="_blank" rel="noopener">http://leequery.blog.163.com/blog/static/16842209620117184345180/</a>。  </p>
+<h3 id="python-logging-config-dictConfig"><a href="#python-logging-config-dictConfig" class="headerlink" title="python logging.config.dictConfig"></a>python logging.config.dictConfig</h3><p><a href="https://docs.python.org/2/library/logging.config.html#logging.config.dictConfig" target="_blank" rel="noopener">https://docs.python.org/2/library/logging.config.html#logging.config.dictConfig</a>  </p>
+<p><a href="http://stackoverflow.com/questions/7507825/python-complete-example-of-dict-for-logging-config-dictconfig" target="_blank" rel="noopener">python: complete example of dict for logging.config.dictConfig?</a>  </p>
+<h3 id="python-类方法、静态方法"><a href="#python-类方法、静态方法" class="headerlink" title="python 类方法、静态方法"></a>python 类方法、静态方法</h3><p><a href="http://blog.csdn.net/maoersong/article/details/32714781" target="_blank" rel="noopener">Python中类方法和静态方法</a>  </p>
+<h3 id="python-importlib"><a href="#python-importlib" class="headerlink" title="python importlib"></a>python importlib</h3><p>用于导入字符串指定的模块。<br><a href="https://docs.python.org/2/library/importlib.html" target="_blank" rel="noopener">importlib – Convenience wrappers for __import__()</a>  </p>
+<h3 id="python-name-和-module"><a href="#python-name-和-module" class="headerlink" title="python __name__和__module__"></a>python __name__和__module__</h3><pre><code class="plain">&gt;&gt;&gt; import pickle as pk
+&gt;&gt;&gt; pk.load.__name__
+&#39;load&#39;
+&gt;&gt;&gt; pk.load.__module__
+&#39;pickle&#39;
+&gt;&gt;&gt; int.__module__
+&#39;__builtin__&#39;
+&gt;&gt;&gt; __builtin__.int(1.23)
+1
+</code></pre>
+<h3 id="python-inspect模块"><a href="#python-inspect模块" class="headerlink" title="python inspect模块"></a>python inspect模块</h3><p><a href="https://docs.python.org/2/library/inspect.html" target="_blank" rel="noopener">inspect — Inspect live objects</a><br><a href="http://stackoverflow.com/questions/17019949/why-is-there-a-difference-between-inspect-ismethod-and-inspect-isfunction-from-p" target="_blank" rel="noopener">Why is there a difference between inspect.ismethod and inspect.isfunction from python 2 -&gt; 3?</a>  </p>
+<hr>
+<h3 id="redis-pipeline"><a href="#redis-pipeline" class="headerlink" title="redis pipeline"></a>redis pipeline</h3><p><a href="http://weipengfei.blog.51cto.com/1511707/1215042" target="_blank" rel="noopener">Redis 新特性—pipeline（管道）</a><br><a href="http://shift-alt-ctrl.iteye.com/blog/1863790" target="_blank" rel="noopener">Redis编程实践【pipeline和事务】</a>  </p>
+<h3 id="redis-事务"><a href="#redis-事务" class="headerlink" title="redis 事务"></a>redis 事务</h3><p><a href="http://shift-alt-ctrl.iteye.com/blog/1863790" target="_blank" rel="noopener">Redis编程实践【pipeline和事务】</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-11-03-redis-async-task/" title="如何使用redis构建异步任务处理程序">http://www.letiantian.me/2015-11-03-redis-async-task/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-09-10-understand-python-wsgi/" rel="next" title="理解Python WSGI">
+                <i class="fa fa-chevron-left"></i> 理解Python WSGI
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015-11-06-linux-gif/" rel="prev" title="Linux下GIF制作指南">
+                Linux下GIF制作指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何安装rq"><span class="nav-text">如何安装rq</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1："><span class="nav-text">方法1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2："><span class="nav-text">方法2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3："><span class="nav-text">方法3：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关资料"><span class="nav-text">相关资料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行工具的实现"><span class="nav-text">命令行工具的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rq如何在redis中存储数据"><span class="nav-text">rq如何在redis中存储数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-text">编写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看redis"><span class="nav-text">查看redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不在项目目录中执行rqworker"><span class="nav-text">不在项目目录中执行rqworker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应该这样执行"><span class="nav-text">应该这样执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rq的设计思路"><span class="nav-text">rq的设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis中如何存储一个job"><span class="nav-text">redis中如何存储一个job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何将job添加到队列"><span class="nav-text">如何将job添加到队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rqworker命令如何工作"><span class="nav-text">rqworker命令如何工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#job依赖"><span class="nav-text">job依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于rq的源码"><span class="nav-text">关于rq的源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python、redis基础"><span class="nav-text">python、redis基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#python操作redis"><span class="nav-text">python操作redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-slots"><span class="nav-text">python __slots__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-thread下的get-ident-函数"><span class="nav-text">python thread下的get_ident()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-property函数"><span class="nav-text">python property函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-property装饰器"><span class="nav-text">python property装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-all函数的用法"><span class="nav-text">python all函数的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function模块下的partial函数"><span class="nav-text">function模块下的partial函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function模块下的total-ordering数"><span class="nav-text">function模块下的total_ordering数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python相对导入和绝对导入"><span class="nav-text">python相对导入和绝对导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-signal"><span class="nav-text">python signal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-from-contextlib-import-contextmanager"><span class="nav-text">python from contextlib import contextmanager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-all"><span class="nav-text">python __all__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-logging-config-dictConfig"><span class="nav-text">python logging.config.dictConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-类方法、静态方法"><span class="nav-text">python 类方法、静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-importlib"><span class="nav-text">python importlib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-name-和-module"><span class="nav-text">python __name__和__module__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-inspect模块"><span class="nav-text">python inspect模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-pipeline"><span class="nav-text">redis pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-事务"><span class="nav-text">redis 事务</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

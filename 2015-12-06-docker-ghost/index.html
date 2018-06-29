@@ -1,0 +1,1141 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nodejs,docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-12-06 Ghost是一基于node的博客系统，速度快，够简洁。 注意Ghost支持的Node的版本： $ node index.js  ERROR: Unsupported version of Node Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2 将容器转化为镜像这一节把node安装">
+<meta name="keywords" content="nodejs,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始Docker化Ghost博客系统">
+<meta property="og:url" content="http://www.letiantian.me/2015-12-06-docker-ghost/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-12-06 Ghost是一基于node的博客系统，速度快，够简洁。 注意Ghost支持的Node的版本： $ node index.js  ERROR: Unsupported version of Node Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2 将容器转化为镜像这一节把node安装">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-01.jpeg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-02.jpeg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-03.jpeg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-04.jpeg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-05.jpeg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-06.jpeg">
+<meta property="og:updated_time" content="2015-12-07T08:45:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零开始Docker化Ghost博客系统">
+<meta name="twitter:description" content="2015-12-06 Ghost是一基于node的博客系统，速度快，够简洁。 注意Ghost支持的Node的版本： $ node index.js  ERROR: Unsupported version of Node Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2 将容器转化为镜像这一节把node安装">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/12/2015-12-06-docker-ghost-01.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-12-06-docker-ghost/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>从零开始Docker化Ghost博客系统 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-12-06-docker-ghost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从零开始Docker化Ghost博客系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-06T12:10:39+08:00">
+                2015-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-12-06</p>
+<p><a href="https://ghost.org/" target="_blank" rel="noopener">Ghost</a>是一基于node的博客系统，速度快，够简洁。</p>
+<p>注意Ghost支持的Node的版本：</p>
+<pre><code>$ node index.js 
+ERROR: Unsupported version of Node
+Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
+</code></pre><h2 id="将容器转化为镜像"><a href="#将容器转化为镜像" class="headerlink" title="将容器转化为镜像"></a>将容器转化为镜像</h2><p>这一节把node安装在/node下，把ghost安装在/ghost目录下。</p>
+<a id="more"></a>
+<h3 id="拉取一个镜像"><a href="#拉取一个镜像" class="headerlink" title="拉取一个镜像"></a>拉取一个镜像</h3><pre><code class="plain">$ sudo docker pull ubuntu:14.04
+</code></pre>
+<p>使用<code>sudo docker images</code>查看本机有哪些容器。如果一个镜像有多个标签，则会显示多个。</p>
+<h3 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h3><p>例如：</p>
+<pre><code class="plain">$ sudo docker run -ti ubuntu:14.04 /bin/bash
+root@5989ceee9a40:/# uname -a
+Linux 5989ceee9a40 3.16.0-38-generic #52~14.04.1-Ubuntu SMP Fri May 8 09:43:57 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre>
+<p>可以在宿主机上运行<code>sudo docker ps</code>查看有哪些容器正在运行。</p>
+<h3 id="安装curl等"><a href="#安装curl等" class="headerlink" title="安装curl等"></a>安装curl等</h3><pre><code class="plain">root@5989ceee9a40:/# apt-get install -y curl
+root@5989ceee9a40:/# apt-get install -y zip
+</code></pre>
+<h3 id="下载node"><a href="#下载node" class="headerlink" title="下载node"></a>下载node</h3><pre><code class="plain">root@5989ceee9a40:/node# curl -SLO https://nodejs.org/dist/v0.12.9/node-v0.12.9-linux-x64.tar.gz
+root@5989ceee9a40:/node# tar -xzf node-v0.12.9-linux-x64.tar.gz
+root@5989ceee9a40:/node# mv node-v0.12.9-linux-x64/* .
+root@5989ceee9a40:/node# rm -rf node-v0.12.9-linux-x64
+root@5989ceee9a40:/node# ls
+ChangeLog  LICENSE  README.md  bin  etc  include  lib  node-v0.12.9-linux-x64.tar.gz  share
+</code></pre>
+<h3 id="下载ghost"><a href="#下载ghost" class="headerlink" title="下载ghost"></a>下载ghost</h3><pre><code class="plain">root@5989ceee9a40:/node# mkdir /ghost
+root@5989ceee9a40:/node# cd /ghost/
+root@5989ceee9a40:/ghost# curl -SLO https://ghost.org/zip/ghost-0.7.2.zip 
+root@5989ceee9a40:/ghost# unzip ghost-0.7.2.zip
+root@5989ceee9a40:/ghost# ls
+Gruntfile.js  LICENSE  PRIVACY.md  README.md  config.example.js  config.js  content  core  ghost-0.7.2.zip  index.js  node_modules  npm-shrinkwrap.json  package.json
+root@5989ceee9a40:/ghost# npm install -g npm@latest
+root@5989ceee9a40:/ghost# npm install --production   # 比较耗时
+root@5989ceee9a40:/ghost# sed &#39;s/127.0.0.1/0.0.0.0/&#39; config.example.js &gt; config.js
+</code></pre>
+<h3 id="退出容器"><a href="#退出容器" class="headerlink" title="退出容器"></a>退出容器</h3><p>exit后会容器不再运行，通过下面方法重启容器：</p>
+<pre><code class="plain">$ sudo docker start 5989ceee9a40
+$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+5989ceee9a40        ubuntu:14.04        &quot;/bin/bash&quot;              4 hours ago         Up 16 seconds                                desperate_dijkstra
+
+$ sudo docker attach 5989ceee9a40
+root@5989ceee9a40:/#
+</code></pre>
+<h3 id="将容器转换为镜像"><a href="#将容器转换为镜像" class="headerlink" title="将容器转换为镜像"></a>将容器转换为镜像</h3><p>commit的帮助文档如下：</p>
+<pre><code class="plain">$ docker commit --help
+
+Usage:  docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+Create a new image from a container&#39;s changes
+
+  -a, --author=       Author (e.g., &quot;John Hannibal Smith &lt;hannibal@a-team.com&gt;&quot;)
+  -c, --change=[]     Apply Dockerfile instruction to the created image
+  --help=false        Print usage
+  -m, --message=      Commit message
+  -p, --pause=true    Pause container during commit
+</code></pre>
+<p>在主机上，将刚才的容器转换为镜像：</p>
+<pre><code class="plain">$ sudo docker commit -m &quot;ghost 0.7.2 on ubuntu&quot; -a &quot;letian&quot; 5989ceee9a40 letian/ghost:v1
+33eb15dca18e4d7a77673b1a12282699a0dbaaa51c38f5db45d51ffbe77af08d
+
+$ sudo docker images
+REPOSITORY                         TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+letian/ghost                       v1                  33eb15dca18e        4 minutes ago       457.5 MB
+..........
+</code></pre>
+<p>个头有点大。。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>启动一个ghost服务：</p>
+<pre><code class="plain">$ sudo docker run -d -p 8000:2368 letian/ghost:v1  /node/bin/node /ghost/index.js
+88124fab0a0d43603ee50113a2380a5a22890d4040f27d144c412b4dedb66e7b
+
+$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+88124fab0a0d        letian/ghost:v1     &quot;/node/bin/node /ghos&quot;   38 seconds ago      Up 37 seconds       0.0.0.0:8000-&gt;2368/tcp   loving_colden
+</code></pre>
+<p>上面忘了把<code>NODE_ENV</code>设置为<code>production</code>了，加<code>-e</code>指定就行了：</p>
+<pre><code class="plain">$ sudo docker run -d -e NODE_ENV=production -p 8008:2368 letian/ghost:v1  /node/bin/node /ghost/index.js
+</code></pre>
+<p>在宿主机上，用浏览器打开<code>http://&lt;your-ip&gt;:8008/</code>，可以查看ghost是否正常运行。</p>
+<h2 id="使用Dockerfile构建镜像"><a href="#使用Dockerfile构建镜像" class="headerlink" title="使用Dockerfile构建镜像"></a>使用Dockerfile构建镜像</h2><p>现在我们尝试使用Dockerfile构建镜像。同时，为了解决上面遇到的<code>npm install</code>比较耗时的问题，将<a href="http://www.ghostchina.com/download/" target="_blank" rel="noopener">Ghost 中文集成版</a>直接作为文件添加进镜像。这个ghost中文集成版在汉化的基础上把所有的依赖都放进去了，所以不需要<code>npm install</code>。</p>
+<p>创建目录ghost-0.7.0，其中的文件如下：</p>
+<pre><code class="plain">$ ls
+Dockerfile
+Ghost-0.7.0-zh-full.zip
+start.sh
+</code></pre>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><pre><code class="plain">FROM ubuntu:14.04
+
+ADD Ghost-0.7.0-zh-full.zip /tmp/Ghost-0.7.0-zh-full.zip
+ADD start.sh /start-ghost.sh
+
+ENV NODE_VERSION 0.12.9
+
+RUN \
+    apt-get update &amp;&amp; \
+    apt-get install -y curl &amp;&amp; \
+    apt-get install -y zip  &amp;&amp; \
+    cd /tmp &amp;&amp; \
+    curl -SLO &quot;https://nodejs.org/dist/v0.12.9/node-v$NODE_VERSION-linux-x64.tar.gz&quot;  &amp;&amp; \
+    tar -xzf &quot;node-v$NODE_VERSION-linux-x64.tar.gz&quot; -C /usr/local --strip-components=1  &amp;&amp; \
+    unzip Ghost-0.7.0-zh-full.zip -d /ghost &amp;&amp; \
+    rm /tmp/Ghost-0.7.0-zh-full.zip &amp;&amp; \
+    cd /ghost &amp;&amp; \
+    sed &#39;s/127.0.0.1/0.0.0.0/&#39; config.example.js &gt; config.js
+
+WORKDIR /ghost
+
+CMD [&quot;bash&quot;, &quot;/start-ghost.sh&quot;]
+
+EXPOSE 2368
+</code></pre>
+<p><code>Ghost-0.7.0-zh-full.zip</code>被放到<code>/tmp</code>目录，<code>start.sh</code>添加到<code>/start-ghost.sh</code>，创建容器时候会运行<code>bash /start-ghost.sh</code>。</p>
+<h3 id="start-sh"><a href="#start-sh" class="headerlink" title="start.sh"></a>start.sh</h3><pre><code class="shell"># !/bin/bash
+
+GHOST=&quot;/ghost&quot;
+
+cd &quot;$GHOST&quot;
+
+NODE_ENV=${NODE_ENV:-production} npm start
+</code></pre>
+<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><pre><code class="plain">$ cd ghost-0.7.0
+$ sudo docker build -t letian/ghost:v2 .
+</code></pre>
+<h3 id="创建容器、测试"><a href="#创建容器、测试" class="headerlink" title="创建容器、测试"></a>创建容器、测试</h3><pre><code class="plain">$ sudo docker run -d -p 8080:2368 letian/ghost:v2
+</code></pre>
+<p>在宿主机上用浏览器打开<code>http://&lt;your-ip&gt;:8080/</code>，可以看到ghost正常运行。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>ghost的数据库和图片等最好是放在数据卷中（VOLUMN）。</p>
+<h3 id="Dockerfile-1"><a href="#Dockerfile-1" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><pre><code class="plain">FROM ubuntu:14.04
+
+ADD Ghost-0.7.0-zh-full.zip /tmp/Ghost-0.7.0-zh-full.zip
+ADD start.sh /start-ghost.sh
+
+ENV NODE_VERSION 0.12.9
+
+RUN \
+    apt-get update &amp;&amp; \
+    apt-get install -y curl zip &amp;&amp; \
+    cd /tmp &amp;&amp; \
+    curl -SLO &quot;https://nodejs.org/dist/v0.12.9/node-v$NODE_VERSION-linux-x64.tar.gz&quot;  &amp;&amp; \
+    tar -xzf &quot;node-v$NODE_VERSION-linux-x64.tar.gz&quot; -C /usr/local --strip-components=1  &amp;&amp; \
+    unzip Ghost-0.7.0-zh-full.zip -d /ghost &amp;&amp; \
+    rm /tmp/Ghost-0.7.0-zh-full.zip &amp;&amp; \
+    cd /ghost &amp;&amp; \
+    sed &#39;s/127.0.0.1/0.0.0.0/&#39; config.example.js &gt; config.js
+
+VOLUME /ghost-external
+
+WORKDIR /ghost
+
+CMD [&quot;bash&quot;, &quot;/start-ghost.sh&quot;]
+
+EXPOSE 2368
+</code></pre>
+<p>就是在之前的基础上加了行<code>VOLUME /ghost-external</code>。</p>
+<h3 id="start-sh-1"><a href="#start-sh-1" class="headerlink" title="start.sh"></a>start.sh</h3><pre><code class="shell"># !/bin/bash
+
+GHOST=&quot;/ghost&quot;
+GHOST_EXTERNAL=&quot;/ghost-external&quot;
+
+CONFIG=&quot;config.js&quot;
+DATA=&quot;content/data&quot;
+IMAGES=&quot;content/images&quot;
+THEMES=&quot;content/themes&quot;
+
+mkdir -p &quot;$GHOST_EXTERNAL/$DATA&quot;
+rm -rf &quot;$GHOST/$DATA&quot;
+ln -s &quot;$GHOST_EXTERNAL/$DATA&quot; &quot;$GHOST/$DATA&quot;
+
+mkdir -p &quot;$GHOST_EXTERNAL/$IMAGES&quot;
+rm -rf &quot;$GHOST/$IMAGES&quot;
+ln -s &quot;$GHOST_EXTERNAL/$IMAGES&quot; &quot;$GHOST/$IMAGES&quot;
+
+if [ -d &quot;$GHOST_EXTERNAL/$THEMES&quot; ]; then
+    rm -rf &quot;$GHOST/$THEMES&quot;
+    ln -s &quot;$GHOST_EXTERNAL/$THEMES&quot; &quot;$GHOST/$THEMES&quot; 
+fi
+
+if [ -f &quot;$GHOST_EXTERNAL/$CONFIG&quot; ]; then
+    rm -f &quot;$GHOST/$CONFIG&quot;
+    ln -s &quot;$GHOST_EXTERNAL/$CONFIG&quot; &quot;$GHOST/$CONFIG&quot;
+fi
+
+cd &quot;$GHOST&quot;
+
+NODE_ENV=${NODE_ENV:-production} npm start
+</code></pre>
+<p>数据卷<code>/ghost-external</code>中的目录、文件被软链接到<code>/ghost</code>对应的位置上。</p>
+<h3 id="构建镜像-1"><a href="#构建镜像-1" class="headerlink" title="构建镜像"></a>构建镜像</h3><pre><code class="plain">$ sudo docker build -t letian/ghost:v3 .
+</code></pre>
+<h3 id="创建容器、测试-1"><a href="#创建容器、测试-1" class="headerlink" title="创建容器、测试"></a>创建容器、测试</h3><p>创建容器，将宿主机目录挂载到数据卷：</p>
+<pre><code class="plain">$ mkdir ~/local-ghost
+$ sudo docker run -d -p 8090:2368 -v ~/local-ghost:/ghost-external letian/ghost:v3
+</code></pre>
+<p>在宿主机上用浏览器打开<code>http://&lt;your-ip&gt;:8090/</code>，可以看到ghost正常运行。<code>~/local-ghost</code>也有相应的文件、目录被创建。</p>
+<h2 id="在云服务中构建镜像"><a href="#在云服务中构建镜像" class="headerlink" title="在云服务中构建镜像"></a>在云服务中构建镜像</h2><p>这里选择<a href="http://www.alauda.cn/" target="_blank" rel="noopener">灵雀云</a>构建镜像。</p>
+<p>首先将Dockerfile等上传到Github（也可以是Git@OSC、BitBucket）中。</p>
+<p>登录灵雀云，</p>
+<p><img src="/content/images/2015/12/2015-12-06-docker-ghost-01.jpeg" alt=""></p>
+<p>点击“创建构建镜像仓库”，授权读取Github中的repo，选择ghost对应的项目构建即可。</p>
+<p>然后在“服务”中选择“创建服务”，会提示用户选择镜像，选择“我的镜像”中刚才构建好的docker-ghost，<br><img src="/content/images/2015/12/2015-12-06-docker-ghost-02.jpeg" alt=""></p>
+<p>点击“配置镜像”后：<br><img src="/content/images/2015/12/2015-12-06-docker-ghost-03.jpeg" alt=""></p>
+<p>填写指定服务名称，将服务类型改为“有状态服务”，然后进入“高级配置”：</p>
+<p><img src="/content/images/2015/12/2015-12-06-docker-ghost-04.jpeg" alt=""></p>
+<p>此处，需要指定存储卷大小，端口的服务地址类型需要配置成http-endpoint：</p>
+<p><img src="/content/images/2015/12/2015-12-06-docker-ghost-05.jpeg" alt=""></p>
+<p>然后创建服务，查看服务详情：</p>
+<p><img src="/content/images/2015/12/2015-12-06-docker-ghost-06.jpeg" alt=""></p>
+<p>浏览器打开红线处的URL就可以看到Ghost博客了。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><pre><code class="shell">ln -s from-file to-link-file
+</code></pre>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/dockerfile/ghost" target="_blank" rel="noopener">dockerfile/ghost</a><br><a href="https://github.com/nodejs/docker-node" target="_blank" rel="noopener">nodejs/docker-node</a><br><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="noopener">Docker 技术入门与实战</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-12-06-docker-ghost/" title="从零开始Docker化Ghost博客系统">http://www.letiantian.me/2015-12-06-docker-ghost/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015-11-06-n/" rel="next" title="n的解析">
+                <i class="fa fa-chevron-left"></i> n的解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016-02-08-pinyin-hanzi/" rel="prev" title="如何实现拼音与汉字的互相转换">
+                如何实现拼音与汉字的互相转换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#将容器转化为镜像"><span class="nav-text">将容器转化为镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拉取一个镜像"><span class="nav-text">拉取一个镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动一个容器"><span class="nav-text">启动一个容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装curl等"><span class="nav-text">安装curl等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载node"><span class="nav-text">下载node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载ghost"><span class="nav-text">下载ghost</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出容器"><span class="nav-text">退出容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将容器转换为镜像"><span class="nav-text">将容器转换为镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Dockerfile构建镜像"><span class="nav-text">使用Dockerfile构建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dockerfile"><span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-sh"><span class="nav-text">start.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建镜像"><span class="nav-text">构建镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建容器、测试"><span class="nav-text">创建容器、测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dockerfile-1"><span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-sh-1"><span class="nav-text">start.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建镜像-1"><span class="nav-text">构建镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建容器、测试-1"><span class="nav-text">创建容器、测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在云服务中构建镜像"><span class="nav-text">在云服务中构建镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软链接"><span class="nav-text">软链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1148 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="乐天笔记, 樂天笔记, 樂天的博客, 乐天的博客, 乐天的开发笔记, 互联网技术, letiantian, letiantian.me, 编程, 网站开发, 随笔, 随笔感想" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-03-14 上篇：浅入浅出：DBSCAN聚类算法（1）/ 本文讲述DBSCAN的matlab实现，笔者使用的是Matlab R2012b。请在资料[1]的链接中下载源码DBSCAN.M。  1、先解决一个错误 源代码若以DBSCAN.M为文件名，使用时会出现以下错误： &amp;gt;&amp;gt; x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅入浅出：DBSCAN聚类算法（2）">
+<meta property="og:url" content="http://www.letiantian.me/2014-03-14-dbscan-2/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-03-14 上篇：浅入浅出：DBSCAN聚类算法（1）/ 本文讲述DBSCAN的matlab实现，笔者使用的是Matlab R2012b。请在资料[1]的链接中下载源码DBSCAN.M。  1、先解决一个错误 源代码若以DBSCAN.M为文件名，使用时会出现以下错误： &amp;gt;&amp;gt; x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/2014-03-14-dbscan.png">
+<meta property="og:updated_time" content="2014-10-07T14:07:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅入浅出：DBSCAN聚类算法（2）">
+<meta name="twitter:description" content="2014-03-14 上篇：浅入浅出：DBSCAN聚类算法（1）/ 本文讲述DBSCAN的matlab实现，笔者使用的是Matlab R2012b。请在资料[1]的链接中下载源码DBSCAN.M。  1、先解决一个错误 源代码若以DBSCAN.M为文件名，使用时会出现以下错误： &amp;gt;&amp;gt; x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/03/2014-03-14-dbscan.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-03-14-dbscan-2/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>浅入浅出：DBSCAN聚类算法（2） | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-03-14-dbscan-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅入浅出：DBSCAN聚类算法（2）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-14T19:20:00+08:00">
+                2014-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-03-14</p>
+<p>上篇：<a href="03-14-浅入浅出：DBSCAN聚类算法（1）/" target="_blank">浅入浅出：DBSCAN聚类算法（1）/</a></p>
+<p>本文讲述DBSCAN的matlab实现，笔者使用的是Matlab R2012b。请在资料[1]的链接中下载源码DBSCAN.M。</p>
+<a id="more"></a>
+<h2 id="1、先解决一个错误"><a href="#1、先解决一个错误" class="headerlink" title="1、先解决一个错误"></a>1、先解决一个错误</h2><hr>
+<p>源代码若以DBSCAN.M为文件名，使用时会出现以下错误：</p>
+<pre><code>&gt;&gt; x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];
+&gt;&gt; [class,type]=dbscan(x,5,[])
+Cannot find an exact (case-sensitive) match for &#39;dbscan.m&#39;
+
+The closest match is F:\project\clustering\DBSCAN.M
+
+To change the file extension, cd to the file&#39;s folder, type:
+   movefile DBSCAN.M DBSCAN.m_bad; movefile DBSCAN.m_bad DBSCAN.m
+and then cd back.
+</code></pre><p>将DBSCAN.M更名为dbscan.m即可。</p>
+<h2 id="2、示例"><a href="#2、示例" class="headerlink" title="2、示例"></a>2、示例</h2><hr>
+<p>将dbscan.m放入当前工作区间，</p>
+<pre><code>&gt;&gt; x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]]
+x =
+    0.0092   -0.1143
+   -0.1048   -0.3325
+   -0.7001   -0.3917
+    3.4218    4.2600
+    3.7332    3.9900
+    2.9987    3.9826
+    4.4821    3.6009
+
+&gt;&gt; [class,type]=dbscan(x,3,2)
+class =
+    -1    -1    -1     1     1     1     1
+type =
+    -1    -1    -1     1     1     1     1
+
+&gt;&gt; [class,type]=dbscan(x,2,2)
+class =
+     1     1     1     2     2     2     2
+type =
+     1     1     1     1     1     1     1
+
+&gt;&gt; [class,type]=dbscan(x,2,[])
+class =
+     1     1     1     2     2     2     2
+type =
+     1     1     1     1     1     1     1
+</code></pre><p>数据集x含有7个2维的数据点，函数<code>dbscan</code>有三个参数，第一个参数是数据集；第二个参数是核心对象应该满足的其邻域内最少的数据点的个数；第三个参数用来指定邻域半径，如果值为[]，则函数自己判断半径。返回值中class是来标识每个数据点的所属簇的编号，编号从1开始，0表示尚未被分类，-1表示该数据点是噪声，type用来表示数据点是否分类了，0表示未被0表示尚未被分类，-1表示噪声，1表示已经分类。<br>由x本身的特点可以看出，<code>dbscan(x,2,2)</code>和<code>dbscan(x,2,[])</code>都达到了效果；<code>dbscan(x,3,2)</code>因为第二个参数选的不好，效果不好。</p>
+<h2 id="3、分析dbscan-m"><a href="#3、分析dbscan-m" class="headerlink" title="3、分析dbscan.m"></a>3、分析dbscan.m</h2><hr>
+<p>下面是dbscan.m去掉大部分注释后的内容：</p>
+<pre><code>% -------------------------------------------------------------------------
+% Function: [class,type]=dbscan(x,k,Eps)
+% -------------------------------------------------------------------------
+% Input: 
+% x - data set (m,n); m-objects, n-variables
+% k - number of objects in a neighborhood of an object 
+% Eps - neighborhood radius, if not known avoid this parameter or put []
+% -------------------------------------------------------------------------
+% Output: 
+% class - vector specifying assignment of the i-th object to certain 
+% cluster (m,1)
+% type - vector specifying type of the i-th object 
+% -------------------------------------------------------------------------
+% Example of use:
+% x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];
+% [class,type]=dbscan(x,5,[])
+% clusteringfigs(&#39;Dbscan&#39;,x,[1 2],class,type)
+% -------------------------------------------------------------------------
+
+function [class,type]=dbscan(x,k,Eps)
+
+[m,n]=size(x);
+
+if nargin&lt;3 | isempty(Eps)
+   [Eps]=epsilon(x,k);   %分析可能的邻域半径Eps，关于函数epsilon，见下面的论述
+end
+
+x=[[1:m]&#39; x];  %为每个数据点添加编号，其实是合并两个矩阵
+[m,n]=size(x);
+type=zeros(1,m);
+no=1;
+touched=zeros(m,1); %标记某数据点是否已被访问
+
+for i=1:m
+    if touched(i)==0;
+       ob=x(i,:);
+       D=dist(ob(2:n),x(:,2:n));  %使用下面的dist函数生成针对当前点的距离矩阵
+       ind=find(D&lt;=Eps);   %见下面的论述
+
+       if length(ind)&gt;1 &amp; length(ind)&lt;k+1       
+          type(i)=0;
+          class(i)=0;
+       end
+       if length(ind)==1
+          type(i)=-1;
+          class(i)=-1;  
+          touched(i)=1; 
+       end
+
+       if length(ind)&gt;=k+1; 
+          type(i)=1;
+          class(ind)=ones(length(ind),1)*max(no);
+
+          while ~isempty(ind)
+                ob=x(ind(1),:);
+                touched(ind(1))=1;
+                ind(1)=[];
+                D=dist(ob(2:n),x(:,2:n));
+                i1=find(D&lt;=Eps);
+
+                if length(i1)&gt;1
+                   class(i1)=no;
+                   if length(i1)&gt;=k+1;
+                      type(ob(1))=1;
+                   else
+                      type(ob(1))=0;
+                   end
+
+                   for i=1:length(i1)
+                       if touched(i1(i))==0
+                          touched(i1(i))=1;
+                          ind=[ind i1(i)];   
+                          class(i1(i))=no;
+                       end                    
+                   end
+                end
+          end
+          no=no+1; 
+       end
+   end
+end
+
+i1=find(class==0);
+class(i1)=-1;
+type(i1)=-1;
+
+%...........................................
+function [Eps]=epsilon(x,k)
+
+% Function: [Eps]=epsilon(x,k)
+% Input: 
+% x - data matrix (m,n); m-objects, n-variables
+% k - number of objects in a neighborhood of an object
+
+[m,n]=size(x);
+
+Eps=((prod(max(x)-min(x))*k*gamma(.5*n+1))/(m*sqrt(pi.^n))).^(1/n);
+
+%............................................
+function [D]=dist(i,x)
+
+% function: [D]=dist(i,x)                            
+% Input: 
+% i - an object (1,n)
+% x - data matrix (m,n); m-objects, n-variables        
+%                                                                 
+% Output: 
+% D - Euclidean distance (m,1)
+
+[m,n]=size(x);
+D=sqrt(sum((((ones(m,1)*i)-x).^2)&#39;));
+
+if n==1
+   D=abs((ones(m,1)*i-x))&#39;;
+end
+</code></pre><h3 id="3-1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）"><a href="#3-1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）" class="headerlink" title="3.1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）"></a>3.1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）</h3><hr>
+<p><code>epsilon</code>函数中有调用了4个函数，<code>max</code>和<code>min</code>用来获取矩阵每一列的最大、最小值，<code>prod</code>将矩阵的每一列进行列内相乘。示例：</p>
+<pre><code>&gt;&gt; x=[1 3 ; 2 4]
+x =
+     1     3
+     2     4
+
+&gt;&gt; max(x)
+ans =
+     2     4
+
+&gt;&gt; min(x)
+ans =
+     1     3
+
+&gt;&gt; prod(x)
+ans =
+     2    12
+</code></pre><p>gamma函数有两个重要的特性，若n为正整数，那么<code>gamma(n) = (n-1)!</code>，另外一个特征就是它与pi的关系：</p>
+<pre><code>gamma(1/2) = pi.^(1/2)
+gamma(3/2) = 1/2*(pi.^(1/2))
+gamma(5/2) = 3/4*(pi.^(1/2))
+...  
+</code></pre><p>详细请参考资料[2]。</p>
+<p>为了更好的理解，对下面的代码（或者说是等式）进行变换：  </p>
+<pre><code>Eps=((prod(max(x)-min(x))*k*gamma(.5*n+1))/(m*sqrt(pi.^n))).^(1/n);
+</code></pre><p>把Eps换成r方便些：</p>
+<pre><code>r=((prod(max(x)-min(x))*k*gamma(.5*n+1))/(m*sqrt(pi.^n))).^(1/n);
+</code></pre><p>最终变换：</p>
+<pre><code>r.^n * sqrt(pi.^n)  / gamma(.5*n+1) * (m / k)=  prod(max(x)-min(x))          %（公式1）
+</code></pre><p>公式1中r代表邻域半径，n是数据的维度，m是数据点的个数，k是核心对象的邻域内至少应具有的数据点数。</p>
+<p>在二维空间中，n=2，公式左边<code>r.^n <em> sqrt(pi.^n)  / gamma(.5</em>n+1)</code>代表半径为<code>r</code>的圆的面积；假定所有核心对象的邻域互相没有交集，<code>m/k</code>则是各个核心对象的个数，也是最终的不想交的由邻域构成的圆的个数。公式右边则代表着这样一个矩形的面积：矩形的各个边平行于横坐标轴或者纵坐标轴，切这个矩形是能涵盖所有数据点的最小矩形。由此可见公式1的合理性。同理，n的值更大时，也有相同的结论。所以，epsilon函数求得的邻域半径是合理的。</p>
+<h3 id="3-2、距离矩阵与find函数"><a href="#3-2、距离矩阵与find函数" class="headerlink" title="3.2、距离矩阵与find函数"></a>3.2、距离矩阵与find函数</h3><hr>
+<p>dbscan.m中查找数据点邻域中数据点的方法是使用距离矩阵，find函数用来查找符合某个条件的索引，例如：</p>
+<pre><code>&gt;&gt; a = [4,2,5,3,9,7]
+a =
+     4     2     5     3     9     7
+
+&gt;&gt; find(a&gt;7)
+ans =
+     5
+
+&gt;&gt; find(a&gt;3)
+ans =
+     1     3     5     6
+
+&gt;&gt; a = [4,2,5 ; 3,9,7]
+a =
+     4     2     5
+     3     9     7
+
+&gt;&gt; find(a&gt;3)
+ans =
+     1
+     4
+     5
+     6
+</code></pre><h2 id="4、可视化聚类结果"><a href="#4、可视化聚类结果" class="headerlink" title="4、可视化聚类结果"></a>4、可视化聚类结果</h2><hr>
+<p>要可视化聚类结果很简单，笔者实现了一个可视化2D数据聚类结果的函数：</p>
+<pre><code>% -------------
+% 输入：
+% data：数据集
+% class：每个数据点的分类，-1表示噪点，分类从1开始
+% -------------
+
+function color_cluster(data, class)
+color_theme = {&#39;ro&#39;,&#39;g+&#39;,&#39;bx&#39;,&#39;ks&#39;,&#39;r+&#39;,&#39;go&#39;,&#39;k*&#39;,&#39;r+&#39;,&#39;gv&#39;,&#39;bs&#39;,&#39;k+&#39;, ...
+    &#39;rv&#39;,&#39;gx&#39;,&#39;bo&#39;,&#39;kx&#39;,&#39;rs&#39;,&#39;gs&#39;,&#39;b+&#39;,&#39;ko&#39;,...
+    &#39;rx&#39;,&#39;g+&#39;,&#39;bv&#39;,&#39;kv&#39;};
+non_class_color = &#39;b*&#39;; %噪点
+[m, n] = size(data);
+subplot(1,2,1);
+plot(data(:,1),data(:,2),&#39;ko&#39;);
+title(&#39;raw data&#39;);
+subplot(1,2,2);
+
+for x = 1:m
+    if class(x) == -1
+        plot(data(x,1),data(x,2) ,non_class_color)
+    else
+        plot(data(x,1),data(x,2) ,cell2mat(color_theme(class(x))))
+    end
+    hold on;
+end
+title(&#39;result&#39;);
+</code></pre><p>我们测试一下：</p>
+<pre><code>x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];
+[class,type]=dbscan(x,5,[]);
+color_cluster(x,class);
+</code></pre><p>结果如下：<br><img src="/content/images/2014/03/2014-03-14-dbscan.png" alt="image"></p>
+<h2 id="5、资料"><a href="#5、资料" class="headerlink" title="5、资料"></a>5、资料</h2><hr>
+<p>[1] DBSCAN的matlab实现 <a href="https://code.google.com/p/dmfa07/downloads/detail?name=DBSCAN.M" target="_blank" rel="noopener">https://code.google.com/p/dmfa07/downloads/detail?name=DBSCAN.M</a></p>
+<p>[2] Γ函数 <a href="http://zh.wikipedia.org/wiki/Γ函数" target="_blank" rel="noopener">http://zh.wikipedia.org/wiki/Γ函数</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-03-14-dbscan-2/" title="浅入浅出：DBSCAN聚类算法（2）">http://www.letiantian.me/2014-03-14-dbscan-2/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-03-14-dbscan-1/" rel="next" title="浅入浅出：DBSCAN聚类算法（1）">
+                <i class="fa fa-chevron-left"></i> 浅入浅出：DBSCAN聚类算法（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-03-15-kmeans-kmeans-plus-plus/" rel="prev" title="浅入浅出：从Kmeans到Kmeans++">
+                浅入浅出：从Kmeans到Kmeans++ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、先解决一个错误"><span class="nav-text">1、先解决一个错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、示例"><span class="nav-text">2、示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、分析dbscan-m"><span class="nav-text">3、分析dbscan.m</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）"><span class="nav-text">3.1、epsilon函数如何分析出可能的邻域半径r（或者是Eps）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2、距离矩阵与find函数"><span class="nav-text">3.2、距离矩阵与find函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、可视化聚类结果"><span class="nav-text">4、可视化聚类结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、资料"><span class="nav-text">5、资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

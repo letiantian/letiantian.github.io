@@ -1,0 +1,1157 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,mysql," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-07-31  在What’s the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN and FULL JOIN? 给出了一个解释各种JOIN的图：   下面用示例解释一下它们在MySQL中的区别。 创建两个表 两个表分别命名为users和blogs。users表用来存储用户信息；blogs表用来存储用户写的博客，为了简化，列只有">
+<meta name="keywords" content="数据库,mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL：JOIN解惑">
+<meta property="og:url" content="http://www.letiantian.me/2014-07-31-mysql-what-is-join/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-07-31  在What’s the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN and FULL JOIN? 给出了一个解释各种JOIN的图：   下面用示例解释一下它们在MySQL中的区别。 创建两个表 两个表分别命名为users和blogs。users表用来存储用户信息；blogs表用来存储用户写的博客，为了简化，列只有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/07/2014-07-31-mysql-what-is-join.png">
+<meta property="og:updated_time" content="2014-10-07T13:04:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL：JOIN解惑">
+<meta name="twitter:description" content="2014-07-31  在What’s the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN and FULL JOIN? 给出了一个解释各种JOIN的图：   下面用示例解释一下它们在MySQL中的区别。 创建两个表 两个表分别命名为users和blogs。users表用来存储用户信息；blogs表用来存储用户写的博客，为了简化，列只有">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/07/2014-07-31-mysql-what-is-join.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-07-31-mysql-what-is-join/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>MySQL：JOIN解惑 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-07-31-mysql-what-is-join/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL：JOIN解惑</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-31T22:19:30+08:00">
+                2014-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-07-31 </p>
+<p>在<a href="http://stackoverflow.com/questions/5706437/whats-the-difference-between-inner-join-left-join-right-join-and-full-join" target="_blank" rel="noopener">What’s the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN and FULL JOIN?</a> 给出了一个解释各种JOIN的图：</p>
+<a id="more"></a>
+<p><img src="/content/images/2014/07/2014-07-31-mysql-what-is-join.png" alt="SQL JOIN"></p>
+<p>下面用示例解释一下它们在MySQL中的区别。</p>
+<h2 id="创建两个表"><a href="#创建两个表" class="headerlink" title="创建两个表"></a>创建两个表</h2><hr>
+<p>两个表分别命名为users和blogs。users表用来存储用户信息；blogs表用来存储用户写的博客，为了简化，列只有<code>user_id</code>和<code>title</code>，没有主键，<code>content</code>类似的字段也没有。</p>
+<pre><code>CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `blogs` (
+  `user_id` int(11) NOT NULL,
+  `title` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+</code></pre><p>添加数据：</p>
+<pre><code>mysql&gt; SELECT * FROM users;
++----+------+
+| id | name |
++----+------+
+|  1 | w    |
+|  2 | x    |
+|  3 | y    |
+|  4 | z    |
++----+------+
+
+mysql&gt; SELECT * FROM blogs;
++---------+-------+
+| user_id | title |
++---------+-------+
+|       1 | r     |
+|       2 | s     |
+|       3 | t     |
+|       1 | q     |
+|      10 | p     |
++---------+-------+
+</code></pre><h2 id="CROSS-JOIN"><a href="#CROSS-JOIN" class="headerlink" title="CROSS JOIN"></a>CROSS JOIN</h2><hr>
+<p>CROSS JOIN就是对两个表求笛卡尔积（Cartesian product）：</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+CROSS JOIN  blogs;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  2 | x    |       1 | r     |
+|  3 | y    |       1 | r     |
+|  4 | z    |       1 | r     |
+|  1 | w    |       2 | s     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       2 | s     |
+|  4 | z    |       2 | s     |
+|  1 | w    |       3 | t     |
+|  2 | x    |       3 | t     |
+|  3 | y    |       3 | t     |
+|  4 | z    |       3 | t     |
+|  1 | w    |       1 | q     |
+|  2 | x    |       1 | q     |
+|  3 | y    |       1 | q     |
+|  4 | z    |       1 | q     |
+|  1 | w    |      10 | p     |
+|  2 | x    |      10 | p     |
+|  3 | y    |      10 | p     |
+|  4 | z    |      10 | p     |
++----+------+---------+-------+
+20 rows in set
+</code></pre><p>也可以简写为：</p>
+<pre><code>SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users, blogs;
+</code></pre><p>加上ON（或者WHERE）：</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+CROSS JOIN  blogs
+ON users.id = blogs.user_id;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  1 | w    |       1 | q     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       3 | t     |
++----+------+---------+-------+
+4 rows in set
+</code></pre><h2 id="LEFT-JOIN"><a href="#LEFT-JOIN" class="headerlink" title="LEFT JOIN"></a>LEFT JOIN</h2><hr>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+LEFT JOIN  blogs
+ON users.id = blogs.user_id;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       3 | t     |
+|  1 | w    |       1 | q     |
+|  4 | z    | NULL    | NULL  |
++----+------+---------+-------+
+</code></pre><p>LEFT JOIN的过程如下（摘自《SQL编程风格》）：  </p>
+<p><strong>(1)</strong> 构造两个表的CROSS JOIN，扫描结果集中的每一行。</p>
+<p><strong>(2)</strong> 如果对于那一行的谓词测试为TRUE，则保留它。</p>
+<p><strong>(3)</strong> 如果对于那一行的谓词测试为FALSE或UNKNOWN，则<code>保留表</code>users的列保持不变，将<code>非保留表</code>blogs的所有列都转化为NULL，然后删去重复的。</p>
+<p><strong>基本原则</strong>是<code>保留表</code>中的每一行在结果行中都至少出现一次。</p>
+<p>users LEFT JOIN blogs意味着users中的每行都会在结果中出现（除非ON中还有其他的逻辑语句限制），blogs中符合要求的数据会出现。这里，users表称为<code>保留表</code>，<code>blogs</code>表称为<code>非保留表</code>。</p>
+<p><code>LEFT JOIN</code> 和 <code>LEFT OUTER JOIN</code>是一个意思。</p>
+<h2 id="LEFT-ON-WHERE"><a href="#LEFT-ON-WHERE" class="headerlink" title="LEFT ON + WHERE"></a>LEFT ON + WHERE</h2><hr>
+<p>在ON中可以添加多个条件语句进行过滤，例如：</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+LEFT JOIN  blogs
+ON users.id = blogs.user_id
+AND blogs.user_id IS NULL;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    | NULL    | NULL  |
+|  2 | x    | NULL    | NULL  |
+|  3 | y    | NULL    | NULL  |
+|  4 | z    | NULL    | NULL  |
++----+------+---------+-------+
+4 rows in set
+</code></pre><p><code>blogs.user_id IS NULL</code>是的CROSS JOIN的结果据不符合要求，这也就导致了上面的运行结果。</p>
+<p>而如果：</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+LEFT JOIN  blogs
+ON users.id = blogs.user_id
+WHERE blogs.user_id IS NULL;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  4 | z    | NULL    | NULL  |
++----+------+---------+-------+
+1 row in set
+</code></pre><p>可以看出WHERE是在LEFT ON生成结果后才进行的过滤。</p>
+<h2 id="RIGHT-JOIN"><a href="#RIGHT-JOIN" class="headerlink" title="RIGHT JOIN"></a>RIGHT JOIN</h2><hr>
+<p>就是LEFT JOIN的反转。</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM blogs 
+RIGHT JOIN users
+ON users.id = blogs.user_id;
+
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       3 | t     |
+|  1 | w    |       1 | q     |
+|  4 | z    | NULL    | NULL  |
++----+------+---------+-------+
+5 rows in set
+</code></pre><h2 id="INNER-JOIN"><a href="#INNER-JOIN" class="headerlink" title="INNER JOIN"></a>INNER JOIN</h2><hr>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+INNER JOIN  blogs;
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  2 | x    |       1 | r     |
+|  3 | y    |       1 | r     |
+|  4 | z    |       1 | r     |
+|  1 | w    |       2 | s     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       2 | s     |
+|  4 | z    |       2 | s     |
+|  1 | w    |       3 | t     |
+|  2 | x    |       3 | t     |
+|  3 | y    |       3 | t     |
+|  4 | z    |       3 | t     |
+|  1 | w    |       1 | q     |
+|  2 | x    |       1 | q     |
+|  3 | y    |       1 | q     |
+|  4 | z    |       1 | q     |
+|  1 | w    |      10 | p     |
+|  2 | x    |      10 | p     |
+|  3 | y    |      10 | p     |
+|  4 | z    |      10 | p     |
++----+------+---------+-------+
+20 rows in set
+
+mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+INNER JOIN  blogs
+ON users.id = blogs.user_id;
+
++----+------+---------+-------+
+| id | name | user_id | title |
++----+------+---------+-------+
+|  1 | w    |       1 | r     |
+|  1 | w    |       1 | q     |
+|  2 | x    |       2 | s     |
+|  3 | y    |       3 | t     |
++----+------+---------+-------+
+4 rows in set
+</code></pre><p>由此可见INNER JOIN 和CROSS JOIN差不多，但是又有什么区别呢？先看下面这段话（来自官方文档）：</p>
+<blockquote>
+<p>In MySQL, JOIN, CROSS JOIN, and INNER JOIN are syntactic equivalents (they can replace each other). In standard SQL, they are not equivalent. INNER JOIN is used with an ON clause, CROSS JOIN is used otherwise. </p>
+</blockquote>
+<p>也就是说，在MySQL中JOIN, CROSS JOIN 和 INNER JOIN这三个是一个意思。但是要注意到它们和LEFT JOIN的不同，第(3)步要修改为：</p>
+<p><strong>(3)</strong> 如果对于那一行的谓词测试为FALSE或UNKNOWN，删去该行。</p>
+<h2 id="FULL-OUTER-JOIN"><a href="#FULL-OUTER-JOIN" class="headerlink" title="FULL OUTER JOIN"></a>FULL OUTER JOIN</h2><hr>
+<p>MySQL不支持FULL OUTER JOIN，但是可以使用UNION模拟：</p>
+<pre><code>mysql&gt; SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+LEFT JOIN blogs
+ON users.id = blogs.user_id
+
+UNION
+
+SELECT users.id, users.name, blogs.user_id, blogs.title 
+FROM users 
+RIGHT JOIN blogs
+ON users.id = blogs.user_id;
+
+
++------+------+---------+-------+
+| id   | name | user_id | title |
++------+------+---------+-------+
+|    1 | w    |       1 | r     |
+|    2 | x    |       2 | s     |
+|    3 | y    |       3 | t     |
+|    1 | w    |       1 | q     |
+|    4 | z    | NULL    | NULL  |
+| NULL | NULL |      10 | p     |
++------+------+---------+-------+
+6 rows in set
+</code></pre><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><hr>
+<p>如何查看表的创建语句：</p>
+<pre><code>SHOW CREATE TABLE &lt;table name&gt;;
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><hr>
+<p><a href="http://stackoverflow.com/questions/4796872/full-outer-join-in-mysql" target="_blank" rel="noopener">Full Outer Join in MySQL</a><br><a href="http://dev.mysql.com/doc/refman/5.0/en/join.html" target="_blank" rel="noopener">13.2.8.2 JOIN Syntax</a><br><a href="http://en.wikipedia.org/wiki/Join_%28SQL%29#Self-join" target="_blank" rel="noopener">Join (SQL)</a><br><a href="http://stackoverflow.com/questions/5706437/whats-the-difference-between-inner-join-left-join-right-join-and-full-join" target="_blank" rel="noopener">What’s the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN and FULL JOIN?</a><br>《SQL编程风格》 Joe Celko著</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-07-31-mysql-what-is-join/" title="MySQL：JOIN解惑">http://www.letiantian.me/2014-07-31-mysql-what-is-join/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-07-31-mysql-table-has-only-one-row/" rel="next" title="MySQL下创建只能有一行记录的table">
+                <i class="fa fa-chevron-left"></i> MySQL下创建只能有一行记录的table
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-08-08-thinking-about-electronic-map/" rel="prev" title="想法若干——关于地图">
+                想法若干——关于地图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建两个表"><span class="nav-text">创建两个表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CROSS-JOIN"><span class="nav-text">CROSS JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LEFT-JOIN"><span class="nav-text">LEFT JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LEFT-ON-WHERE"><span class="nav-text">LEFT ON + WHERE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIGHT-JOIN"><span class="nav-text">RIGHT JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INNER-JOIN"><span class="nav-text">INNER JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FULL-OUTER-JOIN"><span class="nav-text">FULL OUTER JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

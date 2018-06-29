@@ -1,0 +1,1109 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web,php," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-12-13 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   TPP是我最近写的一个简单的PHP框架，本文使用TPP做一个简单的登录系统。TPP框架项目地址：https://github.com/letiantian/TPP。  在mysql5中的test库下建立表users  CREATE  TABLE `test">
+<meta name="keywords" content="web,php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用TPP做一个简单的登录系统">
+<meta property="og:url" content="http://www.letiantian.me/2013-12-13-tpp-login-system/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-12-13 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   TPP是我最近写的一个简单的PHP框架，本文使用TPP做一个简单的登录系统。TPP框架项目地址：https://github.com/letiantian/TPP。  在mysql5中的test库下建立表users  CREATE  TABLE `test">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/12/2013-12-13-tpp-01.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/12/2013-12-13-tpp-02.png">
+<meta property="og:updated_time" content="2015-11-30T04:51:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用TPP做一个简单的登录系统">
+<meta name="twitter:description" content="2013-12-13 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   TPP是我最近写的一个简单的PHP框架，本文使用TPP做一个简单的登录系统。TPP框架项目地址：https://github.com/letiantian/TPP。  在mysql5中的test库下建立表users  CREATE  TABLE `test">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2013/12/2013-12-13-tpp-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-12-13-tpp-login-system/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>使用TPP做一个简单的登录系统 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-12-13-tpp-login-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用TPP做一个简单的登录系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-13T19:20:00+08:00">
+                2013-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-12-13</p>
+<p><a href="/2013-09-15-write-php-framework-1/">给自己写一个php框架-1</a><br><a href="/2013-09-15-write-php-framework-2/">给自己写一个php框架-2</a><br><a href="/2013-12-04-tpp-framework/">TPP —— 一个简单的PHP框架</a><br><a href="/2013-12-13-tpp-login-system/">使用TPP做一个简单的登录系统</a>  </p>
+<p>TPP是我最近写的一个简单的PHP框架，本文使用TPP做一个简单的登录系统。<br>TPP框架项目地址：<a href="https://github.com/letiantian/TPP" target="_blank" rel="noopener">https://github.com/letiantian/TPP</a>。</p>
+<a id="more"></a>
+<h2 id="在mysql5中的test库下建立表users"><a href="#在mysql5中的test库下建立表users" class="headerlink" title="在mysql5中的test库下建立表users"></a>在mysql5中的test库下建立表users</h2><hr>
+
+<pre><code>CREATE  TABLE `test`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  `passwd` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+</code></pre><p>主键是id字段，name字段内容具有唯一性约束。</p>
+<p>添加一组数据，用户名为a，email为aaa@163.com，密码aaa。图个方便，密码明文存储。</p>
+<p>将TPP放在/var/www中，TPP的配置不变。</p>
+<h2 id="创建文件-Userlib-userstate-php："><a href="#创建文件-Userlib-userstate-php：" class="headerlink" title="创建文件./Userlib/userstate.php："></a>创建文件./Userlib/userstate.php：</h2><hr>
+
+<pre><code>&lt;?php
+
+class userstate extends TPP{
+
+    public function is_login() {
+        if (isset($_SESSION[&#39;user_name&#39;])) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function login($user_name, $user_passwd) {
+        $db = $this-&gt;tpp_loader()-&gt;load_core_class(&#39;Medoo&#39;);
+        $db-&gt;connect([
+            &#39;database_type&#39; =&gt; &#39;mysql&#39;,
+            &#39;database_name&#39; =&gt; &#39;test&#39;,
+            &#39;server&#39; =&gt; &#39;localhost&#39;,
+            &#39;username&#39; =&gt; &#39;root&#39;,
+            &#39;password&#39; =&gt; &#39;123&#39;]);
+        $sql = &quot;select * from users where name =&quot;.$db-&gt;quote($user_name).&quot; and passwd=&quot;.$db-&gt;quote($user_passwd).&quot;;&quot;;
+        //$datas = $db-&gt;select(&quot;users&quot;,&quot;*&quot;);
+        $datas = $db-&gt;query($sql)-&gt;fetchAll();
+       if(count($datas) &gt;= 1) {
+           $_SESSION[&#39;user_name&#39;] = $user_name;
+           return true;
+       }
+        else {
+            return false;
+        }
+    }
+
+    public function logout() {
+        unset($_SESSION[&#39;user_name&#39;]);
+        return true;
+    }
+
+    public function  get_user_name() {
+        return $_SESSION[&#39;user_name&#39;];
+    }
+}
+</code></pre><p>session会在控制器文件中启动，所以该文件中也就没有<code>session_start()</code>。SESSION只存储用户名<code>user_name</code>。<code>is_login()</code>函数判断是否已经登录。<code>login($user_name, $user_passwd)</code>函数提供登录功能，登录成功则返回true，否则false。logout()函数提供退出功能。<code>get_user_name()</code>函数获取登录用户的名字。</p>
+<h2 id="创建文件-Controller-usermanager-php："><a href="#创建文件-Controller-usermanager-php：" class="headerlink" title="创建文件./Controller/usermanager.php："></a>创建文件./Controller/usermanager.php：</h2><hr>
+
+<pre><code>&lt;?php
+
+class usermanage extends TPP {
+
+    public function __construct() {
+        session_start();  
+        $this-&gt;userstate = $this-&gt;tpp_loader()-&gt;load_user_class(&#39;userstate&#39;);
+    }
+
+    public function index() {
+        if($this-&gt;userstate-&gt;is_login()) {
+            header(&quot;Location: /usermanage/show&quot;);
+        }
+        else {
+            header(&quot;Location: /usermanage/login&quot;);
+        }
+    }
+
+    public function login() {
+        if($this-&gt;userstate-&gt;is_login()) {
+            $this-&gt;show();
+            return;
+        }
+        if(isset($_POST[&#39;user_name&#39;]) &amp;&amp; isset($_POST[&#39;user_passwd&#39;])) {
+            if ($this-&gt;userstate-&gt;login($_POST[&#39;user_name&#39;], $_POST[&#39;user_passwd&#39;])) {
+                $this-&gt;show();
+                return ;
+            }
+        }
+
+        $render = $this-&gt;tpp_loader()-&gt;load_core_class(&#39;Render&#39;);
+        $render-&gt;render(&#39;usermanage/header&#39;,[&#39;title&#39;=&gt;&#39;登录&#39;]);
+        $render-&gt;render(&#39;usermanage/login_body&#39;,[&#39;welcome&#39;=&gt;&#39;登录&#39;]);
+        $render-&gt;render(&#39;usermanage/footer&#39;, null);
+        $render-&gt;show();
+
+    }
+
+    public function logout() {
+        $this-&gt;userstate-&gt;logout();
+        header(&quot;Location: /usermanage/index&quot;); 
+        exit;
+    }
+
+    public function show() {
+        if($this-&gt;userstate-&gt;is_login() === false) {
+            header(&quot;Location: /usermanage/login&quot;);
+            return;
+        }
+        $render = $this-&gt;tpp_loader()-&gt;load_core_class(&#39;Render&#39;);
+        $render-&gt;render(&#39;usermanage/header&#39;,[&#39;title&#39;=&gt;&#39;主页&#39;]);
+        $render-&gt;render(&#39;usermanage/show_body&#39;,[&#39;user_name&#39;=&gt;$this-&gt;userstate-&gt;get_user_name()]);
+        $render-&gt;render(&#39;usermanage/footer&#39;, null);
+        $render-&gt;show();
+    }
+} 
+</code></pre><p>在构造函数中启动了session，同时生成<code>./Userlib/userstate.php</code>中userstate类的实例<code>$this-&gt;userstate</code>。login()函数为用户展示登录页。在登录成功后，跳转到show()生成的页面中。函数logout()提供退出功能。index()函数根据用户是否登录选择跳转到login()或者show()。</p>
+<h2 id="下面建立视图文件："><a href="#下面建立视图文件：" class="headerlink" title="下面建立视图文件："></a>下面建立视图文件：</h2><hr>
+
+<p><strong>./Template/usermanager/header.php文件内容如下：</strong></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;&lt;?=$title;?&gt;&lt;/title&gt;
+
+    &lt;script src=&quot;&lt;?=$tpp_base_url();?&gt;static/jquery-1.10.2.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;&lt;?=$tpp_base_url();?&gt;static/bootstrap3/js/bootstrap.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;&lt;?=$tpp_base_url();?&gt;static/bootstrap3/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+
+    &lt;style&gt;
+        .user_margin {
+            height: 20px;
+            width: 100%;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+</code></pre><p>由于TPP配置不变，<code>$tpp_base_url()</code>的结果是’/‘。<br><strong>./Template/usermanager/login_body.php文件内容如下：</strong></p>
+<pre><code>&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-md-4&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;col-md-4 &quot;&gt;
+        &lt;div class=&quot;user_margin&quot;&gt;&lt;/div&gt;
+
+        &lt;h2&gt;&lt;?=$welcome;?&gt;&lt;/h2&gt;
+
+        &lt;div class=&quot;user_margin&quot;&gt;&lt;/div&gt;
+        &lt;form role=&quot;form&quot; method=&quot;POST&quot; action=&quot;/usermanage/login&quot;&gt;
+            &lt;div class=&quot;form-group&quot;&gt;
+                &lt;label&gt;用户名&lt;/label&gt;
+                &lt;input type=&quot;text&quot; class=&quot;form-control&quot;  placeholder=&quot;Enter name&quot; name=&quot;user_name&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;form-group&quot;&gt;
+                &lt;label&gt;密码&lt;/label&gt;
+                &lt;input type=&quot;password&quot; class=&quot;form-control&quot; placeholder=&quot;Password&quot; name=&quot;user_passwd&quot;&gt;
+            &lt;/div&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;登录&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;div class=&quot;user_margin&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-4&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p><strong>./Template/usermanager/show_body.php文件内容如下：</strong></p>
+<pre><code>&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-md-4&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;col-md-4 &quot;&gt;
+        &lt;div class=&quot;user_margin&quot;&gt;&lt;/div&gt;
+
+        &lt;h2&gt;你好，&lt;?=$user_name;?&gt;&lt;/h2&gt;
+
+        &lt;a class=&quot;btn&quot; href=&quot;/usermanage/logout&quot;&gt;注销&lt;/a&gt;
+
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-4&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p><strong>./Template/usermanager/footer.php文件内容如下：</strong></p>
+<pre><code>&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><hr><br>输入<code>http://127.0.0.1/usermanage/</code>，则跳转到登录页面<code>http://127.0.0.1/usermanage/login</code>，如下：<br><img src="/content/images/2013/12/2013-12-13-tpp-01.png" alt="image"></p>
+<p>填写用户名a和密码aaa，进入show页面：<br><img src="/content/images/2013/12/2013-12-13-tpp-02.png" alt="image"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-12-13-tpp-login-system/" title="使用TPP做一个简单的登录系统">http://www.letiantian.me/2013-12-13-tpp-login-system/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-12-09-some-good-sites/" rel="next" title="一些不错的网站">
+                <i class="fa fa-chevron-left"></i> 一些不错的网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-12-15-how-to-implement-rpc/" rel="prev" title="如何实现远程调用">
+                如何实现远程调用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在mysql5中的test库下建立表users"><span class="nav-text">在mysql5中的test库下建立表users</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件-Userlib-userstate-php："><span class="nav-text">创建文件./Userlib/userstate.php：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件-Controller-usermanager-php："><span class="nav-text">创建文件./Controller/usermanager.php：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下面建立视图文件："><span class="nav-text">下面建立视图文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-text">效果图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

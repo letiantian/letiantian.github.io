@@ -1,0 +1,1075 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编程实践,php,mvc," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-09-15 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   玩php玩到一定时间一般会去了解一下php框架，我是很久前接触了几个框架——其实只是看了看CI的使用方法（也没用它写过东西），其他的框架也就是知道名字而已。某天，我终于受不了总是去了解这些现成的有文档的东西，于是决心去写一个——这就是起因，很简单。">
+<meta name="keywords" content="编程实践,php,mvc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给自己写一个php框架(1)">
+<meta property="og:url" content="http://www.letiantian.me/2013-09-15-write-php-framework-1/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-09-15 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   玩php玩到一定时间一般会去了解一下php框架，我是很久前接触了几个框架——其实只是看了看CI的使用方法（也没用它写过东西），其他的框架也就是知道名字而已。某天，我终于受不了总是去了解这些现成的有文档的东西，于是决心去写一个——这就是起因，很简单。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2013/09/2013-09-05-tinierphp-011.png">
+<meta property="og:image" content="http://www.letiantian.me/images/2013/09/2013-09-05-tinierphp-02.png">
+<meta property="og:updated_time" content="2015-11-30T04:45:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="给自己写一个php框架(1)">
+<meta name="twitter:description" content="2013-09-15 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   玩php玩到一定时间一般会去了解一下php框架，我是很久前接触了几个框架——其实只是看了看CI的使用方法（也没用它写过东西），其他的框架也就是知道名字而已。某天，我终于受不了总是去了解这些现成的有文档的东西，于是决心去写一个——这就是起因，很简单。">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2013/09/2013-09-05-tinierphp-011.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-09-15-write-php-framework-1/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>给自己写一个php框架(1) | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-09-15-write-php-framework-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">给自己写一个php框架(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-15T19:00:00+08:00">
+                2013-09-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/编程实践/" itemprop="url" rel="index">
+                    <span itemprop="name">编程实践</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/mvc/" itemprop="url" rel="index">
+                    <span itemprop="name">mvc</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-09-15</p>
+<p><a href="/2013-09-15-write-php-framework-1/">给自己写一个php框架-1</a><br><a href="/2013-09-15-write-php-framework-2/">给自己写一个php框架-2</a><br><a href="/2013-12-04-tpp-framework/">TPP —— 一个简单的PHP框架</a><br><a href="/2013-12-13-tpp-login-system/">使用TPP做一个简单的登录系统</a>  </p>
+<p>玩php玩到一定时间一般会去了解一下php框架，我是很久前接触了几个框架——其实只是看了看CI的使用方法（也没用它写过东西），其他的框架也就是知道名字而已。某天，我终于受不了总是去了解这些现成的有文档的东西，于是决心去写一个——这就是起因，很简单。  </p>
+<a id="more"></a>
+<p>这篇文章分为两部分：</p>
+<pre><code>第一部分所描述的仍然是传统的php开发模式（体现在url上）。
+第二部分以第一部分为基础，描述的是一个完整支持RESTful URL的MVC框架，见下一篇文章。
+</code></pre><h2 id="程序流程"><a href="#程序流程" class="headerlink" title="程序流程"></a>程序流程</h2><hr>
+<p><img src="/content/images/2013/09/2013-09-05-tinierphp-011.png" alt="image"></p>
+<p>如上图所示:<br>1、用户访问web app中某个页面；<br>2、该页面对应的内容是业务逻辑，业务逻辑中需要使用类库进行逻辑判断、数据库操作、缓存操作，如果用户的请求在缓存中，那么进入3，否则进4；<br>3、将缓存内容响应给用户；<br>4、业务逻辑将必须的数据传递给视图，之后将视图化后的内容响应给用户。</p>
+<p>下面是该框架的基本结构：</p>
+<pre><code>tinierPHP
+├── Config
+│   ├── Config.php
+│   ├── Loader.php
+│   └── .htaccess
+├── Corelib
+│   ├── Medoo.php
+│   ├── Rcache.php
+│   ├── Render.php
+│   └── .htaccess
+├── Template
+│   ├── header.php
+│   ├── body.php
+│   ├── footer.php
+│   └── .htaccess
+├── Userlib
+│   └── .htaccess
+├── 404.php
+└── index.php
+</code></pre><p>目录Config、Corelib、Template、Userlib是默认的。其中Config中Config.php是app的配置文件，Loader.php用来装载类（装载Corelib和Userlib中的类）；Corelib目录包含的是作者定义的常用类，Userlib包含的是网站开发人员常用的类（需要自己添加）。Template保存的是视图文件。index.php的内容是开发人员控制的，在这儿主要是我用来测试。</p>
+<p>安全起见，添加了.htaccess文件，相应的，web服务器应该开启rewrite功能。文件内容有两种选择：<br>选择1：</p>
+<pre><code>Deny from all
+</code></pre><p>选择2：</p>
+<pre><code>RewriteEngine on
+RewriteRule ^(.*)$ ../404.php/$1 [L]
+</code></pre><p>第二种方法是向客户端提供上一级目录中404.php的内容，用户体验更好一些。  </p>
+<h2 id="配置你的web-app"><a href="#配置你的web-app" class="headerlink" title="配置你的web app"></a>配置你的web app</h2><hr>
+<p>有两个地方需要配置：</p>
+<p>1、Config/Config.php<br>   配置变量<code>$_site_url</code>，用来指明用户访问web app的基本url，例如<code>$_site_url = &#39;http://127.0.0.1/tinierPHP/&#39;</code>，这对于引用css、js、图片等特别有用。</p>
+<p>2、Config/Loader.php<br>   配置变量<code>$_root_dir</code>，指明web app所在目录在文件系统中的绝对路径。该变量在加载类的时候需要用到。  </p>
+<h2 id="导入类库"><a href="#导入类库" class="headerlink" title="导入类库"></a>导入类库</h2><hr>
+<p>类库被区分为核心类库（框架作者为框架添加的类库）、用户类库（开发人员的类库）。下面是导入自定义类库的示例：<br>我们在Userlib/下创建文件Test.php，其中定义Test类（类名和文件名必须相同）:</p>
+<pre><code>&lt;?php
+class Test {
+    /*
+     * 这是一个测试
+     */
+    private $developer_name = &#39;letian&#39;;
+    public function  __construct() {}
+    public function get_developer_name() {
+        return $this-&gt;developer_name;
+    }
+}
+?&gt;
+</code></pre><p>之后我们在web app根目录下创建文件1.php，内容如下：</p>
+<pre><code>&lt;?php
+include_once &#39;./Config/Loader.php&#39;;
+$test = Loader::get_instance()-&gt;load_user_class(&#39;Test&#39;); //加载类
+echo $test-&gt;get_developer_name();
+?&gt;
+</code></pre><p><strong>创建类库的原则：  </strong><br>类名和文件名必须相同；<br>构造函数必须有public属性，且不含参数；<br>每个类致力于解决一个方面的问题，不建议类之间互相调用。</p>
+<h2 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h2><hr>
+<p>在目录Corelib/中的Medoo.php提供了与数据库之间的交互。Medoo是一个轻量级的基于PDO的php数据库框架，具体使用请见其官方网站：<a href="http://medoo.in/。" target="_blank" rel="noopener">http://medoo.in/。</a></p>
+<p>不过这里对Medoo进行了些许的修改：将原有的构造函数改为set_options($options)函数，重写了一个不含参数的构造函数，具体请看源码。</p>
+<h2 id="使用模板"><a href="#使用模板" class="headerlink" title="使用模板"></a>使用模板</h2><hr>
+<p>视图的实现依赖于模板文件，令人欣慰的是，php本身就是一个完美的模板实现。</p>
+<p>首先应该说一下php中的流程控制。我们在流程控制中一般使用花括号{}来包含语句块，例如：</p>
+<pre><code>if(1===1){ echo &quot;两者相等&quot;;}
+</code></pre><p>不过也有一种替代语法，即：</p>
+<pre><code>if(1===1):
+    echo &quot;两者相等&quot;；
+endif;
+</code></pre><p>我们比较一下下面这两种写法：</p>
+<pre><code>&lt;?php if (1===1){ ?&gt;
+    &lt;h2&gt;两者相等&lt;/h2&gt;
+&lt;?php } ?&gt;
+
+
+
+&lt;?php if (1===1): ?&gt;
+    &lt;h2&gt;两者相等&lt;/h2&gt;
+&lt;?php endif; ?&gt;
+</code></pre><p>个人是觉得第二种方法更加直白一些，特别是在模板中使用流程控制的时候。相应的，还有endwhile、endfor、endforeach、endswitch。</p>
+<p><strong>如何使用模板：</strong><br>在web app根目录下创建文件2.php，内容如下：</p>
+<pre><code>&lt;?php
+include_once &#39;./Config/Loader.php&#39;;
+$render = Loader::get_instance()-&gt;load_core_class(&#39;Render&#39;);
+$data1 = [&quot;title&quot; =&gt; &quot;测试模板&quot;];
+$data2 = [
+    &quot;title&quot;=&gt;&quot;这是一个测试&quot;,
+    &quot;lists&quot;=&gt;[1=&gt;&quot;一二三&quot;,2=&gt;&quot;四五六&quot;]
+];
+$render-&gt;render(&quot;2/header&quot;,$data1);
+$render-&gt;render(&quot;2/body&quot;,$data2);
+$render-&gt;render(&quot;2/footer&quot;);
+$render-&gt;show();
+?&gt;
+</code></pre><p>在Template/目录下创建目录2，在目录2中添加文件header.php、body.php、footer.php。<br>header.php内容如下： </p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+&lt;title&gt;&lt;?=$title;?&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+</code></pre><p>body.php内容如下：</p>
+<pre><code>&lt;h1&gt;&lt;?=$title?&gt;&lt;/h1&gt;
+&lt;?php foreach ($lists as $list): ?&gt;
+    &lt;h2&gt;&lt;?=$list?&gt;&lt;/h2&gt;
+&lt;?php endforeach;?&gt;
+</code></pre><p>footer.php内容如下：</p>
+<pre><code>&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>访问2.php我们会看到：</p>
+<p><img src="/images/2013/09/2013-09-05-tinierphp-02.png" alt="image"></p>
+<p><strong>这是如何实现的？</strong></p>
+<p>首先应该说一下extract函数，w3school这样说明该函数：</p>
+<p><blockquote>PHP extract() 函数从数组中把变量导入到当前的符号表中。<br>对于数组中的每个元素，键名用于变量名，键值用于变量值。<br>第二个参数 type 用于指定当某个变量已经存在，而数组中又有同名元素时，extract() 函数如何对待这样的冲突。<br>本函数返回成功设置的变量数目。</blockquote><br>作为参数的数组中的key应该符合变量命名规范，例如extract([‘this-&gt;aa’ =&gt; ‘aa’, ‘1’ =?’bb’])的返回值就为0。</p>
+<p>下面是Render类中render方法：</p>
+<pre><code>public function render($template_path, $data = null) 
+{  
+    $this-&gt;_template_path = Loader::get_instance()-&gt;root_dir() .&#39;Template/&#39; . $template_path .&#39;.php&#39;;
+    if(is_array($data)) {
+        extract($data);
+    }
+    ob_start();
+    echo eval(&#39;?&gt;&#39;.preg_replace(&quot;/;*\s*\?&gt;/&quot;, &quot;; ?&gt;&quot;, 
+        str_replace(&#39;&lt;?=&#39;, &#39;&lt;?php echo &#39;, file_get_contents($this-&gt;_template_path))));
+    $this-&gt;_buffer = ob_get_contents();
+    @ob_end_clean();
+    $this-&gt;_content = $this-&gt;_content . $this-&gt;_buffer;
+}
+</code></pre><p>由于在业务逻辑中已经将Loader类include进来，所以我们可以获得模板文件的绝对路径<code>$this-&gt;_template_path；</code>之后extract将$data分解用以向视图文件传递数据；eval方法用来使得模板文件生效；模板文件生成的视图内容追加到变量<code>$this-&gt;_buffer</code>中。很明显，在我们的模板文件中不应该对<code>$this-&gt;_buffer</code>进行操作。这里<code>ob_start()</code>、 <code>ob_get_contents()</code>、<code>ob_end_clean()</code>用于控制缓冲区，具体请参考PHP文档。 </p>
+<p>render方法也为模板实现了一个简单的短标记语法（无论PHP本身有没有开启短标记），例如&lt;?=$title;?&gt;相当于&lt;? echo $title;?&gt;。<br>另，render方法的实现参考了CodeIgniter。  </p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><hr>
+<p>将需要缓存的内容持久化，在再次访问时候如果该缓存并未过期，则将该缓存的内容响应给用户。Corelib/Rcache.php实现了一个使用单个redis server作为缓存的类，该类适用于对视图内容进行缓存，我们将用户请求的url作为key，视图内容作为value。</p>
+<p>该类没有测试过。</p>
+<h2 id="然后"><a href="#然后" class="headerlink" title="然后"></a>然后</h2><hr>
+<p><del>该项目命名为tinierPHP，源码放在了<a href="https://github.com/letiantian/tinierPHP" target="_blank" rel="noopener">https://github.com/letiantian/tinierPHP</a>。</del></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-09-15-write-php-framework-1/" title="给自己写一个php框架(1)">http://www.letiantian.me/2013-09-15-write-php-framework-1/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-09-02-linux-netstat/" rel="next" title="Linux下使用netstat命令">
+                <i class="fa fa-chevron-left"></i> Linux下使用netstat命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013-09-15-method-chains/" rel="prev" title="方法链">
+                方法链 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序流程"><span class="nav-text">程序流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置你的web-app"><span class="nav-text">配置你的web app</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入类库"><span class="nav-text">导入类库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据持久化"><span class="nav-text">数据持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用模板"><span class="nav-text">使用模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#然后"><span class="nav-text">然后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

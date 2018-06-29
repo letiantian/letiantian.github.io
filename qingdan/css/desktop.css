@@ -1,0 +1,11 @@
+body {
+  margin: 5% 20% 5% 20%;
+  width: 50%; 
+}
+
+@media screen and (max-width: 720px){
+  body {
+    margin: 5% 10% 5% 10%;
+    width: 70%; 
+  }
+}

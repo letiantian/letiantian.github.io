@@ -1,0 +1,1017 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-09-05 这里的“负载均衡”是指在网站建设中应该考虑的“负载均衡”。假设我们要搭建一个网站：aaa.me，我们使用的web服务器每秒能处理100条请求，而aaa.me这个网站最火的时候也只是每秒99条请求，那么我们使用一个服务器是完全可以的。但是若该网站平均每秒的请求是200多次，那么问题就来了：这已经是最好的web服务器了，我该怎么办？同样的情景也适用于数据库。要解决这种问题，就需要">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我所理解的负载均衡">
+<meta property="og:url" content="http://www.letiantian.me/2013-09-05-load-balance/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2013-09-05 这里的“负载均衡”是指在网站建设中应该考虑的“负载均衡”。假设我们要搭建一个网站：aaa.me，我们使用的web服务器每秒能处理100条请求，而aaa.me这个网站最火的时候也只是每秒99条请求，那么我们使用一个服务器是完全可以的。但是若该网站平均每秒的请求是200多次，那么问题就来了：这已经是最好的web服务器了，我该怎么办？同样的情景也适用于数据库。要解决这种问题，就需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-05-reverse-server.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-05-simple-proxy-1.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-05-simple-proxy-2.png">
+<meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-05-db-slb.png">
+<meta property="og:updated_time" content="2014-10-07T08:51:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我所理解的负载均衡">
+<meta name="twitter:description" content="2013-09-05 这里的“负载均衡”是指在网站建设中应该考虑的“负载均衡”。假设我们要搭建一个网站：aaa.me，我们使用的web服务器每秒能处理100条请求，而aaa.me这个网站最火的时候也只是每秒99条请求，那么我们使用一个服务器是完全可以的。但是若该网站平均每秒的请求是200多次，那么问题就来了：这已经是最好的web服务器了，我该怎么办？同样的情景也适用于数据库。要解决这种问题，就需要">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-05-reverse-server.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2013-09-05-load-balance/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>我所理解的负载均衡 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-09-05-load-balance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我所理解的负载均衡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-10-06T23:46:50+08:00">
+                2014-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2013-09-05</p>
+<p>这里的“负载均衡”是指在网站建设中应该考虑的“负载均衡”。假设我们要搭建一个网站：aaa.me，我们使用的web服务器每秒能处理100条请求，而aaa.me这个网站最火的时候也只是每秒99条请求，那么我们使用一个服务器是完全可以的。但是若该网站平均每秒的请求是200多次，那么问题就来了：这已经是最好的web服务器了，我该怎么办？同样的情景也适用于数据库。要解决这种问题，就需要了解“负载均衡”的原理了。</p>
+<a id="more"></a>
+<h2 id="web服务器如何做负载均衡"><a href="#web服务器如何做负载均衡" class="headerlink" title="web服务器如何做负载均衡"></a>web服务器如何做负载均衡</h2><hr>
+<p>为web服务器做负载均衡适用的的较多的方式是DNS重定向和反向代理，其他的方式原理也是很类似。  </p>
+<p>我们多次ping一下百度，会发现回复的IP会有所不同，例如第一次的结果为：</p>
+<pre class="language-markup">
+正在 Ping baidu.com [220.181.111.86] 具有 32 字节的数据:
+来自 220.181.111.86 的回复: 字节=32 时间=27ms TTL=51
+来自 220.181.111.86 的回复: 字节=32 时间=27ms TTL=51
+来自 220.181.111.86 的回复: 字节=32 时间=27ms TTL=51
+</pre>
+
+<p>过一会再Ping一次，结果可能就变了：</p>
+<pre class="language-markup">
+正在 Ping baidu.com [220.181.111.85] 具有 32 字节的数据:
+来自 220.181.111.85 的回复: 字节=32 时间=27ms TTL=51
+来自 220.181.111.85 的回复: 字节=32 时间=27ms TTL=51
+来自 220.181.111.85 的回复: 字节=32 时间=29ms TTL=51
+</pre>
+
+<p>使用<code>nslookup</code>命令可以看到多个ip与baidu.com对应。在这里用到的就是DNS重定向技术，原理很简单：DNS服务器保存某域名对应的多个IP，客户端发出DNS请求时DNS服务器根据算法将IP发回给客户端；发送回的一般是一个IP地址集合，但是每次的排序不同，第一次的第一个IP为201.11.11.1，第二次的第一个可能是201.11.11.2，客户端使用的是第一个IP——简单地说，就是客户端每次获取的域名的IP可能不同。不同的IP对应不同的web服务器，但是这些web服务器的内容应该是一样的。  </p>
+<p>我们从下图理解反向代理：</p>
+<p><img src="/content/images/2014/10/2013-09-05-reverse-server.png" alt="反向代理"><br><em>反向代理</em></p>
+<p>客户端向反向代理发送HTTP请求报文（若该网站有域名，域名的IP是反向代理服务器的外网IP），反向代理将请求报文随机发送给一个web服务器，web服务器将HTTP响应报文发送给反向代理，反向代理再将这报文返回给客户端。既然这样简单，我们就可以着手实现一个简单的反向代理。</p>
+<p>在linux mint 15 下安装apache和nginx服务器，在apache的80端口的文档根目录下创建文件index.html，内容如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;hello, i am apache&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>在nginx的8080端口的文档根目录下创建文件index.html，内容如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;hello, i am nginx&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>创建源文件<code>simple_reverse_proxy.py</code>，内容如下：</p>
+<pre><code>#!/usr/bin/python
+#-*-encoding:utf8-*-
+&#39;&#39;&#39;
+这是一个简单的反向代理服务器
+&#39;&#39;&#39;
+import BaseHTTPServer
+import urllib2
+HOST_NAME = &#39;127.0.0.1&#39;
+PORT_NUMBER = 8081  #端口
+SERVER_URL=(&#39;http://127.0.0.1:80&#39;,&#39;http://127.0.0.1:8080&#39;)
+server_choice = 0
+class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    def do_GET(s):
+        &quot;&quot;&quot;response to a GET request&quot;&quot;&quot;
+        global server_choice
+        url = SERVER_URL[server_choice]
+        print url
+        server_choice = (server_choice + 1) % 2
+        headers = {&#39;User-Agent&#39;: &#39;Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)&#39;}
+        try:
+            req = urllib2.Request(url, None, headers)
+            response = urllib2.urlopen(req)
+            html = response.read()
+            #print html
+            s.send_response(200);
+            s.send_header(&quot;Content-type&quot;, &quot;text/html&quot;)
+            s.end_headers()
+            s.wfile.write(html)
+        except:
+            s.send_response(404);
+            s.send_header(&quot;Content-type&quot;, &quot;text/html&quot;)
+            s.end_headers()
+            s.wfile.write(&#39;&lt;h2&gt;404&lt;/h2&gt;&#39;)
+if __name__ == &#39;__main__&#39;:
+    server_class = BaseHTTPServer.HTTPServer
+    httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+</code></pre><p>启动apache、nginx，并运行simple_reverse_proxy.py。我们在浏览器中打开<a href="http://127.0.0.1:8081，我们可以看到：" target="_blank" rel="noopener">http://127.0.0.1:8081，我们可以看到：</a></p>
+<p><img src="/content/images/2014/10/2013-09-05-simple-proxy-1.png" alt=""></p>
+<p>刷新一下可以看到：</p>
+<p><img src="/content/images/2014/10/2013-09-05-simple-proxy-2.png" alt=""></p>
+<p>而<code>simple_reverse_proxy.py</code>会有以下信息输出：</p>
+<pre><code>bash &gt;&gt; ./simple_reverse_proxy.py 
+http://127.0.0.1:80
+127.0.0.1 - - [05/Sep/2013 19:25:02] &quot;GET / HTTP/1.1&quot; 200 -
+http://127.0.0.1:8080
+127.0.0.1 - - [05/Sep/2013 19:25:43] &quot;GET / HTTP/1.1&quot; 200 -
+</code></pre><p>当然，开源世界里已经有很多优秀的反向代理服务器了，例如Nginx。</p>
+<p>只要理解了反向代理的原理，更复杂的架构也容易去实现。</p>
+<h2 id="数据库的负载均衡"><a href="#数据库的负载均衡" class="headerlink" title="数据库的负载均衡"></a>数据库的负载均衡</h2><hr>
+<p>对于大型网站，一个数据库系统肯定会遇到无法负担大量的读请求、写请求的情况。那么我们怎么来通过负载均衡来实现高并发的读写请求呢？  </p>
+<p>这其中一个很好的方法就是读写分离：将原本针对一个数据库服务器的读写请求分成读请求和写请求，向一个（或者多个）数据库服务器发送写请求，向另外一个（或多个）服务器发送读请求，这可以明显的提高响应时间。不过其中有一个难点，就是必须保持多个数据库服务器中的数据是一致的，不用担心，很多数据库系统已经实现了这个功能。下面是一个架构示例：<br><img src="/content/images/2014/10/2013-09-05-db-slb.png" alt=""><br>上图中其实有一个写写冲突的问题，想象以下场景：</p>
+<p>该系统用于存放某网站的用户注册信息，该网站不允许用户名相同，且以用户名为唯一主键，所以在单数据库架构中必须涉及到事务的处理。现在在这个负载均衡的数据库架构中，用户A要注册用户名为xiaoming，这个写请求分配给了db server 1；与此同时用户B同样注册用户名xiaoming，如果写请求分配给了db server1，就不会有问题发生，可是如果分配给db server 2呢？两个db server分别存放了不同用户的用户名相同的用户信息！解决的方法很简单，写请求的分配不能用随机算法，应该使用哈希映射，例如注册的用户名首字母为x时，写请求分配各 db server2，其他写请求一律分配给db server 1。</p>
+<p>另外一个问题，这种架构为开发应用提供了很大的灵活性，就是这种架构不适用于某些ORM框架，解决方法就是在这个架构上再加上一层——“数据库代理”。例如对于MySQL，就有MySQL Proxy这样的解决方案。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2013-09-05-load-balance/" title="我所理解的负载均衡">http://www.letiantian.me/2013-09-05-load-balance/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013-09-01-xresources-urxvt/" rel="next" title="Xresources和urxvt">
+                <i class="fa fa-chevron-left"></i> Xresources和urxvt
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-10-08-ghost-add-tag-cloud/" rel="prev" title="为Ghost博客添加标签云">
+                为Ghost博客添加标签云 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#web服务器如何做负载均衡"><span class="nav-text">web服务器如何做负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的负载均衡"><span class="nav-text">数据库的负载均衡</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

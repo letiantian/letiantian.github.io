@@ -1,0 +1,978 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2015-05-17 第一赛季是在四月底结束，分数还凑合，过了9.00%。本文只是一篇总结性的文章。 发现的问题：1、还是学的不怎么样2、了解的不够深入，实战经验少3、PRML和NG的视频都没看，不算好好学过机器学习4、论文看得太少5、没人指点6、机器设备太差7、比赛参加的有点晚，中间还出去溜达了几天8、单人作战很酸爽～ 比赛题目官方提供了两个文本文件，第一个是tianchi_mobile_rec">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2015阿里移动推荐算法比赛第一赛季总结">
+<meta property="og:url" content="http://www.letiantian.me/2015-05-17-alibaba-mobile-recommend-competition-summary/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2015-05-17 第一赛季是在四月底结束，分数还凑合，过了9.00%。本文只是一篇总结性的文章。 发现的问题：1、还是学的不怎么样2、了解的不够深入，实战经验少3、PRML和NG的视频都没看，不算好好学过机器学习4、论文看得太少5、没人指点6、机器设备太差7、比赛参加的有点晚，中间还出去溜达了几天8、单人作战很酸爽～ 比赛题目官方提供了两个文本文件，第一个是tianchi_mobile_rec">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-05-26T01:19:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2015阿里移动推荐算法比赛第一赛季总结">
+<meta name="twitter:description" content="2015-05-17 第一赛季是在四月底结束，分数还凑合，过了9.00%。本文只是一篇总结性的文章。 发现的问题：1、还是学的不怎么样2、了解的不够深入，实战经验少3、PRML和NG的视频都没看，不算好好学过机器学习4、论文看得太少5、没人指点6、机器设备太差7、比赛参加的有点晚，中间还出去溜达了几天8、单人作战很酸爽～ 比赛题目官方提供了两个文本文件，第一个是tianchi_mobile_rec">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2015-05-17-alibaba-mobile-recommend-competition-summary/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>2015阿里移动推荐算法比赛第一赛季总结 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2015-05-17-alibaba-mobile-recommend-competition-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2015阿里移动推荐算法比赛第一赛季总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-17T09:59:41+08:00">
+                2015-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2015-05-17</p>
+<p>第一赛季是在四月底结束，分数还凑合，过了9.00%。本文只是一篇总结性的文章。</p>
+<p>发现的问题：<br>1、还是学的不怎么样<br>2、了解的不够深入，实战经验少<br>3、PRML和NG的视频都没看，不算好好学过机器学习<br>4、论文看得太少<br>5、没人指点<br>6、机器设备太差<br>7、比赛参加的有点晚，中间还出去溜达了几天<br>8、单人作战很酸爽～</p>
+<h2 id="比赛题目"><a href="#比赛题目" class="headerlink" title="比赛题目"></a>比赛题目</h2><p>官方提供了两个文本文件，第一个是<code>tianchi_mobile_recommend_train_user.csv</code>：</p>
+<pre><code class="text">user_id,item_id,behavior_type,user_geohash,item_category,time
+99512554,37320317,3,94gn6nd,9232,2014-11-26 20
+9909811,266982489,1,,3475,2014-12-02 23
+......
+</code></pre>
+<p>每一行代表了用户<code>user_id</code>对属于分类<code>cat_id</code>的物品<code>item_id</code>在<code>time</code>这个时间于地点<code>user_geohash</code>发生了交互，交互类型是<code>behavior_type</code>。<code>behavior_type</code>包括浏览、收藏、加购物车、购买，对应取值分别是1、2、3、4。<code>tianchi_mobile_recommend_train_user.csv</code>中的数据约有1200万行。</p>
+<p>一共有31天的交互数据，最后要预测地32天有哪些user会购买哪些item。 举办方对你提交的数据计算F1，并进行排名。</p>
+<p>然而，还有一个商品子集的文件<code>tianchi_mobile_recommend_train_item.csv</code>：</p>
+<pre><code>item_id,item_geohash,item_category
+327414838,,11991
+169831798,,7876
+320523991,,3370
+......
+</code></pre><p>这个文件约有44万条数据，是<code>tianchi_mobile_recommend_train_user.csv</code>中出现的item的一个子集。官方的第32天的会发生购买的<code>user, item</code>中的item都是这个文件中的item，所以我们预测的<code>user, item</code>需要根据这个文件来过滤掉一些结果。</p>
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><p>这个预测，可以考虑预测<strong>发生过交互行为</strong>的<code>user, item</code>会不会在第32天购买，也可以预测<strong>没有发生过交互行为</strong>的<code>user, item</code>会不会在第32天购买。笔者这一次只考虑了<strong>发生过交互行为</strong>的<code>user, item</code>。我们要有一份自己的训练集和测试集来评估自己的模型（算法），当觉得自己的模型比较好了，就可以拿着模型去预测了。</p>
+<h2 id="清洗数据"><a href="#清洗数据" class="headerlink" title="清洗数据"></a>清洗数据</h2><p>比如去除总的交互次数很低（低于2或者低于3或者…）的<code>user, item</code>，去除最后10天没有发生交互的<code>user, item</code>。还可以继续删除，比如双12的所有数据。不过删多了可不一定好。</p>
+<h2 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h2><blockquote>
+<p>一个简单算法在精心选择的特征上的效果比一个漂亮的算法在较差的特征上的效果还要好。</p>
+</blockquote>
+<p>如何构造特征很重要，特征构造得好，同一算法下准确率也可以提升很多。个人认为构造特征是这次比赛中最重要的任务。</p>
+<p>以<a href="http://zh.wikipedia.org/wiki/%E5%AE%89%E5%BE%B7%E6%A3%AE%E9%B8%A2%E5%B0%BE%E8%8A%B1%E5%8D%89%E6%95%B0%E6%8D%AE%E9%9B%86" target="_blank" rel="noopener">Iris数据集</a>为例，其默认提供了4个特征：花萼和花瓣的长度和宽度。对此我们可以构造更多的特征，例如<code>花萼宽度/花萼长度</code>、<code>花萼宽度/花瓣长度</code>、<code>花萼宽度×花萼长度</code>等等，只要觉得合理，就可以构造。</p>
+<p>另外，特征的优劣会影响到一些机器学习算法的效果，或者特征太多机器会跑不动。筛选特征可能会成为一个很重要的步骤。假设现在有100个有标号的样本，每个样本10个特征，可以通过下面几种方法：</p>
+<p><strong>方法1：</strong> 拿出两个特征对应的两个100维的向量，使用pearson相关系数、归一化互信息量等方法计算两个特征的相关性，如果相关性很高，可以考虑删除其中一个特征。</p>
+<p><strong>方法2：</strong> 利用决策树的内置的特征筛选方法筛选好的特征</p>
+<p><strong>方法3：</strong>特征递归消除。可以参考<a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html</a>。</p>
+<p>scikit-learn库提供了多个特征选择的方法，<a href="http://scikit-learn.org/stable/modules/feature_selection.html" target="_blank" rel="noopener">点这里</a>。 </p>
+<p>也可以考虑降维。<a href="http://scikit-learn.org/stable/modules/decomposition.html" target="_blank" rel="noopener">点这里</a>。</p>
+<p><strong>那么，一个<code>user, item</code>可以构造什么特征呢？</strong></p>
+<p>以前30天的所有数据为例（第31天有没有购买当作target）： 最后一天user有没有购买item、最后的4天user有没有购买item、最后的4天user有没有点击item、最后的4天user对item的点击量、最后的4到8天user对item的点击量，最后的4天user的点击量，最后的4天item的的点击量，最后的4天item的的购买量除最后的4天item的的点击量……  <strong>去年比赛的PPT中都讲到了这些</strong>。 另外,geohash也可以拿来生成特征，例如判断用户的最新位置和item最近的位置有多近；<code>cat_id</code>也可以考虑一下。再开个脑洞，将<code>user, item</code>的构造的某些特征进行聚类，样本所属的簇、样本离某个簇心的距离等也可以当作该样本的新特征。</p>
+<h2 id="训练集和测试集的构造"><a href="#训练集和测试集的构造" class="headerlink" title="训练集和测试集的构造"></a>训练集和测试集的构造</h2><p>基于上面的内容，现在可以构造训练集和测试集了。</p>
+<ul>
+<li>新数据集1： 将1-27天的数据拿出来做特征，第28天作为target。 -&gt; 用于训练  </li>
+<li>新数据集2： 将2-28天的数据拿出来做特征，第29天作为target。 -&gt; 用于训练  </li>
+<li>新数据集3： 将3-29天的数据拿出来做特征，第30天作为target。 -&gt; 用于训练</li>
+<li>新数据集4： 将4-30天的数据拿出来做特征，第31天作为target。 -&gt; 用于测试</li>
+<li>新数据集5： 将5-31天的数据拿出来做特征。 -&gt; 用于最终的预测。</li>
+</ul>
+<p><strong>正负样本比例问题：</strong> 对于上面生成的一个数据集，正例（target是购买）的数量只是几千，而负例上百万。只能说太不平衡了，不适合做训练集。可以这样做：将多个数据集的正例放在一起以增加正例数量；对负例进行随机采样。可以考虑生成多个训练集来观察模型的稳定性。</p>
+<p><strong>如何评估模型：</strong> 用<code>新数据集4</code>做测试，其实只需要把<code>新数据集4</code>其中的正例拿出来，计算F1即可。如果这个F1做的比较好了，可以认为提交结果的F1也会很好。</p>
+<h2 id="分类还是回归？"><a href="#分类还是回归？" class="headerlink" title="分类还是回归？"></a>分类还是回归？</h2><p>很明显，这是一个二分类问题。不过如果只看做二分类，会出一些问题。举办方那边有约500条数据（从第32天的实际购买<code>user, item</code>抽取出来的）来计算参赛者提交数据的F1，如果你只预测了100个<code>user, item</code> 或者预测了2000条<code>user, item</code>，这些数据并不适合提交上去，提交的比较好的数据量是400~1200之间。</p>
+<p>利用回归来解决是个不错的思路。基于回归的预测结果可以简单看成user会购买item的概率，概率越高，购买的可能性越大。通过设置一个<code>阈值</code>就可以得到任意数量的提交结果了。</p>
+<h2 id="机器学习库、机器学习方法"><a href="#机器学习库、机器学习方法" class="headerlink" title="机器学习库、机器学习方法"></a>机器学习库、机器学习方法</h2><p>网上能找到很多机器学习库，例如scikit-learn、Spark MLlib、Apache Mahout、R等。</p>
+<p>上两个网址：<br><a href="http://www.infoq.com/cn/news/2014/12/11-machine-learning-project" target="_blank" rel="noopener">InfoQ：机器学习的11个开源项目</a><br><a href="http://www.zhihu.com/question/20472776" target="_blank" rel="noopener">知乎：请问学习机器学习有哪些好工具推荐呢？</a>  </p>
+<p>scikit-learn支持很多机器学习方法，列举一二：</p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank" rel="noopener">Logistic Regression</a>：分类器，<code>predict_proba()</code>函数可以当作回归来使用。</p>
+<p><a href="http://scikit-learn.org/stable/modules/tree.html#classification" target="_blank" rel="noopener">决策树 - 分类</a> </p>
+<p><a href="http://scikit-learn.org/stable/modules/tree.html#regression" target="_blank" rel="noopener">决策树 - 回归</a>  </p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html" target="_blank" rel="noopener">随机森林 - 分类</a>  </p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html" target="_blank" rel="noopener">随机森林 - 回归</a>  </p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html" target="_blank" rel="noopener">GBDT - 分类</a></p>
+<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html" target="_blank" rel="noopener">GBDT - 回归</a>  </p>
+<p>Spark 的机器学习库<a href="http://spark.apache.org/mllib/" target="_blank" rel="noopener">MLlib</a>提供的方法也不少，可以进入<a href="http://spark.apache.org/docs/latest/mllib-guide.html" target="_blank" rel="noopener">Machine Learning Library (MLlib) Guide</a>了解一下。</p>
+<p>只用1个算法去预测的队伍应该挺多，也可以考虑多个经典机器学习算法融合到一起（<a href="http://en.wikipedia.org/wiki/Ensemble_learning" target="_blank" rel="noopener">Ensemble learning</a>）。</p>
+<p><strong>参数调优</strong><br>每个模型都有很多参数，参数的选择也会影响到最后的效果。思路：</p>
+<p>1、手动调参数；<br>2、枚举一些参数值，一个个测试；<br>3、遗传算法、粒子群算法等。  </p>
+<p><strong>方差和偏差问题</strong></p>
+<p>训练后的模型测试的效果很差，叫做高偏差，这往往意味着模型太简单。解决方法是：增加更多特征、使用别的模型、使用更复杂的模型等。</p>
+<p>同一模型，用随机采样的多个数据集训练并测试的多个结果相差很大，叫做高方差，这往往意味着模型太复杂，导致了过拟合。解决方法是：使用更多数据、降低模型复杂度等。</p>
+<h2 id="单机还是集群？"><a href="#单机还是集群？" class="headerlink" title="单机还是集群？"></a>单机还是集群？</h2><p>这次比赛数据量偏大，要不加内存，要不用集群。</p>
+<h2 id="提交多少数据？"><a href="#提交多少数据？" class="headerlink" title="提交多少数据？"></a>提交多少数据？</h2><p>同一模型、同一训练集得到的预测结果，通过<code>阈值</code>可以得到不同数量的结果，提交1000条结果和提交600条结果的F1分数可能差距很大，提交600条结果和提交560条结果的F1分数也可能差距很大。如果模型做得足够好的话，提交400～1000条数据都能得到很好的F1分数；如果模型方面到瓶颈了，就需要好好考虑提交多少条数据比较好了。</p>
+<h2 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h2><p>使用MapReduce对数据做预处理。<br>存储基本特征、中间结果等考虑使用数据库（MySQL或者MongoDB）。</p>
+<h2 id="如何查找作弊现象"><a href="#如何查找作弊现象" class="headerlink" title="如何查找作弊现象"></a>如何查找作弊现象</h2><p>想了想，可以是下面的一些方法：<br>1、两个队伍提交的数据完全相同（先排序，再求编辑距离）<br>2、两个队伍提交时使用的IP相同，但是不同的队伍可能用同一个代理<br>3、一个浏览器提交了多个队伍的数据（在浏览器中加入cookie）<br>4、实名认证<br>5、提交代码，代码查重  </p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>收获很多，自己在机器学习这方面还有很大进步空间。</p>
+<p>学习并使用了Spark的MLlib。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2015-05-17-alibaba-mobile-recommend-competition-summary/" title="2015阿里移动推荐算法比赛第一赛季总结">http://www.letiantian.me/2015-05-17-alibaba-mobile-recommend-competition-summary/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/topic-learn-mybatis-from-scratch/" rel="next" title="专题：浅入浅出MyBatis">
+                <i class="fa fa-chevron-left"></i> 专题：浅入浅出MyBatis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/topic-learn-flask/" rel="prev" title="专题：浅入浅出Flask框架">
+                专题：浅入浅出Flask框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比赛题目"><span class="nav-text">比赛题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路"><span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清洗数据"><span class="nav-text">清洗数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征工程"><span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集和测试集的构造"><span class="nav-text">训练集和测试集的构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类还是回归？"><span class="nav-text">分类还是回归？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习库、机器学习方法"><span class="nav-text">机器学习库、机器学习方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机还是集群？"><span class="nav-text">单机还是集群？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交多少数据？"><span class="nav-text">提交多少数据？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他工具"><span class="nav-text">其他工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查找作弊现象"><span class="nav-text">如何查找作弊现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

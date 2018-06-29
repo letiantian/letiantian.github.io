@@ -1,0 +1,1056 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下源码安装MySQL">
+<meta property="og:url" content="http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-06-21T09:47:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu下源码安装MySQL">
+<meta name="twitter:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>ubuntu下源码安装MySQL | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ubuntu下源码安装MySQL</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-14T14:30:14+08:00">
+                2014-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-07-14</p>
+<p>在<a href="http://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/mysql/</a>下载源码包。我下载的是<code>mysql-5.6.19.tar.gz</code>。</p>
+<a id="more"></a>
+<p>我的目标是将其安装在当前目录（<code>mysql-5.6.19.tar.gz</code>所在目录）下的<code>mysql5.6</code>目录中。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><hr>
+<pre><code>$ sudo apt-get install cmake
+$ sudo apt-get install bison
+$ sudo apt-get install libncurses5-dev
+</code></pre><p>定位libncurses.so：</p>
+<pre><code>$ locate libncurses.so
+/lib/x86_64-linux-gnu/libncurses.so.5
+/lib/x86_64-linux-gnu/libncurses.so.5.9
+</code></pre><h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><hr>
+<pre><code>$ sudo groupadd mysql
+$ sudo useradd -r -g mysql mysql
+</code></pre><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><hr>
+<p>解压<code>mysql-5.6.19.tar.gz</code>。</p>
+<pre><code>$ tar -xvf mysql-5.6.19.tar.gz  #解压到目录mysql-5.6.19中
+</code></pre><p>创建安装目录：</p>
+<pre><code>$ mkdir mysql5.6
+</code></pre><p>进入<code>mysql-5.6.19</code>：</p>
+<pre><code>$ cd mysql-5.6.19
+</code></pre><p>编译安装：</p>
+<p>执行下面的命令：</p>
+<pre><code class="shell">cmake -DCMAKE_INSTALL_PREFIX=../mysql5.6  -DMYSQL_DATADIR=../mysql5.6/data -DSYSCONFDIR=../mysql5.6 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=/tmp/mysqld.sock  -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DCURSES_LIBRARY=/lib/x86_64-linux-gnu/libncurses.so.5  -DCURSES_INCLUDE_PATH=/usr/include
+</code></pre>
+<p>或者下面这样（更易读）：</p>
+<pre><code>$ cmake \
+-DCMAKE_INSTALL_PREFIX=../mysql5.6  \
+-DMYSQL_DATADIR=../mysql5.6/data       \
+-DSYSCONFDIR=../mysql5.6               \  
+-DWITH_MYISAM_STORAGE_ENGINE=1       \
+-DWITH_INNOBASE_STORAGE_ENGINE=1     \
+-DWITH_MEMORY_STORAGE_ENGINE=1      \
+-DWITH_READLINE=1                      \
+-DMYSQL_UNIX_ADDR=/tmp/mysqld.sock  \
+-DMYSQL_TCP_PORT=3306               \
+-DENABLED_LOCAL_INFILE=1               \
+-DWITH_PARTITION_STORAGE_ENGINE=1      \
+-DEXTRA_CHARSETS=all                   \
+-DDEFAULT_CHARSET=utf8                 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DCURSES_LIBRARY=/lib/x86_64-linux-gnu/libncurses.so.5  \
+-DCURSES_INCLUDE_PATH=/usr/include
+$ make
+$ make install
+</code></pre><p>参数含义以及更多参数，可以参考<a href="http://dev.mysql.com/doc/refman/5.6/en/source-configuration-options.html" target="_blank" rel="noopener">2.8.4 MySQL Source-Configuration Options</a>。</p>
+<h3 id="后续处理"><a href="#后续处理" class="headerlink" title="后续处理"></a>后续处理</h3><hr>
+<pre><code>$ cd ../mysql5.6
+$ sudo chown -R mysql:mysql .
+$ sudo chown -R root:mysql .
+$ sudo scripts/mysql_install_db --user=mysql
+</code></pre><p>另外，需要将<code>bin/</code>目录加入PATH。</p>
+<h3 id="添加service文件"><a href="#添加service文件" class="headerlink" title="添加service文件"></a>添加service文件</h3><hr>
+<pre><code>$ sudo cp support-files/mysql.server /etc/init.d/mysql.server
+</code></pre><h3 id="启动mysql"><a href="#启动mysql" class="headerlink" title="启动mysql"></a>启动mysql</h3><hr>
+<pre><code>$ sudo bin/mysqld_safe --user=mysql &amp;
+</code></pre><p>或者：</p>
+<pre><code>$ sudo service mysql.server start
+</code></pre><h3 id="查看mysql是否启动"><a href="#查看mysql是否启动" class="headerlink" title="查看mysql是否启动"></a>查看mysql是否启动</h3><hr>
+<pre><code>$ netstat -tnl|grep 3306
+</code></pre><p>或者</p>
+<pre><code>$ ps -ef | grep &#39;mysql&#39;
+</code></pre><h3 id="设置root密码"><a href="#设置root密码" class="headerlink" title="设置root密码"></a>设置root密码</h3><hr>
+<p>在一个终端中，使用下面的命令启动mysql服务：</p>
+<pre><code>$ sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;
+</code></pre><p>启动mysql后，</p>
+<pre><code>$ mysql -u root mysql
+mysql&gt; UPDATE user SET Password=PASSWORD(&#39;newpassword&#39;) where USER=&#39;root&#39;;
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; quit
+</code></pre><h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><hr>
+<p>错误：</p>
+<pre><code>bash &gt;&gt; mysql -uroot -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.6.19 Source distribution
+
+Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Segmentation fault
+</code></pre><p>解决方法：<br>在<code>cmd-line-utils/libedit/terminal.c</code>中找到</p>
+<pre><code>terminal_set(EditLine *el, const char *term)
+{
+    int i;
+    char buf[TC_BUFSIZE];
+    char *area;
+    const struct termcapstr *t;
+    sigset_t oset, nset;
+    int lins, cols;
+
+    (void) sigemptyset(&amp;nset);
+    (void) sigaddset(&amp;nset, SIGWINCH);
+    (void) sigprocmask(SIG_BLOCK, &amp;nset, &amp;oset);
+
+    area = buf;
+</code></pre><p>将其改成：</p>
+<pre><code>terminal_set(EditLine *el, const char *term)
+{
+    int i;
+    //char buf[TC_BUFSIZE];
+    char *area;
+    const struct termcapstr *t;
+    sigset_t oset, nset;
+    int lins, cols;
+
+    (void) sigemptyset(&amp;nset);
+    (void) sigaddset(&amp;nset, SIGWINCH);
+    (void) sigprocmask(SIG_BLOCK, &amp;nset, &amp;oset);
+
+    //area = buf;
+    area = NULL;
+</code></pre><p>重新编译安装即可。</p>
+<h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><hr>
+<p>错误：</p>
+<pre><code>bash &gt;&gt; sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;
+sudo: mysqld_safe: command not found
+</code></pre><p><a href="http://superuser.com/questions/709515/command-not-found-when-using-sudo" target="_blank" rel="noopener">command not found when using sudo</a>给出的原因是：</p>
+<blockquote>
+<p>$PATH is evaluated by your shell, so your check doesn’t work as you expect it to.</p>
+<p>/etc/sudoers is configured to replace your PATH with a default one.</p>
+<p>sudo does not load a login shell environment before executing the command, so the default PATH from /etc/sudoers is used. su - does open a login shell, which involves loading /etc/profile. See man bash, section INVOCATION.</p>
+</blockquote>
+<p>解决方法是，打开/etc/sudoers，找到：</p>
+<pre><code>Defaults    secure_path=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;
+</code></pre><p>把mysql下bin目录的绝对路径添加进去。</p>
+<h3 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h3><hr>
+<p>开始时，安装完后，我是使用下面的方式做的后续处理：</p>
+<pre><code>$ cd ../mysql5.6
+$ sudo scripts/mysql_install_db --user=mysql
+$ sudo chown -R mysql:mysql .
+$ sudo chown -R root:mysql .
+</code></pre><p>不过启动的时候报错：</p>
+<pre><code>mysql The server quit without updating PID file
+</code></pre><p>解决方法是使用下面的顺序进行后续处理：</p>
+<pre><code>$ cd ../mysql5.6
+$ sudo chown -R mysql:mysql .
+$ sudo chown -R root:mysql .
+$ sudo scripts/mysql_install_db --user=mysql
+</code></pre><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><hr>
+<p><a href="http://superuser.com/questions/709515/command-not-found-when-using-sudo" target="_blank" rel="noopener">command not found when using sudo</a><br><a href="http://blog.chinaunix.net/uid-20463876-id-4058155.html" target="_blank" rel="noopener">MySQL安装完成后首次登陆 报错 Segmentation fault</a><br><a href="http://blog.csdn.net/kafeidev/article/details/8139522" target="_blank" rel="noopener">ubuntu下mysql无法启动Couldn’t find MySQL server (/usr/bin/mysqld_safe)”</a><br><a href="http://dev.mysql.com/doc/refman/5.0/en/source-configuration-options.html" target="_blank" rel="noopener">2.17.3 MySQL Source-Configuration Options</a><br><a href="http://dev.mysql.com/doc/refman/5.6/en/installing-source-distribution.html" target="_blank" rel="noopener">2.8.2 Installing MySQL Using a Standard Source Distribution</a><br><a href="http://blog.csdn.net/zqtsx/article/details/9378703" target="_blank" rel="noopener">Linux源码安装mysql 5.6.12 （cmake编译）</a><br><a href="http://blog.csdn.net/westmaniac/article/details/6535000" target="_blank" rel="noopener">Linux源码安装mysql 5.5.13 （cmake编译）</a><br><a href="http://www.cnblogs.com/rooney/archive/2012/06/19/2554581.html" target="_blank" rel="noopener">解决Could NOT find Curses (missing: CURSES_LIBRARY CURSES_INCLUDE_PATH)</a><br><a href="http://arstechnica.com/civis/viewtopic.php?f=19&amp;t=1119442" target="_blank" rel="noopener">Where to set environment variables to work with sudo?</a><br><a href="http://www.111cn.net/database/mysql/44142.htm" target="_blank" rel="noopener">mysql Access denied for user root@localhost错误解决方法总结</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/" title="ubuntu下源码安装MySQL">http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-07-12-ffmpeg-avconv/" rel="next" title="使用ffmpeg/avconv处理音频、视频">
+                <i class="fa fa-chevron-left"></i> 使用ffmpeg/avconv处理音频、视频
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-07-24-c-int-pointer/" rel="prev" title="再学习c指针-int型指针及其他">
+                再学习c指针-int型指针及其他 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加用户"><span class="nav-text">添加用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后续处理"><span class="nav-text">后续处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加service文件"><span class="nav-text">添加service文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动mysql"><span class="nav-text">启动mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看mysql是否启动"><span class="nav-text">查看mysql是否启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置root密码"><span class="nav-text">设置root密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1"><span class="nav-text">问题1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2"><span class="nav-text">问题2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3"><span class="nav-text">问题3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>

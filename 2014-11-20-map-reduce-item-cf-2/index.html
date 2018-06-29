@@ -1,0 +1,965 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="云计算,机器学习," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2014-11-20 我在如何使用MapReduce实现基于物品的协同过滤（1）中介绍了一种通过基于物品的协同过滤向用户推荐电影的方法。不过，如何使用MapReduce实现基于物品的协同过滤（1）中使用的方法和我之前在文章基于物品的协同过滤介绍的方法有很大的不同。基于物品的协同过滤不仅可以用于推荐系统，也可以用于预测用户对电影的评分。其实就是根据预测的用户对电影的评分向用户推荐电影，因为用户肯定会">
+<meta name="keywords" content="云计算,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用MapReduce实现基于物品的协同过滤（2）">
+<meta property="og:url" content="http://www.letiantian.me/2014-11-20-map-reduce-item-cf-2/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="2014-11-20 我在如何使用MapReduce实现基于物品的协同过滤（1）中介绍了一种通过基于物品的协同过滤向用户推荐电影的方法。不过，如何使用MapReduce实现基于物品的协同过滤（1）中使用的方法和我之前在文章基于物品的协同过滤介绍的方法有很大的不同。基于物品的协同过滤不仅可以用于推荐系统，也可以用于预测用户对电影的评分。其实就是根据预测的用户对电影的评分向用户推荐电影，因为用户肯定会">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2015-05-17T02:54:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用MapReduce实现基于物品的协同过滤（2）">
+<meta name="twitter:description" content="2014-11-20 我在如何使用MapReduce实现基于物品的协同过滤（1）中介绍了一种通过基于物品的协同过滤向用户推荐电影的方法。不过，如何使用MapReduce实现基于物品的协同过滤（1）中使用的方法和我之前在文章基于物品的协同过滤介绍的方法有很大的不同。基于物品的协同过滤不仅可以用于推荐系统，也可以用于预测用户对电影的评分。其实就是根据预测的用户对电影的评分向用户推荐电影，因为用户肯定会">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/2014-11-20-map-reduce-item-cf-2/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>如何使用MapReduce实现基于物品的协同过滤（2） | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62535551";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-11-20-map-reduce-item-cf-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用MapReduce实现基于物品的协同过滤（2）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-11-20T21:27:13+08:00">
+                2014-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/云计算/" itemprop="url" rel="index">
+                    <span itemprop="name">云计算</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2014-11-20</p>
+<p>我在<a href="/2014-11-20-map-reduce-item-cf-1">如何使用MapReduce实现基于物品的协同过滤（1）</a>中介绍了一种通过<code>基于物品的协同过滤</code>向用户推荐电影的方法。不过，<a href="/2014-11-20-mapreduce-item-cf-1">如何使用MapReduce实现基于物品的协同过滤（1）</a>中使用的方法和我之前在文章<a href="/2014-03-27-item-cf/">基于物品的协同过滤</a>介绍的方法有很大的不同。<a href="/2014-03-27-item-cf/">基于物品的协同过滤</a>不仅可以用于推荐系统，也可以用于预测用户对电影的评分。其实就是根据预测的用户对电影的评分向用户推荐电影，因为用户肯定会喜欢自己评分较高的电影。</p>
+<p>本文讲讲如何使用MapReduce实现该方法，建议先阅读上文中提到的两篇文章。</p>
+<p>在<a href="/2014-11-19-map-reduce-matrix-multiplication/">如何使用MapRedue实现矩阵乘法</a>中我介绍了两种矩阵乘法的实现，本文中使用其中的<strong>实现方案2</strong>。</p>
+<h2 id="修改评分矩阵R的存储形式"><a href="#修改评分矩阵R的存储形式" class="headerlink" title="修改评分矩阵R的存储形式"></a>修改评分矩阵R的存储形式</h2><hr>
+<p>MovieLens数据集中每一行是这样存储的：</p>
+<pre><code>user_id | item_id | rating
+</code></pre><p>我们需要把它转换成这样的形式：</p>
+<pre><code>item_id_x  user_id_1:rating, user_id_2:rating, ...
+</code></pre><p>即，每一行的键是一部电影的id，值是所有用户对该电影的评分（未评分的用户除外）。</p>
+<p>使用MapReduce实现这一步比较简单，不做描述。</p>
+<h2 id="计算物品（电影）之间的相似度矩阵S"><a href="#计算物品（电影）之间的相似度矩阵S" class="headerlink" title="计算物品（电影）之间的相似度矩阵S"></a>计算物品（电影）之间的相似度矩阵S</h2><hr>
+<p>Map的输入：</p>
+<pre><code>key: item_id_x  
+value: user_id_1:rating, user_id_2:rating, ...
+</code></pre><p>Map的输出：</p>
+<pre><code>key: item_id_x, item_id_1  value: first, (user_id_1:rating, user_id_2:rating, ...)
+key: item_id_x, item_id_2  value: first, (user_id_1:rating, user_id_2:rating, ...)
+key: item_id_x, item_id_3  value: first, (user_id_1:rating, user_id_2:rating, ...)
+......
+key: item_id_1, item_id_x  value: second, (user_id_1:rating, user_id_2:rating, ...)
+key: item_id_2, item_id_x  value: second, (user_id_1:rating, user_id_2:rating, ...)
+key: item_id_3, item_id_x  value: second, (user_id_1:rating, user_id_2:rating, ...)
+......
+</code></pre><p>Reduce的输入：</p>
+<pre><code>key: item_id_x, item_id_y
+values: &lt;first, 所有用户对电影item_id_x的评分&gt;，&lt;second, 所有用户对电影item_id_y的评分&gt;
+</code></pre><p>Reduce根据所有用户对电影<code>item_id_x</code>的评分和所有用户对电影<code>item_id_y</code>的评分这两个向量计算电影<code>item_id_x</code>与电影<code>item_id_y</code>的相似度。</p>
+<p>Reduce的输出：</p>
+<pre><code>key: item_id_x, item_id_y
+value: 两者的相似度
+</code></pre><p>由此，相似度矩阵S就出来了。</p>
+<h2 id="相似度矩阵通过评分矩阵求推荐值"><a href="#相似度矩阵通过评分矩阵求推荐值" class="headerlink" title="相似度矩阵通过评分矩阵求推荐值"></a>相似度矩阵通过评分矩阵求推荐值</h2><hr>
+<p>这一步骤类似于<a href="/2014-11-19-map-reduce-matrix-multiplication/">如何使用MapRedue实现矩阵乘法</a>中的<strong>实现方案2</strong>。<br>在<a href="/2014-11-19-map-reduce-matrix-multiplication/">如何使用MapRedue实现矩阵乘法</a>中<code>C=A*B</code>，在这里S对应A，R对应B。Map阶段是类似的，不做介绍。由于</p>
+<p>由于文章<a href="/2014-03-27-item-cf/">基于物品的协同过滤</a>中用到了加权平均值，所以Reduce阶段有些不同。</p>
+<p>Reduce的输入：</p>
+<pre><code>key: item_id_x, user_id_y
+value: 所有电影与电影item_id_x的相似度，用户user_id_y对所有电影的评分
+</code></pre><p>设所有电影与电影<code>item_id_x</code>的相似度构成行向量<code>v</code>，<code>v[i]</code>表示电影<code>item_id_i</code>与电影<code>item_id_x</code>的相似度。设用户<code>user_id_y</code>对所有电影的评分构成列向量<code>w</code>，<code>w[i]</code>表示用户<code>user_id_y</code>对电影<code>item_id_i</code>的评分，0表示没有评分。</p>
+<p>我们预测的用户<code>user_id_y</code>对电影<code>item_id_x</code>的评分用matlab类型的代码可表示为：</p>
+<pre><code class="no-highlight">(v*w) /(v*(w&gt;0))
+</code></pre>
+<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><hr>
+<p>这一步是过滤掉用户评价过的电影，在<a href="/2014-11-20-map-reduce-item-cf-1">如何使用MapReduce实现基于物品的协同过滤（1）</a>已经做了介绍。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/2014-11-20-map-reduce-item-cf-2/" title="如何使用MapReduce实现基于物品的协同过滤（2）">http://www.letiantian.me/2014-11-20-map-reduce-item-cf-2/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014-11-20-map-reduce-item-cf-1/" rel="next" title="如何使用MapReduce实现基于物品的协同过滤（1）">
+                <i class="fa fa-chevron-left"></i> 如何使用MapReduce实现基于物品的协同过滤（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014-11-25-how-to-persistent-the-trained-model-of-scikit-learn/" rel="prev" title="如何持久化scikit-learn中训练好的模型">
+                如何持久化scikit-learn中训练好的模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改评分矩阵R的存储形式"><span class="nav-text">修改评分矩阵R的存储形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算物品（电影）之间的相似度矩阵S"><span class="nav-text">计算物品（电影）之间的相似度矩阵S</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相似度矩阵通过评分矩阵求推荐值"><span class="nav-text">相似度矩阵通过评分矩阵求推荐值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤"><span class="nav-text">过滤</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>
