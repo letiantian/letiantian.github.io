@@ -896,9 +896,9 @@ nihao:你好:0.6
         
         <tags>
             
-            <tag> 机器学习 </tag>
-            
             <tag> 算法 </tag>
+            
+            <tag> 机器学习 </tag>
             
         </tags>
         
@@ -26327,135 +26327,6 @@ RewriteRule ^(.*)$ index.php/$1 [L]
     </entry>
     
     <entry>
-      <title><![CDATA[方法链]]></title>
-      <url>/2013-09-15-method-chains/</url>
-      <content type="html"><![CDATA[<p>2013-09-15</p>
-<p>在使用jQuery时候，我们经常会看到或者使用到方法链，例如：</p>
-<pre><code>$(&quot;#p1&quot;).css(&quot;color&quot;,&quot;red&quot;).slideUp(2000).slideDown(2000);
-</code></pre><p>这段代码的意思是选择器选择id为p1的html标签，颜色变红，之后slideup，再slidedown。 </p>
-<p>自然是可以将这几个方法分开写，但是不分开的话不仅有很好的易读性，代码量也会有减少，那么何乐而不为？<br>这种调用函数的方式在jQuery中称为“Chaining”，原理也很简单：能够chaining的方法调用后返回对象本身即可。  </p>
-<a id="more"></a>
-<p>下面用java代码做个演示：  </p>
-<h2 id="不使用chaining："><a href="#不使用chaining：" class="headerlink" title="不使用chaining："></a>不使用chaining：</h2><hr>
-<p>Persion.java：</p>
-<pre><code>public class Persion {
-    private int id;
-    private String name;
-    private String phoneNumber;
-    private String address;
-    public  Persion() {
-
-    }
-    public void setId(int id) { 
-        this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    public void printId() {
-        System.out.println(this.id);
-    }
-    public void printName() {
-        System.out.println(this.name);
-    }
-    public void printPhoneNumber() {
-        System.out.println(this.phoneNumber);
-    }
-    public void printAddress() {
-        System.out.println(this.address);
-    }
-}
-</code></pre><p>Test.java：</p>
-<pre><code>public class Test {
-    public static void main(String[] args) {
-        Persion persion1 = new Persion();
-        persion1.setId(3);
-        persion1.setName(&quot;John&quot;);
-        persion1.setPhoneNumber(&quot;1111111&quot;);
-        persion1.setAddress(&quot;US&quot;);
-        persion1.printId();
-        persion1.printName(); 
-        persion1.printPhoneNumber();
-        persion1.printAddress();
-    }
-}
-</code></pre><h2 id="有chaining："><a href="#有chaining：" class="headerlink" title="有chaining："></a>有chaining：</h2><hr>
-<p>Persion.java：</p>
-<pre><code>public class Persion {
-    private int id;
-    private String name;
-    private String phoneNumber;
-    private String address;
-    public  Persion() {
-
-    }
-    public Persion setId(int id) { 
-        this.id = id;
-        return this;
-    }
-    public Persion setName(String name) {
-        this.name = name;
-        return this;
-    }
-    public Persion setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-    public Persion setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-    public Persion printId() {
-        System.out.println(this.id);
-        return this;
-    }
-    public Persion printName() {
-        System.out.println(this.name);
-        return this;
-    }
-    public Persion printPhoneNumber() {
-        System.out.println(this.phoneNumber);
-        return this;
-    }
-    public Persion printAddress() {
-        System.out.println(this.address);
-        return this;
-    }
-}
-</code></pre><p>Test.java：</p>
-<pre><code>public class Test {
-    public static void main(String[] args) {
-        Persion persion1 = new Persion();
-        persion1.setId(3).setName(&quot;John&quot;)
-                .setPhoneNumber(&quot;1111111&quot;).setAddress(&quot;US&quot;);
-        persion1.printId()
-                .printName()
-                .printPhoneNumber()
-                .printAddress();
-    }
-}
-</code></pre>]]></content>
-      
-        
-        <tags>
-            
-            <tag> 编程实践 </tag>
-            
-            <tag> java </tag>
-            
-            <tag> jquery </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[给自己写一个php框架(1)]]></title>
       <url>/2013-09-15-write-php-framework-1/</url>
       <content type="html"><![CDATA[<p>2013-09-15</p>
@@ -26608,6 +26479,135 @@ $render-&gt;show();
             <tag> php </tag>
             
             <tag> mvc </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[方法链]]></title>
+      <url>/2013-09-15-method-chains/</url>
+      <content type="html"><![CDATA[<p>2013-09-15</p>
+<p>在使用jQuery时候，我们经常会看到或者使用到方法链，例如：</p>
+<pre><code>$(&quot;#p1&quot;).css(&quot;color&quot;,&quot;red&quot;).slideUp(2000).slideDown(2000);
+</code></pre><p>这段代码的意思是选择器选择id为p1的html标签，颜色变红，之后slideup，再slidedown。 </p>
+<p>自然是可以将这几个方法分开写，但是不分开的话不仅有很好的易读性，代码量也会有减少，那么何乐而不为？<br>这种调用函数的方式在jQuery中称为“Chaining”，原理也很简单：能够chaining的方法调用后返回对象本身即可。  </p>
+<a id="more"></a>
+<p>下面用java代码做个演示：  </p>
+<h2 id="不使用chaining："><a href="#不使用chaining：" class="headerlink" title="不使用chaining："></a>不使用chaining：</h2><hr>
+<p>Persion.java：</p>
+<pre><code>public class Persion {
+    private int id;
+    private String name;
+    private String phoneNumber;
+    private String address;
+    public  Persion() {
+
+    }
+    public void setId(int id) { 
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public void printId() {
+        System.out.println(this.id);
+    }
+    public void printName() {
+        System.out.println(this.name);
+    }
+    public void printPhoneNumber() {
+        System.out.println(this.phoneNumber);
+    }
+    public void printAddress() {
+        System.out.println(this.address);
+    }
+}
+</code></pre><p>Test.java：</p>
+<pre><code>public class Test {
+    public static void main(String[] args) {
+        Persion persion1 = new Persion();
+        persion1.setId(3);
+        persion1.setName(&quot;John&quot;);
+        persion1.setPhoneNumber(&quot;1111111&quot;);
+        persion1.setAddress(&quot;US&quot;);
+        persion1.printId();
+        persion1.printName(); 
+        persion1.printPhoneNumber();
+        persion1.printAddress();
+    }
+}
+</code></pre><h2 id="有chaining："><a href="#有chaining：" class="headerlink" title="有chaining："></a>有chaining：</h2><hr>
+<p>Persion.java：</p>
+<pre><code>public class Persion {
+    private int id;
+    private String name;
+    private String phoneNumber;
+    private String address;
+    public  Persion() {
+
+    }
+    public Persion setId(int id) { 
+        this.id = id;
+        return this;
+    }
+    public Persion setName(String name) {
+        this.name = name;
+        return this;
+    }
+    public Persion setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+    public Persion setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+    public Persion printId() {
+        System.out.println(this.id);
+        return this;
+    }
+    public Persion printName() {
+        System.out.println(this.name);
+        return this;
+    }
+    public Persion printPhoneNumber() {
+        System.out.println(this.phoneNumber);
+        return this;
+    }
+    public Persion printAddress() {
+        System.out.println(this.address);
+        return this;
+    }
+}
+</code></pre><p>Test.java：</p>
+<pre><code>public class Test {
+    public static void main(String[] args) {
+        Persion persion1 = new Persion();
+        persion1.setId(3).setName(&quot;John&quot;)
+                .setPhoneNumber(&quot;1111111&quot;).setAddress(&quot;US&quot;);
+        persion1.printId()
+                .printName()
+                .printPhoneNumber()
+                .printAddress();
+    }
+}
+</code></pre>]]></content>
+      
+        
+        <tags>
+            
+            <tag> 编程实践 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> jquery </tag>
             
         </tags>
         
