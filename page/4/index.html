@@ -310,6 +310,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-05-16-ghost-production-mode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014-05-16-ghost-production-mode/" itemprop="url">以生产模式运行Ghost博客系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-16T09:00:00+08:00">
+                2014-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/日常记录/" itemprop="url" rel="index">
+                    <span itemprop="name">日常记录</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>2014-05-16</p>
+<p>本文翻译自：<a href="http://ghost.pellegrom.me/running-ghost-in-production-mode/。" target="_blank" rel="noopener">http://ghost.pellegrom.me/running-ghost-in-production-mode/。</a></p>
+<p>在Ghost的配置文件 <code>config.js</code>中，你可能注意到了里面指定了多种运行模式：开发模式（默认），生产模式和测试模式等。这种配置方式是一种很好的实践，因为这意味着当你将Ghost部署到服务器中时不必重写配置项。</p>
+<p>那么如何将Ghost运行于“生产模式”下呢？下文中给出了几种方法。</p>
+<a id="more"></a>
+<p>如果使用的是Linux系统，可以在运行Ghost之前在终端中输入：</p>
+<pre><code>export NODE_ENV=production
+</code></pre><p>或者可以在运行的时候直接设定NODE_ENV变量：</p>
+<pre><code>NODE_ENV=production npm start
+</code></pre><p>在<a href="http://ghost.pellegrom.me/installing-ghost-on-ubuntu/" target="_blank" rel="noopener">installing Ghost on Ubuntu</a>中给出了一个upstart脚本使得Ghost能作为service启动。在这个脚本中，使用如下方式设置了<code>NODE_ENV</code>变量：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2014-05-16-ghost-production-mode/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-05-16-ubuntu-install-ghost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -8691,209 +8847,6 @@ sudo service ssh start|stop
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-10-31-velocity-template/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/content/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2013-10-31-velocity-template/" itemprop="url">试用velocity模板引擎</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-10-31T19:20:00+08:00">
-                2013-10-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-tags"></i>
-              </span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/web/" itemprop="url" rel="index">
-                    <span itemprop="name">web</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/mvc/" itemprop="url" rel="index">
-                    <span itemprop="name">mvc</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>2013-10-31</p>
-<p>velocity使用1.7版本。<br>在win7下使用intelliJ IDEA建立一基于tomcat的web app项目，命名为todo_web，设置path为/todo，导入velocity相关jar包。只导入velocity-1.7.jar这个包可能会报错，根据提示再导入velocity自带的其他包。<br>项目结构如下：</p>
-<p><img src="/content/images/2013/10/2013-10-31-velocity.png" alt="image"></p>
-<a id="more"></a>
-<h2 id="测试Tomcat"><a href="#测试Tomcat" class="headerlink" title="测试Tomcat"></a>测试Tomcat</h2><hr>
-<p>index.jsp内容如下：</p>
-<pre><code>&lt;%-- Created by IntelliJ IDEA. --%&gt;
-&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-           &lt;%
-               out.print(&quot;hi,todo&quot;);
-           %&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>HelloWorld.java内容如下：</p>
-<pre><code>import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;    
-public class HelloWorld extends HttpServlet {
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
-     */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        response.setContentType(&quot;text/html&quot;);
-        PrintWriter out = response.getWriter();
-        out.println(&quot;&lt;html&gt;&quot;);
-        out.println(&quot;&lt;head&gt;&quot;);
-        out.println(&quot;&lt;title&gt;Hi!&lt;/title&gt;&quot;);
-        out.println(&quot;&lt;/head&gt;&quot;);
-        out.println(&quot;&lt;body&gt;&quot;);
-        out.println(&quot;&lt;h1&gt;Hello World!!!&lt;/h1&gt;&quot;);
-        out.println(&quot;&lt;/body&gt;&quot;);
-        out.println(&quot;&lt;/html&gt;&quot;);
-    }
-}
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2013-10-31-velocity-template/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -8943,7 +8896,7 @@ public class HelloWorld extends HttpServlet {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">211</span>
+                <span class="site-state-item-count">212</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -8956,7 +8909,7 @@ public class HelloWorld extends HttpServlet {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
