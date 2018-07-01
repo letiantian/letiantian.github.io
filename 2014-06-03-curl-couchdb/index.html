@@ -527,6 +527,7 @@ bash &gt;&gt; curl -X GET  http://127.0.0.1:5984/_all_dbs
 {&quot;uuids&quot;:[&quot;e30416a61033e6e488bf8e49c100035f&quot;]}
 bash &gt;&gt; curl -X PUT http://127.0.0.1:5984/albums/e30416a61033e6e488bf8e49c100035f  -d  &#39;{&quot;title&quot;:&quot;Letiantian&quot;,&quot;artist&quot;:&quot;hi.ltt&quot;}&#39;
 {&quot;ok&quot;:true,&quot;id&quot;:&quot;e30416a61033e6e488bf8e49c100035f&quot;,&quot;rev&quot;:&quot;1-462d3298f22df5850fd932fe124728c9&quot;}
+
 </code></pre><p>查询albums下的所有文档的信息：</p>
 <pre><code>bash &gt;&gt; curl -X GET http://127.0.0.1:5984/albums/_all_docs
 {

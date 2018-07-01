@@ -514,7 +514,7 @@ public RetryPolicy getRetryPolicy() {
         map.put(&quot;params2&quot;, &quot;value2&quot;);  
         return map;  
     }  
-};
+};  
 </code></pre>
 <p>数据的组装其实是在<code>getBody</code>方法里：</p>
 <pre><code class="java">public byte[] getBody() throws AuthFailureError {

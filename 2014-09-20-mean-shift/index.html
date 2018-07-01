@@ -92,17 +92,17 @@
 
 
 
-<meta name="description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center； 2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。 3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相加，得到">
+<meta name="description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center；   2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。   3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Mean Shift进行聚类">
 <meta property="og:url" content="http://www.letiantian.me/2014-09-20-mean-shift/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center； 2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。 3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相加，得到">
+<meta property="og:description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center；   2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。   3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T06:29:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Mean Shift进行聚类">
-<meta name="twitter:description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center； 2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。 3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相加，得到">
+<meta name="twitter:description" content="2014-09-20 Mean Shift，可以翻译为均值漂移。 假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：  1、在未被分类的数据点中随机选择一个点作为中心center；   2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。   3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相">
 
 
 
@@ -384,10 +384,20 @@
 <p>假设在一个多维空间中有很多数据点需要进行聚类，Mean Shift的过程如下：</p>
 <blockquote>
 <p>1、在未被分类的数据点中随机选择一个点作为中心center；</p>
+</blockquote>
+<blockquote>
 <p>2、找出离center距离在bandwidth之内的所有点，记做集合M，认为这些点属于簇c。</p>
+</blockquote>
+<blockquote>
 <p>3、以center为中心点，计算从center开始到集合M中每个元素的向量，将这些向量相加，得到向量shift。</p>
+</blockquote>
+<blockquote>
 <p>4、center = center+shift。即center沿着shift的方向移动，移动距离是||shift||。</p>
+</blockquote>
+<blockquote>
 <p>5、重复步骤2、3、4，直到shift的大小很小（就是迭代到收敛），记住此时的center。注意，这个迭代过程中遇到的点都应该归类到簇c。如果收敛时的center已经被归类到c2，那么把c2和c合并。</p>
+</blockquote>
+<blockquote>
 <p>6、重复1、2、3、4、5直到所有的点都被归类。</p>
 </blockquote>
 <p>简单的说，mean shift就是沿着密度上升的方向寻找同属一个簇的数据点。</p>

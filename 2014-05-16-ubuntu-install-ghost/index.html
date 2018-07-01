@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。  1. 安装Node如果服务器是远程主机的话，可以使用ssh连接到远程主机。先执行下面的命令： sudo apt-get update">
+<meta name="description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。">
 <meta name="keywords" content="日常记录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Ubuntu中安装Ghost博客系统">
 <meta property="og:url" content="http://www.letiantian.me/2014-05-16-ubuntu-install-ghost/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。  1. 安装Node如果服务器是远程主机的话，可以使用ssh连接到远程主机。先执行下面的命令： sudo apt-get update">
+<meta property="og:description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T08:14:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu中安装Ghost博客系统">
-<meta name="twitter:description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。  1. 安装Node如果服务器是远程主机的话，可以使用ssh连接到远程主机。先执行下面的命令： sudo apt-get update">
+<meta name="twitter:description" content="2014-05-16 本文翻译自：http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。 这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。">
 
 
 
@@ -431,6 +431,7 @@ sudo npm install
      host: &#39;mysite.com&#39;,
      port: &#39;80&#39;
  }
+
 </code></pre><p><code>config.js</code>中指定了多种运行模式，例如<code>development</code>、<code>production</code>，在生产环境中，应该修改<code>production</code>模式下的相应内容。<br>你可以在<code>development</code>对应的。要以指定环境运行Ghost，也可以通过<code>NODE_ENV</code>设置，例如：</p>
 <pre><code>NODE_ENV=production npm start
 </code></pre><h2 id="4-将Ghost作为服务-service-运行"><a href="#4-将Ghost作为服务-service-运行" class="headerlink" title="4. 将Ghost作为服务(service)运行"></a>4. 将Ghost作为服务(service)运行</h2><p>建立一个新的服务配置文件：</p>

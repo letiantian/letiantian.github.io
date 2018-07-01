@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。  如何在单机上为Hadoop配置伪分布式，请参考Hadoop1.2配置伪分布式。 Hive官网在这里。在hiv">
+<meta name="description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。">
 <meta name="keywords" content="云计算,大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为Hadoop1.2配备Hive">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-14-hadoop-1-2-hive/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。  如何在单机上为Hadoop配置伪分布式，请参考Hadoop1.2配置伪分布式。 Hive官网在这里。在hiv">
+<meta property="og:description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:32:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为Hadoop1.2配备Hive">
-<meta name="twitter:description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。  如何在单机上为Hadoop配置伪分布式，请参考Hadoop1.2配置伪分布式。 Hive官网在这里。在hiv">
+<meta name="twitter:description" content="2014-6-14 Apache Hive是建立在Hadoop基础上的数据仓库，为开发人员/使用人员提供了类似SQL的命令行接口。Hive本质上是就在HDFS和MapReduce之上进行了抽象，也就是说Hive的SQL语句会被转换成MapReduce任务，其处理的数据一般放在HDFS中。">
 
 
 
@@ -420,7 +420,7 @@
 <pre><code>export HIVE_HOME=/home/letian/hive-0.13.1
 </code></pre><h3 id="在HDFS上建立相关目录"><a href="#在HDFS上建立相关目录" class="headerlink" title="在HDFS上建立相关目录"></a>在HDFS上建立相关目录</h3><hr>
 <p>启动hadoop1.2：</p>
-<pre><code>$ start-all.sh
+<pre><code>$ start-all.sh 
 </code></pre><p>在HDFS中建立目录/tmp，并增加组用户的写权限：</p>
 <pre><code>$ hadoop fs -mkdir /tmp
 $ hadoop fs -chmod g+w /tmp
@@ -455,6 +455,7 @@ Time taken: 0.025 seconds, Fetched: 1 row(s)
 </code></pre><h4 id="使用dfs命令查看HDFS的内容："><a href="#使用dfs命令查看HDFS的内容：" class="headerlink" title="使用dfs命令查看HDFS的内容："></a>使用dfs命令查看HDFS的内容：</h4><pre><code>hive&gt; dfs -ls /user/hive/warehouse/;    
 Found 1 items
 drwxr-xr-x   - letian supergroup          0 2014-06-14 10:16 /user/hive/warehouse/user
+
 </code></pre><h4 id="查看user表的结构："><a href="#查看user表的结构：" class="headerlink" title="查看user表的结构："></a>查看user表的结构：</h4><pre><code>hive&gt; DESCRIBE user;
 OK
 name                    string                                      

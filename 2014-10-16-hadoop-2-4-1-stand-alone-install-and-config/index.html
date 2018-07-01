@@ -427,7 +427,7 @@ $ source ~/.bashrc
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 </code></pre><p>之后，重启网络：</p>
-<pre><code>$ sudo service networking restart
+<pre><code>$ sudo service networking restart 
 </code></pre><p>如果重启失败，那么重启一下电脑吧。</p>
 <h2 id="修改hadoop配置文件"><a href="#修改hadoop配置文件" class="headerlink" title="修改hadoop配置文件"></a>修改hadoop配置文件</h2><hr>
 <p> hadoop-2.4.1/etc/hadoop/hdfs-site.xml ：</p>
@@ -498,7 +498,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 </code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><hr>
 <p>然后：</p>
 <pre><code>$ start-dfs.sh
-$ start-yarn.sh
+$ start-yarn.sh 
 </code></pre><p>查看运行的任务：</p>
 <pre><code>$ jps          
 5022 Jps
@@ -546,7 +546,7 @@ Cache Remaining%: 0.00%
 Last contact: Thu Oct 16 15:12:59 CST 2014
 </code></pre><h2 id="测试wordcount"><a href="#测试wordcount" class="headerlink" title="测试wordcount"></a>测试wordcount</h2><hr>
 <p>假设目录<code>input</code>下文件<code>test1.txt</code>内容如下：</p>
-<pre><code>hello world
+<pre><code>hello world 
 </code></pre><p>文件<code>test2.txt</code>内容如下：</p>
 <pre><code>hi,world
 hello

@@ -92,19 +92,19 @@
 
 
 
-<meta name="description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。  本文只说说自底向上的层次聚类方法。 上面已经给出了自底向上的实现思路，现在细化一下。">
+<meta name="description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="层次聚类">
 <meta property="og:url" content="http://www.letiantian.me/2014-08-14-hierarchical-clustering/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。  本文只说说自底向上的层次聚类方法。 上面已经给出了自底向上的实现思路，现在细化一下。">
+<meta property="og:description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/08/2014-08-14-hc-00.png">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/08/2014-08-14-hc-01.png">
 <meta property="og:updated_time" content="2014-10-07T06:48:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="层次聚类">
-<meta name="twitter:description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。  本文只说说自底向上的层次聚类方法。 上面已经给出了自底向上的实现思路，现在细化一下。">
+<meta name="twitter:description" content="2014-8-14 层次聚类，分为自顶向下和自底向上两种。 自顶向下，初始时将数据集中的所有数据对象看做是一个簇，而后根据某些规则逐步细分，直到某一终止条件。 自底向上，先把每一对象看做一个簇，使用迭代的方法处理这些簇，在每次迭代中将根据某一规则计算出的最相近的两个簇合并为一个簇，直到簇的数量达到达到指定的值。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/08/2014-08-14-hc-00.png">
 
 

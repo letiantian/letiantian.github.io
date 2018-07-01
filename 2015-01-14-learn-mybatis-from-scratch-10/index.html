@@ -504,6 +504,7 @@ public class Blog {
                 &#39;}&#39; + &#39;\n&#39;;
     }
 }
+
 </code></pre><h2 id="在letian-mybatis-dao创建BlogMapper-java"><a href="#在letian-mybatis-dao创建BlogMapper-java" class="headerlink" title="在letian.mybatis.dao创建BlogMapper.java"></a>在letian.mybatis.dao创建BlogMapper.java</h2><p>其内容如下：</p>
 <pre><code>package letian.mybatis.dao;
 
@@ -617,9 +618,9 @@ public class Main {
 </code></pre><p>其中：</p>
 <pre><code>blogs = blogMapper.findAll();
 </code></pre><p>是获取所有的blog信息。</p>
-<pre><code>blogs = sqlSession.selectList(&quot;letian.mybatis.dao.BlogMapper.findAll&quot;, new Object(), rowBounds);
+<pre><code>blogs = sqlSession.selectList(&quot;letian.mybatis.dao.BlogMapper.findAll&quot;, new Object(), rowBounds); 
 </code></pre><p>是逻辑分页，即在获取所有blog信息的基础上得到offset为0、limit为2的2条blog的信息。</p>
-<pre><code>blogs = blogMapper.findAll2(offsetLimit);
+<pre><code>blogs = blogMapper.findAll2(offsetLimit); 
 </code></pre><p>是物理分页。<code>findAll2</code>方法通过<code>offsetLimit</code>将offset和limit信息传递给下面的sql语句：</p>
 <pre><code>SELECT *
 FROM blog LIMIT #{offset}, #{limit};

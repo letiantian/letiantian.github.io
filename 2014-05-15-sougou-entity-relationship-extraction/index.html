@@ -92,19 +92,19 @@
 
 
 
-<meta name="description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。  比赛官网是搜狗-中国数据库学术会议万维网知识提取大赛。 问题描述 主办">
+<meta name="description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。">
 <meta name="keywords" content="其他">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搜狗实体关系提取比赛">
 <meta property="og:url" content="http://www.letiantian.me/2014-05-15-sougou-entity-relationship-extraction/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。  比赛官网是搜狗-中国数据库学术会议万维网知识提取大赛。 问题描述 主办">
+<meta property="og:description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/05/2014-05-15-entity-relation-00.png">
 <meta property="og:updated_time" content="2015-01-04T02:18:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搜狗实体关系提取比赛">
-<meta name="twitter:description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。  比赛官网是搜狗-中国数据库学术会议万维网知识提取大赛。 问题描述 主办">
+<meta name="twitter:description" content="2014-05-15 前些日子参加了搜狗赞助的一个比赛，主题是万维网上的实体关系提取。 记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。 笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/05/2014-05-15-entity-relation-00.png">
 
 
@@ -409,7 +409,7 @@
 <p>比赛官网是<a href="http://iir.ruc.edu.cn/ndbccup2014/index.jsp" target="_blank" rel="noopener">搜狗-中国数据库学术会议万维网知识提取大赛</a>。</p>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><hr>
 <p>主办方提供了较大的数据集，其中参考文档集用于构建知识库（不过官方说可以自己使用其他的其他的资源构建知识库）。数据集都是一堆文本文件，参考文档集的数据格式（即文件每一行的格式）为：</p>
-<pre><code>网页的url  正文字节数  正文
+<pre><code>网页的url  正文字节数  正文 
 </code></pre><p><code>正文</code>就是url对应的html。我们的目的是要从这个知识库中提取出类似下面的实体关系：</p>
 <pre><code>中国合伙人  演员  黄晓明
 </code></pre><p>言简意赅，就是得到正确的两个实体之间的关系。</p>

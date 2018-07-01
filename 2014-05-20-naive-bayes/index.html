@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。  1、推导 1.1、条件概率:P(A|B) = P(A,B)/P(B)  A和B是随机事件，P(A/B)也就是在事件B发生的前提下事件A发生的概率。为了易读性，笔者将P(AB)写成P(A,B)。 如果有大量的数据，我们可以通过统计结果计算条件概率。例如假设有1000封邮件，垃圾邮件有300封，出现单词购买的邮件为5">
+<meta name="description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用朴素贝叶斯分类器划分邮件">
 <meta property="og:url" content="http://www.letiantian.me/2014-05-20-naive-bayes/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。  1、推导 1.1、条件概率:P(A|B) = P(A,B)/P(B)  A和B是随机事件，P(A/B)也就是在事件B发生的前提下事件A发生的概率。为了易读性，笔者将P(AB)写成P(A,B)。 如果有大量的数据，我们可以通过统计结果计算条件概率。例如假设有1000封邮件，垃圾邮件有300封，出现单词购买的邮件为5">
+<meta property="og:description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-01-27T14:44:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用朴素贝叶斯分类器划分邮件">
-<meta name="twitter:description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。  1、推导 1.1、条件概率:P(A|B) = P(A,B)/P(B)  A和B是随机事件，P(A/B)也就是在事件B发生的前提下事件A发生的概率。为了易读性，笔者将P(AB)写成P(A,B)。 如果有大量的数据，我们可以通过统计结果计算条件概率。例如假设有1000封邮件，垃圾邮件有300封，出现单词购买的邮件为5">
+<meta name="twitter:description" content="2014-05-20 朴素贝叶斯分类器，基于贝叶斯定理，是一个表现良好的分类方法。">
 
 
 
@@ -420,7 +420,7 @@
 </code></pre>
 <p>因为有B的影响，<code>P(A|B)</code>也叫做A的后验概率。</p>
 <h3 id="1-2、相互独立事件"><a href="#1-2、相互独立事件" class="headerlink" title="1.2、相互独立事件"></a>1.2、相互独立事件</h3><p>如果事件A和B是相互独立的，代表着A发生的可能性对B发生的可能性没有影响，B也对A没有影响，在这种情况下，</p>
-<pre><code class="no-highlight">P(A,B) = P(A)*P(B)
+<pre><code class="no-highlight">P(A,B) = P(A)*P(B) 
 </code></pre>
 <p>既然A和B之间没有相互影响，那么</p>
 <pre><code class="no-highlight">P(A|B) = P(A,B)/P(B) 

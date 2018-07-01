@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+<meta name="description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。">
 <meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ubuntu下源码安装MySQL">
 <meta property="og:url" content="http://www.letiantian.me/2014-07-14-install-mysql-from-source-code/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+<meta property="og:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-06-21T09:47:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu下源码安装MySQL">
-<meta name="twitter:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。  我的目标是将其安装在当前目录（mysql-5.6.19.tar.gz所在目录）下的mysql5.6目录中。 准备工作 $ sudo apt-get install cmake $ sudo apt-get install bison $">
+<meta name="twitter:description" content="2014-07-14 在http://dev.mysql.com/downloads/mysql/下载源码包。我下载的是mysql-5.6.19.tar.gz。">
 
 
 
@@ -524,7 +524,11 @@ sudo: mysqld_safe: command not found
 </code></pre><p><a href="http://superuser.com/questions/709515/command-not-found-when-using-sudo" target="_blank" rel="noopener">command not found when using sudo</a>给出的原因是：</p>
 <blockquote>
 <p>$PATH is evaluated by your shell, so your check doesn’t work as you expect it to.</p>
+</blockquote>
+<blockquote>
 <p>/etc/sudoers is configured to replace your PATH with a default one.</p>
+</blockquote>
+<blockquote>
 <p>sudo does not load a login shell environment before executing the command, so the default PATH from /etc/sudoers is used. su - does open a login shell, which involves loading /etc/profile. See man bash, section INVOCATION.</p>
 </blockquote>
 <p>解决方法是，打开/etc/sudoers，找到：</p>

@@ -470,14 +470,32 @@ zlabel(&#39;z&#39;);
 <hr>
 <blockquote>
 <p>// 梯度下降</p>
+</blockquote>
+<blockquote>
 <p>将[latex]\vec{w}[/latex]中的每个权值[latex]w_{i}[/latex]取随机值；</p>
+</blockquote>
+<blockquote>
 <p>WHILE 没有达到某个终止条件之前 DO {</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;初始化每个[latex]\Delta w_{i}=0[/latex]；</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;FOR 每个已分类的数据点[latex]&lt;\vec{x}, t&gt;[/latex] DO {</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据公式[latex]O(\vec{x}) = \sum_{i=0}^{n}w_{i}x_{i}[/latex]，计算[latex]\vec{x}[/latex]的目标输出[latex]o[/latex]；</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于每个[latex]\Delta w_{i}[/latex]，更新为[latex]\Delta w_{i}=\Delta w_{i}+\eta (t-o)x_{i}[/latex];</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;对每个[latex]\Delta w_{i}[/latex]进行更新，即[latex]w_{i} = w_{i} + \Delta w_{i}[/latex]</p>
+</blockquote>
+<blockquote>
 <p>}</p>
 </blockquote>
 <p>上面的梯度下降算法有两个问题：</p>
@@ -485,12 +503,26 @@ zlabel(&#39;z&#39;);
 <p>为了缓解上面提出的问题，可以使用增量梯度下降算法（也叫随机梯度下降算法）：</p>
 <blockquote>
 <p>//增量梯度下降</p>
+</blockquote>
+<blockquote>
 <p>将[latex]\vec{w}[/latex]中的每个权值[latex]w_{i}[/latex]取随机值；</p>
+</blockquote>
+<blockquote>
 <p>WHILE 没有达到某个终止条件之前 DO {</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;FOR 每个已分类的数据点[latex]&lt;\vec{x}, t&gt;[/latex] DO {</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据公式[latex]O(\vec{x}) = \sum_{i=0}^{n}w_{i}x_{i}[/latex]，计算[latex]\vec{x}[/latex]的目标输出[latex]o[/latex]；</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于每个[latex]w_{i}[/latex]，更新为[latex]w_{i}=w_{i}+\eta (t-o)x_{i}[/latex];</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+</blockquote>
+<blockquote>
 <p>}</p>
 </blockquote>
 <p>注意：数据点的类别也可以使用其他数字表示，梯度下降也可以用于多类问题。</p>

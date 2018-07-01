@@ -92,19 +92,19 @@
 
 
 
-<meta name="description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。  示例1：简单入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编辑HelloWorld/index.p">
+<meta name="description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：自定义404等错误">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-handle-errors/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。  示例1：简单入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编辑HelloWorld/index.p">
+<meta property="og:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-01.jpg">
 <meta property="og:updated_time" content="2014-10-07T07:20:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：自定义404等错误">
-<meta name="twitter:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。  示例1：简单入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编辑HelloWorld/index.p">
+<meta name="twitter:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg">
 
 
@@ -406,6 +406,7 @@ def user():
 
 if __name__ == &#39;__main__&#39;:
     app.run(debug=True)
+
 </code></pre><h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>运行<code>HelloWorld/index.py</code>，浏览器访问<code>http://127.0.0.1:5000/user</code>，效果如下：<br><img src="/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg" alt=""></p>
 <p>要注意的是，<code>HelloWorld/index.py</code>中<code>abort(401)</code>后的<code>print &#39;Unauthorized&#39;</code>并没有执行。</p>
 <h2 id="示例2：自定义错误页面"><a href="#示例2：自定义错误页面" class="headerlink" title="示例2：自定义错误页面"></a>示例2：自定义错误页面</h2><hr>

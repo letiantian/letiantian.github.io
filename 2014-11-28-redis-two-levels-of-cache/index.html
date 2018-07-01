@@ -423,7 +423,7 @@ maxmemory-policy allkeys-lru
 maxmemory-samples 20
 pidfile ./6301.pid  
 timeout 300
-logfile ./6301.log
+logfile ./6301.log  
 </code></pre>
 <p>第1级缓存占用6301端口，使用2 metabytes内存。在内存使用达到2 metabytes时，若需要存储新的内容，使用LRU算法置换已经存储的内容，以腾出内存空间。进程id信息保存在文件<code>6301.pid</code>中，日志信息保存到<code>6301.log</code>文件中。</p>
 <p>关于<code>maxmemory-policy</code>和<code>maxmemory-samples</code>，可以参考<a href="http://redis.io/topics/lru-cache" target="_blank" rel="noopener">Using Redis as an LRU cache</a>。</p>

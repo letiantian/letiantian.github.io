@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。  cookie可以借助flask.Response来实现。flask.Response在浅入浅出Flask框架：处理客户端通过POST方法传送的数据有过介绍。下面是一个">
+<meta name="description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：Cookie">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-cookie/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。  cookie可以借助flask.Response来实现。flask.Response在浅入浅出Flask框架：处理客户端通过POST方法传送的数据有过介绍。下面是一个">
+<meta property="og:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T13:17:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：Cookie">
-<meta name="twitter:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。  cookie可以借助flask.Response来实现。flask.Response在浅入浅出Flask框架：处理客户端通过POST方法传送的数据有过介绍。下面是一个">
+<meta name="twitter:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
 
 
 
@@ -458,10 +458,20 @@ if __name__ == &#39;__main__&#39;:
 </code></pre><p><code>set_cookie()</code>函数的原型如下：</p>
 <blockquote>
 <p>set_cookie(key, value=’’, max_age=None, expires=None, path=’/‘, domain=None, secure=None, httponly=False)</p>
+</blockquote>
+<blockquote>
 <p>Sets a cookie. The parameters are the same as in the cookie Morsel object in the Python standard library but it accepts unicode data, too.<br>Parameters: </p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;   key – the key (name) of the cookie to be set.<br>&nbsp;&nbsp;&nbsp;&nbsp;   value – the value of the cookie.<br>&nbsp;&nbsp;&nbsp;&nbsp;   max_age – should be a number of seconds, or None (default) if the cookie should last only as long as the client’s browser session.</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;   expires – should be a datetime object or UNIX timestamp.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;   domain – if you want to set a cross-domain cookie. For example, domain=”.example.com” will set a cookie that is readable by the domain www.example.com, foo.example.com etc. Otherwise, a cookie will only be readable by the domain that set it.</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;   domain – if you want to set a cross-domain cookie. For example, domain=”.example.com” will set a cookie that is readable by the domain <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a>, foo.example.com etc. Otherwise, a cookie will only be readable by the domain that set it.</p>
+</blockquote>
+<blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;   path – limits the cookie to a given path, per default it will span the whole domain.</p>
 </blockquote>
 <h3 id="运行与测试"><a href="#运行与测试" class="headerlink" title="运行与测试"></a>运行与测试</h3><p>运行<code>HelloWorld/index.py</code>：</p>

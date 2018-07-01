@@ -403,12 +403,6 @@
 <p>本文翻译自：<a href="http://ghost.pellegrom.me/running-ghost-in-production-mode/。" target="_blank" rel="noopener">http://ghost.pellegrom.me/running-ghost-in-production-mode/。</a></p>
 <p>在Ghost的配置文件 <code>config.js</code>中，你可能注意到了里面指定了多种运行模式：开发模式（默认），生产模式和测试模式等。这种配置方式是一种很好的实践，因为这意味着当你将Ghost部署到服务器中时不必重写配置项。</p>
 <p>那么如何将Ghost运行于“生产模式”下呢？下文中给出了几种方法。</p>
-<a id="more"></a>
-<p>如果使用的是Linux系统，可以在运行Ghost之前在终端中输入：</p>
-<pre><code>export NODE_ENV=production
-</code></pre><p>或者可以在运行的时候直接设定NODE_ENV变量：</p>
-<pre><code>NODE_ENV=production npm start
-</code></pre><p>在<a href="http://ghost.pellegrom.me/installing-ghost-on-ubuntu/" target="_blank" rel="noopener">installing Ghost on Ubuntu</a>中给出了一个upstart脚本使得Ghost能作为service启动。在这个脚本中，使用如下方式设置了<code>NODE_ENV</code>变量：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-16-ghost-production-mode/#more" rel="contents">
@@ -558,19 +552,6 @@
           <p>2014-05-16</p>
 <p>本文翻译自：<a href="http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。" target="_blank" rel="noopener">http://ghost.pellegrom.me/installing-ghost-on-ubuntu/。</a></p>
 <p>这篇文章会讲述如何在Ubuntu下安装Ghost。我们先假定你有一个ubuntu服务器，并有一个域名指向了服务器的IP。</p>
-<a id="more"></a>
-<h2 id="1-安装Node"><a href="#1-安装Node" class="headerlink" title="1. 安装Node"></a>1. 安装Node</h2><p>如果服务器是远程主机的话，可以使用ssh连接到远程主机。先执行下面的命令：</p>
-<pre><code>sudo apt-get update
-sudo apt-get upgrade
-sudo aptitude install build-essential zip
-</code></pre><p>然后到<a href="http://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a> 下载最新版本的<code>.tar.gz</code>打包的文件，解压文件，安装Node：</p>
-<pre><code>wget http://nodejs.org/dist/latest/node-v0.10.18.tar.gz
-tar -zxvf node-v0.10.18.tar.gz
-cd node-v0.10.18
-./configure
-make
-sudo make install
-</code></pre><h2 id="2-安装Ghost"><a href="#2-安装Ghost" class="headerlink" title="2. 安装Ghost"></a>2. 安装Ghost</h2>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-16-ubuntu-install-ghost/#more" rel="contents">
@@ -721,12 +702,6 @@ sudo make install
 <p>前些日子参加了搜狗赞助的一个比赛，主题是<strong>万维网上的实体关系提取</strong>。</p>
 <p>记得这学期刚开学的时候还屁颠屁颠的搞了几天，最终因为精力原因就没有做下去。自己虽然没做多少但是也值得总结一下，恰好今天比赛截止，也不可能误打误撞扰乱了比赛。</p>
 <p>笔者平常并不探索实体关系提取和自然语言处理等内容，所以本文内容更偏向于编程实践。</p>
-<a id="more"></a>
-<p>比赛官网是<a href="http://iir.ruc.edu.cn/ndbccup2014/index.jsp" target="_blank" rel="noopener">搜狗-中国数据库学术会议万维网知识提取大赛</a>。</p>
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><hr>
-<p>主办方提供了较大的数据集，其中参考文档集用于构建知识库（不过官方说可以自己使用其他的其他的资源构建知识库）。数据集都是一堆文本文件，参考文档集的数据格式（即文件每一行的格式）为：</p>
-<pre><code>网页的url  正文字节数  正文
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-15-sougou-entity-relationship-extraction/#more" rel="contents">
@@ -877,10 +852,6 @@ sudo make install
 <p>这里的Ghost是一个基于Node.js的博客系统，已经非常流行，其更加关注于如何去写作。Ghost的编辑器使用Markdown语法，可以进入<a href="http://markdown.tw/" title="markdown语法说明" target="_blank" rel="noopener">markdown语法说明</a>了解markdown。</p>
 <p>Ghost官网在<a href="https://ghost.org/" title="ghost官网" target="_blank" rel="noopener">这里</a>，貌似已经被防火墙认证了。不过大部分资源可以在github中找到，若感兴趣，请移步<a href="https://github.com/TryGhost/Ghost" title="Ghost@Github" target="_blank" rel="noopener">Ghost@Github</a>。</p>
 <p>若要下载Ghost，一种方法是clone其在github中的代码，另外一种可以到<a href="https://github.com/TryGhost/Ghost/releases/tag/0.4.2" title="Download Ghost 0.4.2" target="_blank" rel="noopener">Download Ghost 0.4.2</a>下载0.4.2版本。</p>
-<a id="more"></a>
-<h2 id="将Ghost打造成本地APP的思路"><a href="#将Ghost打造成本地APP的思路" class="headerlink" title="将Ghost打造成本地APP的思路"></a>将Ghost打造成本地APP的思路</h2><hr>
-<p>这里是指windows平台，linux和其他平台笔者未做尝试，想来是可以的。<br>其实很简单，安装配置好Ghost后将其加入系统服务以开机启动，使用chrome浏览器的“创建应用快捷方式”将其放在桌面即可。<br>如果要拥有一个本地的不错的mardown笔记本，这是一个不错的选择。</p>
-<h2 id="安装Ghost"><a href="#安装Ghost" class="headerlink" title="安装Ghost"></a>安装Ghost</h2><hr>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-14-ghost-to-native-app/#more" rel="contents">
@@ -1029,15 +1000,6 @@ sudo make install
         
           <p>2014-05-10</p>
 <p>Atom是github出品的一款编辑器，还不算完善，从界面上看和sublime类似，目测会对sublime造成很大压力。</p>
-<a id="more"></a>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><hr>
-<p>当前(2014-05-10)<a href="https://atom.io/" title="Atom官网" target="_blank" rel="noopener">官网</a>仅提供了mac安装版本（67M，真大～），<a href="https://github.com/atom/atom/blob/master/README.md" title="Atom readme.md" target="_blank" rel="noopener">Atom项目</a>中readme.md也提供了在windows、linux平台构建Atom的方法。如果有兴趣可以手动构建。</p>
-<p>在ubtuntu（必须是64位）下也可以通过PPA安装Atom，该安装方法来自<a href="http://www.webupd8.org/2014/05/install-atom-text-editor-in-ubuntu-via-ppa.html" title="Install Atom in Ubuntu (64bit) via PPA" target="_blank" rel="noopener">Install Atom in Ubuntu (64bit) via PPA</a>：<br>依次敲入以下命令即可：</p>
-<pre><code>sudo add-apt-repository ppa:webupd8team/atom
-sudo apt-get update
-sudo apt-get install atom
-</code></pre><p>Atom在linux对中文支持良好。</p>
-<h2 id="如何设置"><a href="#如何设置" class="headerlink" title="如何设置"></a>如何设置</h2>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-10-atom-editor/#more" rel="contents">
@@ -1191,11 +1153,6 @@ sudo apt-get install atom
 python -m SimpleHTTPServer
 </code></pre><p>之后在浏览器中访问<code>http://127.0.0.1:8000</code>即可。</p>
 <p>这种方法在我的Linux Mint下运行正常，也可以正确的处理中文路径。</p>
-<a id="more"></a>
-<p>但是在windows下遇到中文路径时候就出问题了，可能会显示404，例如本站当前使用的是静态博客系统hexo，我</p>
-<pre><code>cd hexo\public
-python -m SimpleHTTPServer
-</code></pre><p>然后访问 <code>http://127.0.0.1:8000/2014/04/27/代码高亮之Prism/</code>，这个路径是确实存在的，但是却出现404错误：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-05-07-improve-python-simplehttpserver/#more" rel="contents">
@@ -1343,37 +1300,6 @@ python -m SimpleHTTPServer
       
         
           <p>Prism是一个轻量级的可扩展的代码高亮工具。其官方网站是<a href="http://prismjs.com/" target="_blank" rel="noopener">Prism</a>。</p>
-<a id="more"></a>
-<h2 id="配置所需并下载"><a href="#配置所需并下载" class="headerlink" title="配置所需并下载"></a>配置所需并下载</h2><hr>
-<p>先到<a href="http://prismjs.com/download.html" target="_blank" rel="noopener">http://prismjs.com/download.html</a>，进行自定义，例如选择压缩版本，theme选择TWILIGHT，选择要高亮的编程语言。以及一些插件，例如Line Numbers。</p>
-<p>然后下载prism.js和prism.css文件。</p>
-<h2 id="高亮示例"><a href="#高亮示例" class="headerlink" title="高亮示例"></a>高亮示例</h2><hr>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;utf-8&quot; /&gt;
-&lt;title&gt;Prism&lt;/title&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;./prism.css&quot; data-noprefix /&gt;
-&lt;script src=&quot;./prism.js&quot;&gt;&lt;/script&gt;
-
-&lt;/head&gt;
-&lt;body&gt;
-
-
-&lt;pre class=&quot;language-markup&quot;&gt;
-&lt;code&gt;import os
-import sys
-&lt;/code&gt;&lt;/pre&gt;
-
-
-&lt;pre class=&quot;line-numbers language-css&quot;&gt;
-&lt;code&gt;h1 {
-color:black;
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>效果：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-04-27-syntaxhighlighter-prism/#more" rel="contents">
@@ -1546,28 +1472,6 @@ color:black;
         try_files $uri $uri/ /error.html;
     }
 }
-</code></pre><a id="more"></a>
-<p>以上配置的重点在<code>try_files $uri $uri/ $uri/index.html /error.html;</code>，它表示，如果你的请求是<code>http://blog.letiantian.me/3</code>，nginx会依次寻找以下资源：</p>
-<blockquote>
-<ol>
-<li><code>http://blog.letiantian.me/3</code></li>
-<li><code>http://blog.letiantian.me/3/</code> = <code>http://blog.letiantian.me/3/index.html</code>  = <code>http://blog.letiantian.me/3/index.htm</code></li>
-<li><code>http://blog.letiantian.me/error.html</code></li>
-</ol>
-</blockquote>
-<p>所以，当请求的页面不存在的时候，其会访问<code>/home/www/error.html</code>。这样做基本达到要求，问题是返回error.html内容时，http状态为200，这对搜索引擎是不友好的。如果要http状态为404，可以如下配置：</p>
-<pre><code>server {
-    listen   80; ## listen for ipv4; this line is default and implied
-    #listen   [::]:80 default ipv6only=on; ## listen for ipv6
-
-    server_name blog.letiantian.me www.blog.letiantian.me;
-
-    location / {
-        root /home/www;
-        index index.html index.htm;
-        error_page 404 /error.html;
-    }
-}
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1717,25 +1621,6 @@ color:black;
         
           <p>2014-04-11</p>
 <p>Hadoop允许使用非Java编程语言实现mapreduce，这得益于其streaming机制，其实就是使用了Unix标准流（关于标准流的使用，请参考资料[1]）。本文先论述如何基于流自制一个简单的单词计数的MapReducer，然后讨论如何使用Hadoop的streaming，最后介绍一个基于Python的Hadoop工具mrjob。</p>
-<a id="more"></a>
-<h2 id="基于Linux管道的MapReducer"><a href="#基于Linux管道的MapReducer" class="headerlink" title="基于Linux管道的MapReducer"></a>基于Linux管道的MapReducer</h2><hr>
-<p>管道的作用是将一个命令的输出导入到另一个命令的输入，例如我们要查看进程nginx的信息，如下：</p>
-<pre><code>zsh &gt;&gt; ps -ef | grep &#39;nginx&#39;
-root      1243     1  0 08:44 ?        00:00:00 nginx: master process /usr/sbin/nginx
-www-data  1244  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1245  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1247  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1248  1243  0 08:44 ?        00:00:00 nginx: worker process
-sunlt     4638  4385  0 09:38 pts/3    00:00:00 grep nginx
-</code></pre><p><code>ps -ef</code> 通过标准输出在终端里显示所有进程的信息，一行代表一个进程；<code>grep &#39;nginx&#39;</code>命令用来寻找含有nginx的行并输出，也就是说该命令会过滤掉不含nginx的行。管道符号 <code>|</code> 用于将<code>ps -ef</code>的输出转换为<code>grep &#39;nginx&#39;</code>的输入，于是得到了进程nginx的信息。</p>
-<p>另外，上面命令运行结果的最后一行是grep ‘nginx’ 这个进程的信息，如果要过滤掉，可以：</p>
-<pre><code>zsh &gt;&gt; ps -ef | grep &#39;nginx&#39; | grep -v &#39;grep&#39;
-root      1243     1  0 08:44 ?        00:00:00 nginx: master process /usr/sbin/nginx
-www-data  1244  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1245  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1247  1243  0 08:44 ?        00:00:00 nginx: worker process
-www-data  1248  1243  0 08:44 ?        00:00:00 nginx: worker process
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-04-11-hadoop-mrjob/#more" rel="contents">
@@ -1895,14 +1780,6 @@ www-data  1248  1243  0 08:44 ?        00:00:00 nginx: worker process
         
           <p>2014-04-07</p>
 <p>gearman是一个支持多语言的任务分发框架，很像远程过程调用。</p>
-<a id="more"></a>
-<p><img src="/content/images/2014/04/2014-04-07-gearman.png" alt="image"></p>
-<p>上图是来自资料[1]，展示了gearman的基本设计思路。worker作为执行任务的节点，在生成时会向job server注册。client节点向job server发起任务，job server将任务分配给worker，job server作为一个中间人会负责client和worker之间的任务参数、执行结果等信息的传递。Gearman的更多内容，请参考资料[2]。</p>
-<p><strong>在ubuntu下安装：</strong></p>
-<pre><code>sudo apt-get install gearman
-</code></pre><p><strong>启动：</strong></p>
-<pre><code>service gearman-job-server start
-</code></pre><p>或者使用<code>gearmand</code>启动。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-04-07-gearman/#more" rel="contents">
@@ -2064,98 +1941,7 @@ www-data  1248  1243  0 08:44 ?        00:00:00 nginx: worker process
 <p>本文通过展示在一个table上进行操作来论述如何使用Python快速安全地操作sqlite3。</p>
 <p>userinfo表通过使用下面语句创建：</p>
 <pre><code>create table userinfo(name text, email text)
-</code></pre><a id="more"></a>
-<h2 id="更快地插入数据"><a href="#更快地插入数据" class="headerlink" title="更快地插入数据"></a>更快地插入数据</h2><hr>
-<p>在此用<code>time.clock()</code>来计时，看看以下三种方法的速度。</p>
-<pre><code>import sqlite3
-import time
-
-def create_tables(dbname):  
-    conn = sqlite3.connect(dbname)
-    cursor = conn.cursor()
-    cursor.execute(&#39;&#39;&#39;create table userinfo(name text, email text)&#39;&#39;&#39;)
-    conn.commit()
-    cursor.close()
-    conn.close()
-def drop_tables(dbname):
-    conn = sqlite3.connect(dbname)
-    cursor = conn.cursor()
-    cursor.execute(&#39;&#39;&#39;drop table userinfo&#39;&#39;&#39;)
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-def insert1():
-    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
-            (&#39;ww&#39;,&#39;ww@example.com&#39;),
-            (&#39;ee&#39;,&#39;ee@example.com&#39;),
-            (&#39;rr&#39;,&#39;rr@example.com&#39;),
-            (&#39;tt&#39;,&#39;tt@example.com&#39;),
-            (&#39;yy&#39;,&#39;yy@example.com&#39;),
-            (&#39;uu&#39;,&#39;uu@example.com&#39;)
-            ]
-    start = time.clock()
-    conn = sqlite3.connect(dbname)
-    cursor = conn.cursor()
-    for user in users:
-        cursor.execute(&quot;insert into userinfo(name, email) values(?, ?)&quot;, user)
-        conn.commit()
-    cursor.close()
-    conn.close()
-    end = time.clock()
-    print start, end, end-start
-
-def insert2():
-    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
-            (&#39;ww&#39;,&#39;ww@example.com&#39;),
-            (&#39;ee&#39;,&#39;ee@example.com&#39;),
-            (&#39;rr&#39;,&#39;rr@example.com&#39;),
-            (&#39;tt&#39;,&#39;tt@example.com&#39;),
-            (&#39;yy&#39;,&#39;yy@example.com&#39;),
-            (&#39;uu&#39;,&#39;uu@example.com&#39;)
-            ]
-    start = time.clock()
-    conn = sqlite3.connect(dbname)
-    cursor = conn.cursor()
-    for user in users:
-        cursor.execute(&quot;insert into userinfo(name, email) values(?, ?)&quot;, user)
-    conn.commit()
-    cursor.close()
-    conn.close()
-    end = time.clock()
-    print start, end, end-start
-
-def insert3():
-    users = [(&#39;qq&#39;,&#39;qq@example.com&#39;),
-            (&#39;ww&#39;,&#39;ww@example.com&#39;),
-            (&#39;ee&#39;,&#39;ee@example.com&#39;),
-            (&#39;rr&#39;,&#39;rr@example.com&#39;),
-            (&#39;tt&#39;,&#39;tt@example.com&#39;),
-            (&#39;yy&#39;,&#39;yy@example.com&#39;),
-            (&#39;uu&#39;,&#39;uu@example.com&#39;)
-            ]
-    start = time.clock()
-    conn = sqlite3.connect(dbname)
-    cursor = conn.cursor()
-    cursor.executemany(&quot;insert into userinfo(name, email) values(?, ?)&quot;, users)
-    conn.commit()
-    cursor.close()
-    conn.close()
-    end = time.clock()
-    print start, end, end-start
-
-if __name__ == &#39;__main__&#39;:
-    dbname = &#39;test.db&#39;
-    create_tables(dbname)
-    insert1()
-    drop_tables(dbname)
-    create_tables(dbname)
-    insert2()
-    drop_tables(dbname)
-    create_tables(dbname)
-    insert3()
-    drop_tables(dbname)
-</code></pre><p>某次运行结果：</p>
+</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-04-03-python-sqlite-safely-rapidly/#more" rel="contents">
@@ -2304,44 +2090,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2014-04-03</p>
 <p><strong>爬山法（climbing method）</strong>是一种优化算法，其一般从一个随机的解开始，然后逐步找到一个最优解（局部最优）。<br>假定所求问题有多个参数，我们在通过爬山法逐步获得最优解的过程中可以依次分别将某个参数的值增加或者减少一个单位。例如某个问题的解需要使用3个整数类型的参数<code>x1、x2、x3</code>，开始时将这三个参数设值为<code>(2,2,-2)</code>，将x1增加/减少1，得到两个解<code>(1,2,-2), (3, 2,-2)</code>；将x2增加/减少1，得到两个解<code>(2,3, -2)，(2,1, -2)</code>；将x3增加/减少1，得到两个解<code>(2,2,-1)，(2,2,-3)</code>，这样就得到了一个解集：</p>
-<a id="more"></a>
-<pre><code>(2,2,-2), (1, 2,-2), (3, 2,-2), (2,3,-2), (2,1,-2), (2,2,-1), (2,2,-3)
-</code></pre><p>从上面的解集中找到最优解，然后将这个最优解依据上面的方法再构造一个解集，再求最优解，就这样，直到前一次的最优解和后一次的最优解相同才结束“爬山”。</p>
-<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><hr>
-<p>设方程 <code>y = x1+x2-x3</code>，<code>x1</code>是区间<code>[-2, 5]</code>中的整数，<code>x2</code>是区间<code>[2, 6]</code>中的整数，<code>x3</code>是区间<code>[-5, 2]</code>中的整数。使用爬山法，找到使得<code>y</code>取值最小的解。</p>
-<p>代码如下：</p>
-<pre><code>import random
-
-def evaluate(x1, x2, x3):
-    return x1+x2-x3
-
-if __name__ == &#39;__main__&#39;:
-    x_range = [ [-2, 5], [2, 6], [-5, 2] ]
-    best_sol = [random.randint(x_range[0][0], x_range[0][1]), 
-           random.randint(x_range[1][0], x_range[1][1]), 
-           random.randint(x_range[2][0], x_range[2][1])]
-
-    while True:
-        best_evaluate = evaluate(best_sol[0], best_sol[1], best_sol[2])
-        current_best_value = best_evaluate
-        sols = [best_sol]
-
-        for i in xrange(len(best_sol)):
-            if best_sol[i] &gt; x_range[i][0]:
-                sols.append(best_sol[0:i] + [best_sol[i]-1] + best_sol[i+1:])
-            if best_sol[i] &lt; x_range[i][1]:
-                sols.append(best_sol[0:i] + [best_sol[i]+1] + best_sol[i+1:])
-        print sols
-        for s in sols:
-            el = evaluate(s[0], s[1], s[2])
-            if el &lt; best_evaluate:
-                best_sol = s
-                best_evaluate = el
-        if best_evaluate == current_best_value:
-            break
-
-    print &#39;best sol：&#39;, current_best_value, best_sol
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-04-03-hill-climbing-algorithm/#more" rel="contents">
@@ -2471,94 +2219,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2014-03-27</p>
 <p>在<a href="/2014-03-26-user-cf/">基于用户的协同过滤</a>中已经简单的介绍了协同过滤的思想，在实际应用中还有一种叫做基于物品的协同过滤（<code>Item CF</code>）。</p>
-<a id="more"></a>
-<h2 id="计算书籍之间的相似性"><a href="#计算书籍之间的相似性" class="headerlink" title="计算书籍之间的相似性"></a>计算书籍之间的相似性</h2><p>在<a href="./03-26-基于用户的协同过滤/">基于用户的协同过滤</a>文中提到下面的表：</p>
-<table>
-<thead>
-<tr>
-<th>&lt;!–用户</th>
-<th>book01</th>
-<th>book02</th>
-<th>book03</th>
-<th>book04</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>user1</td>
-<td>2</td>
-<td>4.5</td>
-<td>4.5</td>
-<td>3</td>
-</tr>
-<tr>
-<td>user2</td>
-<td>2.5</td>
-<td>4.0</td>
-<td>4.5</td>
-<td>3</td>
-</tr>
-<tr>
-<td>user3</td>
-<td>4</td>
-<td>3</td>
-<td>3</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
-<p>–&gt;</p>
-<table><br><thead><br><tr><br><th>用户</th><br><th>book01</th><br><th>book02</th><br><th>book03</th><br><th>book04</th><br></tr><br></thead><br><tbody><br><tr><br><td>user1</td><br><td>2</td><br><td>4.5</td><br><td>4.5</td><br><td>3</td><br></tr><br><tr><br><td>user2</td><br><td>2.5</td><br><td>4.0</td><br><td>4.5</td><br><td>3</td><br></tr><br><tr><br><td>user3</td><br><td>4</td><br><td>3</td><br><td>3</td><br><td>4</td><br></tr><br></tbody><br></table>
-
-<p>上表表示user1、user2、user3分别对book01、book02、book03和book04的评价。将上面的表转置，在多加几条数据，则变为：</p>
-<table>
-<thead>
-<tr>
-<th>&lt;!–书籍</th>
-<th>user1</th>
-<th>user2</th>
-<th>user3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>book01</td>
-<td>2</td>
-<td>2.5</td>
-<td>4</td>
-</tr>
-<tr>
-<td>book02</td>
-<td>4.5</td>
-<td>4.0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>book03</td>
-<td>4.5</td>
-<td>4.5</td>
-<td>3</td>
-</tr>
-<tr>
-<td>book04</td>
-<td>3</td>
-<td>3</td>
-<td>4</td>
-</tr>
-<tr>
-<td>book05</td>
-<td>2.5</td>
-<td>2</td>
-<td>2.5</td>
-</tr>
-<tr>
-<td>book06</td>
-<td>3</td>
-<td>4</td>
-<td>3.5</td>
-</tr>
-</tbody>
-</table>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-27-item-cf/#more" rel="contents">
@@ -2688,12 +2348,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2014-03-27</p>
 <p>在<a href="/2014-03-26-user-cf/">《基于用户的协同过滤》</a>和<a href="/2014-03-27-item-cf/">《基于物品的协同过滤》</a>中在使用加权平均值方法时都有提到将相似度看作是权重。事实上基于欧几里得距离的相似度（或者说基于欧几里得距离的权重）的生成有多种方法。这些方法都是基于常见的<code>递减函数</code>。</p>
-<a id="more"></a>
-<h2 id="反函数"><a href="#反函数" class="headerlink" title="反函数"></a>反函数</h2><hr>
-<p><code>y=1/x</code>便是反函数，但是考虑到距离为0以及权重应在一个有限范围内，便改写为<code>y = 1/(1+x)</code>。</p>
-<h2 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h2><hr>
-<p>如果距离是<code>x</code>，则权重为<code>y=b-x</code>，其中<code>b</code>是常数且为正数。如果<code>y</code>的值小于0，则<code>y</code>置为0；<code>y</code>不小于0，则保持原值。</p>
-<h2 id="高斯函数"><a href="#高斯函数" class="headerlink" title="高斯函数"></a>高斯函数</h2>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-27-assign-weights/#more" rel="contents">
@@ -2842,17 +2496,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2014-03-26</p>
 <p>基于用户的协同过滤，英文是<code>user-based collaborative filter</code>，简称<code>User CF</code>。下面直接尝试使用该方法做图书推荐。</p>
-<a id="more"></a>
-<h2 id="判断用户之间的相似性"><a href="#判断用户之间的相似性" class="headerlink" title="判断用户之间的相似性"></a>判断用户之间的相似性</h2><hr>
-<p>假定有用户user1、user2和user3，三人都读过图书book01、book02、book03、book04。三个用户对四本书的评价依次是：</p>
-<!--
-用户 | book01 | book02 | book03 | book04
-------|-----|------|----|-------
-user1 | 2   |4.5   |4.5 |3
-user2 | 2.5 |4.0   |4.5 |3
-user3 | 4   |3     |3   |4
--->
-<table><br><thead><br><tr><br><th>用户</th><br><th>book01</th><br><th>book02</th><br><th>book03</th><br><th>book04</th><br></tr><br></thead><br><tbody><br><tr><br><td>user1</td><br><td>2</td><br><td>4.5</td><br><td>4.5</td><br><td>3</td><br></tr><br><tr><br><td>user2</td><br><td>2.5</td><br><td>4.0</td><br><td>4.5</td><br><td>3</td><br></tr><br><tr><br><td>user3</td><br><td>4</td><br><td>3</td><br><td>3</td><br><td>4</td><br></tr><br></tbody><br></table><br>使用欧几里得距离判断三个用户之间的相似性：<br><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-26-user-cf/#more" rel="contents">
@@ -2982,20 +2625,6 @@ user3 | 4   |3     |3   |4
         
           <p>2014-03-26</p>
 <p>如何判定相似度是协同过滤的重要内容。在实际应用中很很多方法来获取两组数据之间的相似度，基本原则都是，相似度越大，对应的值也越大。本文总结了一些常用的方法。其中的一些计算使用python完成。</p>
-<a id="more"></a>
-<h2 id="曼哈顿距离"><a href="#曼哈顿距离" class="headerlink" title="曼哈顿距离"></a>曼哈顿距离</h2><hr>
-<p>资料[2]定义曼哈顿距离的正式意义为L1-距离或城市区块距离，也就是在欧几里得空间的固定直角坐标系上两点所形成的线段对轴产生的投影的距离总和。<br>如果在平面直角坐标系中有两个点<code>(1,3)</code>和<code>(13,42)</code>，要求两者的曼哈顿距离，应该：</p>
-<pre><code>def get_L1(dot1, dot2):
-    &#39;&#39;&#39; 曼哈顿距离&#39;&#39;&#39;
-    return sum([abs(dot1[x] - dot2[x]) for x in range(len(dot1))])
-if __name__ == &#39;__main__&#39;:
-    dot1 = [1, 3];
-    dot2 = [13, 42];
-    print get_L1(dot1, dot2)
-</code></pre><p>运行结果是<code>51</code>。</p>
-<p>一般认为两个点越相似，曼哈顿距离越小（且不会小于0），考虑到距离为<code>0</code>的情况，相应的相似度应该如下计算：</p>
-<pre><code>similarity = 1.0 / (1.0 + get_L1(dot1, dot2))
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-26-how-to-determine-the-similarity/#more" rel="contents">
@@ -3155,14 +2784,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2014-03-23</p>
 <p>本文探索如何在MongoDB下根据数组大小进行查询。笔者使用的mongodb版本为2.4.7。</p>
-<a id="more"></a>
-<h2 id="插入测试数据"><a href="#插入测试数据" class="headerlink" title="插入测试数据"></a>插入测试数据</h2><hr>
-<pre><code>db.data.insert({name:&#39;a&#39;, num:[12,123,22,34,1]});
-db.data.insert({name:&#39;b&#39;, num:[42,22]});
-db.data.insert({name:&#39;c&#39;, num:[49]});
-</code></pre><p>键<code>num</code>对应的值是数组。</p>
-<h2 id="查询num的数组值具有指定大小的document"><a href="#查询num的数组值具有指定大小的document" class="headerlink" title="查询num的数组值具有指定大小的document"></a>查询num的数组值具有指定大小的document</h2><hr>
-<p>最好的方法是使用<code>$size</code>，例如指定大小为<code>2</code>，可以：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-23-mongodb-query-by-the-size-of-array/#more" rel="contents">
@@ -3323,36 +2944,6 @@ db.data.insert({name:&#39;c&#39;, num:[49]});
           <p>2014-03-23</p>
 <p>作为一个数据库，MongoDB有一个很大的优势——它使用js管理数据库，所以也能够使用js脚本进行复杂的管理——这种方法非常灵活。</p>
 <p>笔者使用的mongodb版本为2.4.7。</p>
-<a id="more"></a>
-<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><hr>
-<p>前面的文章<a href="/2014/03/22/MapReduce-in-MongoDB/" target="_blank">mapreduce-in-mongodb</a>中，mapreduce示例在js脚本中可以写成下面的方式（略作修改）：</p>
-<pre><code>conn = new Mongo();
-db = conn.getDB(&quot;db-name&quot;);  //选择数据库
-db.auth(&quot;user-name&quot;,&quot;password&quot;);  //用户验证
-
-var map = function() {
-    split_result = this.sentence.split(&quot; &quot;);
-    for (var i in split_result) {
-        var word = split_result[i].replace(/(^\s*)|(\s*$)/g,&quot;&quot;).toLowerCase(); //去除了单词两边可能的空格，并将单词转换为小写
-        if (word.length != 0) {
-            emit(word, 1);
-        }
-    }
-}
-
-var reduce = function(key, values) {
-    print(key+&quot;:&quot;+Array.sum(values));
-    return Array.sum(values);
-}
-
-db.data.mapReduce(
-    map,
-    reduce,
-    {out:{merge:&quot;mr_result&quot;}}
-) 
-</code></pre><p>保存为<code>test01.js</code>，在终端中运行：</p>
-<pre><code>$ mongo test01.js 
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-23-mongodb-js-script/#more" rel="contents">
@@ -3513,13 +3104,6 @@ db.data.mapReduce(
           <p>2014-03-22</p>
 <p>作为一个优秀的编程模型，MapReduce在大数据处理中有很大的优势，而mongodb也支持这一编程模型，本文通过简单的单词计数示例论述在mongodb中如何使用MapReduce。</p>
 <p>笔者使用的2.4.7版本。</p>
-<a id="more"></a>
-<h2 id="单词计数示例："><a href="#单词计数示例：" class="headerlink" title="单词计数示例："></a>单词计数示例：</h2><hr>
-<p><strong>插入用于单词计数的数据：</strong></p>
-<pre><code>db.data.insert({sentence:&#39;Consider the following map-reduce operations on a collection orders that contains documents of the following prototype&#39;})
-db.data.insert({sentence:&#39;I get the following error when I follow the code found in this link&#39;})
-</code></pre><p>图个简洁，数据中没有包含标点符号。</p>
-<p><strong>在mongo shell写入以下内容：</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-22-mapreduce-in-mongodb/#more" rel="contents">
@@ -3679,15 +3263,6 @@ db.data.insert({sentence:&#39;I get the following error when I follow the code f
         
           <p>2014-03-20</p>
 <p>本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。</p>
-<a id="more"></a>
-<h2 id="关于websocket等反向ajax技术"><a href="#关于websocket等反向ajax技术" class="headerlink" title="关于websocket等反向ajax技术"></a>关于websocket等反向ajax技术</h2><hr>
-<p>在实时web应用中，常见的方法是<code>反向Ajax</code>。资料[2]中如下定义反向Ajax：</p>
-<blockquote>
-<p>反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向Ajax可以某些特定的方式来模拟发出一个Ajax请求，这些方式本文都会论及，这样的话，服务器就可以尽可能快地向客户端发送事件（低延迟通信）。</p>
-</blockquote>
-<p>资料[1][2][3][4][5]介绍了以前常用的反向Ajax技术。这些反向Ajax技术主要有两点内容：一是服务器端保持住TCP连接直到其有数据发送给客户端（可以使用循环和睡眠实现），二是客户端js编程技巧。</p>
-<p>websocket是html5的规范，也属于反ajax技术，具体请见资料[6][7][8][9]。</p>
-<p>笔者在资料[8]游荡的时候发现了<code>socket.io</code>，决定尝试一下。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-20-socket-io/#more" rel="contents">
@@ -3838,12 +3413,6 @@ db.data.insert({sentence:&#39;I get the following error when I follow the code f
 <p>nginx读做<code>Engine X</code>，所以如果将<code>LAMP</code>中的Apache换做Nginx，很多人简称其为<code>LEMP</code>。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。</p>
 <p>关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。</p>
 <p>好了，开始安装。</p>
-<a id="more"></a>
-<h2 id="安装nginx："><a href="#安装nginx：" class="headerlink" title="安装nginx："></a>安装nginx：</h2><hr>
-<pre><code>sudo apt-get install nginx
-</code></pre><p>安装完后启动：</p>
-<pre><code>sudo service nginx start
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-20-ubuntu-install-lemp/#more" rel="contents">
@@ -4008,15 +3577,6 @@ db.data.insert({sentence:&#39;I get the following error when I follow the code f
 <pre><code>x=[randn(3,2)*.4;randn(4,2)*.5+ones(4,1)*[4 4]];
 </code></pre><p>使用kmeans函数：</p>
 <pre><code>class = kmeans(x, 2);
-</code></pre><a id="more"></a>
-<p>x是数据点，x的每一行代表一个数据；2指定要有2个中心点，也就是聚类结果要有2个簇。<br>class将是一个具有7个元素的列向量，这些元素依次对应7个数据点，元素值代表着其对应的数据点所处的分类号。某次运行后，class的值是：</p>
-<pre><code> 2 
- 2
- 2
- 1
- 1
- 1
- 1
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
@@ -4148,20 +3708,6 @@ db.data.insert({sentence:&#39;I get the following error when I follow the code f
           <p>2014-03-14</p>
 <p>上篇：<a href="03-14-浅入浅出：DBSCAN聚类算法（1）/" target="_blank">浅入浅出：DBSCAN聚类算法（1）/</a></p>
 <p>本文讲述DBSCAN的matlab实现，笔者使用的是Matlab R2012b。请在资料[1]的链接中下载源码DBSCAN.M。</p>
-<a id="more"></a>
-<h2 id="1、先解决一个错误"><a href="#1、先解决一个错误" class="headerlink" title="1、先解决一个错误"></a>1、先解决一个错误</h2><hr>
-<p>源代码若以DBSCAN.M为文件名，使用时会出现以下错误：</p>
-<pre><code>&gt;&gt; x=[randn(30,2)*.4;randn(40,2)*.5+ones(40,1)*[4 4]];
-&gt;&gt; [class,type]=dbscan(x,5,[])
-Cannot find an exact (case-sensitive) match for &#39;dbscan.m&#39;
-
-The closest match is F:\project\clustering\DBSCAN.M
-
-To change the file extension, cd to the file&#39;s folder, type:
-   movefile DBSCAN.M DBSCAN.m_bad; movefile DBSCAN.m_bad DBSCAN.m
-and then cd back.
-</code></pre><p>将DBSCAN.M更名为dbscan.m即可。</p>
-<h2 id="2、示例"><a href="#2、示例" class="headerlink" title="2、示例"></a>2、示例</h2>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-14-dbscan-2/#more" rel="contents">
@@ -4321,13 +3867,6 @@ and then cd back.
         
           <p>2014-03-14</p>
 <p>DBSCAN是基于密度的聚类方法。</p>
-<a id="more"></a>
-<h2 id="1、基本概念"><a href="#1、基本概念" class="headerlink" title="1、基本概念"></a>1、基本概念</h2><hr>
-<p>由于每个对象在实际应用中涉及到数值，所以这里也把“对象”叫做“数据点”，在平面上，一个数据点是二维的，可以使用两个值来表示一个数据点，例如(1.2,3)。一个数据集里的所有数据点应具有相同的维度。</p>
-<p><strong>r邻域</strong>：给定数据点在以其为中心的半径r内的邻域称为该数据点的r邻域。这个r邻域包含了给定的那个数据点，否则应称为r去心邻域。</p>
-<p><strong>核心对象</strong>：如果某数据点的r邻域内至少包含了MinPts个数据点，那么该数据点叫做核心对象。至于MinPts个数据点是否应该包含该数据点看个人的算法实现，差别不大。</p>
-<p><strong>直接密度可达</strong>：若数据点p在核心对象q的r邻域内，则p从q出发是直接密度可达的。</p>
-<p><strong>密度可达</strong>：设数据点点序列<code>p(1)，p(2)，p(3)，…，p(n)</code>，其中p(1)是核心对象，p(2)是从p(1)出发直接密度可达，p(n)从p(1)出发是密度可达的。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-14-dbscan-1/#more" rel="contents">
@@ -4487,14 +4026,6 @@ and then cd back.
         
           <p>2014-03-07</p>
 <p>本文是对<a href="http://wiki.scipy.org/Tentative_NumPy_Tutorial" target="_blank" rel="noopener">http://wiki.scipy.org/Tentative_NumPy_Tutorial</a>中内容的学习和实践笔记，所以会有很多和其类似。使用的python版本为2.7。</p>
-<a id="more"></a>
-<h2 id="1、Numpy是什么"><a href="#1、Numpy是什么" class="headerlink" title="1、Numpy是什么"></a>1、Numpy是什么</h2><hr>
-<p>很简单，Numpy是Python的一个科学计算的库，提供了矩阵运算的功能，其一般与Scipy、matplotlib一起使用。其实，list已经提供了类似于矩阵的表示形式，不过numpy为我们提供了更多的函数。如果接触过matlab、scilab，那么numpy很好入手。<br>在以下的代码示例中，总是先导入了numpy：</p>
-<pre><code>&gt;&gt;&gt; import numpy as np
-&gt;&gt;&gt; print np.version.version
-1.6.2
-</code></pre><h2 id="2、多维数组"><a href="#2、多维数组" class="headerlink" title="2、多维数组"></a>2、多维数组</h2><hr>
-<p>多维数组的类型是：numpy.ndarray。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-07-learn-numpy/#more" rel="contents">
@@ -4654,25 +4185,6 @@ and then cd back.
         
           <p>2014-03-05</p>
 <p>map、reduce和filter是python内置的三个很有趣的函数。</p>
-<a id="more"></a>
-<h2 id="1、先看看什么是-iterable-对象"><a href="#1、先看看什么是-iterable-对象" class="headerlink" title="1、先看看什么是 iterable 对象"></a>1、先看看什么是 iterable 对象</h2><hr>
-<p>以内置的max函数为例子，查看其doc：</p>
-<pre><code>&gt;&gt;&gt; print max.__doc__
-max(iterable[, key=func]) -&gt; value
-max(a, b, c, ...[, key=func]) -&gt; value
-
-With a single iterable argument, return its largest item.
-With two or more arguments, return the largest argument.
-</code></pre><p>在max函数的第一种形式中，其第一个参数是一个 iterable 对象，既然这样，那么哪些是 iterable 对象呢？</p>
-<pre><code>&gt;&gt;&gt; max(&#39;abcx&#39;)
-&gt;&gt;&gt; &#39;x&#39;
-&gt;&gt;&gt; max(&#39;1234&#39;)
-&gt;&gt;&gt; &#39;4&#39;
-&gt;&gt;&gt; max((1,2,3))
-&gt;&gt;&gt; 3
-&gt;&gt;&gt; max([1,2,4])
-&gt;&gt;&gt; 4
-</code></pre><p>参考<a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/，我们可以使用yield生成一个iterable" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/，我们可以使用yield生成一个iterable</a> 对象（也有其他的方式）:</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-05-python-map-reduce-filter/#more" rel="contents">
@@ -4840,20 +4352,7 @@ list2 = []
 for item in list1:
     list2.append(item*2)
 print list2
-</code></pre><a id="more"></a>
-<p>如果使用列表推导，可以这样：</p>
-<pre><code>#-*-encoding:utf-8-*-
-
-list1 = [1,2,4,5,12]
-list2 = [item*2 for item in list1 ]
-print list2
-</code></pre><p>可以通过if过滤掉不想要的元素，例如提取出list1中小于10的元素：</p>
-<pre><code>#-*-encoding:utf-8-*-
-
-list1 = [1,2,4,5,12]
-list2 = [item for item in list1 if item &lt; 10 ]
-print list2
-</code></pre><p>如果要将两个list中的元素进行组合，可以：</p>
+</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-03-04-python-list-comprehension/#more" rel="contents">
@@ -5002,12 +4501,6 @@ print list2
         
           <p>2014-02-25</p>
 <p>Beautiful Soup是基于Python的解析HTML/XML的库，可以对书写不规范的网页进行处理。Beautiful Soup可以满足大部分的处理需求。</p>
-<a id="more"></a>
-<hr>
-
-<p></p><h3>安装Beautiful Soup</h3><br>笔者使用的是Linux Mint 16（基于Ubuntu 13.*），安装命令如下：<p></p>
-<pre><code>sudo apt-get install python-bs4
-</code></pre><p>当然，也可以通过easy_install、pip安装该库。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-02-25-beautiful-soup/#more" rel="contents">
@@ -5167,16 +4660,6 @@ print list2
         
           <p>2014-02-25</p>
 <p>在一个全新的Linux系统里，如果要修改自己在github里面的的某个项目。如果是修改某些文件，在github网站上就可以修改；如果要增加文件的话就要把项目克隆到本地，修改后在合并到github项目里。</p>
-<a id="more"></a>
-<p>下面的操作均在Linux Mint 16环境下。</p>
-<hr>
-
-<h3>1、生成ssh密钥</h3>
-
-<pre><code>$ ssh-keygen -t rsa
-</code></pre><p>这时候，在~/.ssh目录下会产生两个文件：<code>id_rsa</code>和i<code>d_rsa.pub</code>。<br>登录github，进入“Account settings”，点击左侧的“SSH Keys”选项，在右侧点击“Add SSH Key”按钮，在Title项中输入标题，将~/.ssh/id_rsa.pub中的内容复制到Key对应的输入框里。点击“Add Key”按钮完成添加。</p>
-<p><img src="/content/images/2014/02/2014-02-15-github.png" alt="image"></p>
-<p>然后，测试连接：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-02-25-modify-project-in-github/#more" rel="contents">
@@ -5343,16 +4826,6 @@ print list2
 <p>所谓面向文档数据库，可以理解为是将JSON、XML这样的文档直接进行数据化的形式，其特点包括：不需要schema（数据库结构定义）、支持由多台计算机进行并行处理的“水平扩展”等。</p>
 </blockquote>
 <p>在MongoDB中有三个重要的概念：数据库、集合、文档。其中“数据库”和关系型数据库（RDB）中的“数据库”概念差不多，“集合”相当于RDB中的“表”，“文档”相当于RDB中表的一行记录。</p>
-<a id="more"></a>
-<h2 id="安装和配置："><a href="#安装和配置：" class="headerlink" title="安装和配置："></a>安装和配置：</h2><hr>
-<p>MongoDB在32位系统中有很大的限制，所以建议在64位OS下使用。笔者使用的系统是Linux Mint 16（基于ubuntu的一个发行版）。<br>当前比较流行的版本是2.4系列，所以先查看当前软件仓库中该软件的版本：</p>
-<pre><code>$ sudo apt-cache showpkg  mongodb
-Package: mongodb
-Versions:
-1:2.4.6-0ubuntu5 (/var/lib/apt/lists/mirrors.163.com_ubuntu_dists_saucy_universe_binary-amd64_Packages)
-……
-……
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-02-23-ubuntu-install-mongodb/#more" rel="contents">
@@ -5501,13 +4974,6 @@ Versions:
         
           <p>2014-01-16</p>
 <p>现在需要限定某个用户对特定目录/文件的访问权限，或者把某个用户的访问范围限制在某个目录/文件中。现实情况下，还是能遇到这样的需求的，比如说ubuntu下有多个可登录用户，默认情况下，用户A的工作目录（一般为/home/A）对任何其他用户来说都是可读的，但是用户A可能不希望其他用户（或者某个特定用户）读取A的文件。</p>
-<a id="more"></a>
-<p>这里提出三个解决方案。</p>
-<p><strong>第一种：</strong>使用chmod更改特定目录的权限。这能起到限制特定目录被某些人访问的作用，限定某个用户的目的也能达到，但是会误伤其他用户。<br><strong>第二种：</strong>使用linux容器，例如lxc。耗费空间，设置稍显麻烦。<br><strong>第三种：</strong>使用setfacl命令设定访问控制。  </p>
-<p>其中，第三个方案是最符合要求的。本文主要讲该方案的具体实现并在我自己的本上测试。我的系统为Linux Mint 15 64位，根目录/使用的是ext4文件系统，/home使用的btrfs文件系统。  </p>
-<h2 id="安装acl"><a href="#安装acl" class="headerlink" title="安装acl"></a>安装acl</h2><hr>
-<pre><code>sudo apt-get install acl
-</code></pre><p>有资料说是要重启系统，但是测试的时候我发现这个在以前就已经安装好了（不知道是Mint自带了还是我胡乱装的），没有重启依旧有效。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-01-16-linux-restrict-user-access/#more" rel="contents">
@@ -5667,13 +5133,6 @@ Versions:
         
           <p>2014-01-07 </p>
 <p>SQLObject和SQLAlchemy都是Python语言下的ORM（对象关系映射）解决方案，其中SQLAlchemy被认为是Python下事实上的ORM标准。当然，两者都很优秀。</p>
-<a id="more"></a>
-<p>本文主要记录sqlobject的简单使用。使用Linux Mint 15，Python 2.7。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><hr>
-<pre><code>sudo pip install SQLObject
-</code></pre><p>使用SQLObject操作mysql时候报错<code>ImportError: No module named MySQLdb</code>，那便安装MySQLdb：</p>
-<pre><code>sudo pip install MySQL-python
-</code></pre><p>没想到又报错了：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-01-07-sqlobject-and-sqlalchemy/#more" rel="contents">
@@ -5824,30 +5283,6 @@ Versions:
 <p>星座学是有着悠久历史的，不过并不被现在的科学所认可。如果看重因果循环，或者迷恋黑客帝国，搞搞星座学还是其乐无穷的。调侃一下星座的字面意思也是常发生的事。哦，我目前不信星座什么的。</p>
 <p>进入正题。</p>
 <p>关于echarts的使用，之前已经大略地介绍了。详情请见： <a href="/2014/01/02/使用ECharts可视化星座关系（1）/" target="_blank">使用ECharts可视化星座关系（1）</a>。</p>
-<a id="more"></a>
-<p>先上个日期和星座的对应关系：</p>
-<pre><code>白羊座 3.21--4.19
-金牛座 4.20--5.20
-双子座 5.21--6.20
-巨蟹座 6.21--7.22
-狮子座 7.23--8.22
-处女座 8.23--9.22
-天秤座 9.23--10.22
-天蝎座 10.23--11.21
-射手座 11.22-12.21
-摩羯座 12.22--1.20
-水瓶座 1.21--2.19
-双鱼座 2.20--3.20
-</code></pre><p>从[2]中找到了一张星座配对表：<br><img src="/content/images/2014/01/2014-01-02-echarts-2.jpg" alt="image"></p>
-<p>本文的目的是：为每一个“男”星座找出最匹配的4个“女”星座，并用力导向布局图展示出这些关系。下面是从配对表手工提取的部分数据（只用了6个“男”星座）：</p>
-<pre><code> 男  |                       女             
-双鱼 |  巨蟹（97） 天蝎（92） 双鱼（88） 处女（84）
-水瓶 |  白羊（88） 双子（99） 天秤（97） 水瓶（87）
-摩羯 |  金牛（93） 巨蟹（87） 处女（95） 摩羯（88）
-射手 |  白羊（99） 双子（86） 狮子（92） 射手（89）
-天蝎 |  巨蟹（92） 双鱼（99） 天蝎（87） 摩羯（85）
-天秤 |  双子（93） 天秤（90） 水瓶（96） 射手（86）
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-01-02-echarts-constellation-2/#more" rel="contents">
@@ -5999,69 +5434,6 @@ Versions:
 <p>大数据时代，重新定义数据图表的时候到了</p>
 </blockquote>
 <p>以上是<a href="http://echarts.baidu.com/" title="http://echarts.baidu.com/" target="_blank">ECharts官网</a>中的口号。</p>
-<a id="more"></a>
-<p>最近的echarts版本是1.3.5，在github下载、解压之后，结构如下：</p>
-<pre><code>├─build
-│  └─wrap
-├─doc
-│  ├─asset
-│  │  ├─css
-│  │  ├─ico
-│  │  ├─img
-│  │  │  ├─doc
-│  │  │  └─example
-│  │  └─js
-│  │      └─esl
-│  ├─example
-│  │  ├─geoJson
-│  │  ├─topic
-│  │  │  ├─10-me-china
-│  │  │  │  └─js
-│  │  │  └─24-population-china
-│  │  │      └─js
-│  │  ├─www
-│  │  │  └─js
-│  │  └─www2
-│  │      └─js
-│  └─slide
-│      ├─css
-│      │  ├─print
-│      │  └─theme
-│      │      ├─source
-│      │      └─template
-│      ├─img
-│      ├─js
-│      ├─lib
-│      │  ├─css
-│      │  ├─font
-│      │  └─js
-│      └─plugin
-│          ├─highlight
-│          ├─markdown
-│          ├─multiplex
-│          ├─notes
-│          ├─notes-server
-│          ├─postmessage
-│          ├─print-pdf
-│          ├─remotes
-│          ├─search
-│          └─zoom-js
-├─src
-│  ├─chart
-│  ├─component
-│  └─util
-│      ├─mapData
-│      │  ├─geoJson
-│      │  └─rawData
-│      │      └─geoJson
-│      ├─projection
-│      └─shape
-└─test
-    └─allchart
-</code></pre><p>这些文件其实也就是<a href="http://echarts.baidu.com/" title="http://echarts.baidu.com/" target="_blank">http://echarts.baidu.com/</a>的本地化版本。</p>
-<p>官网的大部分示例并不完整（或者说是，示例并非简单而清晰），这里力求简单清晰。我们以<code>力导向布局图</code>为例。</p>
-<p>首先将/doc/asset/js/esl/esl.js复制到/build目录下，建立目录/me。</p>
-<p><a href="http://echarts.baidu.com/doc/example/force1.html" title="http://echarts.baidu.com/doc/example/force1.html" target="_blank">http://echarts.baidu.com/doc/example/force1.html</a>是一个以Steve Jobs为中心的人物关系图。我们在/me目录下建立文件force1.html，其内容如下：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-01-02-echarts-constellation-1/#more" rel="contents">
@@ -6234,13 +5606,6 @@ Versions:
 <p>翻墙常用的方式就是使用代理（Proxy），其基本过程如下：</p>
 <pre><code>浏览器&lt;--&gt;代理服务器&lt;--&gt;服务器
 </code></pre><p>如果浏览器请求不到服务器，或者服务器无法响应浏览器，我们可以设定将浏览器的请求传递给代理服务器，代理服务器将请求转发给服务器。然后，代理服务器将服务器的响应内容传递给浏览器。当然，代理服务器在得到请求或者响应内容的时候，本身也可以做些处理，例如缓存静态内容以加速，或者说提取请求内容或者响应内容做些正当或者不正当的分析。这种翻墙方式，就是设计模式中代理模式（Proxy Pattern）的一个具体例子。</p>
-<a id="more"></a>
-<p>维基百科对代理模式做了以下解释：</p>
-<blockquote>
-<p>In computer programming, the proxy pattern is a software design pattern.<br>A proxy, in its most general form, is a class functioning as an interface to something else. The proxy could interface to anything: a network connection, a large object in memory, a file, or some other resource that is expensive or impossible to duplicate.</p>
-</blockquote>
-<h2 id="基于面向过程的实现"><a href="#基于面向过程的实现" class="headerlink" title="基于面向过程的实现"></a>基于面向过程的实现</h2><hr>
-<p>下面是一段体现该设计模式中心的面向过程的python代码：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-01-01-proxy-pattern-with-python/#more" rel="contents">
@@ -6415,32 +5780,6 @@ Versions:
  └── js
      ├── bootstrap.js
      └── bootstrap.min.js
-</code></pre><a id="more"></a>
-<p>在引入了bootstrap.min.css的html文件中，若是有下面的代码：</p>
-<p><span class="glyphicon glyphicon-search"></span></p>
-<p>在浏览器中会显示出一个精致搜索的图形。</p>
-<p>我们看一下bootstrap.css（bootstrap.min.css是其压缩版本，即去掉不必要的空格换行等）相关代码：</p>
-<pre><code>@font-face {
-  font-family: &#39;Glyphicons Halflings&#39;;
-  src: url(&#39;../fonts/glyphicons-halflings-regular.eot&#39;);
-  src: url(&#39;../fonts/glyphicons-halflings-regular.eot?#iefix&#39;) format(&#39;embedded-opentype&#39;), url(&#39;../fonts/glyphicons-halflings-regular.woff&#39;) format(&#39;woff&#39;), url(&#39;../fonts/glyphicons-halflings-regular.ttf&#39;) format(&#39;truetype&#39;), url(&#39;../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular&#39;) format(&#39;svg&#39;);
-}
-
-.glyphicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: &#39;Glyphicons Halflings&#39;;
-  -webkit-font-smoothing: antialiased;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -moz-osx-font-smoothing: grayscale;
-}
-/*省略部分内容*/
-.glyphicon-search:before {
-  content: &quot;\e003&quot;;
-}
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
@@ -6575,15 +5914,6 @@ Versions:
 <p>觀察者模式（有時又被稱為發布/訂閱模式）是軟體設計模式的一種。在此種模式中，一個目標物件管理所有相依於它的觀察者物件，並且在它本身的狀態改變時主動發出通知。這通常透過呼叫各觀察者所提供的方法來實現。此種模式通常被用來實作事件處理系統。</p>
 </blockquote>
 <p>简单来说，一个被观察者有很多观察者，被观察者的状态的改变会引起所有观察者的响应操作。</p>
-<a id="more"></a>
-<p>那么我们用Python2.7来实现观察者模式。</p>
-<h2 id="Python中的集合set"><a href="#Python中的集合set" class="headerlink" title="Python中的集合set"></a>Python中的集合set</h2><p><hr><br>集合（set），类似于列表（list），但是它没有重复的元素，它的<code>__doc__</code>内容如下：</p>
-<pre><code>&gt;&gt;&gt; print set.__doc__
-set() -&gt; new empty set object
-set(iterable) -&gt; new set object
-
-Build an unordered collection of unique elements.
-</code></pre><p>下面是在ipython中进行的几个简单的集合操作。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-31-python-observer-pattern/#more" rel="contents">
@@ -6744,13 +6074,6 @@ Build an unordered collection of unique elements.
           <p>2013-12-30 18:20</p>
 <p>这两天给wordpress新写了一个主题，同时准备把wordpress从3.7升级到3.8。</p>
 <p>我是这样做的，在本机配置一个wordpress博客，新写一个主题，把必要的插件配置好。然后将本机的wordpress打包为wordpress.zip。远程主机上的数据备份就省略不说了。</p>
-<a id="more"></a>
-<p>本站的代码存放在远程主机的/var/www1目录（化名），在var下新建目录www2（化名），将wordpress.zip解压到/var/www2，修改wp-config.php中的数据库名、数据库用户名、相应密码。修改apache配置文件使得apache不再指向/var/www1，而是指向/var/www2。</p>
-<p>重启服务器，打开网站，首页效果符合期望，以管理员身份登陆，wordpress会提示升级数据库，那就升吧。首页虽然正常显示，但是打开文章或者页面（page）时候，会提示如下500错误：</p>
-<pre><code>...Request exceeded the limit of 10 internal redirects...
-</code></pre><p>服务器使用的是ubuntu12.04，使用<code>tail -f /var/log/apache2/access.log</code>，有错误信息但是不详细。</p>
-<p>这次错误有一个特征：如果在“设置”–&gt;“固定链接”中“常用设置”选为“默认”，那么一切访问正常，但若是使用restfull的url方式，则会出错。看样子，原因可能是.htaccess的问题。把www1下的.htaccess复制到www2下，问题解决。</p>
-
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-30-update-wordpress-error/#more" rel="contents">
@@ -6910,28 +6233,6 @@ Build an unordered collection of unique elements.
         
           <p>2013-12-26</p>
 <p>单例模式是一个常见的设计模式，本文讲述如何使用Python 2.7实现单例模式。</p>
-<a id="more"></a>
-<p></p><h3>一个简单实现</h3><p></p>
-<hr>
-
-<pre><code>class Foo(object):
-    __instance = None
-    def __init__(self):
-        pass
-    @classmethod
-    def getinstance(cls):
-        if(cls.__instance == None):
-            cls.__instance = Foo()
-        return cls.__instance   
-
-if __name__ == &#39;__main__&#39;:
-    foo1 = Foo.getinstance()
-    foo2 = Foo.getinstance()
-    print id(foo1)
-    print id(foo2)
-    print id(Foo())
-</code></pre><p>输出的前两个结果是相同的（<code>id(foo1)</code>与<code>id(foo2)</code>的值相同），第三个结果和前两个不同。这里类方法<code>getinstance()</code>用于获取单例，但是类本身也可以实例化，这样的方式其实并不符合单例模式的要求。但是这样做也有好处，代码简单，大家约定好这样子调用就行了。但是最好在类的命名上也体现了出来这是一个单例类，例如<code>Foo_singleton</code>。</p>
-<p></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-26-python-singleton-pattern/#more" rel="contents">
@@ -7080,25 +6381,6 @@ if __name__ == &#39;__main__&#39;:
         
           <p>2013-12-26</p>
 <p>使用Python2.7。</p>
-<a id="more"></a>
-<p></p><h3>实例方法</h3><p></p>
-<hr>
-
-<p>实例方法就是类的实例能够使用的方法。如下：</p>
-<pre><code>class Foo:
-    def __init__(self, name):
-        self.name = name
-    def hi(self):
-        print self.name 
-
-if __name__ == &#39;__main__&#39;:
-    foo01 = Foo(&#39;letian&#39;)
-    foo01.hi()
-    print type(Foo)
-    print type(foo01)
-    print id(foo01)
-    print id(Foo)
-</code></pre><p>运行结果为：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-26-some-concept-of-the-class/#more" rel="contents">
@@ -7248,19 +6530,6 @@ if __name__ == &#39;__main__&#39;:
           <p>2013-12-15</p>
 <p>说白了，远程调用就是将对象名、函数名、参数等传递给远程服务器，服务器将处理结果返回给客户端。远程调用使得调用远程服务器的对象、方法的方式就和调用本地对象、方法的方式差不多，因为我们通过网络编程把这些都隐藏起来了。远程调用是分布式系统的基础。</p>
 <p>远程调用一般分为两种，远程过程调用（RPC）和远程方法调用（RMI）。</p>
-<a id="more"></a>
-<p></p><h3>RPC</h3><p></p>
-<hr>
-
-<p>RPC属于函数级别的远程调用，其多是通过HTTP传输数据，数据形式有XML、JSON、序列化数据等。在此，用python做一个xml-rpc的示例。<br>先给服务器端server.py：</p>
-<pre><code>from SimpleXMLRPCServer import SimpleXMLRPCServer   
-def add(x, y):
-    return x + y    
-if __name__ == &#39;__main__&#39;:
-    s = SimpleXMLRPCServer((&#39;127.0.0.1&#39;, 8080))
-    s.register_function(add)
-    s.serve_forever()
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-15-how-to-implement-rpc/#more" rel="contents">
@@ -7421,21 +6690,6 @@ if __name__ == &#39;__main__&#39;:
           <p>2013-12-13</p>
 <p><a href="/2013-09-15-write-php-framework-1/">给自己写一个php框架-1</a><br><a href="/2013-09-15-write-php-framework-2/">给自己写一个php框架-2</a><br><a href="/2013-12-04-tpp-framework/">TPP —— 一个简单的PHP框架</a><br><a href="/2013-12-13-tpp-login-system/">使用TPP做一个简单的登录系统</a>  </p>
 <p>TPP是我最近写的一个简单的PHP框架，本文使用TPP做一个简单的登录系统。<br>TPP框架项目地址：<a href="https://github.com/letiantian/TPP" target="_blank" rel="noopener">https://github.com/letiantian/TPP</a>。</p>
-<a id="more"></a>
-<h2 id="在mysql5中的test库下建立表users"><a href="#在mysql5中的test库下建立表users" class="headerlink" title="在mysql5中的test库下建立表users"></a>在mysql5中的test库下建立表users</h2><hr>
-
-<pre><code>CREATE  TABLE `test`.`users` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
-  `passwd` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) )
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-</code></pre><p>主键是id字段，name字段内容具有唯一性约束。</p>
-<p>添加一组数据，用户名为a，email为aaa@163.com，密码aaa。图个方便，密码明文存储。</p>
-<p>将TPP放在/var/www中，TPP的配置不变。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-13-tpp-login-system/#more" rel="contents">
@@ -7563,20 +6817,11 @@ COLLATE = utf8_general_ci;
 
       
         
-          <p>2013-12-09</p>
-<!--国外-->
-<p><a href="http://stackoverflow.com/" target="_blank" rel="noopener">http://stackoverflow.com/</a><br><a href="http://www.techrepublic.com/" target="_blank" rel="noopener">http://www.techrepublic.com/</a><br><a href="http://www.theserverside.com/" target="_blank" rel="noopener">http://www.theserverside.com/</a><br><a href="http://www.infoq.com/" target="_blank" rel="noopener">http://www.infoq.com/</a><br><a href="http://www.infoq.com/cn" target="_blank" rel="noopener">http://www.infoq.com/cn</a><br><a href="http://www.ibm.com/developerworks/" target="_blank" rel="noopener">http://www.ibm.com/developerworks/</a><br><a href="https://news.ycombinator.com/" target="_blank" rel="noopener">https://news.ycombinator.com/</a><br><a href="http://lifehacker.com/" target="_blank" rel="noopener">http://lifehacker.com/</a><br><a href="http://techcrunch.com/" target="_blank" rel="noopener">http://techcrunch.com/</a>  </p>
-<!-- 个人博客 -->
-<p><a href="http://dongxicheng.org/" target="_blank" rel="noopener">董的博客</a></p>
-<!--国内-->
-<p><a href="http://www.oschina.net/" target="_blank" rel="noopener">开源中国社区</a><br><a href="http://www.csdn.net/" target="_blank" rel="noopener">CSDN</a><br><a href="http://www.cnblogs.com/" target="_blank" rel="noopener">博客园</a><br><a href="http://www.36kr.com/" target="_blank" rel="noopener">36氪</a><br><a href="http://www.geekpark.net/" target="_blank" rel="noopener">极客公园</a>  </p>
-<!--非IT-->
-<p><a href="http://songshuhui.net/" target="_blank" rel="noopener">科学松鼠会</a><br><a href="http://www.ftchinese.com/" target="_blank" rel="noopener">FT中文网</a><br><a href="http://www.zhihu.com/" target="_blank" rel="noopener">知乎</a></p>
-<!--练习英语-->
-<p><a href="http://digg.com/" target="_blank" rel="noopener">http://digg.com/</a><br><a href="http://www.youtube.com/" target="_blank" rel="noopener">http://www.youtube.com/</a>  </p>
-<p><a href="http://blog.jobbole.com/11590/" target="_blank" rel="noopener">为程序员量身定制的12个目标</a>  </p>
-<p><strong>欢迎补充。</strong></p>
+          
+          2013-12-09
 
+http://stackoverflow.com/http://www.techrepublic.com/http://www.theserverside.com/http://www.infoq.com/http://www.infoq.com/cnhttp://www.i
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-09-some-good-sites/#more" rel="contents">
@@ -7707,57 +6952,6 @@ COLLATE = utf8_general_ci;
           <p>2013-12-05</p>
 <p>感谢<em>黄兔之</em>的投稿。</p>
 <p>如果函数A的指针作为函数B的参数，在函数B中利用该指针调用函数A，则此时的A就是回调函数。<br>在C语言中一般用typedef来为回调函数定义别名（参数名）。<br>别名通过宏定义typedef来实现，不是简单的宏替换。可以用作同时声明指针型的多个对象。</p>
-<a id="more"></a>
-<p>比如：</p>
-<pre><code>char *pa，pb；//pa是一个char型指针，但pb是一个char型字符。我们可以这样来实现
-typedef char* PCHAR；
-PCHAR pa，pb；//pa和pb都是char型指针
-</code></pre><h2 id="先看一个回调函数的例子："><a href="#先看一个回调函数的例子：" class="headerlink" title="先看一个回调函数的例子："></a>先看一个回调函数的例子：</h2><hr>
-
-<pre><code>#include&lt;stdio.h&gt;
-
-//方法指针的格式为：int (*ptr)(char *p) 即：返回值(指针名)(参数列表)
-typedef int (*CallBackFun)(char *p);    //为回调函数命名，类型命名为 CallBackFun，参数为char *p
-
-//方法 Afun，格式符合 CallBackFun 的格式，因此可以看作是一个 CallBackFun   
-int Afun(char *p)
-{
-    printf(&quot;Afun 回调打印出字符%s!\n&quot;, p);   
-    return 0;
-}
-
-// 方法 Cfun，格式符合 CallBackFun 的格式，因此可以看作是一个 CallBackFun
-int Cfun(char *p)
-{   
-    printf(&quot;Cfun 回调打印:%s, Nice to meet you!\n&quot;, p);   
-    return 0;
-}
-
-// 执行回调函数，方式一：通过命名方式，pCallBack可以看做是CallBackFun的别名
-int call(CallBackFun pCallBack, char *p)
-{   
-    printf(&quot;call 直接打印出字符%s!\n&quot;, p);   
-    pCallBack(p);   
-    return 0;
-}
-
-// 执行回调函数，方式二：直接通过方法指针    
-int call2(char *p, int (*ptr)())  //或者是int call2(char *p, int (*ptr)(char *)) 同时ptr可以任意取名
-{
-    printf(&quot;==============\n&quot;, p);    
-    (*ptr)(p);
-}
-
-int main()
-{   
-    char *p = &quot;hello&quot;;
-    call(Afun, p);   
-    call(Cfun, p);
-    call2(p, Afun);   
-    call2(p, Cfun);
-    return 0;
-}
-</code></pre><h2 id="再看一个回调函数的例子："><a href="#再看一个回调函数的例子：" class="headerlink" title="再看一个回调函数的例子："></a>再看一个回调函数的例子：</h2>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-05-c-callback-function/#more" rel="contents">
@@ -7919,43 +7113,6 @@ int main()
 <p><a href="/2013-09-15-write-php-framework-1/">给自己写一个php框架-1</a><br><a href="/2013-09-15-write-php-framework-2/">给自己写一个php框架-2</a><br><a href="/2013-12-04-tpp-framework/">TPP —— 一个简单的PHP框架</a><br><a href="/2013-12-13-tpp-login-system/">使用TPP做一个简单的登录系统</a>  </p>
 <p>TPP是一个基于PHP的web框架，使用了MVC模式以支持快速开发。该框架源自于之前写的tinierPHP2。tinierPHP2是web框架的一个实验项目，限于各种原因，没有进行优化。TPP是对tinierPHP2的重写，并使用了新的名称。TPP进行了大量的重新设计，架构更为清晰，代码也更加整洁。不过TPP仍然保持着简单的原则，以求给予开发者最大的灵活性。 </p>
 <p>项目地址：<a href="https://github.com/letiantian/TPP" target="_blank">https://github.com/letiantian/TPP<br></a></p>
-<a id="more"></a>
-<p></p><h3>新的文件布局</h3><p></p>
-<p><hr><br>其实改动很小：</p>
-<pre><code>.
-├── Controller
-│   ├── error.php
-│   └── welcome.php
-├── Core
-│   ├── tpp_config.php
-│   ├── TPP_Index.php
-│   ├── TPP_Loader.php
-│   └── TPP.php
-├── Corelib
-│   ├── Medoo.php
-│   └── Render.php
-├── index.php
-├── static
-│   ├── bootstrap3
-│   │   ├── css
-│   │   │   ├── bootstrap.css
-│   │   │   ├── bootstrap.min.css
-│   │   │   ├── bootstrap-theme.css
-│   │   │   └── bootstrap-theme.min.css
-│   │   ├── fonts
-│   │   │   ├── glyphicons-halflings-regular.eot
-│   │   │   ├── glyphicons-halflings-regular.svg
-│   │   │   ├── glyphicons-halflings-regular.ttf
-│   │   │   └── glyphicons-halflings-regular.woff
-│   │   └── js
-│   │       ├── bootstrap.js
-│   │       └── bootstrap.min.js
-│   └── jquery-1.10.2.min.js
-├── Template
-│   └── error
-│       └── 404.php
-└── Userlib
-</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-12-04-tpp-framework/#more" rel="contents">
@@ -8118,19 +7275,6 @@ int main()
 <blockquote>
 <p>PHP Data Objects (PDO) is an interface for accessing databases.</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="创建table"><a href="#创建table" class="headerlink" title="创建table"></a>创建table</h2><hr>
-<p>先在MySQL5的数据库test下创建users表：</p>
-<pre><code class="sql">CREATE  TABLE `test`.`users` (
-    `id` INT NOT NULL AUTO_INCREMENT ,
-    `name` VARCHAR(45) NOT NULL ,
-    `email` VARCHAR(45) NOT NULL ,
-    `passwd` VARCHAR(45) NOT NULL ,
-    PRIMARY KEY (`id`) ,
-    UNIQUE INDEX `name_UNIQUE` (`name` ASC) 
-) DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci;
-</code></pre>
-<h2 id="创建文件connection-php"><a href="#创建文件connection-php" class="headerlink" title="创建文件connection.php"></a>创建文件connection.php</h2><hr>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-11-27-pdo-and-capture-package/#more" rel="contents">
@@ -8280,62 +7424,6 @@ int main()
           <p>2013-11-27</p>
 <p>Masonry是一个基于javascript的制作网格布局的库，使用它可以轻松实现瀑布流效果。它也可以作为jQuery插件使用。</p>
 <p>下面是一个示例：</p>
-<a id="more"></a>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;title&gt;&lt;/title&gt;
-    &lt;script src=&quot;../assets/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;../assets/masonry.pkgd.min.js&quot;&gt;&lt;/script&gt;
-    &lt;style&gt;
-        #container {
-            max-width: 660px;
-        }
-        .item { width: 200px;
-            background-color: #808080;
-            margin-left: 10px;
-            margin-top: 10px;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;div id=&quot;container&quot;&gt;
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;h1&gt;1&lt;/h1&gt;
-        Mozilla宣布，除Firefox外，另外两大浏览器Chrome和Opera正为asm.js优化。asm.js是 Mozilla开发的JavaScript子集，避开了JavaScript中大量难以优化的动态功能...
-    &lt;/div&gt;
-
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;h1&gt;2&lt;/h1&gt;
-        Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，...
-    &lt;/div&gt;
-
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;h1&gt;3&lt;/h1&gt;
-        2011年，网络电话巨头Skype被微软收购，然而在过去的三年之中，Skype的发展势头并不理想。日前，Skype的一位联合创始人分析了其中原因，他还表示...
-    &lt;/div&gt;
-
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;h1&gt;4&lt;/h1&gt;
-        RethinkDB 设计用来存储 JSON 文档的分布式数据库，可通过简单操作实现多机分布式存储。支持表的联合和分组查询..
-    &lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    var container = document.querySelector(&#39;#container&#39;);
-    new Masonry( container, {
-        itemSelector: &#39;.item&#39;
-    });
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>效果图1：<br><img src="/content/images/2013/11/2013-11-27-masonry-1.png" alt="image"></p>
-<p>效果图2：<br><img src="/content/images/2013/11/2013-11-27-masonry-2.png" alt="image"></p>
-<p>官方网站上有很详细的文档：<a href="http://masonry.desandro.com/" target="_blank">http://masonry.desandro.com/</a></p>
-
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-11-27-masonry-pinterest/#more" rel="contents">
@@ -8485,11 +7573,6 @@ int main()
           <p>2013-11-24</p>
 <p>感谢antou的投稿。</p>
 <p>最近做了这样一个题目，感觉挺有趣~题目如下：</p>
-<a id="more"></a>
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><hr>
-<p>Winder 最近在玩一个数字游戏，该游戏是在一个n*m 的网格上进行的，每个格子上有<br>一个数字，代表这个格子的数值。玩家需要从网格的左上角的格子走到右下角的格子，每次<br>只能向右或者向下走，并且不能回头。玩家每经过一个格子可以选择分值是否加上该格子的<br>数值，每次游戏的初始分数都是0。</p>
-<p>Winder 想知道在每场游戏，他最多能够得到多少分值。但是，Winder 很懒，所以你必<br>须帮他来完成这件事。</p>
-<h2 id="数据输入"><a href="#数据输入" class="headerlink" title="数据输入"></a>数据输入</h2><hr>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014-11-24-number-game-program-efficiency/#more" rel="contents">
@@ -8623,15 +7706,7 @@ int main()
 <pre><code>int [] array;
 array = new int[10];
 System.out.println(array.length); //10
-</code></pre><a id="more"></a>
-<p>这段代码翻译成C很自然的想法是：</p>
-<pre><code>int * array; // int array[] not support in C
-array = (int*)malloc(sizof(int)*10);
-printf(&quot;%d\n&quot;,sizof(array)/sizeof(int)); // 1
-</code></pre><p>但很可惜这样是错误的，因为malloc操作在堆上分配空间，不一定是连续的，sizof(array)得到的是指针本身所占的单元，和sizeof(int)相等，无法通过sizof求得数组长度。它和下面还不一样：</p>
-<pre><code>int array[10];
-printf(&quot;%d\n&quot;,sizof(array)/sizeof(int)); // 10
-</code></pre><p>这里<code>array</code>是数组，是指向整个连续存储空间的常量，所以<code>sizeof</code>对其操作求得的是整个区域的长度。但是当数组名作为函数的参数传递时，数组就退化为指针，又回到了刚才问题。</p>
+</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-11-06-struct-hack/#more" rel="contents">
@@ -8791,14 +7866,6 @@ printf(&quot;%d\n&quot;,sizof(array)/sizeof(int)); // 10
         
           <p>2013-11-01</p>
 <p>使用的linux mint 15 64bit，hadoop使用的是1.2.1版本。</p>
-<a id="more"></a>
-<h2 id="1、设置ssh"><a href="#1、设置ssh" class="headerlink" title="1、设置ssh"></a>1、设置ssh</h2><hr>
-<p>安装ssh相关软件包： </p>
-<pre><code>sudo apt-get install openssh-client openssh-server
-</code></pre><p>然后使用下面两个命令之一启动/关闭sshd： </p>
-<pre><code>sudo /etc/init.d/ssh start|stop
-sudo service ssh start|stop
-</code></pre><p>若成功启动sshd，我们能看到如下类似结果： </p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2013-11-01-hadoop-1-2-pseudo-distributed-mode/#more" rel="contents">

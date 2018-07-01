@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。  建立Flask项目 按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mk">
+<meta name="description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：处理客户端通过POST方法传送的数据">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-24-flask-process-post-data/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。  建立Flask项目 按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mk">
+<meta property="og:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:26:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：处理客户端通过POST方法传送的数据">
-<meta name="twitter:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。  建立Flask项目 按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mk">
+<meta name="twitter:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
 
 
 
@@ -442,7 +442,7 @@ def register():
 
 if __name__ == &#39;__main__&#39;:
     app.run(debug=True)
-</code></pre><p><code>@app.route(&#39;/register&#39;, methods=[&#39;POST&#39;])</code>是指url<code>/register</code>只接受POST方法。也可以根据需要修改<code>methods</code>参数，例如</p>
+</code></pre><p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/register’, methods=[‘POST’])<code>是指url</code>/register<code>只接受POST方法。也可以根据需要修改</code>methods`参数，例如</p>
 <pre><code>@app.route(&#39;/register&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])  # 接受GET和POST方法
 </code></pre><p>具体请参考<a href="http://flask.pocoo.org/docs/quickstart/#http-methods" target="_blank" rel="noopener">http-methods</a>。</p>
 <p>客户端<code>client.py</code>内容如下：</p>

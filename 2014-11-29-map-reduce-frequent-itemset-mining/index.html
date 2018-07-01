@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17 需求是找到相对支持度为8">
+<meta name="description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17  需求是找到相对支持度为">
 <meta name="keywords" content="云计算,hadoop,机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于MapReduce的频繁项集挖掘">
 <meta property="og:url" content="http://www.letiantian.me/2014-11-29-map-reduce-frequent-itemset-mining/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17 需求是找到相对支持度为8">
+<meta property="og:description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17  需求是找到相对支持度为">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-17T02:53:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于MapReduce的频繁项集挖掘">
-<meta name="twitter:description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17 需求是找到相对支持度为8">
+<meta name="twitter:description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17  需求是找到相对支持度为">
 
 
 
@@ -426,7 +426,7 @@
 <h2 id="数据与需求"><a href="#数据与需求" class="headerlink" title="数据与需求"></a>数据与需求</h2><hr>
 <p>假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录：</p>
 <pre><code>1 2 13 45
-2 7 8 19 12 17
+2 7 8 19 12 17 
 </code></pre><p><strong>需求是找到相对支持度为80%的频繁2项集</strong>。假设<strong>共有1000条记录</strong>，则如果两个商品属于频繁2项目，则需要这两个商品同时在1000×80%=800个购买记录中同时出现。</p>
 <h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><hr>
 <p>输入：</p>

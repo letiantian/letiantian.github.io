@@ -647,6 +647,7 @@ public class DBUtilsSelect {
 
     }
 }
+
 </code></pre><p>运行结果：</p>
 <pre><code>{id=1, name=樂天, age=18}
 </code></pre><p><strong>源码分析：</strong></p>
@@ -751,6 +752,7 @@ public class DBUtilsSelect2 {
         }
     }   
 }
+
 </code></pre><p>运行结果：</p>
 <pre><code>[{id=1, name=樂天, age=18}, {id=2, name=樂天天, age=19}]
 </code></pre><p><strong>源码分析：</strong></p>
@@ -784,6 +786,7 @@ public class MapListHandler extends AbstractListHandler&lt;Map&lt;String, Object
 
     protected abstract T handleRow(ResultSet rs) throws SQLException;
 }
+
 </code></pre><p>使用<code>handleRow(...)</code>处理ResultSet rs中当前指向的数据，并转换为Map；而<code>handle()</code>方法将获得ResultSet rs所能找到的所有数据对应的Map构成的ArrayList。</p>
 <p>（完）</p>
 

@@ -92,13 +92,13 @@
 
 
 
-<meta name="description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta name="description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。">
 <meta name="keywords" content="编程实践,nodejs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="socket.io入门">
 <meta property="og:url" content="http://www.letiantian.me/2014-03-20-socket-io/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta property="og:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-01.jpg">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-02.jpg">
@@ -108,7 +108,7 @@
 <meta property="og:updated_time" content="2014-10-07T10:08:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket.io入门">
-<meta name="twitter:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。  关于websocket等反向ajax技术 在实时web应用中，常见的方法是反向Ajax。资料[2]中如下定义反向Ajax：  反向Ajax（Reverse Ajax）本质上则是这样的一种概念：能够从服务器端向客户端发送数据。在一个标准的HTTP Ajax请求中，数据是发送给服务器端的，反向">
+<meta name="twitter:description" content="2014-03-20 本文主要内容：关于websocket等反向ajax技术，如何使用socket.io。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/03/20140320-socketio-01.jpg">
 
 
@@ -431,7 +431,11 @@
 <p>以下是官方介绍：</p>
 <blockquote>
 <p>Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It’s care-free realtime 100% in JavaScript.</p>
+</blockquote>
+<blockquote>
 <p>In order to provide realtime connectivity on every browser, Socket.IO selects the most capable transport at runtime, without it affecting the API.</p>
+</blockquote>
+<blockquote>
 <p>WebSocket<br>Adobe® Flash® Socket<br>AJAX long polling<br>AJAX multipart streaming<br>Forever Iframe<br>JSONP Polling</p></blockquote><p></p>
 
 <p>简单来说<code>socket.io</code>是一个基于<code>nodejs</code>的库，其对多种反向ajax技术进行了包装并统一了接口。在运行时候socket.io自动根据浏览器的情况选择合适的反向ajax技术与socket.io服务器进行交互。如果说websocket等技术是规范的话，那么socket.io则属于应用。其官方网站见资料[10]。</p>

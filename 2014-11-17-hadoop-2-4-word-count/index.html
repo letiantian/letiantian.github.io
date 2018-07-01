@@ -406,7 +406,7 @@
 <pre><code class="no">Sign up for GitHub. By clicking &quot;Sign up for GitHub&quot;, you agree to our terms of service and privacy policy. We will send you account related emails occasionally
 </code></pre>
 <p>t2.txt：</p>
-<pre><code>and and  you
+<pre><code>and and  you 
 </code></pre><p>问题1是，如何对t1.txt中的单词进行计数。</p>
 <p>问题2是，如何对t1.txt和t2.txt中的单词进行计数。</p>
 <h2 id="创建目录并将文本文件放入HDFS"><a href="#创建目录并将文本文件放入HDFS" class="headerlink" title="创建目录并将文本文件放入HDFS"></a>创建目录并将文本文件放入HDFS</h2><hr>
@@ -476,8 +476,9 @@ public class WordCount {
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
+
 </code></pre>
-<p>下面解释一下这段代码。<br>TokenizerMapper类继承自Mapper<object, text,="" intwritable="">，其原型如下：</object,></p>
+<p>下面解释一下这段代码。<br>TokenizerMapper类继承自Mapper&lt;Object, Text, Text, IntWritable&gt;，其原型如下：</p>
 <pre><code>@InterfaceAudience.Public
 @InterfaceStability.Stable
 public class Mapper&lt;KEYIN,VALUEIN,KEYOUT,VALUEOUT&gt;
@@ -533,7 +534,7 @@ you    2
 </code></pre><p>结果正确。标点符号的混入以及单词大小写的问题可以根据需要完善一下。</p>
 <h2 id="对t1-txt和t2-txt中的单词进行计数"><a href="#对t1-txt和t2-txt中的单词进行计数" class="headerlink" title="对t1.txt和t2.txt中的单词进行计数"></a>对t1.txt和t2.txt中的单词进行计数</h2><hr>
 <p>先把<code>/output</code>目录删除了：</p>
-<pre><code>$HADOOP_PREFIX/bin/hadoop fs -rmr /output
+<pre><code>$HADOOP_PREFIX/bin/hadoop fs -rmr /output 
 </code></pre><p>将上面的<code>WordCount.java</code>中<code>main()</code>函数中的</p>
 <pre><code>FileInputFormat.addInputPath(job, new Path(&quot;/input/t1.txt&quot;));
 </code></pre><p>替换为：</p>
@@ -572,7 +573,7 @@ will    1
 you    3
 </code></pre>
 <p><code>and</code>和<code>you</code>出现的次数变成了3，结果正确。</p>
-<p>关于<code>FileInputFormat</code>，具体可查看官方文档：<a href="https://hadoop.apache.org/docs/r2.4.1/api/org/apache/hadoop/mapreduce/lib/input/FileInputFormat.html" target="_blank" rel="noopener">Class FileInputFormat<k,v></k,v></a>。</p>
+<p>关于<code>FileInputFormat</code>，具体可查看官方文档：<a href="https://hadoop.apache.org/docs/r2.4.1/api/org/apache/hadoop/mapreduce/lib/input/FileInputFormat.html" target="_blank" rel="noopener">Class FileInputFormat&lt;K,V&gt;</a>。</p>
 
       
     </div>

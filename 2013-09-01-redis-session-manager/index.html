@@ -92,20 +92,20 @@
 
 
 
-<meta name="description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta name="description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。">
 <meta name="keywords" content="编程实践,分布式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Redis的分布式会话管理系统">
 <meta property="og:url" content="http://www.letiantian.me/2013-09-01-redis-session-manager/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta property="og:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-redis.png">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-files.png">
 <meta property="og:updated_time" content="2014-10-07T08:44:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Redis的分布式会话管理系统">
-<meta name="twitter:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。    以PHP为例，其使用">
+<meta name="twitter:description" content="在网站开发中，所谓session，也是一个特殊的cookie，常用于记录用户的登录状态。例如，当用户A正常登录启用的Sessin的网站B时候，网站B并不会将用户名、密码等显式的作为cookie，而是根据用户名、登录时间、登录IP等信息生成一个唯一的ID作为cookie，而在网站的服务器端则会记录该ID对应的用户名、失效时间等信息。这样，服务器要识别用户就是靠这个ID了。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/10/2013-09-01-redis.png">
 
 
@@ -579,7 +579,7 @@ redis 127.0.0.1:6303&gt; ttl 192.168.1.222obama2013831173751
 (integer) 1168
 redis 127.0.0.1:6303&gt; ttl 192.168.1.222obama2013831173751
 (integer) 1196
-redis 127.0.0.1:6303&gt;
+redis 127.0.0.1:6303&gt; 
 </code></pre><h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><hr>
 <p>User.java：</p>
 <pre><code>import java.io.BufferedReader;
@@ -863,6 +863,7 @@ public class RedisAdmin {
         return false;
     }
 }
+
 </code></pre><p>PsqlAdmin.java：</p>
 <pre><code>/*
  * 代码结构不够好啊
@@ -995,6 +996,7 @@ public class PsqlAdmin {
      * System.out.println(&quot;查询失败&quot;); } }
      */
 }
+
 </code></pre>
       
     </div>

@@ -92,19 +92,19 @@
 
 
 
-<meta name="description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。  安装nginx： sudo apt-get install nginx 安装完后启动">
+<meta name="description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。">
 <meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Ubuntu下安装LEMP">
 <meta property="og:url" content="http://www.letiantian.me/2014-03-20-ubuntu-install-lemp/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。  安装nginx： sudo apt-get install nginx 安装完后启动">
+<meta property="og:description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2014/03/20140320-lemp.png">
 <meta property="og:updated_time" content="2015-06-28T08:08:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu下安装LEMP">
-<meta name="twitter:description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。  安装nginx： sudo apt-get install nginx 安装完后启动">
+<meta name="twitter:description" content="2014-03-20 nginx读做Engine X，所以如果将LAMP中的Apache换做Nginx，很多人简称其为LEMP。笔者使用的是linux mint 16,应该是基于ubuntu 13.04。 关于nginx更多内容，请参考资料[1]，如果对nginx开发感兴趣，请参考资料[2]。 好了，开始安装。">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/03/20140320-lemp.png">
 
 
@@ -416,7 +416,7 @@
 <p>FPM全称为FastCGI进程管理器，比较适合高负载网站。具体请见资料[3]、[4]、[5]。</p>
 <p>安装命令：</p>
 <pre><code>sudo apt-get install php5-fpm
-</code></pre><p>同时也会安装其他依赖，比如基本的php-common。<br>打开文件<code>/etc/php5/fpm/pool.d/www.conf</code>，确定<code>listen</code>指令的值是：</p>
+</code></pre><p>同时也会安装其他依赖，比如基本的php-common。<br>打开文件<code>/etc/php5/fpm/pool.d/<a href="http://www.conf" target="_blank" rel="noopener">www.conf</a></code>，确定<code>listen</code>指令的值是：</p>
 <pre><code>listen = /var/run/php5-fpm.sock
 </code></pre><p>可以使用<code>service</code>命令管理php-fpm。</p>
 <h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><hr>

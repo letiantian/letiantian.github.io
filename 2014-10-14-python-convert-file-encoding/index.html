@@ -434,6 +434,7 @@ def get_file_content(file_path):
 if __name__ == &#39;__main__&#39;:
     file_path = &#39;./1006.txt&#39;
     print get_file_content(file_path)
+
 </code></pre><p>注意，<code>codecs.open()</code>中必须有<code>errors=&quot;ignore&quot;</code>，否则处理容易中断和报类似下面的错误：</p>
 <pre><code>UnicodeDecodeError: &#39;gb2312&#39; codec can&#39;t decode bytes in position 374-375: illegal multibyte sequence
 </code></pre><p>上面的代码运行结果和notepad++显示的结果是相同的。</p>

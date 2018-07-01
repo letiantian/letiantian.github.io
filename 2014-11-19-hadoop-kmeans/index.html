@@ -425,7 +425,7 @@
 <p><strong>5、</strong>和第2步相同。</p>
 <p>从上面的步骤中，可以看出在每次迭代中，计算距离这一操作需要执行<code>n*k</code>次；很容易看出，对一个对象求最近簇心并不受对另外一个对象求最近簇心的影响，所以这一步是可以并行的。由于每次迭代要用到的簇心是上一次迭代的结果，所以些迭代是串行的关系。</p>
 <p>基于上面的分析，现在可以考虑如何实现kmeans的MapReduce版本了，下面是一次迭代中每个Task的伪代码实现。</p>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map Task的输入数据以SequenceFile的形式存储在HDFS中，这种文件以<key, value="">这种键值对的形式存储每个样本。key是这个样本的存储位置在该数据文件中的偏移量（这个key没什么作用），value是字符串，是这个样本的内容。SequenceFile类型的文件是可拆分的，这意味着这些样本可以拆开并映射到多个Map Task中。每个个Map Task获取当前的簇心，计算每个样本最近的簇心。Map Task的输出中，值是一个样本，键是该样本对应的簇心的标号。</key,></p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map Task的输入数据以SequenceFile的形式存储在HDFS中，这种文件以&lt;key, value&gt;这种键值对的形式存储每个样本。key是这个样本的存储位置在该数据文件中的偏移量（这个key没什么作用），value是字符串，是这个样本的内容。SequenceFile类型的文件是可拆分的，这意味着这些样本可以拆开并映射到多个Map Task中。每个个Map Task获取当前的簇心，计算每个样本最近的簇心。Map Task的输出中，值是一个样本，键是该样本对应的簇心的标号。</p>
 <pre><code class="no-highlight">**Input:** Global variable centers, the offset key, the sample value
 **Output:** &lt;key’, value’&gt; pair, where the key’ is the index of the closest  center point and value’ is a string comprise of sample information
 

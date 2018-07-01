@@ -459,6 +459,8 @@ public interface UserMapper {
 </code></pre><p><code>&lt;insert id=&quot;insertUser1&quot;&gt;</code>对应UserMapper接口中的<code>void insertUser1(User user);</code>方法。<code>parameterType</code>和方法<code>insertUser1</code>的参数类型一致。我们的SQL语句，只插入了User的name、email、password，主键id依靠数据库的自动生成。在官方文档<a href="http://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html" target="_blank" rel="noopener">Mapper XML 文件</a>中如下介绍useGeneratedKeys和keyProperty属性：</p>
 <blockquote>
 <p>useGeneratedKeys：（仅对 insert 和 update 有用）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系数据库管理系统的自动递增字段），默认值：false。 </p>
+</blockquote>
+<blockquote>
 <p>keyProperty： （仅对 insert 和 update 有用）唯一标记一个属性，MyBatis 会通过 getGeneratedKeys 的返回值或者通过 insert 语句的 selectKey 子元素设置它的键值，默认：unset。如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。 </p>
 </blockquote>
 <p>通过设置useGeneratedKeys和keyProperty属性，可以将生成的id注入到被保存的user对象中。</p>

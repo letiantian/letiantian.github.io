@@ -92,13 +92,13 @@
 
 
 
-<meta name="description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source  设计与实现文件存放位置n会把下载的各个版本的node放到/usr/local/n/versions/目录中。当指定某个版">
+<meta name="description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="n的解析">
 <meta property="og:url" content="http://www.letiantian.me/2015-11-06-n/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source  设计与实现文件存放位置n会把下载的各个版本的node放到/usr/local/n/versions/目录中。当指定某个版">
+<meta property="og:description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2015/11/2015-11-06-n-02.png">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2015/11/2015-11-06-n-03.gif">
@@ -107,7 +107,7 @@
 <meta property="og:updated_time" content="2015-12-08T11:06:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="n的解析">
-<meta name="twitter:description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source  设计与实现文件存放位置n会把下载的各个版本的node放到/usr/local/n/versions/目录中。当指定某个版">
+<meta name="twitter:description" content="2015-11-06 n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。 源码地址： https://github.com/tj/n 源码注释： https://github.com/letiantian/n-source">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/11/2015-11-06-n-02.png">
 
 
@@ -548,7 +548,7 @@ $ n bin 4.2.3
 ...........省略.........
 </code></pre>
 <p>4、去除0.0~0.7、0.8.0~0.8.5这些版本</p>
-<pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39;
+<pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; 
 </code></pre>
 <p>5、去重，排序<br>使用<code>sort</code>命令对版本号去重、排序。</p>
 <pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t .
@@ -957,7 +957,7 @@ $ echo $?
 <pre><code>tput smcup    # Save the display
 echo &#39;Hello&#39;
 tput rmcup    # Restore the display
-</code></pre><h3 id="将命令执行的结果放入一个变量中"><a href="#将命令执行的结果放入一个变量中" class="headerlink" title="将命令执行的结果放入一个变量中"></a>将命令执行的结果放入一个变量中</h3><p>有两种方法，一个是<code>$()</code>，另外一种是是用反引号```。<br>示例：</p>
+</code></pre><h3 id="将命令执行的结果放入一个变量中"><a href="#将命令执行的结果放入一个变量中" class="headerlink" title="将命令执行的结果放入一个变量中"></a>将命令执行的结果放入一个变量中</h3><p>有两种方法，一个是<code>$()</code>，另外一种是是用反引号<code>\`</code>。<br>示例：</p>
 <pre><code>$ result=$(ls)
 $ echo $result
 baidu.html mytest.sh

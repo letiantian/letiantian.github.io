@@ -433,7 +433,7 @@ npm ERR! Please check if you have git installed and in your PATH.
 <p>后台相当简洁易用，这里就不上图了。</p>
 <h3 id="配置Ghost使其仅供本地访问"><a href="#配置Ghost使其仅供本地访问" class="headerlink" title="配置Ghost使其仅供本地访问"></a>配置Ghost使其仅供本地访问</h3><p>进入<code>G:/Ghost-0.4.2</code>，打开<code>config.js</code>，将<code>development: {}</code>和<code>production:{}</code>中的<code>url</code>更改为<code>http://127.0.0.1:2368</code>。</p>
 <h3 id="配置为系统服务"><a href="#配置为系统服务" class="headerlink" title="配置为系统服务"></a>配置为系统服务</h3><p>配置系统服务的常见方法是以管理员身份使用sc命令，例如这里要添加其为服务可以：</p>
-<pre><code>sc create ghost-blog binpath= &quot;node G:\Ghost-0.4.2\index.js&quot;
+<pre><code>sc create ghost-blog binpath= &quot;node G:\Ghost-0.4.2\index.js&quot; 
 </code></pre><p>运行<code>services.msc</code>，可以找到ghost-blog服务。</p>
 <p><strong>不过</strong>，我在启动该服务的时候出现了这么个错误：</p>
 <pre><code>服务没有响应控制功能。

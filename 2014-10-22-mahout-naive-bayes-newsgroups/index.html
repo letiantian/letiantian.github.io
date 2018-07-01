@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+<meta name="description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all  在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hado">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用mahout下的朴素贝叶斯分类器对新闻分类">
 <meta property="og:url" content="http://www.letiantian.me/2014-10-22-mahout-naive-bayes-newsgroups/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+<meta property="og:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all  在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hado">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-23T01:17:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用mahout下的朴素贝叶斯分类器对新闻分类">
-<meta name="twitter:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all 在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hadoo">
+<meta name="twitter:description" content="2014-10-22 mahout版本是0.9；hadoop版本是1.2.1。 下载数据集20 newsgroups dataset，解压后得到20news-bydate目录： $ cp -R 20news-bydate/*/* 20news-all  在20news-all目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。 然后，复制到hdfs中： $ hado">
 
 
 
@@ -402,10 +402,10 @@
         <p>2014-10-22</p>
 <p>mahout版本是0.9；hadoop版本是1.2.1。</p>
 <p>下载数据集<a href="http://people.csail.mit.edu/jrennie/20Newsgroups/20news-bydate.tar.gz" target="_blank" rel="noopener">20 newsgroups dataset</a>，解压后得到<code>20news-bydate</code>目录：</p>
-<pre><code>$ cp -R 20news-bydate/*/* 20news-all
+<pre><code>$ cp -R 20news-bydate/*/* 20news-all 
 </code></pre><p>在<code>20news-all</code>目录下，一个子目录代表一个分类，每个分类下有多个文本文件，每个文本文件代表一个样本。</p>
 <p>然后，复制到hdfs中：</p>
-<pre><code>$ hadoop  distcp file:///home/sunlt/20news-all 20news-all
+<pre><code>$ hadoop  distcp file:///home/sunlt/20news-all 20news-all  
 </code></pre><p>查看一下：</p>
 <pre><code>$ hadoop  dfs -ls                                              
 Warning: $HADOOP_HOME is deprecated.
@@ -414,7 +414,7 @@ Found 6 items
 ......
 drwxr-xr-x   - sunlt supergroup          0 2014-10-13 10:09 /user/sunlt/20news-all
 ......
-</code></pre><h2 id="转换成的序列文件："><a href="#转换成的序列文件：" class="headerlink" title="转换成的序列文件："></a>转换成<text,text>的序列文件：</text,text></h2><hr>
+</code></pre><h2 id="转换成-lt-text-text-gt-的序列文件："><a href="#转换成-lt-text-text-gt-的序列文件：" class="headerlink" title="转换成&lt;text,text&gt;的序列文件："></a>转换成&lt;text,text&gt;的序列文件：</h2><hr>
 <pre><code>$ mahout seqdirectory \                 
 -i 20news-all \
 -o 20news-seq \
@@ -493,7 +493,7 @@ Reliability (standard deviation)            0.2984
 <p>导出数据：</p>
 <pre><code>$ mahout seqdumper -i 20news-testing/part-m-00000 -o ./20news_testing.res
 </code></pre><p>查看：</p>
-<pre><code>$ gedit ./20news_testing.res
+<pre><code>$ gedit ./20news_testing.res 
 </code></pre><p>也可以这样查看：</p>
 <pre><code>$ hadoop dfs -cat 20news-testing/part-m-00000
 </code></pre><p>由于是sequence文件，查看的结果是乱码。</p>
@@ -748,7 +748,7 @@ Reliability (standard deviation)            0.2984
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成的序列文件："><span class="nav-text">转换成的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成-lt-Text-VectorWritable-gt-的序列文件："><span class="nav-text">转换成&lt; Text, VectorWritable &gt;的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拆分数据"><span class="nav-text">拆分数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练："><span class="nav-text">训练：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试训练好的贝叶斯分类器："><span class="nav-text">测试训练好的贝叶斯分类器：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成-lt-text-text-gt-的序列文件："><span class="nav-text">转换成&lt;text,text&gt;的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换成-lt-Text-VectorWritable-gt-的序列文件："><span class="nav-text">转换成&lt; Text, VectorWritable &gt;的序列文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拆分数据"><span class="nav-text">拆分数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练："><span class="nav-text">训练：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试训练好的贝叶斯分类器："><span class="nav-text">测试训练好的贝叶斯分类器：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

@@ -450,7 +450,7 @@ value: 两者的相似度
 value: 所有电影与电影item_id_x的相似度，用户user_id_y对所有电影的评分
 </code></pre><p>设所有电影与电影<code>item_id_x</code>的相似度构成行向量<code>v</code>，<code>v[i]</code>表示电影<code>item_id_i</code>与电影<code>item_id_x</code>的相似度。设用户<code>user_id_y</code>对所有电影的评分构成列向量<code>w</code>，<code>w[i]</code>表示用户<code>user_id_y</code>对电影<code>item_id_i</code>的评分，0表示没有评分。</p>
 <p>我们预测的用户<code>user_id_y</code>对电影<code>item_id_x</code>的评分用matlab类型的代码可表示为：</p>
-<pre><code class="no-highlight">(v*w) /(v*(w&gt;0))
+<pre><code class="no-highlight">(v*w) /(v*(w&gt;0))  
 </code></pre>
 <h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><hr>
 <p>这一步是过滤掉用户评价过的电影，在<a href="/2014-11-20-map-reduce-item-cf-1">如何使用MapReduce实现基于物品的协同过滤（1）</a>已经做了介绍。</p>

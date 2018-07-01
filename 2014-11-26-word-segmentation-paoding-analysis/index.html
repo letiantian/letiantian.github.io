@@ -485,7 +485,7 @@ paoding.dic.home=/home/letian/paoding-analysis-2.0.4-beta/dic
 </code></pre>
 <p>运行<code>FenciMain.java</code>，结果如下：</p>
 <pre><code>翻译 官方 文档 需要 要的 的人 参考 一下 翻译 译错 错误 还请 指正 hello world 
-翻译 官方 文档 需要 要的 的人 参考 一下 翻译 译错 错误 还请 指正 hello world
+翻译 官方 文档 需要 要的 的人 参考 一下 翻译 译错 错误 还请 指正 hello world 
 </code></pre><h2 id="两种分词模式"><a href="#两种分词模式" class="headerlink" title="两种分词模式"></a>两种分词模式</h2><hr>
 <p>默认模式是<code>most-words</code>。<br>文件<code>FenciMain2.java</code></p>
 <pre><code>import java.io.IOException;
@@ -498,7 +498,7 @@ public class FenciMain2 {
     }
 }
 </code></pre><p>结果如下：</p>
-<pre><code>中华 华人 人民 共和 共和国
+<pre><code>中华 华人 人民 共和 共和国 
 </code></pre><p>在项目中添加<code>paoding-analyzer.properties</code>文件，内容如下：</p>
 <pre><code class="no-highlight"># PaodingAnlyzer Mode, &quot;most-words&quot;, &quot;max-word-length&quot;, &quot;class:com.xxx.MyTokenCollectorImpl&quot;...
 
@@ -509,7 +509,7 @@ paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.MostWo
 # paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
 </code></pre>
 <p>上面的配置代表启用most-words模式，<code>FenciMain2.java</code>运行结果如下：</p>
-<pre><code>中华 华人 人民 共和 共和国
+<pre><code>中华 华人 人民 共和 共和国 
 </code></pre><p>修改<code>paoding-analyzer.properties</code>文件，启用<code>max-word-length</code>模式：</p>
 <pre><code class="no-highlight"># PaodingAnlyzer Mode, &quot;most-words&quot;, &quot;max-word-length&quot;, &quot;class:com.xxx.MyTokenCollectorImpl&quot;...
 
@@ -520,17 +520,17 @@ paoding.analyzer.mode=max-word-length
 paoding.analyzer.dictionaries.compiler=net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
 </code></pre>
 <p>注意，“max-word-length”等的后面不要有空格，否则会出现下面的错误：</p>
-<pre><code class="text">java.lang.IllegalArgumentException: 不合法的分析器Mode参数设置:max-word-length
+<pre><code class="text">java.lang.IllegalArgumentException: 不合法的分析器Mode参数设置:max-word-length  
 </code></pre>
 <p>最后一行”net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler”的后面也不要有空格，否则会出现下面的错误：</p>
-<pre><code class="text">java.lang.ClassNotFoundException: net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler
+<pre><code class="text">java.lang.ClassNotFoundException: net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler  
 </code></pre>
 <p><code>FenciMain2.java</code>运行结果如下：</p>
-<pre><code>中华人民共和国
+<pre><code>中华人民共和国 
 </code></pre><p><strong>下面这段文字：</strong></p>
 <pre><code>互联网安全事件层出不穷，用户每时每刻都有可能会遭受攻击者袭击。
 </code></pre><p><code>most-words</code>模式分词结果如下：</p>
-<pre><code>互联 联网 安全 事件 层出 层出不穷 用户 每时 每刻 都有 可能 有可能 可能会 遭受 攻击 攻击者 袭击
+<pre><code>互联 联网 安全 事件 层出 层出不穷 用户 每时 每刻 都有 可能 有可能 可能会 遭受 攻击 攻击者 袭击 
 </code></pre><p><code>max-word-length</code>模式分词结果如下：</p>
 <pre><code>互联网 安全 事件 层出不穷 用户 每时每刻 都有 有可能 可能会 遭受 攻击者 袭击
 </code></pre><h2 id="该工具作者的博客"><a href="#该工具作者的博客" class="headerlink" title="该工具作者的博客"></a>该工具作者的博客</h2><hr>

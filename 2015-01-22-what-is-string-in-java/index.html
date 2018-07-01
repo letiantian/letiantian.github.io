@@ -428,7 +428,11 @@ System.out.println(arr2);  // a6c
 <p>Java中有“自动装箱”、“自动拆箱”的概念，这是针对基本类型和它们对应的类而言的。</p>
 <blockquote>
 <p>自动装箱：把基本类型用它们对应的引用类型包装起来，使它们具有对象的特质，可以调用toString()、hashCode()、getClass()、equals()等方法。</p>
+</blockquote>
+<blockquote>
 <p>拆箱：跟自动装箱的方向相反，将Integer及Double这样的引用类型的对象重新简化为基本类型的数据。</p>
+</blockquote>
+<blockquote>
 <p>注意：自动装箱和拆箱是由编译器来完成的，编译器会在编译期根据语法决定是否进行装箱和拆箱动作。</p>
 </blockquote>
 <p>代码示例：</p>
@@ -436,6 +440,7 @@ System.out.println(arr2);  // a6c
 int b = new Integer(6); // 自动拆箱
 System.out.println(a);  // 5
 System.out.println(b);  // 6
+
 </code></pre><h3 id="String不是数组"><a href="#String不是数组" class="headerlink" title="String不是数组"></a>String不是数组</h3><hr>
 <p>因为无法使用数组运算符<code>[]</code>。</p>
 <h3 id="String内部实现"><a href="#String内部实现" class="headerlink" title="String内部实现"></a>String内部实现</h3><hr>

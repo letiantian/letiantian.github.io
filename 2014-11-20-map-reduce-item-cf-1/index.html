@@ -449,11 +449,11 @@ ans =
 <p>基本思路就是这样，不过还有一个问题没有解决，如何得到相似度矩阵S？在本文中，相似度矩阵来自同现矩阵，相似度矩阵也等于<strong>同现矩阵</strong>。同现矩阵中的每个值代表着这两部电影同时被多少用户看过。比如，由于电影1和2同时被3个人看过，所以S[1,2]的值为3；电影1被5个用户看过，所以S[1,1]的值是5。</p>
 <h2 id="使用MapReduce实现"><a href="#使用MapReduce实现" class="headerlink" title="使用MapReduce实现"></a>使用MapReduce实现</h2><hr>
 <p>MovieLens 数据集中每一行的格式可以看作是：</p>
-<pre><code>user_id | item_id | rating
+<pre><code>user_id | item_id | rating 
 </code></pre><p>其中，时间戳被我省略了。</p>
 <h3 id="建立同现矩阵："><a href="#建立同现矩阵：" class="headerlink" title="建立同现矩阵："></a>建立同现矩阵：</h3><p><strong>第1次MapReduce：</strong></p>
 <p>Map的输入：</p>
-<pre><code>user_id | item_id | rating
+<pre><code>user_id | item_id | rating 
 </code></pre><p>Map的输出：</p>
 <pre><code>key: user_id
 value: item_id
@@ -505,23 +505,24 @@ value: sum(values)
 0.0, 0.0, 6.0, 3.0
 0.0, 0.0, 0.0, 3.0
 0.0, 0.0, 1.0, 0.0
+
 </code></pre><h2 id="补充：如何将矩阵的稀疏表示转换为非稀疏表示"><a href="#补充：如何将矩阵的稀疏表示转换为非稀疏表示" class="headerlink" title="补充：如何将矩阵的稀疏表示转换为非稀疏表示"></a>补充：如何将矩阵的稀疏表示转换为非稀疏表示</h2><hr>
 <p>若矩阵为：</p>
 <pre><code>2 3  
 4 0
-1 0
+1 0  
 </code></pre><p>稀疏形式（每行依次是&lt;行，列，值&gt;）：</p>
 <pre><code>1,1, 2 
 1,2, 3  
 2,1, 4  
-3,1, 1
+3,1, 1  
 </code></pre><p>已知矩阵大小为2×3，可以基于稀疏矩阵生成非稀疏的矩阵：</p>
 <pre><code>1,1, 2  
 1,2, 3  
 2,1, 4  
 2,2, 0 
 3,1, 1 
-3,2, 0
+3,2, 0 
 </code></pre><p>这个过程可以是这样的：</p>
 <p>先生成2×3的零矩阵（非MapReduce）：</p>
 <pre><code>1,1, 0  
@@ -529,7 +530,7 @@ value: sum(values)
 2,1, 0  
 2,2, 0 
 3,1, 0 
-3,2, 0
+3,2, 0 
 </code></pre><p>将零矩阵与已有的稀疏矩阵合并：</p>
 <pre><code>1,1, 0  
 1,2, 0  
@@ -540,7 +541,7 @@ value: sum(values)
 1,1, 2 
 1,2, 3  
 2,1, 4  
-3,1, 1
+3,1, 1 
 </code></pre><p>接下来，MapReduce：</p>
 <p>Map的输出：key是<code>(行,列)</code>，value是<code>值</code>。<br>Reduce接收的输入中，每一个key有1个或者2个value构成的<code>value_list</code>，其输出：key是<code>(行,列)</code>，value是<code>max(value_list)</code>。</p>
 <p>非稀疏形式就得到了。</p>

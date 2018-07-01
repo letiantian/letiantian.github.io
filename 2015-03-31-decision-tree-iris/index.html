@@ -430,6 +430,7 @@ array([0, 0, 0, 0, 0, 0, ... , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 &gt;&gt;&gt; test_data = np.concatenate((iris.data[40:50, :], iris.data[90:100, :], iris.data[140:150, :]), axis = 0)
 &gt;&gt;&gt; #测试集样本类别
 &gt;&gt;&gt; test_target = np.concatenate((iris.target[40:50], iris.target[90:100], iris.target[140:150]), axis = 0)
+
 </code></pre><h2 id="基于gini不纯度的决策树"><a href="#基于gini不纯度的决策树" class="headerlink" title="基于gini不纯度的决策树"></a>基于gini不纯度的决策树</h2><hr>
 <pre><code>&gt;&gt;&gt; from sklearn.tree import DecisionTreeClassifier
 &gt;&gt;&gt; clf = DecisionTreeClassifier(criterion=&#39;gini&#39;)

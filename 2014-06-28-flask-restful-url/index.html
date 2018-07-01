@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。  入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编写代码编辑HelloWorld/index.">
+<meta name="description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
 <meta name="keywords" content="web,python,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：RESTful URL">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-restful-url/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。  入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编写代码编辑HelloWorld/index.">
+<meta property="og:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T13:21:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：RESTful URL">
-<meta name="twitter:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。  入门 建立Flask项目按照以下命令建立Flask项目HelloWorld: mkdir HelloWorld mkdir HelloWorld/static mkdir HelloWorld/templates touch HelloWorld/index.py 编写代码编辑HelloWorld/index.">
+<meta name="twitter:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
 
 
 
@@ -479,7 +479,7 @@ def page(num):
 
 if __name__ == &#39;__main__&#39;:
     app.run(debug=True)
-</code></pre><p><code>@app.route(&#39;/page/&lt;int:num&gt;&#39;)</code>会将num变量自动转换成int类型。</p>
+</code></pre><p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/page/<a href="int:num" target="_blank" rel="noopener">int:num</a>‘)`会将num变量自动转换成int类型。</p>
 <p>运行上面的程序，在浏览器中访问<code>http://127.0.0.1:5000/page/1</code>，HelloWorld/index.py将输出如下内容：</p>
 <pre><code>1
 &lt;type &#39;int&#39;&gt;
@@ -512,7 +512,7 @@ if __name__ == &#39;__main__&#39;:
 <pre><code>11
 22
 </code></pre><h2 id="编写转换器"><a href="#编写转换器" class="headerlink" title="编写转换器"></a>编写转换器</h2><hr>
-<p>自定义的转换器是一个继承<code>werkzeug.routing.BaseConverter</code>的类，修改<code>to_python</code>和<code>to_url</code>方法即可。<code>to_python</code>方法用于将url中的变量转换后供被<code>@app.route</code>包装的函数使用，<code>to_url</code>方法用于<code>flask.url_for</code>中的参数转换。</p>
+<p>自定义的转换器是一个继承<code>werkzeug.routing.BaseConverter</code>的类，修改<code>to_python</code>和<code>to_url</code>方法即可。<code>to_python</code>方法用于将url中的变量转换后供被<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a><code>包装的函数使用，</code>to_url<code>方法用于</code>flask.url_for`中的参数转换。</p>
 <p>下面是一个示例，将<code>HelloWorld/index.py</code>修改如下：</p>
 <pre><code>from flask import Flask, url_for
 

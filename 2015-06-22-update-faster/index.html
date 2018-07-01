@@ -537,6 +537,7 @@ mysql&gt; select * from number limit 3;
 |  2 |    2 |
 +----+------+
 3 rows in set (0.00 sec)
+
 </code></pre><h2 id="更新方式1：单线程，使用索引，多个commmit，更新1000条"><a href="#更新方式1：单线程，使用索引，多个commmit，更新1000条" class="headerlink" title="更新方式1：单线程，使用索引，多个commmit，更新1000条"></a>更新方式1：单线程，使用索引，多个commmit，更新1000条</h2><pre><code># coding: UTF-8
 __author__ = &#39;letian&#39;
 
@@ -996,6 +997,7 @@ possible_keys: PRIMARY
          rows: 489900
         Extra: Using where
 1 row in set (0.00 sec)
+
 </code></pre><p>这种方式非常快，灵活性不够。</p>
 <p>如果遇到这样一个场景：将id为0、1、2的num置为2,其他全部置为4，可以先全部置为4,然后在更新id为0、1、2的记录，这样速度会很快。</p>
 

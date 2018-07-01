@@ -463,7 +463,7 @@ LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
           verbose=0)
 &gt;&gt;&gt; lr_predict_labels = lr.predict(test_data)
 &gt;&gt;&gt; sum(lr_predict_labels == test_labels)   # 预测对了446个样本
-446
+446  
 </code></pre><h2 id="使用多项式贝叶斯处理新数据"><a href="#使用多项式贝叶斯处理新数据" class="headerlink" title="使用多项式贝叶斯处理新数据"></a>使用多项式贝叶斯处理新数据</h2><hr>
 <p>对原始特征集合：</p>
 <pre><code>&gt;&gt;&gt; from sklearn.naive_bayes import MultinomialNB

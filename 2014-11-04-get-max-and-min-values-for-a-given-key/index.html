@@ -407,7 +407,7 @@
     &quot;_id&quot; : ObjectId(&quot;5456d5b9cc7a670d39a9ecdb&quot;),
     &quot;vid&quot; : 6096,
 }
-&gt;
+&gt; 
 </code></pre><p>我的目标是获取<code>vid</code>的最大值和最小值。</p>
 <h3 id="第1种解决办法：使用MapReduce"><a href="#第1种解决办法：使用MapReduce" class="headerlink" title="第1种解决办法：使用MapReduce"></a>第1种解决办法：使用MapReduce</h3><p>我在<a href="/2014-03-22-mapreduce-in-mongodb/">MapReduce in MongoDB</a>介绍过在MongoDB中如何使用mapreduce。官方的一篇文档<a href="http://cookbook.mongodb.org/patterns/finding_max_and_min_values_for_a_key/" target="_blank" rel="noopener">Finding Max And Min Values for a given Key</a>也介绍了如何在某种情况下如何使用mapreduce获取最大值/最小值。</p>
 <p>对这次需求而言，需要使用下面的代码：</p>
