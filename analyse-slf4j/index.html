@@ -584,7 +584,7 @@ public final class LoggerFactory {
 }
 </code></pre><p><code>findPossibleStaticLoggerBinderPathSet()</code>是去找当前classpath下所有的<code>org/slf4j/impl/StaticLoggerBinder.class</code>。如果有多个，则通过<code>reportMultipleBindingAmbiguity</code>发出警告。</p>
 <blockquote>
-<p>是的，classpath下（包括自己的代码）有完全路径重名的类是可以接受的，如果我们代码里要获取这种类的实例，或者已经import进来了，实际使用的类是找到的第一个符合条件的类。所以有时会遇到坑，比如一个项目的jar包的低版本和高本版都在classpath中，我们希望用高版本中特性，但是程序表现一直不符合我们的预期。这时，可能是因为程序实际用的是低版本特性。<br>当然，一个jar中不会出现完全路径重名的类。</p>
+<p>是的，classpath下（包括自己的代码）有完全路径重名的类是可以接受的，如果我们代码里要获取这种类的实例，或者已经import进来了，实际使用的类是找到的第一个符合条件的类。所以有时会遇到坑，比如一个项目的jar包的低版本和高本版都在classpath中，我们希望用高版本中特性，但是程序表现一直不符合我们的预期。这时，可能是因为程序实际用的是低版本特性。这种情况下，需要分析依赖关系，禁止掉重复的依赖。<a href="http://javatar.iteye.com/blog/804187" target="_blank" rel="noopener">防痴呆设计</a>提供了一个简单但很有意思的思路，来防止自己编写的代码库出现这种问题。<br>当然，一个jar中不会出现完全路径重名的类。</p>
 </blockquote>
 <p>然后，最重要的代码来了：</p>
 <pre><code>StaticLoggerBinder.getSingleton();
@@ -778,6 +778,10 @@ logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/analyse-jdk-spi/" rel="prev" title="JDK SPI的使用和源码分析">
+                JDK SPI的使用和源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -873,7 +877,7 @@ logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">213</span>
+                <span class="site-state-item-count">214</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
