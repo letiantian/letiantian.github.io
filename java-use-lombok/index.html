@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="编程实践,ruby," />
+  <meta name="keywords" content="JDK, Java, lombok" />
 
 
 
@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="2014-08-30  并发，在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。  如果只是创建并运行一个线程 先看一个简单的示例： # !/usr/bin/env ruby # coding: UTF-8  Thread.new() do     1000.times do |value|">
-<meta name="keywords" content="编程实践,ruby">
+<meta name="description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
+<meta name="keywords" content="JDK, Java, lombok">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于ruby多线程编程中的join">
-<meta property="og:url" content="http://www.letiantian.me/2014-08-30-ruby-thread-join/index.html">
+<meta property="og:title" content="为你减少代码量的Java库：Lombok">
+<meta property="og:url" content="http://www.letiantian.me/java-use-lombok/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-08-30  并发，在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。  如果只是创建并运行一个线程 先看一个简单的示例： # !/usr/bin/env ruby # coding: UTF-8  Thread.new() do     1000.times do |value|">
+<meta property="og:description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2014-10-07T12:19:15.000Z">
+<meta property="og:updated_time" content="2018-07-31T00:10:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于ruby多线程编程中的join">
-<meta name="twitter:description" content="2014-08-30  并发，在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。  如果只是创建并运行一个线程 先看一个简单的示例： # !/usr/bin/env ruby # coding: UTF-8  Thread.new() do     1000.times do |value|">
+<meta name="twitter:title" content="为你减少代码量的Java库：Lombok">
+<meta name="twitter:description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
 
 
 
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.letiantian.me/2014-08-30-ruby-thread-join/"/>
+  <link rel="canonical" href="http://www.letiantian.me/java-use-lombok/"/>
 
 
 
@@ -147,7 +147,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>关于ruby多线程编程中的join | 樂天笔记</title>
+  <title>为你减少代码量的Java库：Lombok | 樂天笔记</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -304,7 +304,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-08-30-ruby-thread-join/">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/java-use-lombok/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">关于ruby多线程编程中的join</h1>
+          <h1 class="post-title" itemprop="name headline">为你减少代码量的Java库：Lombok</h1>
         
 
         <div class="post-meta">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-08-30T18:49:32+08:00">
-                2014-08-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T08:10:28+08:00">
+                2018-07-31
               </time>
             
 
@@ -355,19 +355,8 @@
               </span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/编程实践/" itemprop="url" rel="index">
-                    <span itemprop="name">编程实践</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/ruby/" itemprop="url" rel="index">
-                    <span itemprop="name">ruby</span>
+                  <a href="/tags/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -401,162 +390,140 @@
       
 
       
-        <p>2014-08-30</p>
+        <p>lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。</p>
+<p>官网： <a href="https://projectlombok.org/" target="_blank" rel="noopener">https://projectlombok.org/</a></p>
 <blockquote>
-<p>并发，在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行，但任一个时刻点上只有一个程序在处理机上运行。</p>
+<p>Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.<br>Never write another getter or equals method again. Early access to future java features such as val, and much more.</p>
 </blockquote>
-<h2 id="如果只是创建并运行一个线程"><a href="#如果只是创建并运行一个线程" class="headerlink" title="如果只是创建并运行一个线程"></a>如果只是创建并运行一个线程</h2><hr>
-<p>先看一个简单的示例：</p>
-<pre><code class="ruby"># !/usr/bin/env ruby
-# coding: UTF-8
-
-Thread.new() do
-    1000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
-
-puts &quot;I am the main thread&quot;
+<a id="more"></a>
+<h2 id="示例1：使用-Data注解"><a href="#示例1：使用-Data注解" class="headerlink" title="示例1：使用@Data注解"></a>示例1：使用@Data注解</h2><p>这个注解，可以让我们不用写set、get、hashCode、toString方法。</p>
+<p>项目结构：</p>
+<pre><code class="java">
+├── build.gradle
+├── settings.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── demo
+    │   │       ├── Main.java
+    │   │       └── Person.java
+    │   └── resources
+    └── test
+        ├── java
+        └── resources
 </code></pre>
-<p>我运行了多次，结果都是：</p>
-<pre><code>I am the main thread
-</code></pre><p>原因很简单，主线程和使用<code>Thread.new()</code>创建的子线程并发，当主线程结束后，整个程序会退出。</p>
-<h2 id="sleep"><a href="#sleep" class="headerlink" title="sleep()"></a>sleep()</h2><hr>
-<p>为了让子线程完成后，整个程序再退出，可以：</p>
-<pre><code class="ruby"># !/usr/bin/env ruby
-# coding: UTF-8
+<p>build.gradle:</p>
+<pre><code class="gradle">plugins {
+    id &#39;java&#39;
+}
 
-Thread.new() do
-    1000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
-sleep(3.0)
-puts &quot;I am the main thread&quot;
+group &#39;com.example&#39;
+version &#39;1.0-SNAPSHOT&#39;
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
+
+    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
+}
 </code></pre>
-<p>这时候，运行结果就是我们想要的了：</p>
-<pre><code>... 省略部分运行结果 ...
----996
----997
----998
----999
-I am the main thread
-</code></pre><p><code>sleep()</code>会让调用它的程序休眠一段时间，<code>sleep(3.0)</code>就是休眠3秒。由于并不知道子线程的运行时间具体是多少，所以<code>sleep()</code>的方式并不好。</p>
-<h2 id="while"><a href="#while" class="headerlink" title="while"></a>while</h2><hr>
-<p>另外一个思路是主线程监视子线程是否运行结束，若没结束，主线程便不会退出。直接调用线程相关的方法查看其状态：</p>
-<pre><code class="ruby"># !/usr/bin/env ruby
-# coding: UTF-8
+<p>虽然是compile，但lombok只是在编译期使用。</p>
+<pre><code class="java">package demo;
 
-a = Thread.new() do
-    1000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import java.io.Serializable;
 
-while a.status != false 
-    # do something
-end
-puts &#39;I am the main thread&#39;
+@Data
+@AllArgsConstructor
+public class Person implements Serializable {
+
+    private String name;
+    private int age;
+
+}
 </code></pre>
-<p>运行结果如下：</p>
-<pre><code>... 省略部分运行结果 ...
----996
----997
----998
----999
-I am the main thread
-</code></pre><p>也可以用一个变量来监视子线程的状态：</p>
-<pre><code class="ruby"># !/usr/bin/env ruby
-# coding: UTF-8
+<pre><code class="java">package demo;
 
-run = true;
-a = Thread.new() do
-    1000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-    run = false;
-end
+public class Main {
 
-while run != false 
-    # do something
-end
-puts &#39;I am the main thread&#39;
+    public static void main(String[] args) {
+        Person p = new Person(&quot;Tom&quot;, 18);
+
+        System.out.println(p);
+        System.out.println(p.getName());
+        System.out.println(p.getAge());
+    }
+
+}
 </code></pre>
-<h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><hr>
-<p>下面用join()来解决这个问题：</p>
-<pre><code class="ruby"># !/usr/bin/env ruby
-# coding: UTF-8
-
-a = Thread.new() do
-    1000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
-
-a.join()
-
-puts &#39;I am the main thread&#39;
+<p>编译运行：</p>
+<pre><code class="plain">$ gradle build
+$ java -classpath build/libs/demo-1.0-SNAPSHOT.jar demo.Main
+Person(name=Tom, age=18)
+Tom
+18
 </code></pre>
-<p>运行结果是：</p>
-<pre><code>... 省略部分运行结果 ...
----996
----997
----998
----999
-I am the main thread
-</code></pre><p>值得注意的是，这种方法中，在join()后主线程休眠，子线程运行结束后，主线程才继续运行。而不像之前那样，主线程和子线程是交替运行的。由于上面的代码中循环次数太少，可能看不出区别，可以运行下面的两段代码进行比较：</p>
-<pre><code># !/usr/bin/env ruby
-# coding: UTF-8
+<p><strong>用Intellij IDEA编辑、运行代码，需要装lombok插件，以及做一些配置。可以参考《<a href="https://blog.csdn.net/xzp_12345/article/details/80268834" target="_blank" rel="noopener">IDEA下lombok安装，以及找不到get,set的问题</a>》。</strong></p>
+<h2 id="示例2：使用-Slf4j"><a href="#示例2：使用-Slf4j" class="headerlink" title="示例2：使用@Slf4j"></a>示例2：使用@Slf4j</h2><p>Slf4j是一个日志框架。</p>
+<p>项目结构：</p>
+<pre><code class="plain">├── build.gradle
+├── settings.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── demo
+    │   │       └── Main.java
+    │   └── resources
+    └── test
+        ├── java
+        └── resources
+</code></pre>
+<p>build.gradle ：</p>
+<pre><code class="gradle">plugins {
+    id &#39;java&#39;
+}
 
-# 主线程和子线程交替运行
+group &#39;com.example&#39;
+version &#39;1.0-SNAPSHOT&#39;
 
-run = true;
-a = Thread.new() do
-    10000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-    run = false;
-end
+sourceCompatibility = 1.8
 
-while run != false 
-    # do something
-    puts &#39;I am the main thread&#39;
-end
-</code></pre><pre><code># !/usr/bin/env ruby
-# coding: UTF-8
+repositories {
+    mavenCentral()
+}
 
-puts &#39;主线程开始&#39;
+dependencies {
+    compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
+    compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
+    compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-simple&#39;, version: &#39;1.7.25&#39;
 
-a = Thread.new() do
-    10000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
+    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
+}
+</code></pre>
+<p>@Slf4j 可以自动生成 log 变量。</p>
+<pre><code class="java">package demo;
 
-a.join()
+import lombok.extern.slf4j.Slf4j;
 
-puts &#39;I am the main thread&#39;
-</code></pre><p>如果使用join()会导致这样一个问题，那么如果两个子线程都join，会怎么样：</p>
-<pre><code># !/usr/bin/env ruby
-# coding: UTF-8
+@Slf4j
+public class Main {
 
-a = Thread.new() do
-    10000.times do |value|
-        puts &quot;a&quot; + value.to_s
-    end
-end
+    public static void main(String[] args) {
+        log.info(&quot;1+1 = {}&quot;, 2);
+    }
 
-b = Thread.new() do
-    10000.times do |value|
-        puts &quot;---&quot; + value.to_s
-    end
-end
+}
 
-a.join()
-b.join()
-
-puts &#39;I am the main thread&#39;
-</code></pre><p>运行后，可以看到，两个子线程是交替执行的，子线程都结束后，主线程才输出<code>I am the main thread</code>。</p>
+</code></pre>
+<p>运行 <code>Main</code> 类，输出：</p>
+<pre><code class="plain">[main] INFO demo.Main - 1+1 = 2
+</code></pre>
 
       
     </div>
@@ -610,7 +577,7 @@ puts &#39;I am the main thread&#39;
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/2014-08-30-ruby-thread-join/" title="关于ruby多线程编程中的join">http://www.letiantian.me/2014-08-30-ruby-thread-join/</a>
+      <a href="http://www.letiantian.me/java-use-lombok/" title="为你减少代码量的Java库：Lombok">http://www.letiantian.me/java-use-lombok/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -634,8 +601,8 @@ puts &#39;I am the main thread&#39;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014-08-24-reservoir-algorithm/" rel="next" title="蓄水池算法">
-                <i class="fa fa-chevron-left"></i> 蓄水池算法
+              <a href="/analyse-jdk-spi/" rel="next" title="JDK SPI的使用和源码分析">
+                <i class="fa fa-chevron-left"></i> JDK SPI的使用和源码分析
               </a>
             
           </div>
@@ -643,10 +610,6 @@ puts &#39;I am the main thread&#39;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014-09-02-arrange-activity/" rel="prev" title="活动安排问题">
-                活动安排问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -809,7 +772,7 @@ puts &#39;I am the main thread&#39;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果只是创建并运行一个线程"><span class="nav-text">如果只是创建并运行一个线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sleep"><span class="nav-text">sleep()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#while"><span class="nav-text">while</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#join"><span class="nav-text">join()</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例1：使用-Data注解"><span class="nav-text">示例1：使用@Data注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例2：使用-Slf4j"><span class="nav-text">示例2：使用@Slf4j</span></a></li></ol></div>
             
 
           </div>
