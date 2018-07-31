@@ -1272,6 +1272,9 @@ pre .javascript .function {
   position: relative;
   margin: 60px 0;
 }
+.posts-collapse .collection-title h1 {
+  margin-left: 20px;
+}
 .posts-collapse .collection-title h2 {
   margin-left: 20px;
 }
@@ -1334,7 +1337,7 @@ pre .javascript .function {
   display: none;
 }
 .posts-collapse .post-title {
-  margin-left: 60px;
+  margin-left: 100px;
   font-size: 16px;
   font-weight: normal;
   line-height: inherit;
@@ -1747,7 +1750,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #70d569;
+  background: #ede5af;
 }
 .links-of-blogroll {
   font-size: 13px;
