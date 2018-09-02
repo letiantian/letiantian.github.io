@@ -1,0 +1,2026 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/content/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Flask Web 框架入门">
+<meta property="og:url" content="http://www.letiantian.me/learn-flask/index.html">
+<meta property="og:site_name" content="樂天笔记">
+<meta property="og:description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-001.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-002.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-003.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-004.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-005.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-006.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-007.jpg">
+<meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-008.jpg">
+<meta property="og:updated_time" content="2018-09-01T02:30:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Flask Web 框架入门">
+<meta name="twitter:description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta name="twitter:image" content="http://www.letiantian.me/content/images/learn-flask/flask-001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.letiantian.me/learn-flask/"/>
+
+
+
+
+
+
+<!-- google ads -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4110801930171572",
+    enable_page_level_ads: true
+  });
+</script>
+<meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
+  <title>Python Flask Web 框架入门 | 樂天笔记</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <img class='bg-image' src="/content/images/bg2.jpg" />
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56203613-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1253409897&web_id=1253409897" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">樂天笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-topics">
+          <a href="/topics" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flask"></i> <br />
+            
+            专题
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-qingdan">
+          <a href="/qingdan" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list-ul"></i> <br />
+            
+            氢单
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/learn-flask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/content/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="樂天笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python Flask Web 框架入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T10:12:36+08:00">
+                2018-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-tags"></i>
+              </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Flask是一个轻量级的基于Python的web框架。</p>
+<p>本文适合有一定HTML、Python、网络基础的同学阅读。</p>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>这份文档中的代码使用 Python 3 运行。<br>是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是<code>Python 3.6.4</code>。<br>安装方法，可以自行谷歌或者百度。<br>建议在 linux 下实践本教程中命令行操作、执行代码。</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h2><p>通过pip3安装Flask即可：</p>
+<pre><code>$ sudo pip3 install Flask
+</code></pre><p>进入python交互模式看下Flask的介绍和版本：</p>
+<pre><code>$ python3
+
+&gt;&gt;&gt; import flask
+&gt;&gt;&gt; print(flask.__doc__)
+
+    flask
+    ~~~~~
+
+    A microframework based on Werkzeug.  It&#39;s extensively documented
+    and follows best practice patterns.
+
+    :copyright: © 2010 by the Pallets team.
+    :license: BSD, see LICENSE for more details.
+
+&gt;&gt;&gt; print(flask.__version__)
+1.0.2
+</code></pre><h2 id="3-从-Hello-World-开始"><a href="#3-从-Hello-World-开始" class="headerlink" title="3. 从 Hello World 开始"></a>3. 从 Hello World 开始</h2><p>本节主要内容：使用Flask写一个显示”Hello World!”的web程序，如何配置、调试Flask。</p>
+<h3 id="3-1-Hello-World"><a href="#3-1-Hello-World" class="headerlink" title="3.1 Hello World"></a>3.1 Hello World</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><p><code>static</code>和<code>templates</code>目录是默认配置，其中<code>static</code>用来存放静态资源，例如图片、js、css文件等。<code>templates</code>存放模板文件。<br>我们的网站逻辑基本在<code>server.py</code>文件中，当然，也可以给这个文件起其他的名字。</p>
+<p>在<code>server.py</code>中加入以下内容：</p>
+<pre><code class="python">from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+</code></pre>
+<p>运行<code>server.py</code>：</p>
+<pre><code>$ python3 server.py 
+ * Running on http://127.0.0.1:5000/
+</code></pre><p>打开浏览器访问<code>http://127.0.0.1:5000/</code>，浏览页面上将出现<code>Hello World!</code>。<br>终端里会显示下面的信息：</p>
+<pre><code>127.0.0.1 - - [16/May/2014 10:29:08] &quot;GET / HTTP/1.1&quot; 200 -
+</code></pre><p>变量app是一个Flask实例，通过下面的方式：</p>
+<pre><code class="python">@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+</code></pre>
+<p>当客户端访问<code>/</code>时，将响应<code>hello_world()</code>函数返回的内容。注意，这不是返回<code>Hello World!</code>这么简单，<code>Hello World!</code>只是HTTP响应报文的实体部分，状态码等信息既可以由Flask自动处理，也可以通过编程来制定。</p>
+<h3 id="3-2-修改Flask的配置"><a href="#3-2-修改Flask的配置" class="headerlink" title="3.2 修改Flask的配置"></a>3.2 修改Flask的配置</h3><pre><code class="python">app = Flask(__name__)
+</code></pre>
+<p>上面的代码中，python内置变量<code>__name__</code>的值是字符串<code>__main__</code> 。Flask类将这个参数作为程序名称。当然这个是可以自定义的，比如<code>app = Flask(&quot;my-app&quot;)</code>。</p>
+<p>Flask默认使用<code>static</code>目录存放静态资源，<code>templates</code>目录存放模板，这是可以通过设置参数更改的：</p>
+<pre><code>app = Flask(&quot;my-app&quot;, static_folder=&quot;path1&quot;, template_folder=&quot;path2&quot;)
+</code></pre><p>更多参数请参考<code>__doc__</code>：</p>
+<pre><code class="python">from flask import Flask
+print(Flask.__doc__)
+</code></pre>
+<h3 id="3-3-调试模式"><a href="#3-3-调试模式" class="headerlink" title="3.3 调试模式"></a>3.3 调试模式</h3><p>上面的server.py中以<code>app.run()</code>方式运行，这种方式下，如果服务器端出现错误是不会在客户端显示的。但是在开发环境中，显示错误信息是很有必要的，要显示错误信息，应该以下面的方式运行Flask：</p>
+<pre><code class="python">app.run(debug=True)
+</code></pre>
+<p>将<code>debug</code>设置为<code>True</code>的另一个好处是，程序启动后，会自动检测源码是否发生变化，若有变化则自动重启程序。这可以帮我们省下很多时间。</p>
+<h3 id="3-4-绑定IP和端口"><a href="#3-4-绑定IP和端口" class="headerlink" title="3.4 绑定IP和端口"></a>3.4 绑定IP和端口</h3><p>默认情况下，Flask绑定IP为<code>127.0.0.1</code>，端口为<code>5000</code>。我们也可以通过下面的方式自定义：</p>
+<pre><code class="python">app.run(host=&#39;0.0.0.0&#39;, port=80, debug=True)
+</code></pre>
+<p><code>0.0.0.0</code>代表电脑所有的IP。<code>80</code>是HTTP网站服务的默认端口。什么是默认？比如，我们访问网站<code>http://www.example.com</code>，其实是访问的<code>http://www.example.com:80</code>，只不过<code>:80</code>可以省略不写。</p>
+<p>由于绑定了80端口，需要使用root权限运行<code>server.py</code>。也就是：</p>
+<pre><code>$ sudo python3 server.py
+</code></pre><h3 id="3-5-本节源码"><a href="#3-5-本节源码" class="headerlink" title="3.5 本节源码"></a>3.5 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-001" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-001</a></p>
+<h2 id="4-获取-URL-参数"><a href="#4-获取-URL-参数" class="headerlink" title="4. 获取 URL 参数"></a>4. 获取 URL 参数</h2><p>URL参数是出现在url中的键值对，例如<code>http://127.0.0.1:5000/?disp=3</code>中的url参数是<code>{&#39;disp&#39;:3}</code>。</p>
+<h3 id="4-1-建立Flask项目"><a href="#4-1-建立Flask项目" class="headerlink" title="4.1 建立Flask项目"></a>4.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="4-2-列出所有的url参数"><a href="#4-2-列出所有的url参数" class="headerlink" title="4.2 列出所有的url参数"></a>4.2 列出所有的url参数</h3><p>在server.py中添加以下内容：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return request.args.__str__()
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>在浏览器中访问<code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>，将显示：</p>
+<pre><code>ImmutableMultiDict([(&#39;user&#39;, &#39;Flask&#39;), (&#39;time&#39;, &#39;&#39;), (&#39;p&#39;, &#39;7&#39;), (&#39;p&#39;, &#39;8&#39;)])
+</code></pre><p>较新的浏览器也支持直接在url中输入中文（最新的火狐浏览器内部会帮忙将中文转换成符合URL规范的数据），在浏览器中访问<code>http://127.0.0.1:5000/?info=这是爱，</code>，将显示：</p>
+<pre><code>ImmutableMultiDict([(&#39;info&#39;, &#39;这是爱，&#39;)])
+</code></pre><p>浏览器传给我们的Flask服务的数据长什么样子呢？可以通过<code>request.full_path</code>和<code>request.path</code>来看一下：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    print(request.path)
+    print(request.full_path)
+    return request.args.__str__()
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>浏览器访问<code>http://127.0.0.1:5000/?info=这是爱，</code>，运行<code>server.py</code>的终端会输出：</p>
+<pre><code>/
+/?info=%E8%BF%99%E6%98%AF%E7%88%B1%EF%BC%8C
+</code></pre><h3 id="4-3-获取某个指定的参数"><a href="#4-3-获取某个指定的参数" class="headerlink" title="4.3 获取某个指定的参数"></a>4.3 获取某个指定的参数</h3><p>例如，要获取键<code>info</code>对应的值，如下修改<code>server.py</code>：</p>
+<pre><code>from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return request.args.get(&#39;info&#39;)
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000)
+</code></pre><p>运行<code>server.py</code>，在浏览器中访问<code>http://127.0.0.1:5000/?info=hello</code>，浏览器将显示：</p>
+<pre><code>hello
+</code></pre><p>不过，当我们访问<code>http://127.0.0.1:5000/</code>时候却出现了500错误，浏览器显示：<br><img src="/content/images/learn-flask/flask-001.jpg" alt=""></p>
+<p>如果开启了Debug模式，会显示：<br><img src="/content/images/learn-flask/flask-002.jpg" alt=""></p>
+<p>为什么为这样？</p>
+<p>这是因为没有在URL参数中找到<code>info</code>。所以<code>request.args.get(&#39;info&#39;)</code>返回Python内置的None，而Flask不允许返回None。</p>
+<p>解决方法很简单，我们先判断下它是不是None：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    r = request.args.get(&#39;info&#39;)
+    if r==None:
+        # do something
+        return &#39;&#39;
+    return r
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+
+</code></pre>
+<p>另外一个方法是，设置默认值，也就是取不到数据时用这个值：</p>
+<pre><code>from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    r = request.args.get(&#39;info&#39;, &#39;hi&#39;)
+    return r
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre><p>函数<code>request.args.get</code>的第二个参数用来设置默认值。此时在浏览器访问<code>http://127.0.0.1:5000/</code>，将显示：</p>
+<pre><code>hi
+</code></pre><h3 id="4-4-如何处理多值"><a href="#4-4-如何处理多值" class="headerlink" title="4.4 如何处理多值"></a>4.4 如何处理多值</h3><p>还记得上面有一次请求是这样的吗？ <code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>，仔细看下，<code>p</code>有两个值。</p>
+<p>如果我们的代码是：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    r = request.args.get(&#39;p&#39;)
+    return r
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>在浏览器中请求时，我们只会看到<code>7</code>。如果我们需要把<code>p</code>的所有值都获取到，该怎么办？</p>
+<p>不用<code>get</code>，用<code>getlist</code>：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    r = request.args.getlist(&#39;p&#39;)  # 返回一个list
+    return str(r)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>浏览器输入 <code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>，我们会看到<code>[&#39;7&#39;, &#39;8&#39;]</code>。</p>
+<h3 id="4-5-本节源码"><a href="#4-5-本节源码" class="headerlink" title="4.5 本节源码"></a>4.5 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-002" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-002</a></p>
+<h2 id="5-获取POST方法传送的数据"><a href="#5-获取POST方法传送的数据" class="headerlink" title="5. 获取POST方法传送的数据"></a>5. 获取POST方法传送的数据</h2><p>作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据传递到网站服务器中。并不适合将数据放到URL参数中，密码放到URL参数中容易被看到，文章数据又太多，浏览器不一定支持太长长度的URL。这时，一般使用POST方法。  </p>
+<p>本文使用python的requests库模拟浏览器。</p>
+<p>安装方法：</p>
+<pre><code>$ sudo pip3 install requests
+</code></pre><h3 id="5-1-建立Flask项目"><a href="#5-1-建立Flask项目" class="headerlink" title="5.1 建立Flask项目"></a>5.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="5-2-查看POST数据内容"><a href="#5-2-查看POST数据内容" class="headerlink" title="5.2 查看POST数据内容"></a>5.2 查看POST数据内容</h3><p>以用户注册为例子，我们需要向服务器<code>/register</code>传送用户名<code>name</code>和密码<code>password</code>。如下编写<code>HelloWorld/server.py</code>。</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/register&#39;, methods=[&#39;POST&#39;])
+def register():
+    print(request.headers)
+    print(request.stream.read())
+    return &#39;welcome&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/register’, methods=[‘POST’])<code>是指url</code>/register<code>只接受POST方法。可以根据需要修改</code>methods`参数，例如如果想要让它同时支持GET和POST，这样写：</p>
+<pre><code>@app.route(&#39;/register&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;]) 
+</code></pre><p>浏览器模拟工具<code>client.py</code>内容如下：</p>
+<pre><code>import requests
+
+user_info = {&#39;name&#39;: &#39;letian&#39;, &#39;password&#39;: &#39;123&#39;}
+r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
+
+print(r.text)
+</code></pre><p>运行<code>HelloWorld/server.py</code>，然后运行<code>client.py</code>。<code>client.py</code>将输出：</p>
+<pre><code>welcome
+</code></pre><p>而<code>HelloWorld/server.py</code>在终端中输出以下调试信息（通过<code>print</code>输出）：</p>
+<pre><code>Host: 127.0.0.1:5000
+User-Agent: python-requests/2.19.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 24
+Content-Type: application/x-www-form-urlencoded
+
+
+b&#39;name=letian&amp;password=123&#39;
+</code></pre><p>前6行是client.py生成的HTTP请求头，由<code>(print request.headers)</code>输出。</p>
+<p>请求体的数据，我们通过<code>print(request.stream.read())</code>输出，结果是：</p>
+<pre><code>b&#39;name=letian&amp;password=123&#39;
+</code></pre><h3 id="5-3-解析POST数据"><a href="#5-3-解析POST数据" class="headerlink" title="5.3 解析POST数据"></a>5.3 解析POST数据</h3><p>上面，我们看到post的数据内容是：</p>
+<pre><code>b&#39;name=letian&amp;password=123&#39;
+</code></pre><p>我们要想办法把我们要的name、password提取出来，怎么做呢？自己写？不用，Flask已经内置了解析器<code>request.form</code>。</p>
+<p>我们将服务代码改成：</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/register&#39;, methods=[&#39;POST&#39;])
+def register():
+    print(request.headers)
+    # print(request.stream.read()) # 不要用，否则下面的form取不到数据
+    print(request.form)
+    print(request.form[&#39;name&#39;])
+    print(request.form.get(&#39;name&#39;))
+    print(request.form.getlist(&#39;name&#39;))
+    print(request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;))
+    return &#39;welcome&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>执行<code>client.py</code>请求数据，服务器代码会在终端输出：</p>
+<pre><code>Host: 127.0.0.1:5000
+User-Agent: python-requests/2.19.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 24
+Content-Type: application/x-www-form-urlencoded
+
+
+ImmutableMultiDict([(&#39;name&#39;, &#39;letian&#39;), (&#39;password&#39;, &#39;123&#39;)])
+letian
+letian
+[&#39;letian&#39;]
+little apple
+</code></pre><p><code>request.form</code>会自动解析数据。</p>
+<p><code>request.form[&#39;name&#39;]</code>和<code>request.form.get(&#39;name&#39;)</code>都可以获取<code>name</code>对应的值。对于<code>request.form.get()</code>可以为参数<code>default</code>指定值以作为默认值。所以：</p>
+<pre><code>print request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;)
+</code></pre><p>输出的是默认值</p>
+<pre><code>little apple
+</code></pre><p>如果<code>name</code>有多个值，可以使用<code>request.form.getlist(&#39;name&#39;)</code>，该方法将返回一个列表。我们将client.py改一下：</p>
+<pre><code>import requests
+
+user_info = {&#39;name&#39;: [&#39;letian&#39;, &#39;letian2&#39;], &#39;password&#39;: &#39;123&#39;}
+r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
+
+print(r.text)
+</code></pre><p>此时运行<code>client.py</code>，<code>print request.form.getlist(&#39;name&#39;)</code>将输出：</p>
+<pre><code>[u&#39;letian&#39;, u&#39;letian2&#39;]
+</code></pre><h3 id="5-4-本节源码"><a href="#5-4-本节源码" class="headerlink" title="5.4 本节源码"></a>5.4 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-003" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-003</a></p>
+<h2 id="6-处理和响应JSON数据"><a href="#6-处理和响应JSON数据" class="headerlink" title="6. 处理和响应JSON数据"></a>6. 处理和响应JSON数据</h2><p>使用 HTTP POST 方法传到网站服务器的数据格式可以有很多种，比如「5. 获取POST方法传送的数据」讲到的<code>name=letian&amp;password=123</code>这种用过<code>&amp;</code>符号分割的key-value键值对格式。我们也可以用JSON格式、XML格式。相比XML的重量、规范繁琐，JSON显得非常小巧和易用。</p>
+<h3 id="6-1-建立Flask项目"><a href="#6-1-建立Flask项目" class="headerlink" title="6.1 建立Flask项目"></a>6.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="6-2-处理JSON格式的请求数据"><a href="#6-2-处理JSON格式的请求数据" class="headerlink" title="6.2 处理JSON格式的请求数据"></a>6.2 处理JSON格式的请求数据</h3><p>如果POST的数据是JSON格式，<code>request.json</code>会自动将json数据转换成Python类型（字典或者列表）。</p>
+<p>编写<code>server.py</code>:</p>
+<pre><code class="python">from flask import Flask, request
+
+app = Flask(&quot;my-app&quot;)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+
+
+@app.route(&#39;/add&#39;, methods=[&#39;POST&#39;])
+def add():
+    print(request.headers)
+    print(type(request.json))
+    print(request.json)
+    result = request.json[&#39;a&#39;] + request.json[&#39;b&#39;]
+    return str(result)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;127.0.0.1&#39;, port=5000, debug=True)
+</code></pre>
+<p>编写<code>client.py</code>模拟浏览器请求：</p>
+<pre><code>import requests
+
+json_data = {&#39;a&#39;: 1, &#39;b&#39;: 2}
+
+r = requests.post(&quot;http://127.0.0.1:5000/add&quot;, json=json_data)
+
+print(r.text)
+</code></pre><p>运行<code>server.py</code>，然后运行<code>client.py</code>，<code>client.py</code> 会在终端输出：</p>
+<pre><code>3
+</code></pre><p><code>server.py</code> 会在终端输出：</p>
+<pre><code>Host: 127.0.0.1:5000
+User-Agent: python-requests/2.19.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 16
+Content-Type: application/json
+
+
+&lt;class &#39;dict&#39;&gt;
+{&#39;a&#39;: 1, &#39;b&#39;: 2}
+</code></pre><p>注意，请求头中<code>Content-Type</code>的值是<code>application/json</code>。</p>
+<h3 id="6-3-响应JSON-方案1"><a href="#6-3-响应JSON-方案1" class="headerlink" title="6.3 响应JSON-方案1"></a>6.3 响应JSON-方案1</h3><p>响应JSON时，除了要把响应体改成JSON格式，响应头的<code>Content-Type</code>也要设置为<code>application/json</code>。</p>
+<p>编写<code>server2.py</code>：</p>
+<pre><code>from flask import Flask, request, Response
+import json
+
+app = Flask(&quot;my-app&quot;)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+
+
+@app.route(&#39;/add&#39;, methods=[&#39;POST&#39;])
+def add():
+    result = {&#39;sum&#39;: request.json[&#39;a&#39;] + request.json[&#39;b&#39;]}
+    return Response(json.dumps(result),  mimetype=&#39;application/json&#39;)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;127.0.0.1&#39;, port=5000, debug=True)
+</code></pre><p>修改后运行。</p>
+<p>编写<code>client2.py</code>：</p>
+<pre><code>import requests
+
+json_data = {&#39;a&#39;: 1, &#39;b&#39;: 2}
+
+r = requests.post(&quot;http://127.0.0.1:5000/add&quot;, json=json_data)
+
+print(r.headers)
+print(r.text)
+</code></pre><p>运行<code>client.py</code>，将显示：</p>
+<pre><code>{&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Content-Length&#39;: &#39;10&#39;, &#39;Server&#39;: &#39;Werkzeug/0.14.1 Python/3.6.4&#39;, &#39;Date&#39;: &#39;Sat, 07 Jul 2018 05:23:00 GMT&#39;}
+{&quot;sum&quot;: 3}
+</code></pre><p>上面第一段内容是服务器的响应头，第二段内容是响应体，也就是服务器返回的JSON格式数据。</p>
+<p>另外，如果需要服务器的HTTP响应头具有更好的可定制性，比如自定义<code>Server</code>，可以如下修改<code>add()</code>函数：</p>
+<pre><code>@app.route(&#39;/add&#39;, methods=[&#39;POST&#39;])
+def add():
+    result = {&#39;sum&#39;: request.json[&#39;a&#39;] + request.json[&#39;b&#39;]}
+    resp = Response(json.dumps(result),  mimetype=&#39;application/json&#39;)
+    resp.headers.add(&#39;Server&#39;, &#39;python flask&#39;)
+    return resp
+</code></pre><p><code>client2.py</code>运行后会输出：</p>
+<pre><code>{&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Content-Length&#39;: &#39;10&#39;, &#39;Server&#39;: &#39;python flask&#39;, &#39;Date&#39;: &#39;Sat, 07 Jul 2018 05:26:40 GMT&#39;}
+{&quot;sum&quot;: 3}
+</code></pre><h3 id="6-4-响应JSON-方案2"><a href="#6-4-响应JSON-方案2" class="headerlink" title="6.4 响应JSON-方案2"></a>6.4 响应JSON-方案2</h3><p>使用 jsonify 工具函数即可。</p>
+<pre><code>from flask import Flask, request, jsonify
+
+app = Flask(&quot;my-app&quot;)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+
+
+@app.route(&#39;/add&#39;, methods=[&#39;POST&#39;])
+def add():
+    result = {&#39;sum&#39;: request.json[&#39;a&#39;] + request.json[&#39;b&#39;]}
+    return jsonify(result)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(host=&#39;127.0.0.1&#39;, port=5000, debug=True)
+</code></pre><h3 id="6-5-本节源码"><a href="#6-5-本节源码" class="headerlink" title="6.5 本节源码"></a>6.5 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-004" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-004</a></p>
+<h2 id="7-上传文件"><a href="#7-上传文件" class="headerlink" title="7. 上传文件"></a>7. 上传文件</h2><p>上传文件，一般也是用POST方法。</p>
+<h3 id="7-1-建立Flask项目"><a href="#7-1-建立Flask项目" class="headerlink" title="7.1 建立Flask项目"></a>7.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="7-2-上传文件"><a href="#7-2-上传文件" class="headerlink" title="7.2 上传文件"></a>7.2 上传文件</h3><p>这一部分的代码参考自<a href="http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python" target="_blank" rel="noopener">How to upload a file to the server in Flask</a>。  </p>
+<p>我们以上传图片为例：<br>假设将上传的图片只允许’png’、’jpg’、’jpeg’、’gif’这四种格式，通过url<code>/upload</code>使用POST上传，上传的图片存放在服务器端的<code>static/uploads</code>目录下。</p>
+<p>首先在项目<code>HelloWorld</code>中创建目录<code>static/uploads</code>：</p>
+<pre><code>mkdir HelloWorld/static/uploads
+</code></pre><p><code>werkzeug</code>库可以判断文件名是否安全，例如防止文件名是<code>../../../a.png</code>，安装这个库：</p>
+<pre><code>$ sudo pip3 install werkzeug
+</code></pre><p><code>server.py</code>代码：</p>
+<pre><code class="python">from flask import Flask, request
+
+from werkzeug.utils import secure_filename
+import os
+
+app = Flask(__name__)
+
+# 文件上传目录
+app.config[&#39;UPLOAD_FOLDER&#39;] = &#39;static/uploads/&#39;
+# 支持的文件格式
+app.config[&#39;ALLOWED_EXTENSIONS&#39;] = {&#39;png&#39;, &#39;jpg&#39;, &#39;jpeg&#39;, &#39;gif&#39;}  # 集合类型
+
+
+# 判断文件名是否是我们支持的格式
+def allowed_file(filename):
+    return &#39;.&#39; in filename and \
+           filename.rsplit(&#39;.&#39;, 1)[1] in app.config[&#39;ALLOWED_EXTENSIONS&#39;]
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/upload&#39;, methods=[&#39;POST&#39;])
+def upload():
+    upload_file = request.files[&#39;image&#39;]
+    if upload_file and allowed_file(upload_file.filename):
+        filename = secure_filename(upload_file.filename)
+        # 将文件保存到 static/uploads 目录，文件名同上传时使用的文件名
+        upload_file.save(os.path.join(app.root_path, app.config[&#39;UPLOAD_FOLDER&#39;], filename))
+        return &#39;info is &#39;+request.form.get(&#39;info&#39;, &#39;&#39;)+&#39;. success&#39;
+    else:
+        return &#39;failed&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p><code>app.config</code>中的config是字典的子类，可以用来设置自有的配置信息，也可以设置自己的配置信息。函数<code>allowed_file(filename)</code>用来判断<code>filename</code>是否有后缀以及后缀是否在<code>app.config[&#39;ALLOWED_EXTENSIONS&#39;]</code>中。</p>
+<p>客户端上传的图片必须以<code>image01</code>标识。<code>upload_file</code>是上传文件对应的对象。<code>app.root_path</code>获取<code>server.py</code>所在目录在文件系统中的绝对路径。<code>upload_file.save(path)</code>用来将<code>upload_file</code>保存在服务器的文件系统中，参数最好是绝对路径，否则会报错（网上很多代码都是使用相对路径，但是笔者在使用相对路径时总是报错，说找不到路径）。函数<code>os.path.join()</code>用来将使用合适的路径分隔符将路径组合起来。</p>
+<p>好了，定制客户端<code>client.py</code>：</p>
+<pre><code>import requests
+
+file_data = {&#39;image&#39;: open(&#39;Lenna.jpg&#39;, &#39;rb&#39;)}
+
+user_info = {&#39;info&#39;: &#39;Lenna&#39;}
+
+r = requests.post(&quot;http://127.0.0.1:5000/upload&quot;, data=user_info, files=file_data)
+
+print(r.text)
+</code></pre><p>运行<code>client.py</code>，当前目录下的<code>Lenna.jpg</code>将上传到服务器。</p>
+<p>然后，我们可以在<code>static/uploads</code>中看到文件<code>Lenna.jpg</code>。</p>
+<p>要控制上产文件的大小，可以设置请求实体的大小，例如：</p>
+<pre><code>app.config[&#39;MAX_CONTENT_LENGTH&#39;] = 16 * 1024 * 1024 #16MB
+</code></pre><p>不过，在处理上传文件时候，需要使用<code>try:...except:...</code>。</p>
+<p>如果要获取上传文件的内容可以：</p>
+<pre><code>file_content = request.files[&#39;image&#39;].stream.read()
+</code></pre><h3 id="7-3-本节源码"><a href="#7-3-本节源码" class="headerlink" title="7.3 本节源码"></a>7.3 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-005" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-005</a></p>
+<h2 id="8-Restful-URL"><a href="#8-Restful-URL" class="headerlink" title="8. Restful URL"></a>8. Restful URL</h2><p>简单来说，Restful URL可以看做是对 URL 参数的替代。</p>
+<h3 id="8-1-建立Flask项目"><a href="#8-1-建立Flask项目" class="headerlink" title="8.1 建立Flask项目"></a>8.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="8-2-编写代码"><a href="#8-2-编写代码" class="headerlink" title="8.2 编写代码"></a>8.2 编写代码</h3><p>编辑server.py：</p>
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/user/&lt;username&gt;&#39;)
+def user(username):
+    print(username)
+    print(type(username))
+    return &#39;hello &#39; + username
+
+
+@app.route(&#39;/user/&lt;username&gt;/friends&#39;)
+def user_friends(username):
+    print(username)
+    print(type(username))
+    return &#39;hello &#39; + username
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre><p>运行<code>HelloWorld/server.py</code>。使用浏览器访问<code>http://127.0.0.1:5000/user/letian</code>，HelloWorld/server.py将输出：</p>
+<pre><code>letian
+&lt;class &#39;str&#39;&gt;
+</code></pre><p>而访问<code>http://127.0.0.1:5000/user/letian/</code>，响应为404 Not Found。</p>
+<p>浏览器访问<code>http://127.0.0.1:5000/user/letian/friends</code>，可以看到：</p>
+<pre><code>Hello letian. They are your friends.
+</code></pre><p><code>HelloWorld/server.py</code>输出：</p>
+<pre><code>letian
+&lt;class &#39;str&#39;&gt;
+</code></pre><h3 id="8-3-转换类型"><a href="#8-3-转换类型" class="headerlink" title="8.3 转换类型"></a>8.3 转换类型</h3><p>由上面的示例可以看出，使用 Restful URL 得到的变量默认为str对象。如果我们需要通过分页显示查询结果，那么需要在url中有数字来指定页数。按照上面方法，可以在获取str类型页数变量后，将其转换为int类型。不过，还有更方便的方法，就是用flask内置的转换机制，即在route中指定该如何转换。</p>
+<p>新的服务器代码：</p>
+<pre><code class="python">from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/page/&lt;int:num&gt;&#39;)
+def page(num):
+    print(num)
+    print(type(num))
+    return &#39;hello world&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/page/<a href="int:num" target="_blank" rel="noopener">int:num</a>‘)`会将num变量自动转换成int类型。</p>
+<p>运行上面的程序，在浏览器中访问<code>http://127.0.0.1:5000/page/1</code>，HelloWorld/server.py将输出如下内容：</p>
+<pre><code>1
+&lt;class &#39;int&#39;&gt;
+</code></pre><p>如果访问的是<code>http://127.0.0.1:5000/page/asd</code>，我们会得到404响应。</p>
+<p>在官方资料中，说是有3个默认的转换器：</p>
+<pre><code>int     accepts integers
+float     like int but for floating point values
+path     like the default but also accepts slashes
+</code></pre><p>看起来够用了。</p>
+<h3 id="8-4-一个有趣的用法"><a href="#8-4-一个有趣的用法" class="headerlink" title="8.4 一个有趣的用法"></a>8.4 一个有趣的用法</h3><p>如下编写服务器代码：</p>
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/page/&lt;int:num1&gt;-&lt;int:num2&gt;&#39;)
+def page(num1, num2):
+    print(num1)
+    print(num2)
+    return &#39;hello world&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre><p>在浏览器中访问<code>http://127.0.0.1:5000/page/11-22</code>，<code>HelloWorld/server.py</code>会输出：</p>
+<pre><code>11
+22
+</code></pre><h3 id="8-5-编写转换器"><a href="#8-5-编写转换器" class="headerlink" title="8.5 编写转换器"></a>8.5 编写转换器</h3><p>自定义的转换器是一个继承<code>werkzeug.routing.BaseConverter</code>的类，修改<code>to_python</code>和<code>to_url</code>方法即可。<code>to_python</code>方法用于将url中的变量转换后供被<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a><code>包装的函数使用，</code>to_url<code>方法用于</code>flask.url_for`中的参数转换。</p>
+<p>下面是一个示例，将<code>HelloWorld/server.py</code>修改如下：</p>
+<pre><code>from flask import Flask, url_for
+
+from werkzeug.routing import BaseConverter
+
+
+class MyIntConverter(BaseConverter):
+
+    def __init__(self, url_map):
+        super(MyIntConverter, self).__init__(url_map)
+
+    def to_python(self, value):
+        return int(value)
+
+    def to_url(self, value):
+        return value * 2
+
+
+app = Flask(__name__)
+app.url_map.converters[&#39;my_int&#39;] = MyIntConverter
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/page/&lt;my_int:num&gt;&#39;)
+def page(num):
+    print(num)
+    print(url_for(&#39;page&#39;, num=123))   # page 对应的是 page函数 ，num 对应对应`/page/&lt;my_int:num&gt;`中的num，必须是str
+    return &#39;hello world&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre><p>浏览器访问<code>http://127.0.0.1:5000/page/123</code>后，<code>HelloWorld/server.py</code>的输出信息是：</p>
+<pre><code>123
+/page/123123
+</code></pre><h3 id="8-6-本节源码"><a href="#8-6-本节源码" class="headerlink" title="8.6 本节源码"></a>8.6 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-006" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-006</a></p>
+<h3 id="8-7-值得读"><a href="#8-7-值得读" class="headerlink" title="8.7 值得读"></a>8.7 值得读</h3><p><a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="noopener">理解RESTful架构</a>。   </p>
+<h2 id="9-使用url-for生成链接"><a href="#9-使用url-for生成链接" class="headerlink" title="9. 使用url_for生成链接"></a>9. 使用<code>url_for</code>生成链接</h2><p>工具函数<code>url_for</code>可以让你以软编码的形式生成url，提供开发效率。</p>
+<h3 id="9-1-建立Flask项目"><a href="#9-1-建立Flask项目" class="headerlink" title="9.1 建立Flask项目"></a>9.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="9-2-编写代码"><a href="#9-2-编写代码" class="headerlink" title="9.2 编写代码"></a>9.2 编写代码</h3><p>编辑<code>HelloWorld/server.py</code>：</p>
+<pre><code class="python">from flask import Flask, url_for
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    pass
+
+@app.route(&#39;/user/&lt;name&gt;&#39;)
+def user(name):
+    pass
+
+@app.route(&#39;/page/&lt;int:num&gt;&#39;)
+def page(num):
+    pass
+
+@app.route(&#39;/test&#39;)
+def test():
+    print url_for(&#39;hello_world&#39;)
+    print url_for(&#39;user&#39;, name=&#39;letian&#39;)
+    print url_for(&#39;page&#39;, num=1, q=&#39;hadoop mapreduce 10%3&#39;)
+    print url_for(&#39;static&#39;, filename=&#39;uploads/01.jpg&#39;)
+    return &#39;Hello&#39;
+
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True)
+</code></pre>
+<p>运行<code>HelloWorld/server.py</code>。然后在浏览器中访问<code>http://127.0.0.1:5000/test</code>，<code>HelloWorld/server.py</code>将输出以下信息：</p>
+<pre><code>/
+/user/letian
+/page/1?q=hadoop+mapreduce+10%253
+/static/uploads/01.jpg
+</code></pre><h3 id="9-3-本节源码"><a href="#9-3-本节源码" class="headerlink" title="9.3 本节源码"></a>9.3 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-007" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-007</a></p>
+<h2 id="10-使用redirect重定向网址"><a href="#10-使用redirect重定向网址" class="headerlink" title="10. 使用redirect重定向网址"></a>10. 使用redirect重定向网址</h2><p><code>redirect</code>函数用于重定向，实现机制很简单，就是向客户端（浏览器）发送一个重定向的HTTP报文，浏览器会去访问报文中指定的url。</p>
+<h3 id="10-1-建立Flask项目"><a href="#10-1-建立Flask项目" class="headerlink" title="10.1 建立Flask项目"></a>10.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="10-2-编写代码"><a href="#10-2-编写代码" class="headerlink" title="10.2 编写代码"></a>10.2 编写代码</h3><p>使用<code>redirect</code>时，给它一个字符串类型的参数就行了。</p>
+<p>编辑<code>HelloWorld/server.py</code>：</p>
+<pre><code>from flask import Flask, url_for, redirect
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+@app.route(&#39;/test1&#39;)
+def test1():
+    print &#39;this is test1&#39;
+    return redirect(url_for(&#39;test2&#39;))
+
+@app.route(&#39;/test2&#39;)
+def test2():
+    print &#39;this is test2&#39;
+    return &#39;this is test2&#39;
+
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True)
+</code></pre><p>运行<code>HelloWorld/server.py</code>，在浏览器中访问<code>http://127.0.0.1:5000/test1</code>，浏览器的url会变成<code>http://127.0.0.1:5000/test2</code>，并显示：</p>
+<pre><code>this is test2
+</code></pre><h3 id="10-3-本节源码"><a href="#10-3-本节源码" class="headerlink" title="10.3 本节源码"></a>10.3 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-008" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-008</a></p>
+<h2 id="11-使用Jinja2模板引擎"><a href="#11-使用Jinja2模板引擎" class="headerlink" title="11. 使用Jinja2模板引擎"></a>11. 使用Jinja2模板引擎</h2><p>模板引擎负责MVC中的V（view，视图）这一部分。Flask默认使用Jinja2模板引擎。</p>
+<p>Flask与模板相关的函数有：</p>
+<ul>
+<li>flask.render_template(template_name_or_list, **context)<br> Renders a template from the template folder with the given context.</li>
+<li>flask.render_template_string(source, **context)<br> Renders a template from the given template source string with the given context.</li>
+<li>flask.get_template_attribute(template_name, attribute)<br> Loads a macro (or variable) a template exports. This can be used to invoke a macro from within Python code. </li>
+</ul>
+<p>这其中常用的就是前两个函数。</p>
+<p>这个实例中使用了模板继承、if判断、for循环。</p>
+<h3 id="11-1-建立Flask项目"><a href="#11-1-建立Flask项目" class="headerlink" title="11.1 建立Flask项目"></a>11.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="11-2-创建并编辑HelloWorld-templates-default-html"><a href="#11-2-创建并编辑HelloWorld-templates-default-html" class="headerlink" title="11.2 创建并编辑HelloWorld/templates/default.html"></a>11.2 创建并编辑HelloWorld/templates/default.html</h3><p>内容如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;
+        {% if page_title %}
+            {{ page_title }}
+        {% endif %}
+    &lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    {% block body %}{% endblock %}
+
+
+```
+
+可以看到，在`<head>`标签中使用了if判断，如果给模板传递了`page_title`变量，显示之，否则，不显示。
+
+`</head><body>`标签中定义了一个名为`body`的block，用来被其他模板文件继承。
+
+### 11.3 创建并编辑HelloWorld/templates/user_info.html
+内容如下：
+
+```
+{% extends "default.html" %}
+
+{% block body %}
+    {% for key in user_info %}
+
+        {{ key }}: {{ user_info[key] }} <br>
+
+    {% endfor %}
+{% endblock %}
+</body></code></pre><p>变量<code>user_info</code>应该是一个字典，for循环用来循环输出键值对。</p>
+<h3 id="11-4-编辑HelloWorld-server-py"><a href="#11-4-编辑HelloWorld-server-py" class="headerlink" title="11.4 编辑HelloWorld/server.py"></a>11.4 编辑HelloWorld/server.py</h3><p>内容如下：</p>
+<pre><code class="python">from flask import Flask, render_template
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/user&#39;)
+def user():
+    user_info = {
+        &#39;name&#39;: &#39;letian&#39;,
+        &#39;email&#39;: &#39;123@aa.com&#39;,
+        &#39;age&#39;:0,
+        &#39;github&#39;: &#39;https://github.com/letiantian&#39;
+    }
+    return render_template(&#39;user_info.html&#39;, page_title=&#39;letian\&#39;s info&#39;, user_info=user_info)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p><code>render_template()</code>函数的第一个参数指定模板文件，后面的参数是要传递的数据。</p>
+<h3 id="11-5-运行与测试"><a href="#11-5-运行与测试" class="headerlink" title="11.5 运行与测试"></a>11.5 运行与测试</h3><p>运行HelloWorld/server.py：</p>
+<pre><code>$ python3 HelloWorld/server.py
+</code></pre><p>在浏览器中访问<code>http://127.0.0.1:5000/user</code>，效果图如下：</p>
+<p><img src="/content/images/learn-flask/flask-003.jpg" alt=""></p>
+<p>查看网页源码：</p>
+<pre><code class="html">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;
+            letian&amp;#39;s info
+    &lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        name: letian &lt;br/&gt;
+        email: 123@aa.com &lt;br/&gt;
+        age: 0 &lt;br/&gt;
+        github: https://github.com/letiantian &lt;br/&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="11-6-本节源码"><a href="#11-6-本节源码" class="headerlink" title="11.6 本节源码"></a>11.6 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-009" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-009</a></p>
+<h2 id="12-自定义404等错误的响应"><a href="#12-自定义404等错误的响应" class="headerlink" title="12. 自定义404等错误的响应"></a>12. 自定义404等错误的响应</h2><p>要处理HTTP错误，可以使用<code>flask.abort</code>函数。</p>
+<h3 id="12-1-示例1：简单入门"><a href="#12-1-示例1：简单入门" class="headerlink" title="12.1 示例1：简单入门"></a>12.1 示例1：简单入门</h3><h4 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h4><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>编辑<code>HelloWorld/server.py</code>：</p>
+<pre><code class="python">from flask import Flask, render_template_string, abort
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/user&#39;)
+def user():
+    abort(401)  # Unauthorized 未授权
+    print(&#39;Unauthorized, 请先登录&#39;)
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4><p>运行<code>HelloWorld/server.py</code>，浏览器访问<code>http://127.0.0.1:5000/user</code>，效果如下：</p>
+<p><img src="/content/images/learn-flask/flask-004.jpg" alt=""></p>
+<p>要注意的是，<code>HelloWorld/server.py</code>中<code>abort(401)</code>后的<code>print</code>并没有执行。</p>
+<h3 id="12-2-示例2：自定义错误页面"><a href="#12-2-示例2：自定义错误页面" class="headerlink" title="12.2 示例2：自定义错误页面"></a>12.2 示例2：自定义错误页面</h3><h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><p>将服务器代码改为：</p>
+<pre><code class="python">from flask import Flask, render_template_string, abort
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/user&#39;)
+def user():
+    abort(401)  # Unauthorized
+
+
+@app.errorhandler(401)
+def page_unauthorized(error):
+    return render_template_string(&#39;&lt;h1&gt; Unauthorized &lt;/h1&gt;&lt;h2&gt;{{ error_info }}&lt;/h2&gt;&#39;, error_info=error), 401
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p><code>page_unauthorized</code>函数返回的是一个元组，401 代表HTTP 响应状态码。如果省略401，则响应状态码会变成默认的 200。</p>
+<h4 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h4><p>运行<code>HelloWorld/server.py</code>，浏览器访问<code>http://127.0.0.1:5000/user</code>，效果如下：</p>
+<p><img src="/content/images/learn-flask/flask-005.jpg" alt=""></p>
+<h3 id="12-3-本节源码"><a href="#12-3-本节源码" class="headerlink" title="12.3 本节源码"></a>12.3 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-010" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-010</a></p>
+<h2 id="13-用户会话"><a href="#13-用户会话" class="headerlink" title="13. 用户会话"></a>13. 用户会话</h2><p>session用来记录用户的登录状态，一般基于cookie实现。</p>
+<p>下面是一个简单的示例。</p>
+<h3 id="13-1-建立Flask项目"><a href="#13-1-建立Flask项目" class="headerlink" title="13.1 建立Flask项目"></a>13.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="13-2-编辑HelloWorld-server-py"><a href="#13-2-编辑HelloWorld-server-py" class="headerlink" title="13.2 编辑HelloWorld/server.py"></a>13.2 编辑<code>HelloWorld/server.py</code></h3><p>内容如下：</p>
+<pre><code class="python">from flask import Flask, render_template_string, \
+    session, request, redirect, url_for
+
+app = Flask(__name__)
+
+app.secret_key = &#39;F12Zr47j\3yX R~X@H!jLwf/T&#39;
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/login&#39;)
+def login():
+    page = &#39;&#39;&#39;
+    &lt;form action=&quot;{{ url_for('do_login') }}&quot; method=&quot;post&quot;&gt;
+        &lt;p&gt;name: &lt;input type=&quot;text&quot; name=&quot;user_name&quot; /&gt;&lt;/p&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+    &lt;/form&gt;
+    &#39;&#39;&#39;
+    return render_template_string(page)
+
+
+@app.route(&#39;/do_login&#39;, methods=[&#39;POST&#39;])
+def do_login():
+    name = request.form.get(&#39;user_name&#39;)
+    session[&#39;user_name&#39;] = name
+    return &#39;success&#39;
+
+
+@app.route(&#39;/show&#39;)
+def show():
+    return session[&#39;user_name&#39;]
+
+
+@app.route(&#39;/logout&#39;)
+def logout():
+    session.pop(&#39;user_name&#39;, None)
+    return redirect(url_for(&#39;login&#39;))
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<h3 id="13-3-代码的含义"><a href="#13-3-代码的含义" class="headerlink" title="13.3 代码的含义"></a>13.3 代码的含义</h3><p><code>app.secret_key</code>用于给session加密。</p>
+<p>在<code>/login</code>中将向用户展示一个表单，要求输入一个名字，submit后将数据以post的方式传递给<code>/do_login</code>，<code>/do_login</code>将名字存放在session中。</p>
+<p>如果用户成功登录，访问<code>/show</code>时会显示用户的名字。此时，打开firebug等调试工具，选择session面板，会看到有一个cookie的名称为<code>session</code>。</p>
+<p><code>/logout</code>用于登出，通过将<code>session</code>中的<code>user_name</code>字段pop即可。Flask中的session基于字典类型实现，调用pop方法时会返回pop的键对应的值；如果要pop的键并不存在，那么返回值是<code>pop()</code>的第二个参数。</p>
+<p>另外，使用<code>redirect()</code>重定向时，一定要在前面加上<code>return</code>。</p>
+<h3 id="13-4-效果"><a href="#13-4-效果" class="headerlink" title="13.4 效果"></a>13.4 效果</h3><p>进入<code>http://127.0.0.1:5000/login</code>，输入name，点击submit：<br><img src="/content/images/learn-flask/flask-006.jpg" alt=""></p>
+<p>进入<code>http://127.0.0.1:5000/show</code>查看session中存储的name：<br><img src="/content/images/learn-flask/flask-007.jpg" alt=""></p>
+<h3 id="13-5-设置sessin的有效时间"><a href="#13-5-设置sessin的有效时间" class="headerlink" title="13.5 设置sessin的有效时间"></a>13.5 设置sessin的有效时间</h3><p>下面这段代码来自<a href="http://stackoverflow.com/questions/11783025/is-there-an-easy-way-to-make-sessions-timeout-in-flask" target="_blank" rel="noopener">Is there an easy way to make sessions timeout in flask?</a>：</p>
+<pre><code>from datetime import timedelta
+from flask import session, app
+
+session.permanent = True
+app.permanent_session_lifetime = timedelta(minutes=5)
+</code></pre><p>这段代码将session的有效时间设置为5分钟。</p>
+<h3 id="13-6-本节源码"><a href="#13-6-本节源码" class="headerlink" title="13.6 本节源码"></a>13.6 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-011" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-011</a></p>
+<h2 id="14-使用Cookie"><a href="#14-使用Cookie" class="headerlink" title="14. 使用Cookie"></a>14. 使用Cookie</h2><p>Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见 <a href="http://zh.wikipedia.org/wiki/Cookie" target="_blank" rel="noopener">http://zh.wikipedia.org/wiki/Cookie</a> 。 常用的用于记录用户登录状态的session大多是基于cookie实现的。</p>
+<p>cookie可以借助<code>flask.Response</code>来实现。下面是一个示例。</p>
+<h3 id="14-1-建立Flask项目"><a href="#14-1-建立Flask项目" class="headerlink" title="14.1 建立Flask项目"></a>14.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="14-2-代码"><a href="#14-2-代码" class="headerlink" title="14.2 代码"></a>14.2 代码</h3><p>修改<code>HelloWorld/server.py</code>：</p>
+<pre><code>from flask import Flask, request, Response, make_response
+import time
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;hello world&#39;
+
+
+@app.route(&#39;/add&#39;)
+def login():
+    res = Response(&#39;add cookies&#39;)
+    res.set_cookie(key=&#39;name&#39;, value=&#39;letian&#39;, expires=time.time()+6*60)
+    return res
+
+
+@app.route(&#39;/show&#39;)
+def show():
+    return request.cookies.__str__()
+
+
+@app.route(&#39;/del&#39;)
+def del_cookie():
+    res = Response(&#39;delete cookies&#39;)
+    res.set_cookie(&#39;name&#39;, &#39;&#39;, expires=0)
+    return res
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(port=5000, debug=True)
+</code></pre><p>由上可以看到，可以使用<code>Response.set_cookie</code>添加和删除cookie。<code>expires</code>参数用来设置cookie有效时间，它的值可以是<code>datetime</code>对象或者unix时间戳，笔者使用的是unix时间戳。</p>
+<pre><code>res.set_cookie(key=&#39;name&#39;, value=&#39;letian&#39;, expires=time.time()+6*60)
+</code></pre><p>上面的expire参数的值表示cookie在从现在开始的6分钟内都是有效的。</p>
+<p>要删除cookie，将expire参数的值设为0即可：</p>
+<pre><code>res.set_cookie(&#39;name&#39;, &#39;&#39;, expires=0)
+</code></pre><p><code>set_cookie()</code>函数的原型如下：</p>
+<blockquote>
+<p>set_cookie(key, value=’’, max_age=None, expires=None, path=’/‘, domain=None, secure=None, httponly=False)</p>
+</blockquote>
+<blockquote>
+<p>Sets a cookie. The parameters are the same as in the cookie Morsel object in the Python standard library but it accepts unicode data, too.<br>Parameters: </p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;   key – the key (name) of the cookie to be set.<br>&nbsp;&nbsp;&nbsp;&nbsp;   value – the value of the cookie.<br>&nbsp;&nbsp;&nbsp;&nbsp;   max_age – should be a number of seconds, or None (default) if the cookie should last only as long as the client’s browser session.</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;   expires – should be a datetime object or UNIX timestamp.</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;   domain – if you want to set a cross-domain cookie. For example, domain=”.example.com” will set a cookie that is readable by the domain <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a>, foo.example.com etc. Otherwise, a cookie will only be readable by the domain that set it.</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;   path – limits the cookie to a given path, per default it will span the whole domain.</p>
+</blockquote>
+<h3 id="14-3-运行与测试"><a href="#14-3-运行与测试" class="headerlink" title="14.3 运行与测试"></a>14.3 运行与测试</h3><p>运行<code>HelloWorld/server.py</code>：</p>
+<pre><code>$ python3 HelloWorld/server.py
+</code></pre><p>使用浏览器打开<code>http://127.0.0.1:5000/add</code>，浏览器界面会显示</p>
+<pre><code>add cookies
+</code></pre><p>下面查看一下cookie，如果使用firefox浏览器，可以用firebug插件查看。打开firebug，选择<code>Cookies</code>选项，刷新页面，可以看到名为<code>name</code>的cookie，其值为<code>letian</code>。</p>
+<p>在“网络”选项中，可以查看响应头中类似下面内容的设置cookie的HTTP「指令」：</p>
+<pre><code>Set-Cookie: name=letian; Expires=Sun, 29-Jun-2014 05:16:27 GMT; Path=/
+</code></pre><p>在cookie有效期间，使用浏览器访问<code>http://127.0.0.1:5000/show</code>，可以看到：</p>
+<pre><code>{&#39;name&#39;: &#39;letian&#39;}
+</code></pre><h3 id="14-4-本节源码"><a href="#14-4-本节源码" class="headerlink" title="14.4 本节源码"></a>14.4 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-012" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-012</a></p>
+<h2 id="15-闪存系统-flashing-system"><a href="#15-闪存系统-flashing-system" class="headerlink" title="15. 闪存系统 flashing system"></a>15. 闪存系统 flashing system</h2><p>Flask的闪存系统（flashing system）用于向用户提供反馈信息，这些反馈信息一般是对用户上一次操作的反馈。反馈信息是存储在服务器端的，当服务器向客户端返回反馈信息后，这些反馈信息会被服务器端删除。</p>
+<p>下面是一个示例。</p>
+<h3 id="15-1-建立Flask项目"><a href="#15-1-建立Flask项目" class="headerlink" title="15.1 建立Flask项目"></a>15.1 建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="15-2-编写HelloWorld-server-py"><a href="#15-2-编写HelloWorld-server-py" class="headerlink" title="15.2 编写HelloWorld/server.py"></a>15.2 编写HelloWorld/server.py</h3><p>内容如下：</p>
+<pre><code>from flask import Flask, flash, get_flashed_messages
+import time
+
+app = Flask(__name__)
+app.secret_key = &#39;some_secret&#39;
+
+
+@app.route(&#39;/&#39;)
+def index():
+    return &#39;hi&#39;
+
+
+@app.route(&#39;/gen&#39;)
+def gen():
+    info = &#39;access at &#39;+ time.time().__str__()
+    flash(info)
+    return info
+
+
+@app.route(&#39;/show1&#39;)
+def show1():
+    return get_flashed_messages().__str__()
+
+
+@app.route(&#39;/show2&#39;)
+def show2():
+    return get_flashed_messages().__str__()
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(port=5000, debug=True)
+</code></pre><h3 id="15-3-效果"><a href="#15-3-效果" class="headerlink" title="15.3 效果"></a>15.3 效果</h3><p>运行服务器：</p>
+<pre><code>$ python3 HelloWorld/server.py
+</code></pre><p>打开浏览器，访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示（注意，时间戳是动态生成的，每次都会不一样，除非并行访问）：</p>
+<pre><code>access at 1404020982.83
+</code></pre><p>查看浏览器的cookie，可以看到<code>session</code>，其对应的内容是：</p>
+<pre><code>.eJyrVopPy0kszkgtVrKKrlZSKIFQSUpWSknhYVXJRm55UYG2tkq1OlDRyHC_rKgIvypPdzcDTxdXA1-XwHLfLEdTfxfPUn8XX6DKWCAEAJKBGq8.BpE6dg.F1VURZa7VqU9bvbC4XIBO9-3Y4Y
+</code></pre><p>再一次访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示：</p>
+<pre><code>access at 1404021130.32
+</code></pre><p>cookie中<code>session</code>发生了变化，新的内容是：</p>
+<pre><code>.eJyrVopPy0kszkgtVrKKrlZSKIFQSUpWSknhYVXJRm55UYG2tkq1OlDRyHC_rKgIvypPdzcDTxdXA1-XwHLfLEdTfxfPUn8XX6DKWLBaMg1yrfCtciz1rfIEGxRbCwAhGjC5.BpE7Cg.Cb_B_k2otqczhknGnpNjQ5u4dqw
+</code></pre><p>然后使用浏览器访问<code>http://127.0.0.1:5000/show1</code>，浏览器界面显示：</p>
+<pre><code>[&#39;access at 1404020982.83&#39;, &#39;access at 1404021130.32&#39;]
+</code></pre><p>这个列表中的内容也就是上面的两次访问<code>http://127.0.0.1:5000/gen</code>得到的内容。此时，cookie中已经没有<code>session</code>了。</p>
+<p>如果使用浏览器访问<code>http://127.0.0.1:5000/show1</code>或者<code>http://127.0.0.1:5000/show2</code>，只会得到：</p>
+<pre><code>[]
+</code></pre><h3 id="15-4-高级用法"><a href="#15-4-高级用法" class="headerlink" title="15.4 高级用法"></a>15.4 高级用法</h3><p>flash系统也支持对flash的内容进行分类。修改<code>HelloWorld/server.py</code>内容：</p>
+<pre><code class="python">from flask import Flask, flash, get_flashed_messages
+import time
+
+app = Flask(__name__)
+app.secret_key = &#39;some_secret&#39;
+
+
+@app.route(&#39;/&#39;)
+def index():
+    return &#39;hi&#39;
+
+
+@app.route(&#39;/gen&#39;)
+def gen():
+    info = &#39;access at &#39;+ time.time().__str__()
+    flash(&#39;show1 &#39;+info, category=&#39;show1&#39;)
+    flash(&#39;show2 &#39;+info, category=&#39;show2&#39;)
+    return info
+
+
+@app.route(&#39;/show1&#39;)
+def show1():
+    return get_flashed_messages(category_filter=&#39;show1&#39;).__str__()
+
+@app.route(&#39;/show2&#39;)
+def show2():
+    return get_flashed_messages(category_filter=&#39;show2&#39;).__str__()
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(port=5000, debug=True)
+</code></pre>
+<p>某一时刻，浏览器访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示：</p>
+<pre><code>access at 1404022326.39
+</code></pre><p>不过，由上面的代码可以知道，此时生成了两个flash信息，但分类(category)不同。</p>
+<p>使用浏览器访问<code>http://127.0.0.1:5000/show1</code>，得到如下内容：</p>
+<pre><code>[&#39;1 access at 1404022326.39&#39;]
+</code></pre><p>而继续访问<code>http://127.0.0.1:5000/show2</code>，得到的内容为空：</p>
+<pre><code>[]
+</code></pre><h3 id="15-5-在模板文件中获取flash的内容"><a href="#15-5-在模板文件中获取flash的内容" class="headerlink" title="15.5 在模板文件中获取flash的内容"></a>15.5 在模板文件中获取flash的内容</h3><p>在Flask中，<code>get_flashed_messages()</code>默认已经集成到<code>Jinja2</code>模板引擎中，易用性很强。下面是来自官方的一个示例：</p>
+<p><img src="/content/images/learn-flask/flask-008.jpg" alt=""></p>
+<h3 id="15-6-本节源码"><a href="#15-6-本节源码" class="headerlink" title="15.6 本节源码"></a>15.6 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-013" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-013</a></p>
+<h2 id="16-值得读"><a href="#16-值得读" class="headerlink" title="16.  值得读"></a>16.  值得读</h2><p>一些教程：</p>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/" target="_blank" rel="noopener">官方文档</a></li>
+<li><a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world" target="_blank" rel="noopener">The Flask Mega-Tutorial</a></li>
+</ul>
+<p>生产环境部署 Flask 服务：</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/260f18aa5462" target="_blank" rel="noopener">Gunicorn运行与配置</a></li>
+<li><a href="https://www.zhihu.com/question/38528616" target="_blank" rel="noopener">Nginx、Gunicorn在服务器中分别起什么作用？</a></li>
+<li><a href="https://gunicorn.org/" target="_blank" rel="noopener">https://gunicorn.org/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        ( 完 )
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        <div class="post-tags">
+          <!--<a href="https://github.com/letiantian/comment/issues/1">留 &nbsp;&nbsp; 言</a>
+          <a href="/reward">赞 &nbsp;&nbsp; 赏</a>-->
+
+          <a href="#toc-comment">留言</a>
+          <a href="/gzh">公众号</a>
+          <a href="/reward">赞赏</a>
+        </div>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      letiantian
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.letiantian.me/learn-flask/" title="Python Flask Web 框架入门">http://www.letiantian.me/learn-flask/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并以可跳转的形式保留/添加原文链接！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-use-lombok/" rel="next" title="为你减少代码量的Java库：Lombok">
+                <i class="fa fa-chevron-left"></i> 为你减少代码量的Java库：Lombok
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+      
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/content/images/avatar.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">216</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/letiantian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装"><span class="nav-text">2. 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-从-Hello-World-开始"><span class="nav-text">3. 从 Hello World 开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Hello-World"><span class="nav-text">3.1 Hello World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-修改Flask的配置"><span class="nav-text">3.2 修改Flask的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-调试模式"><span class="nav-text">3.3 调试模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-绑定IP和端口"><span class="nav-text">3.4 绑定IP和端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-本节源码"><span class="nav-text">3.5 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取-URL-参数"><span class="nav-text">4. 获取 URL 参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-建立Flask项目"><span class="nav-text">4.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-列出所有的url参数"><span class="nav-text">4.2 列出所有的url参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-获取某个指定的参数"><span class="nav-text">4.3 获取某个指定的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-如何处理多值"><span class="nav-text">4.4 如何处理多值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-本节源码"><span class="nav-text">4.5 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-获取POST方法传送的数据"><span class="nav-text">5. 获取POST方法传送的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-建立Flask项目"><span class="nav-text">5.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-查看POST数据内容"><span class="nav-text">5.2 查看POST数据内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-解析POST数据"><span class="nav-text">5.3 解析POST数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-本节源码"><span class="nav-text">5.4 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-处理和响应JSON数据"><span class="nav-text">6. 处理和响应JSON数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-建立Flask项目"><span class="nav-text">6.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-处理JSON格式的请求数据"><span class="nav-text">6.2 处理JSON格式的请求数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-响应JSON-方案1"><span class="nav-text">6.3 响应JSON-方案1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-响应JSON-方案2"><span class="nav-text">6.4 响应JSON-方案2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-本节源码"><span class="nav-text">6.5 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-上传文件"><span class="nav-text">7. 上传文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-建立Flask项目"><span class="nav-text">7.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-上传文件"><span class="nav-text">7.2 上传文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-本节源码"><span class="nav-text">7.3 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Restful-URL"><span class="nav-text">8. Restful URL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-建立Flask项目"><span class="nav-text">8.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-编写代码"><span class="nav-text">8.2 编写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-转换类型"><span class="nav-text">8.3 转换类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-一个有趣的用法"><span class="nav-text">8.4 一个有趣的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-编写转换器"><span class="nav-text">8.5 编写转换器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-6-本节源码"><span class="nav-text">8.6 本节源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-7-值得读"><span class="nav-text">8.7 值得读</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-使用url-for生成链接"><span class="nav-text">9. 使用url_for生成链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-建立Flask项目"><span class="nav-text">9.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-编写代码"><span class="nav-text">9.2 编写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-本节源码"><span class="nav-text">9.3 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-使用redirect重定向网址"><span class="nav-text">10. 使用redirect重定向网址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-建立Flask项目"><span class="nav-text">10.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-编写代码"><span class="nav-text">10.2 编写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-本节源码"><span class="nav-text">10.3 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-使用Jinja2模板引擎"><span class="nav-text">11. 使用Jinja2模板引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1-建立Flask项目"><span class="nav-text">11.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-创建并编辑HelloWorld-templates-default-html"><span class="nav-text">11.2 创建并编辑HelloWorld/templates/default.html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-4-编辑HelloWorld-server-py"><span class="nav-text">11.4 编辑HelloWorld/server.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-5-运行与测试"><span class="nav-text">11.5 运行与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-6-本节源码"><span class="nav-text">11.6 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-自定义404等错误的响应"><span class="nav-text">12. 自定义404等错误的响应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-1-示例1：简单入门"><span class="nav-text">12.1 示例1：简单入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果"><span class="nav-text">效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-2-示例2：自定义错误页面"><span class="nav-text">12.2 示例2：自定义错误页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果-1"><span class="nav-text">效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-本节源码"><span class="nav-text">12.3 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-用户会话"><span class="nav-text">13. 用户会话</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-1-建立Flask项目"><span class="nav-text">13.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-2-编辑HelloWorld-server-py"><span class="nav-text">13.2 编辑HelloWorld/server.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-3-代码的含义"><span class="nav-text">13.3 代码的含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-4-效果"><span class="nav-text">13.4 效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-5-设置sessin的有效时间"><span class="nav-text">13.5 设置sessin的有效时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-6-本节源码"><span class="nav-text">13.6 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-使用Cookie"><span class="nav-text">14. 使用Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-1-建立Flask项目"><span class="nav-text">14.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-2-代码"><span class="nav-text">14.2 代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-3-运行与测试"><span class="nav-text">14.3 运行与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-4-本节源码"><span class="nav-text">14.4 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-闪存系统-flashing-system"><span class="nav-text">15. 闪存系统 flashing system</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#15-1-建立Flask项目"><span class="nav-text">15.1 建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-2-编写HelloWorld-server-py"><span class="nav-text">15.2 编写HelloWorld/server.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-3-效果"><span class="nav-text">15.3 效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-4-高级用法"><span class="nav-text">15.4 高级用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-在模板文件中获取flash的内容"><span class="nav-text">15.5 在模板文件中获取flash的内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-本节源码"><span class="nav-text">15.6 本节源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-值得读"><span class="nav-text">16.  值得读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  <a id="toc-comment"></a>
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+          
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/lib/gitalk.min.js"></script>
+      <script type="text/javascript">
+          var article_id = window.location.pathname;
+          if (article_id.length >= 50) {
+            article_id = article_id.substr(0, 49);
+          }
+          var gitalk = new Gitalk({
+            clientID:  '41bc2c895cf96cc7784e', 
+            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
+            id: article_id,
+            repo: 'comment', 
+            owner: 'letiantian', 
+            admin: 'letiantian', 
+            distractionFreeMode: 'true',
+          })
+          gitalk.render('gitalk-container')
+      </script>
+    
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['[latex]','[/latex]'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        },
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- highlight -->
+  <script src="/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="/highlight/styles/github.css">
+
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</body>
+</html>
