@@ -657,7 +657,7 @@ Content-Type: application/x-www-form-urlencoded
 
 
 b&#39;name=letian&amp;password=123&#39;
-</code></pre><p>前6行是client.py生成的HTTP请求头，由<code>(print request.headers)</code>输出。</p>
+</code></pre><p>前6行是client.py生成的HTTP请求头，由<code>print(request.headers)</code>输出。</p>
 <p>请求体的数据，我们通过<code>print(request.stream.read())</code>输出，结果是：</p>
 <pre><code>b&#39;name=letian&amp;password=123&#39;
 </code></pre><h3 id="5-3-解析POST数据"><a href="#5-3-解析POST数据" class="headerlink" title="5.3 解析POST数据"></a>5.3 解析POST数据</h3><p>上面，我们看到post的数据内容是：</p>
@@ -705,7 +705,7 @@ letian
 little apple
 </code></pre><p><code>request.form</code>会自动解析数据。</p>
 <p><code>request.form[&#39;name&#39;]</code>和<code>request.form.get(&#39;name&#39;)</code>都可以获取<code>name</code>对应的值。对于<code>request.form.get()</code>可以为参数<code>default</code>指定值以作为默认值。所以：</p>
-<pre><code>print request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;)
+<pre><code>print(request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;))
 </code></pre><p>输出的是默认值</p>
 <pre><code>little apple
 </code></pre><p>如果<code>name</code>有多个值，可以使用<code>request.form.getlist(&#39;name&#39;)</code>，该方法将返回一个列表。我们将client.py改一下：</p>
@@ -715,7 +715,7 @@ user_info = {&#39;name&#39;: [&#39;letian&#39;, &#39;letian2&#39;], &#39;passwor
 r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
 
 print(r.text)
-</code></pre><p>此时运行<code>client.py</code>，<code>print request.form.getlist(&#39;name&#39;)</code>将输出：</p>
+</code></pre><p>此时运行<code>client.py</code>，<code>print(request.form.getlist(&#39;name&#39;))</code>将输出：</p>
 <pre><code>[u&#39;letian&#39;, u&#39;letian2&#39;]
 </code></pre><h3 id="5-4-本节源码"><a href="#5-4-本节源码" class="headerlink" title="5.4 本节源码"></a>5.4 本节源码</h3><p><a href="https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-003" target="_blank" rel="noopener">https://github.com/letiantian/Learn-Flask/tree/master/flask-demo-003</a></p>
 <h2 id="6-处理和响应JSON数据"><a href="#6-处理和响应JSON数据" class="headerlink" title="6. 处理和响应JSON数据"></a>6. 处理和响应JSON数据</h2><p>使用 HTTP POST 方法传到网站服务器的数据格式可以有很多种，比如「5. 获取POST方法传送的数据」讲到的<code>name=letian&amp;password=123</code>这种用过<code>&amp;</code>符号分割的key-value键值对格式。我们也可以用JSON格式、XML格式。相比XML的重量、规范繁琐，JSON显得非常小巧和易用。</p>
@@ -1072,10 +1072,10 @@ def page(num):
 
 @app.route(&#39;/test&#39;)
 def test():
-    print url_for(&#39;hello_world&#39;)
-    print url_for(&#39;user&#39;, name=&#39;letian&#39;)
-    print url_for(&#39;page&#39;, num=1, q=&#39;hadoop mapreduce 10%3&#39;)
-    print url_for(&#39;static&#39;, filename=&#39;uploads/01.jpg&#39;)
+    print(url_for(&#39;hello_world&#39;))
+    print(url_for(&#39;user&#39;, name=&#39;letian&#39;))
+    print(url_for(&#39;page&#39;, num=1, q=&#39;hadoop mapreduce 10%3&#39;))
+    print(url_for(&#39;static&#39;, filename=&#39;uploads/01.jpg&#39;))
     return &#39;Hello&#39;
 
 if __name__ == &#39;__main__&#39;:
@@ -1105,12 +1105,12 @@ def hello_world():
 
 @app.route(&#39;/test1&#39;)
 def test1():
-    print &#39;this is test1&#39;
+    print(&#39;this is test1&#39;)
     return redirect(url_for(&#39;test2&#39;))
 
 @app.route(&#39;/test2&#39;)
 def test2():
-    print &#39;this is test2&#39;
+    print(&#39;this is test2&#39;)
     return &#39;this is test2&#39;
 
 if __name__ == &#39;__main__&#39;:
