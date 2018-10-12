@@ -92,13 +92,13 @@
 
 
 
-<meta name="description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta name="description" content="Flask是一个轻量级的基于Python的web框架。 本教程是对浅入浅出Flask框架的重新整理，并用 Python 3 重新实现。适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建">
 <meta name="keywords" content="Python,Flask">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python Flask Web 框架入门">
+<meta property="og:title" content="Python Flask Web 框架入门教程">
 <meta property="og:url" content="http://www.letiantian.me/learn-flask/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta property="og:description" content="Flask是一个轻量级的基于Python的web框架。 本教程是对浅入浅出Flask框架的重新整理，并用 Python 3 重新实现。适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-001.jpg">
 <meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-002.jpg">
@@ -110,8 +110,8 @@
 <meta property="og:image" content="http://www.letiantian.me/content/images/learn-flask/flask-008.jpg">
 <meta property="og:updated_time" content="2018-09-01T02:30:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python Flask Web 框架入门">
-<meta name="twitter:description" content="Flask是一个轻量级的基于Python的web框架。 本文适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建议在 linux 下实践本教程中命令行操作、执行代码。 2. 安装通过pi">
+<meta name="twitter:title" content="Python Flask Web 框架入门教程">
+<meta name="twitter:description" content="Flask是一个轻量级的基于Python的web框架。 本教程是对浅入浅出Flask框架的重新整理，并用 Python 3 重新实现。适合有一定HTML、Python、网络基础的同学阅读。 1. 简介这份文档中的代码使用 Python 3 运行。是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是Python 3.6.4。安装方法，可以自行谷歌或者百度。建">
 <meta name="twitter:image" content="http://www.letiantian.me/content/images/learn-flask/flask-001.jpg">
 
 
@@ -156,7 +156,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>Python Flask Web 框架入门 | 樂天笔记</title>
+  <title>Python Flask Web 框架入门教程 | 樂天笔记</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -310,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python Flask Web 框架入门</h1>
+          <h1 class="post-title" itemprop="name headline">Python Flask Web 框架入门教程</h1>
         
 
         <div class="post-meta">
@@ -391,7 +391,7 @@
 
       
         <p>Flask是一个轻量级的基于Python的web框架。</p>
-<p>本文适合有一定HTML、Python、网络基础的同学阅读。</p>
+<p>本教程是对<a href="https://www.letiantian.me/topics/#toc-flask">浅入浅出Flask框架</a>的重新整理，并用 Python 3 重新实现。<br>适合有一定HTML、Python、网络基础的同学阅读。</p>
 <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>这份文档中的代码使用 Python 3 运行。<br>是的，所以读者需要自己在电脑上安装Python 3 和 pip3。建议安装最新版本，我使用的是<code>Python 3.6.4</code>。<br>安装方法，可以自行谷歌或者百度。<br>建议在 linux 下实践本教程中命令行操作、执行代码。</p>
 <h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h2><p>通过pip3安装Flask即可：</p>
 <pre><code>$ sudo pip3 install Flask
@@ -1547,7 +1547,7 @@ if __name__ == &quot;__main__&quot;:
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/learn-flask/" title="Python Flask Web 框架入门">http://www.letiantian.me/learn-flask/</a>
+      <a href="http://www.letiantian.me/learn-flask/" title="Python Flask Web 框架入门教程">http://www.letiantian.me/learn-flask/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
