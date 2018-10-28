@@ -449,7 +449,8 @@ Person(name=Tom, age=18)
 Tom
 18
 </code></pre>
-<p><strong>用Intellij IDEA编辑、运行代码，需要装lombok插件，以及做一些配置。可以参考《<a href="https://blog.csdn.net/xzp_12345/article/details/80268834" target="_blank" rel="noopener">IDEA下lombok安装，以及找不到get,set的问题</a>》。</strong></p>
+<p><strong>用Intellij IDEA编辑、运行代码，需要装lombok插件，以及做一些配置。可以参考《<a href="https://blog.csdn.net/xzp_12345/article/details/80268834" target="_blank" rel="noopener">IDEA下lombok安装，以及找不到get,set的问题</a>》。</strong> </p>
+<p>用lombok最可能遇到的问题是，代码看起来没问题，但是在IDE中一运行就报错。这是因为没有启用注解处理器（Annotation Processors）。进入 IDEA 菜单 =&gt; Preferences =&gt; Build, Execution, Deployment =&gt; Compiler =&gt; Annotation Processors ，选中<code>Enable annotation processing</code> 即可。</p>
 <h2 id="示例2：使用-Slf4j"><a href="#示例2：使用-Slf4j" class="headerlink" title="示例2：使用@Slf4j"></a>示例2：使用@Slf4j</h2><p>Slf4j是一个日志框架。</p>
 <p>项目结构：</p>
 <pre><code class="plain">├── build.gradle
