@@ -349,6 +349,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/how-to-write-java-demo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="how-to-write-java-demo/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -409,11 +420,26 @@ public class Demo {
 }
 </code></pre>
 <p>搞定。</p>
-<h3 id="方案3：在方案2的基础上引入lombok和slf4j"><a href="#方案3：在方案2的基础上引入lombok和slf4j" class="headerlink" title="方案3：在方案2的基础上引入lombok和slf4j"></a>方案3：在方案2的基础上引入lombok和slf4j</h3><p>可以参考我的这两篇文章：</p>
+<h3 id="方案3：在方案2的基础上引入lombok和slf4j"><a href="#方案3：在方案2的基础上引入lombok和slf4j" class="headerlink" title="方案3：在方案2的基础上引入lombok和slf4j"></a>方案3：在方案2的基础上引入lombok和slf4j</h3><p>lombok和slf4j的使用可以参考我的这两篇文章：</p>
 <ul>
 <li><a href="https://www.letiantian.me/java-use-lombok/">为你减少代码量的Java库：Lombok</a></li>
 <li><a href="https://www.letiantian.me/analyse-slf4j/">日志组件slf4j的使用和源码分析</a></li>
 </ul>
+<p>对于这个方案，build.gradle 中的依赖配置如下：</p>
+<pre><code>compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
+
+compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
+compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-log4j12&#39;, version: &#39;1.7.25&#39;
+compile group: &#39;log4j&#39;, name: &#39;log4j&#39;, version: &#39;1.2.17&#39;
+
+compile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
+</code></pre><p>在 resources 目录中增加 log4j 的配置文件log4j.properties，内容如下：</p>
+<pre><code class="ini">log4j.rootLogger=INFO, stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
+</code></pre>
+<p>可根据需要修改。</p>
 
       
     </div>
@@ -518,8 +544,13 @@ public class Demo {
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -777,6 +808,26 @@ public class Demo {
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/how-to-write-java-demo/';
+          this.page.identifier = 'how-to-write-java-demo/';
+          this.page.title = '怎么写 Java 示例代码？';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -798,37 +849,10 @@ public class Demo {
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

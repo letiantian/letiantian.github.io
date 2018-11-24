@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="云计算,机器学习," />
+  <meta name="keywords" content="机器学习,云计算," />
 
 
 
@@ -93,7 +93,7 @@
 
 
 <meta name="description" content="2014-11-20 基于物品的协同过滤已经介绍了基于物品的协同过滤的基本思路。MovieLens数据集介绍介绍了MovieLens数据集，我们可以把MovieLens 100k拿过来当数据集。个人认为这个数据集有一个很好的特征，就是用户和电影的ID均是从1开始的连续整数。本文中，矩阵的行号和列号均从1开始。 好了，现在我们的目标是为某个用户推荐电影。本文介绍的方法是基于物品的协同过滤中的一种，先">
-<meta name="keywords" content="云计算,机器学习">
+<meta name="keywords" content="机器学习,云计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用MapReduce实现基于物品的协同过滤（1）">
 <meta property="og:url" content="http://www.letiantian.me/2014-11-20-map-reduce-item-cf-1/index.html">
@@ -335,8 +335,8 @@
               </span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/云计算/" itemprop="url" rel="index">
-                    <span itemprop="name">云计算</span>
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -346,8 +346,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/tags/云计算/" itemprop="url" rel="index">
+                    <span itemprop="name">云计算</span>
                   </a>
                 </span>
 
@@ -359,6 +359,17 @@
 
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014-11-20-map-reduce-item-cf-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014-11-20-map-reduce-item-cf-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -626,8 +637,13 @@ value: sum(values)
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -885,6 +901,26 @@ value: sum(values)
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2014-11-20-map-reduce-item-cf-1/';
+          this.page.identifier = '2014-11-20-map-reduce-item-cf-1/';
+          this.page.title = '如何使用MapReduce实现基于物品的协同过滤（1）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -906,37 +942,10 @@ value: sum(values)
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

@@ -362,6 +362,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2013-10-31-velocity-template/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2013-10-31-velocity-template/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -387,32 +398,32 @@
 <p>velocity使用1.7版本。<br>在win7下使用intelliJ IDEA建立一基于tomcat的web app项目，命名为todo_web，设置path为/todo，导入velocity相关jar包。只导入velocity-1.7.jar这个包可能会报错，根据提示再导入velocity自带的其他包。<br>项目结构如下：</p>
 <p><img src="/content/images/2013/10/2013-10-31-velocity.png" alt="image"></p>
 <a id="more"></a>
-<h2 id="测试Tomcat"><a href="#测试Tomcat" class="headerlink" title="测试Tomcat"></a>测试Tomcat</h2><hr>
-<p>index.jsp内容如下：</p>
-<pre><code>&lt;%-- Created by IntelliJ IDEA. --%&gt;
+<h2 id="测试Tomcat"><a href="#测试Tomcat" class="headerlink" title="测试Tomcat"></a>测试Tomcat</h2><p>index.jsp内容如下：</p>
+<pre><code class="html">&lt;%-- Created by IntelliJ IDEA. --%&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
 &lt;html&gt;
-  &lt;head&gt;
+    &lt;head&gt;
     &lt;title&gt;&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-           &lt;%
-               out.print(&quot;hi,todo&quot;);
-           %&gt;
-  &lt;/body&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+            &lt;%
+                out.print(&quot;hi,todo&quot;);
+            %&gt;
+    &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><p>HelloWorld.java内容如下：</p>
-<pre><code>import java.io.*;
+</code></pre>
+<p>HelloWorld.java内容如下：</p>
+<pre><code class="java">import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;    
 public class HelloWorld extends HttpServlet {
     /**
-     *
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
-     */
+        *
+        * @param request
+        * @param response
+        * @throws IOException
+        * @throws ServletException
+        */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -428,8 +439,9 @@ public class HelloWorld extends HttpServlet {
         out.println(&quot;&lt;/html&gt;&quot;);
     }
 }
-</code></pre><p>在web.xml中加入以下内容： </p>
-<pre><code>&lt;servlet&gt;
+</code></pre>
+<p>在web.xml中加入以下内容： </p>
+<pre><code class="xml">&lt;servlet&gt;
     &lt;servlet-name&gt;hi&lt;/servlet-name&gt;
     &lt;servlet-class&gt;HelloWorld&lt;/servlet-class&gt;
 &lt;/servlet&gt;
@@ -437,7 +449,8 @@ public class HelloWorld extends HttpServlet {
     &lt;servlet-name&gt;hi&lt;/servlet-name&gt;
     &lt;url-pattern&gt;/hi&lt;/url-pattern&gt;
 &lt;/servlet-mapping&gt;
-</code></pre><p>运行项目，在<a href="http://localhost:8080/todo和http://localhost:8080/todo/hi中可以看到效果。" target="_blank" rel="noopener">http://localhost:8080/todo和http://localhost:8080/todo/hi中可以看到效果。</a>  </p>
+</code></pre>
+<p>运行项目，在<a href="http://localhost:8080/todo和http://localhost:8080/todo/hi中可以看到效果。" target="_blank" rel="noopener">http://localhost:8080/todo和http://localhost:8080/todo/hi中可以看到效果。</a>  </p>
 <h2 id="使用velocity"><a href="#使用velocity" class="headerlink" title="使用velocity"></a>使用velocity</h2><hr>
 <p>下面开始使用velocity模板引擎，在src下建立目录templates，在templates目录下建立文件test.vm，内容如下： </p>
 <pre><code>&lt;html&gt;
@@ -626,8 +639,13 @@ context.put(&quot;names2&quot;, names);
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -885,6 +903,26 @@ context.put(&quot;names2&quot;, names);
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2013-10-31-velocity-template/';
+          this.page.identifier = '2013-10-31-velocity-template/';
+          this.page.title = '试用velocity模板引擎';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -906,37 +944,10 @@ context.put(&quot;names2&quot;, names);
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

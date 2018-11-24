@@ -362,6 +362,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014-07-31-mysql-what-is-join/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014-07-31-mysql-what-is-join/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -725,8 +736,13 @@ ON users.id = blogs.user_id;
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -984,6 +1000,26 @@ ON users.id = blogs.user_id;
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2014-07-31-mysql-what-is-join/';
+          this.page.identifier = '2014-07-31-mysql-what-is-join/';
+          this.page.title = 'MySQL：JOIN解惑';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -1005,37 +1041,10 @@ ON users.id = blogs.user_id;
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

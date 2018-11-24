@@ -356,6 +356,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015-05-25-nmf-svd-recommend/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015-05-25-nmf-svd-recommend/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -763,8 +774,13 @@ print np.dot(np.dot(U, S), VT) * (RATE_MATRIX &lt; 1e-6)
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -1022,6 +1038,26 @@ print np.dot(np.dot(U, S), VT) * (RATE_MATRIX &lt; 1e-6)
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2015-05-25-nmf-svd-recommend/';
+          this.page.identifier = '2015-05-25-nmf-svd-recommend/';
+          this.page.title = '矩阵分解在推荐系统中的应用：NMF和经典SVD实战';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -1043,37 +1079,10 @@ print np.dot(np.dot(U, S), VT) * (RATE_MATRIX &lt; 1e-6)
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

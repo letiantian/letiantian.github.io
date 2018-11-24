@@ -374,6 +374,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2013-09-15-write-php-framework-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2013-09-15-write-php-framework-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -606,8 +617,8 @@ $render-&gt;show();
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013-09-15-method-chains/" rel="next" title="方法链">
-                <i class="fa fa-chevron-left"></i> 方法链
+              <a href="/2014-09-02-linux-netstat/" rel="next" title="Linux下使用netstat命令">
+                <i class="fa fa-chevron-left"></i> Linux下使用netstat命令
               </a>
             
           </div>
@@ -616,8 +627,8 @@ $render-&gt;show();
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2013-09-15-write-php-framework-2/" rel="prev" title="给自己写一个php框架(2)">
-                给自己写一个php框架(2) <i class="fa fa-chevron-right"></i>
+              <a href="/2013-09-15-method-chains/" rel="prev" title="方法链">
+                方法链 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -643,8 +654,13 @@ $render-&gt;show();
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -902,6 +918,26 @@ $render-&gt;show();
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2013-09-15-write-php-framework-1/';
+          this.page.identifier = '2013-09-15-write-php-framework-1/';
+          this.page.title = '给自己写一个php框架(1)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -923,37 +959,10 @@ $render-&gt;show();
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="python,机器学习," />
+  <meta name="keywords" content="机器学习,python," />
 
 
 
@@ -93,7 +93,7 @@
 
 
 <meta name="description" content="2014-10-28 在https://github.com/yusugomori/DeepLearning包含了多种编程语言版本（C、C++、Python、Java、scala）的逻辑斯谛回归（或者“逻辑回归”， Logistic Regression）的实现。 我对python版本的代码略做整理和注释，最终内容如下： # !/usr/bin/env python # -*- coding: u">
-<meta name="keywords" content="python,机器学习">
+<meta name="keywords" content="机器学习,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑斯谛回归代码实现">
 <meta property="og:url" content="http://www.letiantian.me/2014-10-28-logistic-regression-python-implement/index.html">
@@ -335,8 +335,8 @@
               </span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -346,8 +346,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/tags/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -359,6 +359,17 @@
 
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014-10-28-logistic-regression-python-implement/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014-10-28-logistic-regression-python-implement/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -632,8 +643,13 @@ if __name__ == &quot;__main__&quot;:
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -866,6 +882,26 @@ if __name__ == &quot;__main__&quot;:
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2014-10-28-logistic-regression-python-implement/';
+          this.page.identifier = '2014-10-28-logistic-regression-python-implement/';
+          this.page.title = '逻辑斯谛回归代码实现';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -887,37 +923,10 @@ if __name__ == &quot;__main__&quot;:
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   

@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="云计算,hadoop,机器学习," />
+  <meta name="keywords" content="机器学习,云计算,hadoop," />
 
 
 
@@ -93,7 +93,7 @@
 
 
 <meta name="description" content="2014-11-29 排列组合的非递归算法这篇文章中介绍了如何以非递归的形式获取多个元素的组合。在此基础上，很容易实现频繁项集挖掘的MaprReduce版本。 数据与需求 假定输入数据是商场中购物者的购买记录，这些数据存放在文本文件中，每一行代表某个人的某次购买记录，这些购买记录由商品对应的id组成，例如如下两次购买记录： 1 2 13 45 2 7 8 19 12 17  需求是找到相对支持度为">
-<meta name="keywords" content="云计算,hadoop,机器学习">
+<meta name="keywords" content="机器学习,云计算,hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于MapReduce的频繁项集挖掘">
 <meta property="og:url" content="http://www.letiantian.me/2014-11-29-map-reduce-frequent-itemset-mining/index.html">
@@ -335,6 +335,17 @@
               </span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/tags/云计算/" itemprop="url" rel="index">
                     <span itemprop="name">云计算</span>
                   </a>
@@ -353,23 +364,23 @@
 
                 
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
               
             </span>
           
 
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014-11-29-map-reduce-frequent-itemset-mining/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014-11-29-map-reduce-frequent-itemset-mining/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -525,8 +536,13 @@ value: res
 
           
   <div class="comments" id="comments">
-      
-      <div id="gitalk-container"></div>
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -784,6 +800,26 @@ value: res
 
   
 
+    
+      <script id="dsq-count-scr" src="https://letiantian.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.letiantian.me/2014-11-29-map-reduce-frequent-itemset-mining/';
+          this.page.identifier = '2014-11-29-map-reduce-frequent-itemset-mining/';
+          this.page.title = '基于MapReduce的频繁项集挖掘';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://letiantian.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -805,37 +841,10 @@ value: res
 
 
 
-  
-
-
-
 
 
 
   
-  
-
-          
-        <link rel="stylesheet" href="/css/gitalk.css">
-        <script src="/lib/gitalk.min.js"></script>
-      <script type="text/javascript">
-          var article_id = window.location.pathname;
-          if (article_id.length >= 50) {
-            article_id = article_id.substr(0, 49);
-          }
-          var gitalk = new Gitalk({
-            clientID:  '41bc2c895cf96cc7784e', 
-            clientSecret: 'ec91826138658e389695476929f25449fa68f449',
-            id: article_id,
-            repo: 'comment', 
-            owner: 'letiantian', 
-            admin: 'letiantian', 
-            distractionFreeMode: 'true',
-          })
-          gitalk.render('gitalk-container')
-      </script>
-    
-
   
 
   
