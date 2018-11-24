@@ -1,0 +1,900 @@
+
+<!DOCTYPE HTML>
+<html lang="zh" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>17、自动生成Mapper代码和映射XML · MyBatis 教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="16-把SQL写在注解中.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../1-准备工作/">
+            
+                <a href="../1-准备工作/">
+            
+                    
+                    一、准备工作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../1-准备工作/01-MyBatis是什么.html">
+            
+                <a href="../1-准备工作/01-MyBatis是什么.html">
+            
+                    
+                    01、MyBatis是什么
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../1-准备工作/02-软件安装与使用.html">
+            
+                <a href="../1-准备工作/02-软件安装与使用.html">
+            
+                    
+                    02、软件安装与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../1-准备工作/03-使用Intellij-IDEA创建Java项目.html">
+            
+                <a href="../1-准备工作/03-使用Intellij-IDEA创建Java项目.html">
+            
+                    
+                    03、使用Intellij-IDEA创建Java项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../1-准备工作/04-Junit的使用.html">
+            
+                <a href="../1-准备工作/04-Junit的使用.html">
+            
+                    
+                    04、Junit的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../1-准备工作/05-Slf4j日志框架的使用.html">
+            
+                <a href="../1-准备工作/05-Slf4j日志框架的使用.html">
+            
+                    
+                    05、Slf4j日志框架的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../1-准备工作/06-Lombok的使用.html">
+            
+                <a href="../1-准备工作/06-Lombok的使用.html">
+            
+                    
+                    06、Lombok的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="../1-准备工作/07-如何编写Java示例代码.html">
+            
+                <a href="../1-准备工作/07-如何编写Java示例代码.html">
+            
+                    
+                    07、如何编写Java示例代码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="../1-准备工作/08-回顾JDBC.html">
+            
+                <a href="../1-准备工作/08-回顾JDBC.html">
+            
+                    
+                    08、回顾JDBC
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    二、通过示例学习MyBatis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="01-数据准备.html">
+            
+                <a href="01-数据准备.html">
+            
+                    
+                    01、数据准备
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="02-查找id为1的用户信息.html">
+            
+                <a href="02-查找id为1的用户信息.html">
+            
+                    
+                    02、查找id为1的用户信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="03-自定义连接池.html">
+            
+                <a href="03-自定义连接池.html">
+            
+                    
+                    03、自定义连接池
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="04-如果不用MyBatis配置文件.html">
+            
+                <a href="04-如果不用MyBatis配置文件.html">
+            
+                    
+                    04、如果不用MyBatis配置文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="05-查询密码为123的所有用户.html">
+            
+                <a href="05-查询密码为123的所有用户.html">
+            
+                    
+                    05、查询密码为123的所有用户
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="06-如果Bean中成员变量和表中字段命名不一致.html">
+            
+                <a href="06-如果Bean中成员变量和表中字段命名不一致.html">
+            
+                    
+                    06、如果Bean中成员变量和表中字段命名不一致
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="07-更多查询用户的方式.html">
+            
+                <a href="07-更多查询用户的方式.html">
+            
+                    
+                    07、更多查询用户的方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="08-排序.html">
+            
+                <a href="08-排序.html">
+            
+                    
+                    08、排序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="09-日志.html">
+            
+                <a href="09-日志.html">
+            
+                    
+                    09、日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="10-添加、删除、修改数据.html">
+            
+                <a href="10-添加、删除、修改数据.html">
+            
+                    
+                    10、添加、删除、修改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="11-事务.html">
+            
+                <a href="11-事务.html">
+            
+                    
+                    11、事务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="12-动态SQL.html">
+            
+                <a href="12-动态SQL.html">
+            
+                    
+                    12、动态SQL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.13" data-path="13-一对一和一对多的实现.html">
+            
+                <a href="13-一对一和一对多的实现.html">
+            
+                    
+                    13、一对一和一对多的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.14" data-path="14-一对一和一对多的延迟加载.html">
+            
+                <a href="14-一对一和一对多的延迟加载.html">
+            
+                    
+                    14、一对一和一对多的延迟加载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.15" data-path="15-分页查询.html">
+            
+                <a href="15-分页查询.html">
+            
+                    
+                    15、分页查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="16-把SQL写在注解中.html">
+            
+                <a href="16-把SQL写在注解中.html">
+            
+                    
+                    16、把SQL写在注解中
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.17" data-path="17-自动生成Mapper代码和映射XML.html">
+            
+                <a href="17-自动生成Mapper代码和映射XML.html">
+            
+                    
+                    17、自动生成Mapper代码和映射XML
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >17、自动生成Mapper代码和映射XML</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="17-&#x81EA;&#x52A8;&#x751F;&#x6210;mapper&#x4EE3;&#x7801;&#x548C;&#x6620;&#x5C04;xml">17. &#x81EA;&#x52A8;&#x751F;&#x6210;Mapper&#x4EE3;&#x7801;&#x548C;&#x6620;&#x5C04;XML</h1>
+<p>MyBatis&#x7684;&#x6620;&#x5C04;&#x6587;&#x4EF6;&#x548C;&#x4EE3;&#x7801;&#xFF0C;&#x5199;&#x591A;&#x4E86;&#x5C31;&#x817B;&#x6B6A;&#x4E86;&#xFF0C;&#x56E0;&#x4E3A;&#x53D8;&#x6210;&#x4E86;&#x91CD;&#x590D;&#x7684;&#x4F53;&#x529B;&#x6D3B;&#xFF0C;&#x65E2;&#x7136;&#x662F;&#x4F53;&#x529B;&#x6D3B;&#xFF0C;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x81EA;&#x52A8;&#x5316;&#x5B9E;&#x73B0;&#x3002;&#x8FD9;&#x4E2A;&#x81EA;&#x52A8;&#x5316;&#x5B9E;&#x73B0;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x62BD;&#x8C61;&#x7A0B;&#x5EA6;&#xFF0C;&#x80FD;&#x5C3D;&#x91CF;&#x6EE1;&#x8DB3;&#x6240;&#x6709;&#x7684;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#x3002;</p>
+<p>&#x672C;&#x8282;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x5728; <a href="https://github.com/letiantian/mybatis-tutorial/tree/master/demo/demo/mybatis-demo-016" target="_blank">mybatis-demo-016</a> &#x3002;</p>
+<h2 id="&#x6570;&#x636E;&#x51C6;&#x5907;">&#x6570;&#x636E;&#x51C6;&#x5907;</h2>
+<p>&#x89C1; <a href="01-&#x6570;&#x636E;&#x51C6;&#x5907;.html">01. &#x6570;&#x636E;&#x51C6;&#x5907;</a></p>
+<h2 id="&#x9879;&#x76EE;&#x7ED3;&#x6784;">&#x9879;&#x76EE;&#x7ED3;&#x6784;</h2>
+<p>&#x4F7F;&#x7528; IDEA &#x521B;&#x5EFA; gradle &#x9879;&#x76EE;&#xFF0C;&#x6700;&#x7EC8;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="../img/0007.jpg" width="300"></p>
+<p>&#x5176;&#x4E2D;&#xFF0C;User&#x3001;UserExample&#x3001;Blog&#x3001;BlogExample&#x3001;UserMapper&#x3001;BlogMapper &#x7C7B;&#x548C;&#x63A5;&#x53E3;&#x662F;&#x751F;&#x6210;&#x5668;&#x751F;&#x6210;&#x7684;&#xFF0C;UserMapper.xml&#x3001;BlogMapper.xml &#x4E5F;&#x662F;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x3002;</p>
+<h2 id="&#x7F16;&#x5199;&#x751F;&#x6210;&#x5668;&#x914D;&#x7F6E;">&#x7F16;&#x5199;&#x751F;&#x6210;&#x5668;&#x914D;&#x7F6E;</h2>
+<p>&#x5728; resources &#x76EE;&#x5F55;&#x4E0B;&#x65B0;&#x589E; <code>mybatis-generator.xml</code> &#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span><span class="hljs-meta">?&gt;</span></span>
+
+<span class="hljs-meta">&lt;!DOCTYPE generatorConfiguration
+        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">generatorConfiguration</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">context</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;MySQLTables&quot;</span> <span class="hljs-attr">targetRuntime</span>=<span class="hljs-string">&quot;MyBatis3&quot;</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;javaFileEncoding&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;beginningDelimiter&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;`&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;endingDelimiter&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;`&quot;</span>/&gt;</span>
+
+        <span class="hljs-comment">&lt;!--&#x652F;&#x6301;&#x5206;&#x9875;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.RowBoundsPlugin&quot;</span>/&gt;</span>
+        <span class="hljs-comment">&lt;!--&#x751F;&#x6210;&#x7684;bean&#x652F;&#x6301;&#x53EF;&#x5E8F;&#x5217;&#x5316;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.SerializablePlugin&quot;</span>/&gt;</span>
+        <span class="hljs-comment">&lt;!--&#x751F;&#x6210;&#x7684;bean&#x6709;hashCode&#x5B9E;&#x73B0;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.EqualsHashCodePlugin&quot;</span>/&gt;</span>
+        <span class="hljs-comment">&lt;!--&#x751F;&#x6210;&#x7684;bean&#x6709;toString&#x5B9E;&#x73B0;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.ToStringPlugin&quot;</span>/&gt;</span>
+
+        <span class="hljs-comment">&lt;!-- &#x4E0D;&#x751F;&#x6210;&#x6CE8;&#x91CA; --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">commentGenerator</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;suppressAllComments&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">commentGenerator</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!--&#x914D;&#x7F6E;&#x6570;&#x636E;&#x5E93;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">jdbcConnection</span> <span class="hljs-attr">driverClass</span>=<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>
+                        <span class="hljs-attr">connectionURL</span>=<span class="hljs-string">&quot;jdbc:mysql://127.0.0.1:3306/blog_db&quot;</span>
+                        <span class="hljs-attr">userId</span>=<span class="hljs-string">&quot;root&quot;</span>
+                        <span class="hljs-attr">password</span>=<span class="hljs-string">&quot;123456&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">jdbcConnection</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">javaTypeResolver</span> &gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;forceBigDecimals&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;false&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">javaTypeResolver</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!--bean&#x7C7B;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">javaModelGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;bean&quot;</span> <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/java&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;trimStrings&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">javaModelGenerator</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!--xml&#x6587;&#x4EF6;&#xFF0C;&#x6CE8;&#x610F;XML&#x662F;&#x4EE5;&#x8FFD;&#x52A0;&#x7684;&#x5F62;&#x5F0F;&#x4FDD;&#x5B58;&#x5230;&#x6587;&#x4EF6;&#x4E2D;&#xFF1B;&#x5982;&#x679C;&#x8981;&#x91CD;&#x65B0;&#x751F;&#x6210;&#xFF0C;&#x5148;&#x5220;&#x9664;&#x4E4B;&#x524D;&#x7684;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">sqlMapGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;mapper&quot;</span>  <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/resources&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">sqlMapGenerator</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!-- mapper &#x63A5;&#x53E3;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">javaClientGenerator</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;XMLMAPPER&quot;</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;mapper&quot;</span>  <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/java&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">javaClientGenerator</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!--&#x6307;&#x5B9A; table --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">domainObjectName</span>=<span class="hljs-string">&quot;User&quot;</span> <span class="hljs-attr">modelType</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">delimitIdentifiers</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">delimitAllColumns</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">generatedKey</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">sqlStatement</span>=<span class="hljs-string">&quot;MySql&quot;</span> <span class="hljs-attr">identity</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;blog&quot;</span> <span class="hljs-attr">domainObjectName</span>=<span class="hljs-string">&quot;Blog&quot;</span> <span class="hljs-attr">modelType</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">delimitIdentifiers</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">delimitAllColumns</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">generatedKey</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">sqlStatement</span>=<span class="hljs-string">&quot;MySql&quot;</span> <span class="hljs-attr">identity</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-name">context</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">generatorConfiguration</span>&gt;</span>
+</code></pre>
+<h2 id="&#x589E;&#x52A0;&#x4F9D;&#x8D56;">&#x589E;&#x52A0;&#x4F9D;&#x8D56;</h2>
+<p>&#x5728; build.gradle &#x4E2D;&#x589E;&#x52A0;&#xFF1A;</p>
+<pre><code>compile group: &apos;org.mybatis.generator&apos;, name: &apos;mybatis-generator-core&apos;, version: &apos;1.3.7&apos;
+</code></pre><h2 id="&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;xml&#xFF1A;&#x65B9;&#x6848;1">&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;XML&#xFF1A;&#x65B9;&#x6848;1</h2>
+<p>&#x7F16;&#x5199;&#x4E00;&#x6BB5;java&#x4EE3;&#x7801;&#xFF0C;&#x6267;&#x884C;&#x540E;&#x751F;&#x6210;Mapper&#x4EE3;&#x7801;&#x548C;&#x6587;&#x4EF6;&#x3002;&#x589E;&#x52A0;tool.MyBatisGeneratorTool &#x7C7B; &#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> tool;
+
+<span class="hljs-keyword">import</span> org.mybatis.generator.api.MyBatisGenerator;
+<span class="hljs-keyword">import</span> org.mybatis.generator.config.Configuration;
+<span class="hljs-keyword">import</span> org.mybatis.generator.config.xml.ConfigurationParser;
+<span class="hljs-keyword">import</span> org.mybatis.generator.internal.DefaultShellCallback;
+
+<span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBatisGeneratorTool</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        List&lt;String&gt; warnings = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">boolean</span> overwrite = <span class="hljs-keyword">true</span>;
+        File configFile = <span class="hljs-keyword">new</span> File(MyBatisGeneratorTool.class.getResource(<span class="hljs-string">&quot;/mybatis-generator.xml&quot;</span>).getPath());
+        ConfigurationParser cp = <span class="hljs-keyword">new</span> ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+
+        <span class="hljs-comment">// &#x867D;&#x7136;overwrite&#x4E3A;true&#xFF0C;&#x4F46;&#x53EA;&#x9488;&#x5BF9;java&#x4EE3;&#x7801;&#x3002;</span>
+        <span class="hljs-comment">// XML&#x662F;&#x4EE5;&#x8FFD;&#x52A0;&#x7684;&#x5F62;&#x5F0F;&#x4FDD;&#x5B58;&#x5230;&#x6587;&#x4EF6;&#x4E2D;&#xFF1B;&#x5982;&#x679C;&#x8981;&#x91CD;&#x65B0;&#x751F;&#x6210;&#xFF0C;&#x5148;&#x5220;&#x9664;&#x4E4B;&#x524D;&#x7684;XML</span>
+        DefaultShellCallback callback = <span class="hljs-keyword">new</span> DefaultShellCallback(overwrite);
+
+        MyBatisGenerator myBatisGenerator = <span class="hljs-keyword">new</span> MyBatisGenerator(config, callback, warnings);
+        myBatisGenerator.generate(<span class="hljs-keyword">null</span>);
+    }
+
+}
+</code></pre>
+<p>&#x6267;&#x884C;&#x540E;&#x4F1A;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x4EE3;&#x7801;&#x548C;xml&#x3002;</p>
+<p>&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x6709;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</p>
+<p>&#x95EE;&#x9898;1&#xFF1A;XML&#x662F;&#x4EE5;&#x8FFD;&#x52A0;&#x7684;&#x5F62;&#x5F0F;&#x4FDD;&#x5B58;&#x5230;&#x6587;&#x4EF6;&#x4E2D;&#xFF1B;&#x5982;&#x679C;&#x8981;&#x91CD;&#x65B0;&#x751F;&#x6210;&#xFF0C;&#x5148;&#x5220;&#x9664;&#x4E4B;&#x524D;&#x7684;XML&#x3002;</p>
+<p>&#x95EE;&#x9898;2&#xFF1A;&#x5982;&#x679C;&#x5220;&#x9664;&#x4E86;&#x751F;&#x6210;&#x7684;mapper&#xFF0C;&#x800C;&#x4E1A;&#x52A1;&#x4EE3;&#x7801;&#x91CC;&#x5DF2;&#x7ECF;&#x5F15;&#x7528;&#x4ED6;&#x4EEC;&#x4E86;&#x3002;&#x90A3;&#x4E48;&#x5728;IDEA&#x4E2D;&#x518D;&#x8FD0;&#x884C;&#x8FD9;&#x91CC;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x4F1A;&#x56E0;&#x4E3A;&#x5176;&#x4ED6;&#x4EE3;&#x7801;&#x6709;&#x95EE;&#x9898;&#x800C;&#x62A5;&#x9519;&#x3002;</p>
+<h2 id="&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;xml&#xFF1A;&#x65B9;&#x6848;2">&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;XML&#xFF1A;&#x65B9;&#x6848;2</h2>
+<p>&#x8BE5;&#x65B9;&#x6848;&#x9700;&#x8981;&#x5148;&#x5B89;&#x88C5;maven&#x3002;&#x539F;&#x7406;&#x662F;&#x4F7F;&#x7528;&#x751F;&#x6210;&#x5668;&#x5BF9;&#x5E94;&#x7684;Maven&#x63D2;&#x4EF6;&#x3002;</p>
+<p>&#x5728;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#x4E0B;&#x589E;&#x52A0; pom.xml &#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span><span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
+         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.example<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- &#x6267;&#x884C; `mvn mybatis-generator:generate` &#x547D;&#x4EE4;&#x5373;&#x53EF; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.generator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-generator-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.7<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">configurationFile</span>&gt;</span>src/main/resources/mybatis-generator.xml<span class="hljs-tag">&lt;/<span class="hljs-name">configurationFile</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">verbose</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">verbose</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">overwrite</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">overwrite</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>Generate MyBatis Artifacts<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>generate<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+                <span class="hljs-comment">&lt;!--plugin&#x7684;&#x4F9D;&#x8D56;--&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.1.46<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--&#x4EE3;&#x7801;&#x4F7F;&#x7528;&#x7684;&#x4F9D;&#x8D56;--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span>
+</code></pre>
+<p>&#x8FD9;&#x662F;&#x6837;&#x677F;&#x8BBE;&#x7F6E;&#xFF0C;<code>&lt;configurationFile&gt;src/main/resources/mybatis-generator.xml&lt;/configurationFile&gt;</code>&#x8FD9;&#x91CC;&#x6839;&#x636E;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x751F;&#x6210;&#x5668;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#x5373;&#x53EF;&#xFF0C;&#x5176;&#x4ED6;&#x4E0D;&#x9700;&#x8981;&#x6539;&#x52A8;&#x3002;</p>
+<p>&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x8FDB;&#x5165;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#xFF1A;</p>
+<pre><code class="lang-plain">mvn mybatis-generator:generate
+</code></pre>
+<p>&#x5373;&#x53EF;&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;XML&#x3002;</p>
+<p>&#x8BE5;&#x65B9;&#x6848;&#x4ECD;&#x6709;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;XML&#x662F;&#x4EE5;&#x8FFD;&#x52A0;&#x7684;&#x5F62;&#x5F0F;&#x4FDD;&#x5B58;&#x5230;&#x6587;&#x4EF6;&#x4E2D;&#xFF1B;&#x5982;&#x679C;&#x8981;&#x91CD;&#x65B0;&#x751F;&#x6210;&#xFF0C;&#x5148;&#x5220;&#x9664;&#x4E4B;&#x524D;&#x7684;XML&#x3002;</p>
+<h2 id="&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;xml&#xFF1A;&#x65B9;&#x6848;3">&#x751F;&#x6210;&#x4EE3;&#x7801;&#x548C;XML&#xFF1A;&#x65B9;&#x6848;3</h2>
+<p>&#x4F7F;&#x7528;&#x751F;&#x6210;&#x5668;&#x7684;gradle&#x63D2;&#x4EF6;&#xFF0C;&#x5E76;&#x4F18;&#x5316;&#x5BF9;&#x5E94;&#x7684;&#x751F;&#x6210;&#x5668;&#x4EFB;&#x52A1;&#x3002;</p>
+<p>&#x5728; build.gradle &#x4E2D;&#x6DFB;&#x52A0;&#xFF1A;</p>
+<pre><code class="lang-plain">buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url &quot;https://plugins.gradle.org/m2/&quot;
+        }
+
+    }
+    dependencies {
+        classpath &quot;gradle.plugin.com.thinkimi.gradle:mybatis-generator-plugin:2.0&quot;
+    }
+}
+
+apply plugin: &quot;com.thinkimi.gradle.MybatisGenerator&quot;
+
+configurations {
+    mybatisGenerator
+}
+
+// &#x6267;&#x884C; `gradle mbGenerator` &#x5373;&#x53EF;
+mybatisGenerator {
+    verbose = true
+    configFile = &apos;src/main/resources/mybatis-generator.xml&apos;
+}
+
+// &#x6267;&#x884C; mbGenerator &#x524D;&#x5148;&#x6E05;&#x7406;&#x6587;&#x4EF6;
+mbGenerator.doFirst {
+    delete &quot;${rootDir}/src/main/resources/mapper/&quot;
+    println &quot;delete mapper xml in src/main/resources/mapper/&quot;
+}
+</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;&#x4E3B;&#x8981;&#x90E8;&#x5206;&#x6765;&#x81EA;&#xFF1A;<a href="https://plugins.gradle.org/plugin/com.arenagod.gradle.MybatisGenerator" target="_blank">https://plugins.gradle.org/plugin/com.arenagod.gradle.MybatisGenerator</a> &#x3001;<a href="https://github.com/kimichen13/mybatis-generator-plugin" target="_blank">https://github.com/kimichen13/mybatis-generator-plugin</a> &#x3002;&#x6211;&#x989D;&#x5916;&#x589E;&#x52A0;&#x4E86;&#x8FD0;&#x884C;mbGenerator&#x4EFB;&#x52A1;&#x524D;&#x81EA;&#x52A8;&#x6E05;&#x7406;&#x6587;&#x4EF6;&#x7684;&#x914D;&#x7F6E;&#x3002;</p>
+<p>&#x5728;&#x547D;&#x4EE4;&#x884C;&#x6267;&#x884C; <code>gradle mbGenerator</code> &#x5373;&#x53EF;&#x3002;</p>
+<p>&#x4E5F;&#x53EF;&#x4EE5;&#x5728; IDEA &#x4E2D;&#x627E;&#x5230;&#x8BE5;&#x4EFB;&#x52A1;&#xFF0C;&#x70B9;&#x51FB;&#x6267;&#x884C;&#xFF1A;</p>
+<p><img src="../img/0008.jpg" width="500"></p>
+<h2 id="&#x4F7F;&#x7528;&#x793A;&#x4F8B;">&#x4F7F;&#x7528;&#x793A;&#x4F8B;</h2>
+<p>&#x5728; Main &#x4E2D;&#x589E;&#x52A0;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">import</span> bean.Blog;
+<span class="hljs-keyword">import</span> bean.BlogExample;
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> mapper.BlogMapper;
+<span class="hljs-keyword">import</span> org.apache.ibatis.io.Resources;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.RowBounds;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.SqlSession;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+<span class="hljs-keyword">import</span> bean.User;
+<span class="hljs-keyword">import</span> mapper.UserMapper;
+<span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_01</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-keyword">try</span> (SqlSession sqlSession = getSqlSession()){
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+
+            User user = userMapper.selectByPrimaryKey(<span class="hljs-number">1L</span>);
+            Blog blog = blogMapper.selectByPrimaryKey(<span class="hljs-number">1L</span>);
+            log.info(<span class="hljs-string">&quot;user: {}&quot;</span>, user);
+            log.info(<span class="hljs-string">&quot;blog: {}&quot;</span>, blog);
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_02</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-keyword">try</span> (SqlSession sqlSession = getSqlSession()){
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+
+            Blog blog = <span class="hljs-keyword">new</span> Blog();
+            blog.setOwnerId(<span class="hljs-number">1L</span>);
+            blog.setTitle(<span class="hljs-string">&quot;&#x4F60;&#x597D;, World&quot;</span>);
+            blog.setContent(<span class="hljs-string">&quot;&#x4F60;&#x597D;, &#x1F606;&quot;</span>);
+
+            <span class="hljs-keyword">int</span> result = blogMapper.insertSelective(blog);
+            log.info(<span class="hljs-string">&quot;result: {}&quot;</span>, result);
+            log.info(<span class="hljs-string">&quot;blog: {}&quot;</span>, blog);
+        }
+    }
+
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_03</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-keyword">try</span> (SqlSession sqlSession = getSqlSession()){
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+
+            BlogExample blogExample = <span class="hljs-keyword">new</span> BlogExample();
+            blogExample.createCriteria().andIdBetween(<span class="hljs-number">1L</span>, <span class="hljs-number">4L</span>);
+            blogExample.setOrderByClause(<span class="hljs-string">&quot;id asc&quot;</span>);
+            <span class="hljs-comment">// &#x4E0D;&#x8981;&#x7528; selectByExample&#xFF0C;&#x7528;selectByExampleWithBLOBs&#xFF0C;&#x56E0;&#x4E3A; title&#x3001;content&#x7C7B;&#x578B;&#x4E3A;text&#xFF0C;&#x4F1A;&#x88AB;&#x5F53;&#x505A;blob&#x3002;</span>
+            <span class="hljs-comment">// List&lt;Blog&gt; blogList = blogMapper.selectByExample(blogExample);</span>
+            List&lt;Blog&gt; blogList = blogMapper.selectByExampleWithBLOBs(blogExample);
+            blogList.forEach( item -&gt; {
+                log.info(<span class="hljs-string">&quot;blog: {}&quot;</span>, item);
+            });
+        }
+    }
+
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_04</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-keyword">try</span> (SqlSession sqlSession = getSqlSession()){
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+
+            BlogExample blogExample = <span class="hljs-keyword">new</span> BlogExample();
+            blogExample.setOrderByClause(<span class="hljs-string">&quot;id desc&quot;</span>);
+            RowBounds rowBounds = <span class="hljs-keyword">new</span> RowBounds(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// offset &#x4E3A;0&#xFF0C; limit &#x4E3A;2</span>
+            List&lt;Blog&gt; blogList = blogMapper.selectByExampleWithBLOBsWithRowbounds(blogExample, rowBounds);
+
+            blogList.forEach( item -&gt; {
+                log.info(<span class="hljs-string">&quot;blog: {}&quot;</span>, item);
+            });
+        }
+    }
+
+
+    <span class="hljs-comment">/**
+     * &#x83B7;&#x53D6; SqlSession
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> SqlSession <span class="hljs-title">getSqlSession</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        SqlSessionFactory sessionFactory;
+        sessionFactory = <span class="hljs-keyword">new</span> SqlSessionFactoryBuilder()
+                .build(Resources.getResourceAsReader(<span class="hljs-string">&quot;mybatis-config.xml&quot;</span>));
+        <span class="hljs-keyword">return</span> sessionFactory.openSession();
+    }
+}
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#x7ED9;&#x4E86;4&#x4E2A;&#x793A;&#x4F8B;&#x3002;</p>
+<p><code>test_01</code>&#x793A;&#x4F8B;&#x662F;&#x6839;&#x636E;id&#x67E5;&#x8BE2;user&#x548C;blog &#xFF0C;&#x7ED3;&#x679C;&#x662F;&#xFF1A;</p>
+<pre><code> INFO [main] - user: User [Hash = -1981177266, id=1, name=letian, email=letian@111.com, password=123, serialVersionUID=1]
+ INFO [main] - blog: Blog [Hash = 857656589, id=1, ownerId=1, title=&#x6807;&#x9898;1, content=&#x6587;&#x672C;1, serialVersionUID=1]
+</code></pre><p><code>test_02</code>&#x793A;&#x4F8B;&#x662F;&#x65B0;&#x589E;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#xFF0C;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code> INFO [main] - result: 1
+ INFO [main] - blog: Blog [Hash = -407908845, id=8, ownerId=1, title=&#x4F60;&#x597D;, World, content=&#x4F60;&#x597D;, &#x1F606;, serialVersionUID=1]
+</code></pre><p>&#x6CE8;&#x610F;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;commit&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x6761;&#x6570;&#x636E;&#x5E76;&#x672A;&#x771F;&#x6B63;&#x63D2;&#x5165;&#x6570;&#x636E;&#x5E93;&#x3002;</p>
+<p><code>test_03</code>&#x793A;&#x4F8B;&#x662F;&#x67E5;&#x8BE2;id&#x5728;[1,4]&#x8303;&#x56F4;&#x7684;&#x535A;&#x5BA2;&#xFF0C;&#x6309;&#x7167;id&#x5347;&#x5E8F;&#x6392;&#x5E8F;&#xFF0C;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x662F;&#xFF1A;</p>
+<pre><code> INFO [main] - blog: Blog [Hash = 857656589, id=1, ownerId=1, title=&#x6807;&#x9898;1, content=&#x6587;&#x672C;1, serialVersionUID=1]
+ INFO [main] - blog: Blog [Hash = 857686412, id=2, ownerId=1, title=&#x6807;&#x9898;2, content=&#x6587;&#x672C;2, serialVersionUID=1]
+ INFO [main] - blog: Blog [Hash = 857716235, id=3, ownerId=1, title=&#x6807;&#x9898;3, content=&#x6587;&#x672C;3, serialVersionUID=1]
+ INFO [main] - blog: Blog [Hash = 857746058, id=4, ownerId=1, title=&#x6807;&#x9898;4, content=&#x6587;&#x672C;4, serialVersionUID=1]
+</code></pre><p><code>test_04</code>&#x793A;&#x4F8B;&#x662F;&#x6309;&#x7167;id&#x964D;&#x5E8F;&#x83B7;&#x53D6;&#x524D;&#x4E24;&#x7BC7;&#x535A;&#x5BA2;&#xFF0C;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code> INFO [main] - blog: Blog [Hash = -407938636, id=7, ownerId=1, title=&#x4F60;&#x597D;, World, content=&#x4F60;&#x597D;, &#x1F606;, serialVersionUID=1]
+ INFO [main] - blog: Blog [Hash = 789074769, id=6, ownerId=2, title=&#x6807;&#x9898;21, content=&#x6587;&#x672C;21, serialVersionUID=1]
+</code></pre>
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="16-把SQL写在注解中.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 16、把SQL写在注解中">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"17、自动生成Mapper代码和映射XML","level":"1.3.17","depth":2,"previous":{"title":"16、把SQL写在注解中","level":"1.3.16","depth":2,"path":"2-通过示例学习MyBatis/16-把SQL写在注解中.md","ref":"2-通过示例学习MyBatis/16-把SQL写在注解中.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"sitemap":{"hostname":"https://www.letiantian.me/mybatis-tutorial/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"splitter":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程","language":"zh","gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"2-通过示例学习MyBatis/17-自动生成Mapper代码和映射XML.md","mtime":"2018-11-24T00:16:44.264Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-24T09:02:01.417Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+

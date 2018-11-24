@@ -1,0 +1,632 @@
+
+<!DOCTYPE HTML>
+<html lang="zh" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>07、如何编写Java示例代码 · MyBatis 教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="08-回顾JDBC.html" />
+    
+    
+    <link rel="prev" href="06-Lombok的使用.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    一、准备工作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="01-MyBatis是什么.html">
+            
+                <a href="01-MyBatis是什么.html">
+            
+                    
+                    01、MyBatis是什么
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="02-软件安装与使用.html">
+            
+                <a href="02-软件安装与使用.html">
+            
+                    
+                    02、软件安装与使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="03-使用Intellij-IDEA创建Java项目.html">
+            
+                <a href="03-使用Intellij-IDEA创建Java项目.html">
+            
+                    
+                    03、使用Intellij-IDEA创建Java项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="04-Junit的使用.html">
+            
+                <a href="04-Junit的使用.html">
+            
+                    
+                    04、Junit的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="05-Slf4j日志框架的使用.html">
+            
+                <a href="05-Slf4j日志框架的使用.html">
+            
+                    
+                    05、Slf4j日志框架的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="06-Lombok的使用.html">
+            
+                <a href="06-Lombok的使用.html">
+            
+                    
+                    06、Lombok的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.7" data-path="07-如何编写Java示例代码.html">
+            
+                <a href="07-如何编写Java示例代码.html">
+            
+                    
+                    07、如何编写Java示例代码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="08-回顾JDBC.html">
+            
+                <a href="08-回顾JDBC.html">
+            
+                    
+                    08、回顾JDBC
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../2-通过示例学习MyBatis/">
+            
+                <a href="../2-通过示例学习MyBatis/">
+            
+                    
+                    二、通过示例学习MyBatis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../2-通过示例学习MyBatis/01-数据准备.html">
+            
+                <a href="../2-通过示例学习MyBatis/01-数据准备.html">
+            
+                    
+                    01、数据准备
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../2-通过示例学习MyBatis/02-查找id为1的用户信息.html">
+            
+                <a href="../2-通过示例学习MyBatis/02-查找id为1的用户信息.html">
+            
+                    
+                    02、查找id为1的用户信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../2-通过示例学习MyBatis/03-自定义连接池.html">
+            
+                <a href="../2-通过示例学习MyBatis/03-自定义连接池.html">
+            
+                    
+                    03、自定义连接池
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../2-通过示例学习MyBatis/04-如果不用MyBatis配置文件.html">
+            
+                <a href="../2-通过示例学习MyBatis/04-如果不用MyBatis配置文件.html">
+            
+                    
+                    04、如果不用MyBatis配置文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../2-通过示例学习MyBatis/05-查询密码为123的所有用户.html">
+            
+                <a href="../2-通过示例学习MyBatis/05-查询密码为123的所有用户.html">
+            
+                    
+                    05、查询密码为123的所有用户
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../2-通过示例学习MyBatis/06-如果Bean中成员变量和表中字段命名不一致.html">
+            
+                <a href="../2-通过示例学习MyBatis/06-如果Bean中成员变量和表中字段命名不一致.html">
+            
+                    
+                    06、如果Bean中成员变量和表中字段命名不一致
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../2-通过示例学习MyBatis/07-更多查询用户的方式.html">
+            
+                <a href="../2-通过示例学习MyBatis/07-更多查询用户的方式.html">
+            
+                    
+                    07、更多查询用户的方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../2-通过示例学习MyBatis/08-排序.html">
+            
+                <a href="../2-通过示例学习MyBatis/08-排序.html">
+            
+                    
+                    08、排序
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../2-通过示例学习MyBatis/09-日志.html">
+            
+                <a href="../2-通过示例学习MyBatis/09-日志.html">
+            
+                    
+                    09、日志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../2-通过示例学习MyBatis/10-添加、删除、修改数据.html">
+            
+                <a href="../2-通过示例学习MyBatis/10-添加、删除、修改数据.html">
+            
+                    
+                    10、添加、删除、修改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../2-通过示例学习MyBatis/11-事务.html">
+            
+                <a href="../2-通过示例学习MyBatis/11-事务.html">
+            
+                    
+                    11、事务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="../2-通过示例学习MyBatis/12-动态SQL.html">
+            
+                <a href="../2-通过示例学习MyBatis/12-动态SQL.html">
+            
+                    
+                    12、动态SQL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.13" data-path="../2-通过示例学习MyBatis/13-一对一和一对多的实现.html">
+            
+                <a href="../2-通过示例学习MyBatis/13-一对一和一对多的实现.html">
+            
+                    
+                    13、一对一和一对多的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.14" data-path="../2-通过示例学习MyBatis/14-一对一和一对多的延迟加载.html">
+            
+                <a href="../2-通过示例学习MyBatis/14-一对一和一对多的延迟加载.html">
+            
+                    
+                    14、一对一和一对多的延迟加载
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.15" data-path="../2-通过示例学习MyBatis/15-分页查询.html">
+            
+                <a href="../2-通过示例学习MyBatis/15-分页查询.html">
+            
+                    
+                    15、分页查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="../2-通过示例学习MyBatis/16-把SQL写在注解中.html">
+            
+                <a href="../2-通过示例学习MyBatis/16-把SQL写在注解中.html">
+            
+                    
+                    16、把SQL写在注解中
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.17" data-path="../2-通过示例学习MyBatis/17-自动生成Mapper代码和映射XML.html">
+            
+                <a href="../2-通过示例学习MyBatis/17-自动生成Mapper代码和映射XML.html">
+            
+                    
+                    17、自动生成Mapper代码和映射XML
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >07、如何编写Java示例代码</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="07-&#x5982;&#x4F55;&#x7F16;&#x5199;-java-&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#xFF1F;">07. &#x5982;&#x4F55;&#x7F16;&#x5199; Java &#x793A;&#x4F8B;&#x4EE3;&#x7801;&#xFF1F;</h1>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x5199;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#xFF1F;</p>
+<p>1&#x3001;&#x81EA;&#x5DF1;&#x5199;&#x4E86;&#x4E00;&#x4E9B;Java&#x4EE3;&#x7801;&#xFF0C;&#x901A;&#x8FC7;&#x793A;&#x4F8B;&#x544A;&#x8BC9;&#x522B;&#x4EBA;&#x8BE5;&#x600E;&#x4E48;&#x7528;&#x3002;</p>
+<p>2&#x3001;&#x770B;&#x5230;&#x795E;&#x5947;&#x7684;Java&#x9879;&#x76EE;&#xFF0C;&#x901A;&#x8FC7;&#x7F16;&#x5199;&#x793A;&#x4F8B;&#x5B66;&#x4E60;&#x600E;&#x4E48;&#x7528;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x6211;&#xFF0C;&#x6700;&#x5F00;&#x59CB;&#x7528;&#x7684;&#x662F;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6848;1&#x3002;</p>
+<h3 id="&#x65B9;&#x6848;1&#xFF1A;&#x521B;&#x5EFA;&#x7C7B;&#xFF0C;&#x7136;&#x540E;&#x5199;main&#x51FD;&#x6570;">&#x65B9;&#x6848;1&#xFF1A;&#x521B;&#x5EFA;&#x7C7B;&#xFF0C;&#x7136;&#x540E;&#x5199;main&#x51FD;&#x6570;</h3>
+<p>&#x5728;&#x7C7B;&#x4E2D;&#x5199;&#x51E0;&#x4E2A;static&#x51FD;&#x6570;&#xFF0C;&#x5728; main &#x51FD;&#x6570;&#x4E2D;&#x6709;&#x9009;&#x62E9;&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x4EE3;&#x7801;&#xFF0C;&#x770B;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x3002;&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x6765;&#x81EA;&#x54EA;&#x91CC;&#xFF1F;&#x6765;&#x81EA;<code>System.out.println</code> &#x3002;</p>
+<p>&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x8981;&#x7ECF;&#x5E38;&#x66F4;&#x6362; main &#x51FD;&#x6570;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x540E;&#x6765;&#x4F18;&#x5316;&#x4E3A;&#xFF0C;&#x5199;&#x591A;&#x4E2A;&#x7C7B;&#xFF0C;&#x6BCF;&#x4E2A;&#x7C7B;&#x90FD;&#x6709; main &#x51FD;&#x6570;&#xFF0C;&#x5C3D;&#x91CF;&#x4FDD;&#x8BC1;&#x4EE3;&#x7801;&#x5C11;&#x6539;&#x52A8;&#x3002;&#x8FD9;&#x4E5F;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x662F;&#x7C7B;&#x592A;&#x591A;&#x3002;</p>
+<p>&#x540E;&#x6765;&#xFF0C;&#x5728;&#x7528; junit &#x5199;&#x4E86;&#x4E00;&#x5806;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#x540E;&#xFF0C;&#x6211;&#x53D1;&#x73B0; junit &#x53EF;&#x4EE5;&#x5B8C;&#x7F8E;&#x5E94;&#x5BF9;&#x5199;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x7684;&#x9700;&#x6C42;&#x3002;</p>
+<h3 id="&#x65B9;&#x6848;2&#xFF1A;&#x4F7F;&#x7528;-junit-&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6846;&#x67B6;">&#x65B9;&#x6848;2&#xFF1A;&#x4F7F;&#x7528; Junit &#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6846;&#x67B6;</h3>
+<p>&#x6211;&#x73B0;&#x5728;&#x7528;&#x7684; Intellij IDEA IDE &#x5F88;&#x597D;&#x7684;&#x96C6;&#x6210;&#x4E86;junit&#x3002;&#x5728;&#x4E00;&#x4E2A;&#x7C7B;&#x4E2D;&#x5199;&#x4E00;&#x5806;&#x7528;<code>@Test</code>&#x6CE8;&#x89E3;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x968F;&#x4FBF;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#x9F20;&#x6807;&#x53F3;&#x51FB;&#xFF0C;&#x5C31;&#x6709;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x9009;&#x9879;&#x3002;</p>
+<p>&#x4E3E;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F7F;&#x7528;&#x793A;&#x4F8B;&#x3002;</p>
+<p><strong>&#x7B2C;&#x4E00;&#x6B65;</strong>&#xFF0C;&#x7528; Intellij IDEA &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E; gradle &#x7684; java &#x9879;&#x76EE;&#x3002;</p>
+<p><strong>&#x7B2C;&#x4E8C;&#x6B65;</strong>&#xFF0C;&#x5C06; build.gradle &#x4E2D;&#x4F9D;&#x8D56;</p>
+<pre><code class="lang-gradle"><span class="hljs-keyword">dependencies</span> {
+    testCompile <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;junit&apos;</span>, name: <span class="hljs-string">&apos;junit&apos;</span>, version: <span class="hljs-string">&apos;4.12&apos;</span>
+}
+</code></pre>
+<p>&#x4FEE;&#x6539;&#x4E3A;&#xFF1A;</p>
+<pre><code class="lang-gradle"><span class="hljs-keyword">dependencies</span> {
+    <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;junit&apos;</span>, name: <span class="hljs-string">&apos;junit&apos;</span>, version: <span class="hljs-string">&apos;4.12&apos;</span>
+}
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x7684;&#x76EE;&#x7684;&#x4E0D;&#x662F;&#x5199;&#x5355;&#x6D4B;&#x4EE3;&#x7801;&#xFF0C;&#x800C;&#x662F;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x3002;&#x628A;<code>testCompile</code>&#x6539;&#x6210;<code>compile</code>&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x5728;<code>main/java</code>&#x76EE;&#x5F55;&#x4E2D;&#x4F7F;&#x7528; junit &#x4E86;&#x3002;</p>
+<p><strong>&#x7B2C;&#x4E09;&#x6B65;</strong>&#xFF0C;&#x5199;&#x4E2A;&#x793A;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo</span> </span>{
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_01</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-number">1</span>+<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_02</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-number">1</span>+<span class="hljs-number">2</span>);
+    }
+
+}
+</code></pre>
+<p>&#x641E;&#x5B9A;&#x3002;</p>
+<h3 id="&#x65B9;&#x6848;3&#xFF1A;&#x5728;&#x65B9;&#x6848;2&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x5F15;&#x5165;lombok&#x548C;slf4j">&#x65B9;&#x6848;3&#xFF1A;&#x5728;&#x65B9;&#x6848;2&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x5F15;&#x5165;lombok&#x548C;slf4j</h3>
+<p>lombok&#x548C;slf4j&#x7684;&#x4F7F;&#x7528;&#x89C1;&#x4E4B;&#x524D;&#x7684;&#x4ECB;&#x7ECD;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x8FD9;&#x4E2A;&#x65B9;&#x6848;&#xFF0C;build.gradle &#x4E2D;&#x7684;&#x4F9D;&#x8D56;&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>compile group: &apos;org.projectlombok&apos;, name: &apos;lombok&apos;, version: &apos;1.18.0&apos;
+
+compile group: &apos;org.slf4j&apos;, name: &apos;slf4j-api&apos;, version: &apos;1.7.25&apos;
+compile group: &apos;org.slf4j&apos;, name: &apos;slf4j-log4j12&apos;, version: &apos;1.7.25&apos;
+compile group: &apos;log4j&apos;, name: &apos;log4j&apos;, version: &apos;1.2.17&apos;
+
+compile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.12&apos;
+</code></pre><p>&#x5728; resources &#x76EE;&#x5F55;&#x4E2D;&#x589E;&#x52A0; log4j &#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;log4j.properties&#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-ini">log4j.rootLogger=INFO, stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
+</code></pre>
+<p>&#x53EF;&#x6839;&#x636E;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x3002;</p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="06-Lombok的使用.html" class="navigation navigation-prev " aria-label="Previous page: 06、Lombok的使用">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="08-回顾JDBC.html" class="navigation navigation-next " aria-label="Next page: 08、回顾JDBC">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"07、如何编写Java示例代码","level":"1.2.7","depth":2,"next":{"title":"08、回顾JDBC","level":"1.2.8","depth":2,"path":"1-准备工作/08-回顾JDBC.md","ref":"1-准备工作/08-回顾JDBC.md","articles":[]},"previous":{"title":"06、Lombok的使用","level":"1.2.6","depth":2,"path":"1-准备工作/06-Lombok的使用.md","ref":"1-准备工作/06-Lombok的使用.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"sitemap":{"hostname":"https://www.letiantian.me/mybatis-tutorial/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"splitter":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程","language":"zh","gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"1-准备工作/07-如何编写Java示例代码.md","mtime":"2018-11-24T00:59:03.480Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-24T09:02:01.417Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
