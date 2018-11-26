@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="zh" >
+<html lang="zh_CN" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>15、分页查询 · MyBatis 教程</title>
+        <title>16、分页查询 · MyBatis 教程 - 乐天的开发教程</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -64,7 +64,7 @@
     <link rel="next" href="把SQL写在注解中.html" />
     
     
-    <link rel="prev" href="一对一和一对多的延迟加载.html" />
+    <link rel="prev" href="多对多的实现.html" />
     
 
     </head>
@@ -82,7 +82,16 @@
 <ul class="summary">
     
     
+    
+        
+        <li>
+            <a href="." target="_blank" class="custom-link">MyBatis 教程</a>
+        </li>
+    
+    
 
+    
+    <li class="divider"></li>
     
 
     
@@ -94,7 +103,7 @@
                 <a href="../">
             
                     
-                    Introduction
+                    教程简介
             
                 </a>
             
@@ -421,12 +430,25 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3.15" data-path="分页查询.html">
+        <li class="chapter " data-level="1.3.15" data-path="多对多的实现.html">
+            
+                <a href="多对多的实现.html">
+            
+                    
+                    15、多对多的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.16" data-path="分页查询.html">
             
                 <a href="分页查询.html">
             
                     
-                    15、分页查询
+                    16、分页查询
             
                 </a>
             
@@ -434,12 +456,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.16" data-path="把SQL写在注解中.html">
+        <li class="chapter " data-level="1.3.17" data-path="把SQL写在注解中.html">
             
                 <a href="把SQL写在注解中.html">
             
                     
-                    16、把SQL写在注解中
+                    17、把SQL写在注解中
             
                 </a>
             
@@ -447,12 +469,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.17" data-path="自动生成Mapper代码和映射XML.html">
+        <li class="chapter " data-level="1.3.18" data-path="自动生成Mapper代码和映射XML.html">
             
                 <a href="自动生成Mapper代码和映射XML.html">
             
                     
-                    17、自动生成Mapper代码和映射XML
+                    18、自动生成Mapper代码和映射XML
             
                 </a>
             
@@ -472,7 +494,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            本書使用 GitBook 釋出
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -495,7 +517,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >15、分页查询</a>
+        <a href=".." >16、分页查询</a>
     </h1>
 </div>
 
@@ -507,7 +529,8 @@
                             
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="15-&#x5206;&#x9875;&#x67E5;&#x8BE2;">15. &#x5206;&#x9875;&#x67E5;&#x8BE2;</h1>
+                                <h1 id="16&#x3001;&#x5206;&#x9875;&#x67E5;&#x8BE2;">16&#x3001;&#x5206;&#x9875;&#x67E5;&#x8BE2;</h1>
+<hr>
 <h2 id="&#x4EC0;&#x4E48;&#x662F;&#x5206;&#x9875;&#xFF08;pagination&#xFF09;">&#x4EC0;&#x4E48;&#x662F;&#x5206;&#x9875;&#xFF08;pagination&#xFF09;</h2>
 <p>&#x4F8B;&#x5982;&#x5728;&#x6570;&#x636E;&#x5E93;&#x7684;&#x67D0;&#x4E2A;&#x8868;&#x91CC;&#x6709;1000&#x6761;&#x6570;&#x636E;&#xFF0C;&#x6211;&#x4EEC;&#x6BCF;&#x6B21;&#x53EA;&#x663E;&#x793A;100&#x6761;&#x6570;&#x636E;&#xFF0C;&#x5728;&#x7B2C;1&#x9875;&#x663E;&#x793A;&#x7B2C;0&#x5230;&#x7B2C;99&#x6761;&#xFF0C;&#x5728;&#x7B2C;2&#x9875;&#x663E;&#x793A;&#x7B2C;100&#x5230;199&#x6761;&#xFF0C;&#x4F9D;&#x6B21;&#x7C7B;&#x63A8;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x5206;&#x9875;&#x3002;</p>
 <p>&#x5206;&#x9875;&#x53EF;&#x4EE5;&#x5206;&#x4E3A;<code>&#x903B;&#x8F91;&#x5206;&#x9875;</code>&#x548C;<code>&#x7269;&#x7406;&#x5206;&#x9875;</code>&#x3002;</p>
@@ -515,7 +538,7 @@
 <li><code>&#x903B;&#x8F91;&#x5206;&#x9875;</code>&#x662F;&#x6211;&#x4EEC;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x663E;&#x793A;&#x6BCF;&#x9875;&#x7684;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x9996;&#x5148;&#x67E5;&#x8BE2;&#x5F97;&#x5230;&#x8868;&#x4E2D;&#x7684;1000&#x6761;&#x6570;&#x636E;&#xFF0C;&#x7136;&#x540E;&#x6210;&#x719F;&#x6839;&#x636E;&#x5F53;&#x524D;&#x9875;&#x7684;&#x201C;&#x9875;&#x7801;&#x201D;&#x9009;&#x51FA;&#x5176;&#x4E2D;&#x7684;100&#x6761;&#x6570;&#x636E;&#x6765;&#x663E;&#x793A;&#x3002;&#x4E0D;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x3002;</li>
 <li><code>&#x7269;&#x7406;&#x5206;&#x9875;</code>&#x662F;&#x7A0B;&#x5E8F;&#x5148;&#x5224;&#x65AD;&#x51FA;&#x8BE5;&#x9009;&#x51FA;&#x8FD9;1000&#x6761;&#x7684;&#x7B2C;&#x51E0;&#x6761;&#x5230;&#x7B2C;&#x51E0;&#x6761;&#xFF0C;&#x7136;&#x540E;&#x6570;&#x636E;&#x5E93;&#x6839;&#x636E;&#x7A0B;&#x5E8F;&#x7ED9;&#x51FA;&#x7684;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;&#x51FA;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x7684;100&#x6761;&#x8FD4;&#x56DE;&#x7ED9;&#x6211;&#x4EEC;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</li>
 </ul>
-<p>&#x6211;&#x4EEC;&#x4EE5;&#x89C1; <a href="&#x6570;&#x636E;&#x51C6;&#x5907;.html">01. &#x6570;&#x636E;&#x51C6;&#x5907;</a> &#x7684;blog &#x8868;&#x4E3A;&#x4F8B;&#x5B66;&#x4E60;&#x5982;&#x4F55;&#x4F7F;&#x7528;mybatis&#x8FDB;&#x884C;&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x4EE5; <a href="&#x6570;&#x636E;&#x51C6;&#x5907;.html">&#x6570;&#x636E;&#x51C6;&#x5907;</a> &#x7684; blog &#x8868;&#x4E3A;&#x4F8B;&#x5B66;&#x4E60;&#x5982;&#x4F55;&#x4F7F;&#x7528;mybatis&#x8FDB;&#x884C;&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x3002;</p>
 <p>blog &#x8868;&#x6570;&#x636E;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code>mysql&gt; select * from blog;
 +----+----------+---------------+--------------+
@@ -701,12 +724,12 @@ DEBUG [main] - &lt;==      Total: 2
 
             
                 
-                <a href="一对一和一对多的延迟加载.html" class="navigation navigation-prev " aria-label="Previous page: 14、一对一和一对多的延迟加载">
+                <a href="多对多的实现.html" class="navigation navigation-prev " aria-label="Previous page: 15、多对多的实现">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="把SQL写在注解中.html" class="navigation navigation-next " aria-label="Next page: 16、把SQL写在注解中">
+                <a href="把SQL写在注解中.html" class="navigation navigation-next " aria-label="Next page: 17、把SQL写在注解中">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -717,7 +740,7 @@ DEBUG [main] - &lt;==      Total: 2
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"15、分页查询","level":"1.3.15","depth":2,"next":{"title":"16、把SQL写在注解中","level":"1.3.16","depth":2,"path":"通过示例学习MyBatis/把SQL写在注解中.md","ref":"通过示例学习MyBatis/把SQL写在注解中.md","articles":[]},"previous":{"title":"14、一对一和一对多的延迟加载","level":"1.3.14","depth":2,"path":"通过示例学习MyBatis/一对一和一对多的延迟加载.md","ref":"通过示例学习MyBatis/一对一和一对多的延迟加载.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"sitemap":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"splitter":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程","language":"zh","gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/分页查询.md","mtime":"2018-11-24T13:56:10.148Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-24T14:02:41.825Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"16、分页查询","level":"1.3.16","depth":2,"next":{"title":"17、把SQL写在注解中","level":"1.3.17","depth":2,"path":"通过示例学习MyBatis/把SQL写在注解中.md","ref":"通过示例学习MyBatis/把SQL写在注解中.md","articles":[]},"previous":{"title":"15、多对多的实现","level":"1.3.15","depth":2,"path":"通过示例学习MyBatis/多对多的实现.md","ref":"通过示例学习MyBatis/多对多的实现.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/分页查询.md","mtime":"2018-11-25T15:45:13.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-26T00:54:23.140Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="zh" >
+<html lang="zh_CN" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>02、查找id为1的用户信息 · MyBatis 教程</title>
+        <title>02、查找id为1的用户信息 · MyBatis 教程 - 乐天的开发教程</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -82,7 +82,16 @@
 <ul class="summary">
     
     
+    
+        
+        <li>
+            <a href="." target="_blank" class="custom-link">MyBatis 教程</a>
+        </li>
+    
+    
 
+    
+    <li class="divider"></li>
     
 
     
@@ -94,7 +103,7 @@
                 <a href="../">
             
                     
-                    Introduction
+                    教程简介
             
                 </a>
             
@@ -421,12 +430,25 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.15" data-path="分页查询.html">
+        <li class="chapter " data-level="1.3.15" data-path="多对多的实现.html">
+            
+                <a href="多对多的实现.html">
+            
+                    
+                    15、多对多的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="分页查询.html">
             
                 <a href="分页查询.html">
             
                     
-                    15、分页查询
+                    16、分页查询
             
                 </a>
             
@@ -434,12 +456,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.16" data-path="把SQL写在注解中.html">
+        <li class="chapter " data-level="1.3.17" data-path="把SQL写在注解中.html">
             
                 <a href="把SQL写在注解中.html">
             
                     
-                    16、把SQL写在注解中
+                    17、把SQL写在注解中
             
                 </a>
             
@@ -447,12 +469,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.17" data-path="自动生成Mapper代码和映射XML.html">
+        <li class="chapter " data-level="1.3.18" data-path="自动生成Mapper代码和映射XML.html">
             
                 <a href="自动生成Mapper代码和映射XML.html">
             
                     
-                    17、自动生成Mapper代码和映射XML
+                    18、自动生成Mapper代码和映射XML
             
                 </a>
             
@@ -472,7 +494,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            本書使用 GitBook 釋出
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -507,10 +529,11 @@
                             
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="02-&#x67E5;&#x627E;id&#x4E3A;1&#x7684;&#x7528;&#x6237;&#x4FE1;&#x606F;">02. &#x67E5;&#x627E;id&#x4E3A;1&#x7684;&#x7528;&#x6237;&#x4FE1;&#x606F;</h1>
+                                <h1 id="02&#x3001;&#x67E5;&#x627E;id&#x4E3A;1&#x7684;&#x7528;&#x6237;&#x4FE1;&#x606F;">02&#x3001;&#x67E5;&#x627E;id&#x4E3A;1&#x7684;&#x7528;&#x6237;&#x4FE1;&#x606F;</h1>
+<hr>
 <p>&#x672C;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x5728; <a href="https://github.com/letiantian/mybatis-tutorial/tree/master/demo/mybatis-demo-001" target="_blank">mybatis-demo-001</a> &#x3002;</p>
 <h2 id="&#x6570;&#x636E;&#x51C6;&#x5907;">&#x6570;&#x636E;&#x51C6;&#x5907;</h2>
-<p>&#x89C1; <a href="&#x6570;&#x636E;&#x51C6;&#x5907;.html">01. &#x6570;&#x636E;&#x51C6;&#x5907;</a></p>
+<p>&#x89C1; <a href="&#x6570;&#x636E;&#x51C6;&#x5907;.html">&#x6570;&#x636E;&#x51C6;&#x5907;</a></p>
 <h2 id="&#x9879;&#x76EE;&#x7ED3;&#x6784;">&#x9879;&#x76EE;&#x7ED3;&#x6784;</h2>
 <p>&#x4F7F;&#x7528; IDEA &#x521B;&#x5EFA; gradle &#x9879;&#x76EE;&#xFF0C;&#x6700;&#x7EC8;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
 <p><img src="../img/0001.jpg" width="300"></p>
@@ -612,7 +635,7 @@ log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
 </code></pre>
 <p><code>&lt;mapper&gt;</code>&#x6807;&#x7B7E;&#x7684;<code>namesapce</code>&#x6307;&#x5B9A;&#x4E86;&#x5BF9;&#x5E94;&#x7684;&#x7C7B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;2.5&#x4E2D;&#x5B9A;&#x4E49;&#x7684; UserMapper &#x63A5;&#x53E3;&#x3002;</p>
 <p><code>&lt;select&gt;</code>&#x7684;id&#x662F;<code>findById</code>&#xFF0C;&#x5BF9;&#x5E94;UserMapper&#x63A5;&#x53E3;&#x7684;findById&#x65B9;&#x6CD5;&#x3002;<code>parameterType</code>&#x6307;&#x660E;&#x4E86;findById&#x7684;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x662F;&#x53EF;&#x4EE5;&#x7701;&#x7565;&#x7684;&#x3002;<code>&lt;select&gt;</code>&#x4E2D;&#x662F;&#x4E00;&#x4E2A;select&#x8BED;&#x53E5;&#xFF0C;&#x5176;&#x4E2D;<code>#{id}</code>&#x5BF9;&#x5E94;&#x65B9;&#x6CD5;<code>findById</code>&#x7684;&#x53C2;&#x6570;<code>Long id</code>&#xFF0C;&#x6267;&#x884C;select&#x67E5;&#x8BE2;&#x540E;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x7C7B;&#x578B;&#x662F;<code>bean.User</code>&#x3002;</p>
-<p>&#x6CE8;&#x610F;&#xFF0C;&#x5982;&#x679C;&#x628A;<code>UserMapper.xml</code>&#x6587;&#x4EF6;&#x653E;&#x5230;<code>resource/dao</code>&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x5C06;<code>mybatis-config.xml</code>&#x4E2D;<code>&lt;mapper resource=&quot;mapper/UserMapper.xml&quot;/&gt;</code>&#x6539;&#x6210;<code>&lt;mapper resource=&quot;dao/UserMapper.xml&quot;/&gt;</code>&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#x3002;&#x4F46;&#x662F;&#x5EFA;&#x8BAE;&#x653E;&#x5728;&#x548C; UserMapper &#x63A5;&#x53E3;&#x6240;&#x5728;package&#x540C;&#x540D;&#x7684;resource&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x5373;<code>resources/mapper</code>&#x4E0B;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x5982;&#x679C;&#x628A;<code>UserMapper.xml</code>&#x6587;&#x4EF6;&#x653E;&#x5230;<code>resource/dao</code>&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x5C06;<code>mybatis-config.xml</code>&#x4E2D;<code>&lt;mapper resource=&quot;mapper/UserMapper.xml&quot;/&gt;</code>&#x6539;&#x6210;<code>&lt;mapper resource=&quot;dao/UserMapper.xml&quot;/&gt;</code>&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#x3002;&#x4F46;&#x662F;&#x5EFA;&#x8BAE;&#x653E;&#x5728;&#x548C; UserMapper &#x63A5;&#x53E3;&#x6240;&#x5728;package&#x540C;&#x540D;&#x7684;resource&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x5373;<code>resources/mapper</code>&#x4E0B;&#x3002;<code>&lt;mapper resource=&quot;mapper/UserMapper.xml&quot;/&gt;</code> &#x4E5F;&#x53EF;&#x4EE5;&#x6539;&#x6210; <code>&lt;mapper class&quot;mapper.UserMapper&quot;/&gt;</code>&#x3002;</p>
 <p>&#x5728;&#x8FD9;&#x91CC;&#x7559;&#x51E0;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</p>
 <ol>
 <li>&#x5982;&#x679C;&#x51FD;&#x6570;&#x6709;&#x591A;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;parameterType &#x8BE5;&#x600E;&#x4E48;&#x5199;&#xFF1F;</li>
@@ -700,7 +723,7 @@ log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"02、查找id为1的用户信息","level":"1.3.2","depth":2,"next":{"title":"03、自定义连接池","level":"1.3.3","depth":2,"path":"通过示例学习MyBatis/自定义连接池.md","ref":"通过示例学习MyBatis/自定义连接池.md","articles":[]},"previous":{"title":"01、数据准备","level":"1.3.1","depth":2,"path":"通过示例学习MyBatis/数据准备.md","ref":"通过示例学习MyBatis/数据准备.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"sitemap":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"splitter":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程","language":"zh","gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/查找id为1的用户信息.md","mtime":"2018-11-24T13:57:55.893Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-24T14:02:41.825Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"02、查找id为1的用户信息","level":"1.3.2","depth":2,"next":{"title":"03、自定义连接池","level":"1.3.3","depth":2,"path":"通过示例学习MyBatis/自定义连接池.md","ref":"通过示例学习MyBatis/自定义连接池.md","articles":[]},"previous":{"title":"01、数据准备","level":"1.3.1","depth":2,"path":"通过示例学习MyBatis/数据准备.md","ref":"通过示例学习MyBatis/数据准备.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/查找id为1的用户信息.md","mtime":"2018-11-26T00:00:36.059Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-26T00:54:23.140Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

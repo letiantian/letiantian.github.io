@@ -25,6 +25,7 @@
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/动态SQL.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/一对一和一对多的实现.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/一对一和一对多的延迟加载.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/多对多的实现.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/分页查询.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/把SQL写在注解中.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mybatis/通过示例学习MyBatis/自动生成Mapper代码和映射XML.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>

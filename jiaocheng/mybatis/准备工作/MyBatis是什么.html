@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="zh" >
+<html lang="zh_CN" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>01、MyBatis是什么 · MyBatis 教程</title>
+        <title>01、MyBatis是什么 · MyBatis 教程 - 乐天的开发教程</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -82,7 +82,16 @@
 <ul class="summary">
     
     
+    
+        
+        <li>
+            <a href="." target="_blank" class="custom-link">MyBatis 教程</a>
+        </li>
+    
+    
 
+    
+    <li class="divider"></li>
     
 
     
@@ -94,7 +103,7 @@
                 <a href="../">
             
                     
-                    Introduction
+                    教程简介
             
                 </a>
             
@@ -421,12 +430,25 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.15" data-path="../通过示例学习MyBatis/分页查询.html">
+        <li class="chapter " data-level="1.3.15" data-path="../通过示例学习MyBatis/多对多的实现.html">
+            
+                <a href="../通过示例学习MyBatis/多对多的实现.html">
+            
+                    
+                    15、多对多的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="../通过示例学习MyBatis/分页查询.html">
             
                 <a href="../通过示例学习MyBatis/分页查询.html">
             
                     
-                    15、分页查询
+                    16、分页查询
             
                 </a>
             
@@ -434,12 +456,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.16" data-path="../通过示例学习MyBatis/把SQL写在注解中.html">
+        <li class="chapter " data-level="1.3.17" data-path="../通过示例学习MyBatis/把SQL写在注解中.html">
             
                 <a href="../通过示例学习MyBatis/把SQL写在注解中.html">
             
                     
-                    16、把SQL写在注解中
+                    17、把SQL写在注解中
             
                 </a>
             
@@ -447,12 +469,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.17" data-path="../通过示例学习MyBatis/自动生成Mapper代码和映射XML.html">
+        <li class="chapter " data-level="1.3.18" data-path="../通过示例学习MyBatis/自动生成Mapper代码和映射XML.html">
             
                 <a href="../通过示例学习MyBatis/自动生成Mapper代码和映射XML.html">
             
                     
-                    17、自动生成Mapper代码和映射XML
+                    18、自动生成Mapper代码和映射XML
             
                 </a>
             
@@ -472,7 +494,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            本書使用 GitBook 釋出
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -507,7 +529,8 @@
                             
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="01-mybatis-&#x662F;&#x4EC0;&#x4E48;">01. MyBatis &#x662F;&#x4EC0;&#x4E48;</h1>
+                                <h1 id="01&#x3001;mybatis&#x662F;&#x4EC0;&#x4E48;">01&#x3001;MyBatis&#x662F;&#x4EC0;&#x4E48;</h1>
+<hr>
 <blockquote>
 <p>MyBatis &#x662F;&#x4E00;&#x6B3E;&#x4F18;&#x79C0;&#x7684;&#x6301;&#x4E45;&#x5C42;&#x6846;&#x67B6;&#xFF0C;&#x5B83;&#x652F;&#x6301;&#x5B9A;&#x5236;&#x5316; SQL&#x3001;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x4EE5;&#x53CA;&#x9AD8;&#x7EA7;&#x6620;&#x5C04;&#x3002;MyBatis &#x907F;&#x514D;&#x4E86;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684; JDBC &#x4EE3;&#x7801;&#x548C;&#x624B;&#x52A8;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;&#x4EE5;&#x53CA;&#x83B7;&#x53D6;&#x7ED3;&#x679C;&#x96C6;&#x3002;MyBatis &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7B80;&#x5355;&#x7684; XML &#x6216;&#x6CE8;&#x89E3;&#x6765;&#x914D;&#x7F6E;&#x548C;&#x6620;&#x5C04;&#x539F;&#x751F;&#x4FE1;&#x606F;&#xFF0C;&#x5C06;&#x63A5;&#x53E3;&#x548C; Java &#x7684; POJOs(Plain Old Java Objects,&#x666E;&#x901A;&#x7684; Java&#x5BF9;&#x8C61;)&#x6620;&#x5C04;&#x6210;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x8BB0;&#x5F55;&#x3002;</p>
 </blockquote>
@@ -539,7 +562,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"01、MyBatis是什么","level":"1.2.1","depth":2,"next":{"title":"02、软件安装与使用","level":"1.2.2","depth":2,"path":"准备工作/软件安装与使用.md","ref":"准备工作/软件安装与使用.md","articles":[]},"previous":{"title":"一、准备工作","level":"1.2","depth":1,"path":"准备工作/README.md","ref":"准备工作/README.md","articles":[{"title":"01、MyBatis是什么","level":"1.2.1","depth":2,"path":"准备工作/MyBatis是什么.md","ref":"准备工作/MyBatis是什么.md","articles":[]},{"title":"02、软件安装与使用","level":"1.2.2","depth":2,"path":"准备工作/软件安装与使用.md","ref":"准备工作/软件安装与使用.md","articles":[]},{"title":"03、使用Intellij-IDEA创建Java项目","level":"1.2.3","depth":2,"path":"准备工作/使用Intellij-IDEA创建Java项目.md","ref":"准备工作/使用Intellij-IDEA创建Java项目.md","articles":[]},{"title":"04、Junit的使用","level":"1.2.4","depth":2,"path":"准备工作/Junit的使用.md","ref":"准备工作/Junit的使用.md","articles":[]},{"title":"05、Slf4j日志框架的使用","level":"1.2.5","depth":2,"path":"准备工作/Slf4j日志框架的使用.md","ref":"准备工作/Slf4j日志框架的使用.md","articles":[]},{"title":"06、Lombok的使用","level":"1.2.6","depth":2,"path":"准备工作/Lombok的使用.md","ref":"准备工作/Lombok的使用.md","articles":[]},{"title":"07、如何编写Java示例代码","level":"1.2.7","depth":2,"path":"准备工作/如何编写Java示例代码.md","ref":"准备工作/如何编写Java示例代码.md","articles":[]},{"title":"08、回顾JDBC","level":"1.2.8","depth":2,"path":"准备工作/回顾JDBC.md","ref":"准备工作/回顾JDBC.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"sitemap":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"splitter":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程","language":"zh","gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"准备工作/MyBatis是什么.md","mtime":"2018-11-24T13:50:24.978Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-24T14:02:41.825Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"01、MyBatis是什么","level":"1.2.1","depth":2,"next":{"title":"02、软件安装与使用","level":"1.2.2","depth":2,"path":"准备工作/软件安装与使用.md","ref":"准备工作/软件安装与使用.md","articles":[]},"previous":{"title":"一、准备工作","level":"1.2","depth":1,"path":"准备工作/README.md","ref":"准备工作/README.md","articles":[{"title":"01、MyBatis是什么","level":"1.2.1","depth":2,"path":"准备工作/MyBatis是什么.md","ref":"准备工作/MyBatis是什么.md","articles":[]},{"title":"02、软件安装与使用","level":"1.2.2","depth":2,"path":"准备工作/软件安装与使用.md","ref":"准备工作/软件安装与使用.md","articles":[]},{"title":"03、使用Intellij-IDEA创建Java项目","level":"1.2.3","depth":2,"path":"准备工作/使用Intellij-IDEA创建Java项目.md","ref":"准备工作/使用Intellij-IDEA创建Java项目.md","articles":[]},{"title":"04、Junit的使用","level":"1.2.4","depth":2,"path":"准备工作/Junit的使用.md","ref":"准备工作/Junit的使用.md","articles":[]},{"title":"05、Slf4j日志框架的使用","level":"1.2.5","depth":2,"path":"准备工作/Slf4j日志框架的使用.md","ref":"准备工作/Slf4j日志框架的使用.md","articles":[]},{"title":"06、Lombok的使用","level":"1.2.6","depth":2,"path":"准备工作/Lombok的使用.md","ref":"准备工作/Lombok的使用.md","articles":[]},{"title":"07、如何编写Java示例代码","level":"1.2.7","depth":2,"path":"准备工作/如何编写Java示例代码.md","ref":"准备工作/如何编写Java示例代码.md","articles":[]},{"title":"08、回顾JDBC","level":"1.2.8","depth":2,"path":"准备工作/回顾JDBC.md","ref":"准备工作/回顾JDBC.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-56203613-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"准备工作/MyBatis是什么.md","mtime":"2018-11-25T15:43:42.253Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-26T00:54:23.140Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
