@@ -93,22 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-28 模板引擎负责MVC中的V（view）这一部分。Flask默认使用Jinja2模板引擎。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 使用 Jinja2 模板引擎">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：使用Jinja2模板引擎">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-jinja2-template-engine/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 模板引擎负责MVC中的V（view）这一部分。Flask默认使用Jinja2模板引擎。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 使用 Jinja2 模板引擎">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-redirect-02.jpg">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-redirect-00.jpg">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-redirect-01.jpg">
 <meta property="og:updated_time" content="2014-12-10T14:43:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：使用Jinja2模板引擎">
-<meta name="twitter:description" content="2014-06-28 模板引擎负责MVC中的V（view）这一部分。Flask默认使用Jinja2模板引擎。">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-redirect-02.jpg">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 使用 Jinja2 模板引擎">
 
 
 
@@ -396,58 +392,7 @@
       
 
       
-        <p>2014-06-28</p>
-<p>模板引擎负责MVC中的V（view）这一部分。Flask默认使用Jinja2模板引擎。</p>
-<a id="more"></a>
-<p>Flask与模板相关的函数有：</p>
-<ul>
-<li>flask.render_template(template_name_or_list, **context)<br> Renders a template from the template folder with the given context.</li>
-<li>flask.render_template_string(source, **context)<br> Renders a template from the given template source string with the given context.</li>
-<li>flask.get_template_attribute(template_name, attribute)<br> Loads a macro (or variable) a template exports. This can be used to invoke a macro from within Python code. </li>
-</ul>
-<p>这其中常用的就是前两个函数。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr>
-<p>这个实例中使用了模板继承、if判断、for循环。</p>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="创建并编辑HelloWorld-templates-default-html"><a href="#创建并编辑HelloWorld-templates-default-html" class="headerlink" title="创建并编辑HelloWorld/templates/default.html"></a>创建并编辑HelloWorld/templates/default.html</h3><p>内容如下：</p>
-<p><img src="/content/images/2014/06/2014-06-28-flask-redirect-02.jpg" alt=""></p>
-<p>可以看到，在<code>&lt;head&gt;</code>标签中使用了if判断，如果给模板传递了<code>page_title</code>变量，显示之，否则，不显示。</p>
-<p><code>&lt;body&gt;</code>标签中定义了一个名为<code>body</code>的block，用来被其他模板文件继承。</p>
-<h3 id="创建并编辑HelloWorld-templates-user-info-html"><a href="#创建并编辑HelloWorld-templates-user-info-html" class="headerlink" title="创建并编辑HelloWorld/templates/user_info.html"></a>创建并编辑HelloWorld/templates/user_info.html</h3><p>内容如下：</p>
-<p><img src="/content/images/2014/06/2014-06-28-flask-redirect-00.jpg" alt=""></p>
-<p>变量<code>user_info</code>应该是一个字典，for循环用来循环输出键值对。</p>
-<h3 id="编辑HelloWorld-index-py"><a href="#编辑HelloWorld-index-py" class="headerlink" title="编辑HelloWorld/index.py"></a>编辑HelloWorld/index.py</h3><p>内容如下：</p>
-<pre><code>from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/user&#39;)
-def user():
-    user_info = {
-        &#39;name&#39;: &#39;letian&#39;,
-        &#39;email&#39;: &#39;123@aa.com&#39;,
-        &#39;age&#39;:0,
-        &#39;github&#39;: &#39;https://github.com/letiantian&#39;
-    }
-    return render_template(&#39;user_info.html&#39;, page_title=&#39;letian\&#39;s info&#39;, user_info=user_info)
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p><code>render_template()</code>函数的第一个参数指定模板文件，后面的参数是要传递的数据。</p>
-<h3 id="运行与测试"><a href="#运行与测试" class="headerlink" title="运行与测试"></a>运行与测试</h3><p>运行HelloWorld/index.py：</p>
-<pre><code>$ python HelloWorld/index.py
-</code></pre><p>在浏览器中访问<code>http://127.0.0.1:5000/user</code>，效果图如下：</p>
-<p><img src="/content/images/2014/06/2014-06-28-flask-redirect-01.jpg" alt=""></p>
-<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><hr>
-<p><a href="http://flask.pocoo.org/docs/api/#flask.render_template" target="_blank" rel="noopener">Template Rendering</a><br><a href="http://flask.pocoo.org/docs/quickstart/" target="_blank" rel="noopener">Rendering Templates</a><br><a href="http://jinja.pocoo.org/docs/" target="_blank" rel="noopener">Welcome to Jinja2</a><br><a href="http://jinja.pocoo.org/docs/templates/#builtin-filters" target="_blank" rel="noopener">List of Builtin Filters</a><br><a href="http://jinja.pocoo.org/docs/api/#writing-filters" target="_blank" rel="noopener">How to Custom Filters in Jinja2</a><br><a href="http://flask.pocoo.org/docs/templating/" target="_blank" rel="noopener">Flask Templates</a><br><a href="http://stackoverflow.com/questions/12288454/how-to-import-custom-jinja2-filters-from-another-file-and-using-flask" target="_blank" rel="noopener">how to custom jinja2 filters in Flask?</a><br><a href="http://stackoverflow.com/questions/1465249/jinja2-get-lengths-of-list" target="_blank" rel="noopener">jinja2: get lengths of list</a><br><a href="http://stackoverflow.com/questions/6036082/call-a-python-function-from-jinja2" target="_blank" rel="noopener">Call a python function from jinja2</a>  </p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/使用Jinja2模板引擎.html">Python Flask Web 框架 - 使用 Jinja2 模板引擎</a></p>
 
       
     </div>
@@ -585,17 +530,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -666,22 +602,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建并编辑HelloWorld-templates-default-html"><span class="nav-text">创建并编辑HelloWorld/templates/default.html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建并编辑HelloWorld-templates-user-info-html"><span class="nav-text">创建并编辑HelloWorld/templates/user_info.html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑HelloWorld-index-py"><span class="nav-text">编辑HelloWorld/index.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行与测试"><span class="nav-text">运行与测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关资料"><span class="nav-text">相关资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

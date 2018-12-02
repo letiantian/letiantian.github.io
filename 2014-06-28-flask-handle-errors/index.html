@@ -93,20 +93,17 @@
 
 
 
-<meta name="description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 自定义404等错误的响应">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：自定义404等错误">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-handle-errors/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 自定义404等错误的响应">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-01.jpg">
 <meta property="og:updated_time" content="2014-10-07T07:20:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：自定义404等错误">
-<meta name="twitter:description" content="2014-06-28 要处理HTTP错误，可以使用flask.abort函数。">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 自定义404等错误的响应">
 
 
 
@@ -364,56 +361,7 @@
       
 
       
-        <p>2014-06-28</p>
-<p>要处理HTTP错误，可以使用<code>flask.abort</code>函数。</p>
-<a id="more"></a>
-<h2 id="示例1：简单入门"><a href="#示例1：简单入门" class="headerlink" title="示例1：简单入门"></a>示例1：简单入门</h2><hr>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="编辑HelloWorld-index-py："><a href="#编辑HelloWorld-index-py：" class="headerlink" title="编辑HelloWorld/index.py："></a>编辑<code>HelloWorld/index.py</code>：</h3><pre><code>from flask import Flask, render_template_string, abort
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/user&#39;)
-def user():
-    abort(401)  # Unauthorized
-    `print &#39;Unauthorized&#39;`
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-
-</code></pre><h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>运行<code>HelloWorld/index.py</code>，浏览器访问<code>http://127.0.0.1:5000/user</code>，效果如下：<br><img src="/content/images/2014/06/2014-06-28-flask-handle-errors-00.jpg" alt=""></p>
-<p>要注意的是，<code>HelloWorld/index.py</code>中<code>abort(401)</code>后的<code>print &#39;Unauthorized&#39;</code>并没有执行。</p>
-<h2 id="示例2：自定义错误页面"><a href="#示例2：自定义错误页面" class="headerlink" title="示例2：自定义错误页面"></a>示例2：自定义错误页面</h2><hr>
-<h3 id="编辑HelloWorld-index-py：-1"><a href="#编辑HelloWorld-index-py：-1" class="headerlink" title="编辑HelloWorld/index.py："></a>编辑<code>HelloWorld/index.py</code>：</h3><pre><code>from flask import Flask, render_template_string, abort
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/user&#39;)
-def user():
-    abort(401)  # Unauthorized
-    print &#39;Unauthorized&#39;
-    return render_template_string(&#39;&lt;h1&gt;{{ error_code }}&lt;/h1&gt;&#39;, error_code=222)
-
-
-@app.errorhandler(401)
-def page_unauthorized(error):
-    return render_template_string(&#39;&lt;h1&gt;{{ error_info }}&lt;/h1&gt;&#39;, error_info=error), 401
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><h3 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h3><p>运行<code>HelloWorld/index.py</code>，浏览器访问<code>http://127.0.0.1:5000/user</code>，效果如下：<br><img src="/content/images/2014/06/2014-06-28-flask-handle-errors-01.jpg" alt=""></p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/自定义404等错误的响应.html">Python Flask Web 框架 - 自定义404等错误的响应</a></p>
 
       
     </div>
@@ -551,17 +499,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -632,22 +571,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例1：简单入门"><span class="nav-text">示例1：简单入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑HelloWorld-index-py："><span class="nav-text">编辑HelloWorld/index.py：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果"><span class="nav-text">效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例2：自定义错误页面"><span class="nav-text">示例2：自定义错误页面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑HelloWorld-index-py：-1"><span class="nav-text">编辑HelloWorld/index.py：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果-1"><span class="nav-text">效果</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

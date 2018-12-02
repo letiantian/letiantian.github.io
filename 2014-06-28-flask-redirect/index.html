@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="2014-06-28 redirect函数用于重定向，实现机制很简单，就是向客户端（浏览器）发送一个重定向的HTTP报文，浏览器会去访问报文中指定的url。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 使用 redirect 重定向网址">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：使用redirect">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-redirect/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 redirect函数用于重定向，实现机制很简单，就是向客户端（浏览器）发送一个重定向的HTTP报文，浏览器会去访问报文中指定的url。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 使用 redirect 重定向网址">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:23:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：使用redirect">
-<meta name="twitter:description" content="2014-06-28 redirect函数用于重定向，实现机制很简单，就是向客户端（浏览器）发送一个重定向的HTTP报文，浏览器会去访问报文中指定的url。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 使用 redirect 重定向网址">
 
 
 
@@ -361,45 +361,8 @@
       
 
       
-        <p>2014-06-28</p>
-<p><code>redirect</code>函数用于重定向，实现机制很简单，就是向客户端（浏览器）发送一个重定向的HTTP报文，浏览器会去访问报文中指定的url。</p>
-<a id="more"></a>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>使用<code>redirect</code>时，给它一个字符串类型的参数就行了。</p>
-<p>编辑<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask, url_for, redirect
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/使用redirect重定向网址.html">Python Flask Web 框架 - 使用 redirect 重定向网址</a></p>
 
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/test1&#39;)
-def test1():
-    print &#39;this is test1&#39;
-    return redirect(url_for(&#39;test2&#39;))
-
-@app.route(&#39;/test2&#39;)
-def test2():
-    print &#39;this is test2&#39;
-    return &#39;this is test2&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>运行<code>HelloWorld/index.py</code>，在浏览器中访问<code>http://127.0.0.1:5000/test1</code>，浏览器的url会变成<code>http://127.0.0.1:5000/test2</code>，并显示：</p>
-<pre><code>this is test2
-</code></pre><p>而<code>HelloWorld/index.py</code>的输出信息为：</p>
-<pre><code>this is test1
-127.0.0.1 - - [28/Jun/2014 18:56:23] &quot;GET /test1 HTTP/1.1&quot; 302 -
-this is test2
-127.0.0.1 - - [28/Jun/2014 18:56:24] &quot;GET /test2 HTTP/1.1&quot; 200 -
-</code></pre>
       
     </div>
 
@@ -536,17 +499,8 @@ this is test2
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -617,22 +571,6 @@ this is test2
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-text">编写代码</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

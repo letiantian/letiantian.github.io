@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-6-23 URL参数是出现在url中的键值对，例如http://127.0.0.1:5000/?disp=3中的url参数是{&amp;#39;disp&amp;#39;:3}。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 获取 URL 参数">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：获取URL参数">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-23-flask-get-url-params/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-6-23 URL参数是出现在url中的键值对，例如http://127.0.0.1:5000/?disp=3中的url参数是{&amp;#39;disp&amp;#39;:3}。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 获取 URL 参数">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T14:38:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：获取URL参数">
-<meta name="twitter:description" content="2014-6-23 URL参数是出现在url中的键值对，例如http://127.0.0.1:5000/?disp=3中的url参数是{&amp;#39;disp&amp;#39;:3}。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 获取 URL 参数">
 
 
 
@@ -392,105 +392,8 @@
       
 
       
-        <p>2014-6-23</p>
-<p>URL参数是出现在url中的键值对，例如<code>http://127.0.0.1:5000/?disp=3</code>中的url参数是<code>{&#39;disp&#39;:3}</code>。</p>
-<a id="more"></a>
-<h2 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h2><hr>
-<p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h2 id="列出所有的url参数"><a href="#列出所有的url参数" class="headerlink" title="列出所有的url参数"></a>列出所有的url参数</h2><hr>
-<p>在index.py中添加以下内容：</p>
-<pre><code>from flask import Flask, request
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/获取URL参数.html">Python Flask Web 框架 - 获取 URL 参数</a></p>
 
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    params = request.args.items()
-    return params.__str__()
-
-if __name__ == &#39;__main__&#39;:
-    app.run()
-</code></pre><p>在浏览器中访问<code>http://127.0.0.1:5000/?disp=3&amp;catalog=0&amp;sort=time&amp;p=7</code>，将显示：</p>
-<pre><code>[(&#39;disp&#39;, u&#39;3&#39;), (&#39;sort&#39;, u&#39;time&#39;), (&#39;catalog&#39;, u&#39;0&#39;), (&#39;p&#39;, u&#39;7&#39;)]
-</code></pre><p>较新的浏览器也支持直接在url中输入中文（浏览器会帮忙转换），在浏览器中访问<code>http://127.0.0.1:5000/?info=这是爱，</code>，将显示：</p>
-<pre><code>[(&#39;info&#39;, u&#39;\u8fd9\u662f\u7231\uff0c&#39;)]
-</code></pre><blockquote>
-<p>小提示：可以通过<code>request.full_path</code>和<code>request.path</code>获取客户端请求的url（去掉域名或者IP:port）。</p>
-</blockquote>
-<h2 id="获取某个指定的参数"><a href="#获取某个指定的参数" class="headerlink" title="获取某个指定的参数"></a>获取某个指定的参数</h2><hr>
-<p>例如，要获取键<code>info</code>对应的值，如下修改<code>index.py</code>：</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return request.args.get(&#39;info&#39;)
-
-if __name__ == &#39;__main__&#39;:
-    app.run()
-</code></pre><p>运行index.py，在浏览器中访问<code>http://127.0.0.1:5000/?info=hello</code>，浏览器将显示：</p>
-<pre><code>hello
-</code></pre><p>不过，当我们访问<code>http://127.0.0.1:5000/</code>时候却出现了500错误，浏览器显示：</p>
-<pre><code>Internal Server Error
-
-The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-</code></pre><p>Flask在终端中输出：</p>
-<pre><code>127.0.0.1 - - [23/Jun/2014 17:25:56] &quot;GET / HTTP/1.1&quot; 500 -
-</code></pre><p>这是因为没有在URL参数中找到<code>info</code>。所以<code>request.args.get(&#39;info&#39;)</code>返回None。打开调试：</p>
-<pre><code>if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>浏览器重新请求，会指出错误所在：</p>
-<pre><code>...
-ValueError: View function did not return a response
-...
-</code></pre><p>对此，第一种解决办法是：</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    r = request.args.get(&#39;info&#39;)
-    return r.__str__()
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>此时，浏览器会显示<code>None</code>，但是这种方式并不合理，于是干脆判断一下info对应的值：</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    r = request.args.get(&#39;info&#39;)
-    if r==None:
-        # do something
-        return &#39;&#39;
-    return r
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-
-</code></pre><p>当然，也可以设置默认值：</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    r = request.args.get(&#39;info&#39;, &#39;hi&#39;)
-    return r
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>函数<code>request.args.get</code>的第二个参数用来设置默认值。此时在浏览器访问<code>http://127.0.0.1:5000/</code>，将显示：</p>
-<pre><code>hi
-</code></pre>
       
     </div>
 
@@ -627,17 +530,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -708,22 +602,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出所有的url参数"><span class="nav-text">列出所有的url参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取某个指定的参数"><span class="nav-text">获取某个指定的参数</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

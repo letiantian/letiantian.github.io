@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-28  url_for可以让你以软编码的形式生成url，提供开发效率。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 使用 url_for 生成链接">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：url_for">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-url-for/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28  url_for可以让你以软编码的形式生成url，提供开发效率。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 使用 url_for 生成链接">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:23:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：url_for">
-<meta name="twitter:description" content="2014-06-28  url_for可以让你以软编码的形式生成url，提供开发效率。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 使用 url_for 生成链接">
 
 
 
@@ -392,49 +392,8 @@
       
 
       
-        <p>2014-06-28 </p>
-<p><code>url_for</code>可以让你以软编码的形式生成url，提供开发效率。</p>
-<a id="more"></a>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><p>在<code>HelloWorld/static</code>创建目录<code>uploads</code>，copy一张图片放到<code>uploads</code>目录中，命名为<code>01.jpg</code>。</p>
-<h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>编辑<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask, url_for
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/使用url_for生成链接.html">Python Flask Web 框架 - 使用 url_for 生成链接</a></p>
 
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    pass
-
-@app.route(&#39;/user/&lt;name&gt;&#39;)
-def user(name):
-    pass
-
-@app.route(&#39;/page/&lt;int:num&gt;&#39;)
-def page(num):
-    pass
-
-@app.route(&#39;/test&#39;)
-def test():
-    print url_for(&#39;hello_world&#39;)
-    print url_for(&#39;user&#39;, name=&#39;letian&#39;)
-    print url_for(&#39;page&#39;, num=1, q=&#39;hadoop mapreduce 10%3&#39;)
-    print url_for(&#39;static&#39;, filename=&#39;uploads/01.jpg&#39;)
-    return &#39;&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>运行<code>HelloWorld/index.py</code>。然后在浏览器中访问<code>http://127.0.0.1:5000/test</code>，<code>HelloWorld/index.py</code>将输出以下信息：</p>
-<pre><code>/
-/user/letian
-/page/1?q=hadoop+mapreduce+10%253
-/static//uploads/01.jpg
-</code></pre>
       
     </div>
 
@@ -571,17 +530,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -652,22 +602,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-text">编写代码</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

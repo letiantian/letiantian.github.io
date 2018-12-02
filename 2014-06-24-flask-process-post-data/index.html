@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 获取 POST 方法传送的数据">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：处理客户端通过POST方法传送的数据">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-24-flask-process-post-data/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 获取 POST 方法传送的数据">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:26:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：处理客户端通过POST方法传送的数据">
-<meta name="twitter:description" content="2014-6-24 作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。   本文使用python的requests库模拟客户端。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 获取 POST 方法传送的数据">
 
 
 
@@ -392,189 +392,8 @@
       
 
       
-        <p>2014-6-24</p>
-<p>作为一种HTTP请求方法，POST用于向指定的资源提交要被处理的数据。我们在某网站注册用户、写文章等时候，需要将数据保存在服务器中，这是一般使用POST方法。  </p>
-<p>本文使用python的requests库模拟客户端。</p>
-<a id="more"></a>
-<h2 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h2><hr>
-<p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h2 id="简单的POST"><a href="#简单的POST" class="headerlink" title="简单的POST"></a>简单的POST</h2><hr>
-<p>以用户注册为例子，我们需要向服务器<code>/register</code>传送用户名<code>name</code>和密码<code>password</code>。如下编写<code>HelloWorld/index.py</code>。</p>
-<pre><code>from flask import Flask, request
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/获取POST方法传送的数据.html">Python Flask Web 框架 - 获取 POST 方法传送的数据</a></p>
 
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/register&#39;, methods=[&#39;POST&#39;])
-def register():
-    print request.headers
-    print request.form
-    print request.form[&#39;name&#39;]
-    print request.form.get(&#39;name&#39;)
-    print request.form.getlist(&#39;name&#39;)
-    print request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;)
-    return &#39;welcome&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/register’, methods=[‘POST’])<code>是指url</code>/register<code>只接受POST方法。也可以根据需要修改</code>methods`参数，例如</p>
-<pre><code>@app.route(&#39;/register&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])  # 接受GET和POST方法
-</code></pre><p>具体请参考<a href="http://flask.pocoo.org/docs/quickstart/#http-methods" target="_blank" rel="noopener">http-methods</a>。</p>
-<p>客户端<code>client.py</code>内容如下：</p>
-<pre><code>import requests
-
-user_info = {&#39;name&#39;: &#39;letian&#39;, &#39;password&#39;: &#39;123&#39;}
-r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
-
-print r.text
-</code></pre><p>运行<code>HelloWorld/index.py</code>，然后运行<code>client.py</code>。<code>client.py</code>将输出：</p>
-<pre><code>welcome
-</code></pre><p>而<code>HelloWorld/index.py</code>在终端中输出以下调试信息（通过<code>print</code>输出）：</p>
-<pre><code>Content-Length: 24
-User-Agent: python-requests/2.2.1 CPython/2.7.6 Windows/8
-Host: 127.0.0.1:5000
-Accept: */*
-Content-Type: application/x-www-form-urlencoded
-Accept-Encoding: gzip, deflate, compress
-
-
-ImmutableMultiDict([(&#39;password&#39;, u&#39;123&#39;), (&#39;name&#39;, u&#39;letian&#39;)])
-letian
-letian
-[u&#39;letian&#39;]
-little apple
-</code></pre><p>前6行是client.py生成的HTTP请求头，由于<code>print request.headers</code>输出。</p>
-<p><code>print request.form</code>的结果是：</p>
-<pre><code>ImmutableMultiDict([(&#39;password&#39;, u&#39;123&#39;), (&#39;name&#39;, u&#39;letian&#39;)])
-</code></pre><p>这是一个<code>ImmutableMultiDict</code>对象。关于<code>request.form</code>，更多内容请参考<a href="http://flask.pocoo.org/docs/api/?highlight=request.form#flask.Request.form" target="_blank" rel="noopener">flask.Request.form</a>。关于<code>ImmutableMultiDict</code>，更多内容请参考<a href="http://werkzeug.pocoo.org/docs/datastructures/#werkzeug.datastructures.MultiDict" target="_blank" rel="noopener">werkzeug.datastructures.MultiDict</a>。</p>
-<p><code>request.form[&#39;name&#39;]</code>和<code>request.form.get(&#39;name&#39;)</code>都可以获取<code>name</code>对应的值。对于<code>request.form.get()</code>可以为参数<code>default</code>指定值以作为默认值。所以：</p>
-<pre><code>print request.form.get(&#39;nickname&#39;, default=&#39;little apple&#39;)
-</code></pre><p>输出的是默认值</p>
-<pre><code>little apple
-</code></pre><p>如果<code>name</code>有多个值，可以使用<code>request.form.getlist(&#39;name&#39;)</code>，该方法将返回一个列表。我们将client.py改一下：</p>
-<pre><code>import requests
-
-user_info = {&#39;name&#39;: [&#39;letian&#39;, &#39;letian2&#39;], &#39;password&#39;: &#39;123&#39;}
-r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
-
-print r.text
-</code></pre><p>此时运行<code>client.py</code>，<code>print request.form.getlist(&#39;name&#39;)</code>将输出：</p>
-<pre><code>[u&#39;letian&#39;, u&#39;letian2&#39;]
-</code></pre><h2 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h2><hr>
-<p>这一部分的代码参考自<a href="http://runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python" target="_blank" rel="noopener">How to upload a file to the server in Flask</a>。  </p>
-<p>假设将上传的图片只允许’png’、’jpg’、’jpeg’、’git’这四种格式，通过url<code>/upload</code>使用POST上传，上传的图片存放在服务器端的<code>static/uploads</code>目录下。</p>
-<p>首先在项目<code>HelloWorld</code>中创建目录<code>static/uploads</code>：</p>
-<pre><code>$ mkdir HelloWorld/static/uploads
-</code></pre><p><code>werkzeug</code>库可以判断文件名是否安全，例如防止文件名是<code>../../../a.png</code>，安装这个库：</p>
-<pre><code>$ pip install werkzeug
-</code></pre><p>修改<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask, request
-from werkzeug.utils import secure_filename
-import os
-
-app = Flask(__name__)
-app.config[&#39;UPLOAD_FOLDER&#39;] = &#39;static/uploads/&#39;
-app.config[&#39;ALLOWED_EXTENSIONS&#39;] = set([&#39;png&#39;, &#39;jpg&#39;, &#39;jpeg&#39;, &#39;gif&#39;])
-
-# For a given file, return whether it&#39;s an allowed type or not
-def allowed_file(filename):
-    return &#39;.&#39; in filename and \
-           filename.rsplit(&#39;.&#39;, 1)[1] in app.config[&#39;ALLOWED_EXTENSIONS&#39;]
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/upload&#39;, methods=[&#39;POST&#39;])
-def upload():
-    upload_file = request.files[&#39;image01&#39;]
-    if upload_file and allowed_file(upload_file.filename):
-        filename = secure_filename(upload_file.filename)
-        upload_file.save(os.path.join(app.root_path, app.config[&#39;UPLOAD_FOLDER&#39;], filename))
-        return &#39;hello, &#39;+request.form.get(&#39;name&#39;, &#39;little apple&#39;)+&#39;. success&#39;
-    else:
-        return &#39;hello, &#39;+request.form.get(&#39;name&#39;, &#39;little apple&#39;)+&#39;. failed&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p><code>app.config</code>中的config是字典的子类，可以用来设置自有的配置信息，也可以设置自己的配置信息。函数<code>allowed_file(filename)</code>用来判断<code>filename</code>是否有后缀以及后缀是否在<code>app.config[&#39;ALLOWED_EXTENSIONS&#39;]</code>中。</p>
-<p>客户端上传的图片必须以<code>image01</code>标识。<code>upload_file</code>是上传文件对应的对象。<code>app.root_path</code>获取<code>index.py</code>所在目录在文件系统中的绝对路径。<code>upload_file.save(path)</code>用来将<code>upload_file</code>保存在服务器的文件系统中，参数最好是绝对路径，否则会报错（网上很多代码都是使用相对路径，但是笔者在使用相对路径时总是报错，说找不到路径）。函数<code>os.path.join()</code>用来将使用合适的路径分隔符将路径组合起来。</p>
-<p>好了，定制客户端<code>client.py</code>：</p>
-<pre><code>import requests
-
-files = {&#39;image01&#39;: open(&#39;01.jpg&#39;, &#39;rb&#39;)}
-user_info = {&#39;name&#39;: &#39;letian&#39;}
-r = requests.post(&quot;http://127.0.0.1:5000/upload&quot;, data=user_info, files=files)
-
-print r.text
-</code></pre><p>当前目录下的<code>01.jpg</code>将上传到服务器。运行<code>client.py</code>，结果如下：</p>
-<pre><code>hello, letian. success
-</code></pre><p>然后，我们可以在<code>static/uploads</code>中看到文件<code>01.jpg</code>。</p>
-<p>要控制上产文件的大小，可以设置请求实体的大小，例如：</p>
-<pre><code>app.config[&#39;MAX_CONTENT_LENGTH&#39;] = 16 * 1024 * 1024 #16MB
-</code></pre><p>不过，在处理上传文件时候，需要使用<code>try:...except:...</code>。</p>
-<p>如果要获取上传文件的内容可以：</p>
-<pre><code>file_content = request.files[&#39;image01&#39;].stream.read()
-</code></pre><h2 id="处理JSON"><a href="#处理JSON" class="headerlink" title="处理JSON"></a>处理JSON</h2><hr>
-<p>处理JSON时，要把请求头和响应头的<code>Content-Type</code>设置为<code>application/json</code>。</p>
-<p>修改<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask, request, Response
-import json
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/json&#39;, methods=[&#39;POST&#39;])
-def my_json():
-    print request.headers
-    print request.json
-    rt = {&#39;info&#39;:&#39;hello &#39;+request.json[&#39;name&#39;]}
-    return Response(json.dumps(rt),  mimetype=&#39;application/json&#39;)
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>修改后运行。</p>
-<p>修改<code>client.py</code>：</p>
-<pre><code>import requests, json
-
-user_info = {&#39;name&#39;: &#39;letian&#39;}
-headers = {&#39;content-type&#39;: &#39;application/json&#39;}
-r = requests.post(&quot;http://127.0.0.1:5000/json&quot;, data=json.dumps(user_info), headers=headers)
-print r.headers
-print r.json()
-</code></pre><p>运行<code>client.py</code>，将显示：</p>
-<pre><code>CaseInsensitiveDict({&#39;date&#39;: &#39;Tue, 24 Jun 2014 12:10:51 GMT&#39;, &#39;content-length&#39;: &#39;24&#39;, &#39;content-type&#39;: &#39;application/json&#39;, &#39;server&#39;: &#39;Werkzeug/0.9.6 Python/2.7.6&#39;})
-{u&#39;info&#39;: u&#39;hello letian&#39;}
-</code></pre><p>而<code>HelloWorld/index.py</code>的调试信息为：</p>
-<pre><code>Content-Length: 18
-User-Agent: python-requests/2.2.1 CPython/2.7.6 Windows/8
-Host: 127.0.0.1:5000
-Accept: */*
-Content-Type: application/json
-Accept-Encoding: gzip, deflate, compress
-
-
-{u&#39;name&#39;: u&#39;letian&#39;}
-</code></pre><p>这个比较简单，就不多说了。另外，如果需要响应头具有更好的可定制性，可以如下修改<code>my_json()</code>函数：</p>
-<pre><code>@app.route(&#39;/json&#39;, methods=[&#39;POST&#39;])
-def my_json():
-    print request.headers
-    print request.json
-    rt = {&#39;info&#39;:&#39;hello &#39;+request.json[&#39;name&#39;]}
-    response = Response(json.dumps(rt),  mimetype=&#39;application/json&#39;)
-    response.headers.add(&#39;Server&#39;, &#39;python flask&#39;)
-    return response
-</code></pre>
       
     </div>
 
@@ -711,17 +530,8 @@ def my_json():
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -792,22 +602,6 @@ def my_json():
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单的POST"><span class="nav-text">简单的POST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传文件"><span class="nav-text">上传文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理JSON"><span class="nav-text">处理JSON</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

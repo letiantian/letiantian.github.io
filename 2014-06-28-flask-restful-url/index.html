@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - Restful URL">
 <meta name="keywords" content="web,python,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：RESTful URL">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-restful-url/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - Restful URL">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T13:21:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：RESTful URL">
-<meta name="twitter:description" content="2014-06-28 简单来说，restful url可以看做是对url参数的替代。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - Restful URL">
 
 
 
@@ -403,136 +403,7 @@
       
 
       
-        <p>2014-06-28</p>
-<p>简单来说，restful url可以看做是对url参数的替代。</p>
-<a id="more"></a>
-<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><hr>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>编辑HelloWorld/index.py：</p>
-<pre><code>from flask import Flask
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/user/&lt;username&gt;&#39;)
-def user(username):
-    print username
-    print type(username)
-    return &#39;hello world&#39;
-
-@app.route(&#39;/user/&lt;username&gt;/friends&#39;)
-def user_friends(username):
-    print username
-    print type(username)
-    return &#39;hello world&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>运行HelloWorld/index.py。使用浏览器访问<code>http://127.0.0.1:5000/user/letian</code>，HelloWorld/index.py将输出：</p>
-<pre><code>letian
-&lt;type &#39;unicode&#39;&gt;
-</code></pre><p>而访问<code>http://127.0.0.1:5000/user/letian/</code>，响应为404。</p>
-<p>访问<code>http://127.0.0.1:5000/user/letian/friends</code>，能够得到期望的结果。HelloWorld/index.py输出：</p>
-<pre><code>letian
-&lt;type &#39;unicode&#39;&gt;
-</code></pre><h2 id="转换类型"><a href="#转换类型" class="headerlink" title="转换类型"></a>转换类型</h2><hr>
-<p>由上面的示例可以看出，使用restful url得到的变量默认为unicode对象。如果我们需要通过分页显示查询结果，那么需要在url中有数字来指定页数。按照上面方法，可以在获取unicode类型页数变量后，将其转换为int类型。不过，还有更方面的方法，就是在route中指定该如何转换。将HelloWorld/index.py修改如下：</p>
-<pre><code>from flask import Flask
-
-app = Flask(__name__)
-
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/page/&lt;int:num&gt;&#39;)
-def page(num):
-    print num
-    print type(num)
-    return &#39;hello world&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p><a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/page/<a href="int:num" target="_blank" rel="noopener">int:num</a>‘)`会将num变量自动转换成int类型。</p>
-<p>运行上面的程序，在浏览器中访问<code>http://127.0.0.1:5000/page/1</code>，HelloWorld/index.py将输出如下内容：</p>
-<pre><code>1
-&lt;type &#39;int&#39;&gt;
-</code></pre><p>如果访问的是<code>http://127.0.0.1:5000/page/asd</code>，我们会得到404响应。</p>
-<p>在官方资料中，说是有3个默认的转换器：</p>
-<pre><code>int     accepts integers
-float     like int but for floating point values
-path     like the default but also accepts slashes
-</code></pre><p>肯定够用。</p>
-<h2 id="一个有趣的用法"><a href="#一个有趣的用法" class="headerlink" title="一个有趣的用法"></a>一个有趣的用法</h2><hr>
-<p>如下编写<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask
-
-app = Flask(__name__)
-
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/page/&lt;int:num1&gt;-&lt;int:num2&gt;&#39;)
-def page(num1, num2):
-    print num1
-    print num2
-    return &#39;hello world&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>在浏览器中访问<code>http://127.0.0.1:5000/page/11-22</code>，<code>HelloWorld/index.py</code>会输出：</p>
-<pre><code>11
-22
-</code></pre><h2 id="编写转换器"><a href="#编写转换器" class="headerlink" title="编写转换器"></a>编写转换器</h2><hr>
-<p>自定义的转换器是一个继承<code>werkzeug.routing.BaseConverter</code>的类，修改<code>to_python</code>和<code>to_url</code>方法即可。<code>to_python</code>方法用于将url中的变量转换后供被<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a><code>包装的函数使用，</code>to_url<code>方法用于</code>flask.url_for`中的参数转换。</p>
-<p>下面是一个示例，将<code>HelloWorld/index.py</code>修改如下：</p>
-<pre><code>from flask import Flask, url_for
-
-from werkzeug.routing import BaseConverter
-
-
-class MyIntConverter(BaseConverter):
-
-    def __init__(self, url_map):
-        super(MyIntConverter, self).__init__(url_map)
-
-    def to_python(self, value):
-        return int(value)
-
-    def to_url(self, value):
-        return &#39;hi&#39;
-
-app = Flask(__name__)
-
-app.url_map.converters[&#39;my_int&#39;] = MyIntConverter
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/page/&lt;my_int:num&gt;&#39;)
-def page(num):
-    print num
-    print url_for(&#39;page&#39;, num=&#39;123&#39;)
-    return &#39;hello world&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><p>浏览器访问<code>http://127.0.0.1:5000/page/123</code>后，<code>HelloWorld/index.py</code>的输出信息是：</p>
-<pre><code>123
-/page/hi
-</code></pre><h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><hr>
-<p>关于restful url，可以参考<a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="noopener">理解RESTful架构</a>。<br>URL参数，可以参考<a href="/flask/2014/06/23/flask-get-url-params/">浅入浅出Flask框架：获取URL参数</a>。<br>关于转换器，可以参考<a href="http://werkzeug.pocoo.org/docs/routing/" target="_blank" rel="noopener">Custom Converters</a>和<a href="http://stackoverflow.com/questions/5870188/does-flask-support-regular-expressions-in-its-url-routing" target="_blank" rel="noopener">Does Flask support regular expressions in its URL routing?</a>。</p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/Restful-URL.html">Python Flask Web 框架 - Restful URL</a></p>
 
       
     </div>
@@ -670,17 +541,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -751,22 +613,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#入门"><span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-text">编写代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换类型"><span class="nav-text">转换类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个有趣的用法"><span class="nav-text">一个有趣的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写转换器"><span class="nav-text">编写转换器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料"><span class="nav-text">资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

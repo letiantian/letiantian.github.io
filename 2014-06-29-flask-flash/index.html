@@ -93,20 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-29 Flask的闪存系统（flashing system）用于向用户提供反馈信息，这些反馈信息一般是对用户上一次操作的反馈。反馈信息是存储在服务器端的，当用户获得了反馈信息后，这些反馈信息会被服务器端删除。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 闪存系统 flashing system">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：flashing system">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-29-flask-flash/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-29 Flask的闪存系统（flashing system）用于向用户提供反馈信息，这些反馈信息一般是对用户上一次操作的反馈。反馈信息是存储在服务器端的，当用户获得了反馈信息后，这些反馈信息会被服务器端删除。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 闪存系统 flashing system">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-29-flask-flash.jpg">
 <meta property="og:updated_time" content="2014-10-07T07:17:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：flashing system">
-<meta name="twitter:description" content="2014-06-29 Flask的闪存系统（flashing system）用于向用户提供反馈信息，这些反馈信息一般是对用户上一次操作的反馈。反馈信息是存储在服务器端的，当用户获得了反馈信息后，这些反馈信息会被服务器端删除。">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-29-flask-flash.jpg">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 闪存系统 flashing system">
 
 
 
@@ -394,93 +392,7 @@
       
 
       
-        <p>2014-06-29</p>
-<p>Flask的闪存系统（flashing system）用于向用户提供反馈信息，这些反馈信息一般是对用户上一次操作的反馈。反馈信息是存储在服务器端的，当用户获得了反馈信息后，这些反馈信息会被服务器端删除。</p>
-<a id="more"></a>
-<p>下面是一个示例。</p>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="编写HelloWorld-index-py"><a href="#编写HelloWorld-index-py" class="headerlink" title="编写HelloWorld/index.py"></a>编写HelloWorld/index.py</h3><p>内容如下：</p>
-<pre><code>from flask import Flask, flash, get_flashed_messages
-import time
-
-app = Flask(__name__)
-app.secret_key = &#39;some_secret&#39;
-
-@app.route(&#39;/&#39;)
-def index():
-    return &#39;hi&#39;
-
-@app.route(&#39;/gen&#39;)
-def gen():
-    info = &#39;access at &#39;+ time.time().__str__()
-    flash(info)
-    return info
-
-@app.route(&#39;/show1&#39;)
-def show1():
-    return get_flashed_messages().__str__()
-
-@app.route(&#39;/show2&#39;)
-def show2():
-    return get_flashed_messages().__str__()
-
-if __name__ == &quot;__main__&quot;:
-    app.run()
-</code></pre><h3 id="运行与观察"><a href="#运行与观察" class="headerlink" title="运行与观察"></a>运行与观察</h3><p>运行服务器：</p>
-<pre><code>$ python HelloWorld/index.py
-</code></pre><p>打开浏览器，访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示（注意，时间戳是动态生成的，每次都会不一样，除非并行访问）：</p>
-<pre><code>access at 1404020982.83
-</code></pre><p>查看浏览器的cookie，可以看到<code>session</code>，其对应的内容是：</p>
-<pre><code>.eJyrVopPy0kszkgtVrKKrlZSKIFQSUpWSknhYVXJRm55UYG2tkq1OlDRyHC_rKgIvypPdzcDTxdXA1-XwHLfLEdTfxfPUn8XX6DKWCAEAJKBGq8.BpE6dg.F1VURZa7VqU9bvbC4XIBO9-3Y4Y
-</code></pre><p>再一次访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示：</p>
-<pre><code>access at 1404021130.32
-</code></pre><p>cookie中<code>session</code>发生了变化，新的内容是：</p>
-<pre><code>.eJyrVopPy0kszkgtVrKKrlZSKIFQSUpWSknhYVXJRm55UYG2tkq1OlDRyHC_rKgIvypPdzcDTxdXA1-XwHLfLEdTfxfPUn8XX6DKWLBaMg1yrfCtciz1rfIEGxRbCwAhGjC5.BpE7Cg.Cb_B_k2otqczhknGnpNjQ5u4dqw
-</code></pre><p>然后使用浏览器访问<code>http://127.0.0.1:5000/show1</code>，浏览器界面显示：</p>
-<pre><code>[&#39;access at 1404020982.83&#39;, &#39;access at 1404021130.32&#39;]
-</code></pre><p>这个列表中的内容也就是上面的两次访问<code>http://127.0.0.1:5000/gen</code>得到的内容。此时，cookie中已经没有<code>session</code>了。</p>
-<p>如果使用浏览器访问<code>http://127.0.0.1:5000/show1</code>或者<code>http://127.0.0.1:5000/show2</code>，只会得到：</p>
-<pre><code>[]
-</code></pre><h3 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h3><p>flash系统也支持对flash的内容进行分类。修改<code>HelloWorld/index.py</code>内容：</p>
-<pre><code>from flask import Flask, flash, get_flashed_messages
-import time
-
-app = Flask(__name__)
-app.secret_key = &#39;some_secret&#39;
-
-@app.route(&#39;/&#39;)
-def index():
-    return &#39;hi&#39;
-
-@app.route(&#39;/gen&#39;)
-def gen():
-    info = &#39;access at &#39;+ time.time().__str__()
-    flash(&#39;1 &#39;+info, category=&#39;show1&#39;)
-    flash(&#39;2 &#39;+info, category=&#39;show2&#39;)
-    return info
-
-@app.route(&#39;/show1&#39;)
-def show1():
-    return get_flashed_messages(category_filter=&#39;show1&#39;).__str__()
-
-@app.route(&#39;/show2&#39;)
-def show2():
-    return get_flashed_messages(category_filter=&#39;show2&#39;).__str__()
-
-if __name__ == &quot;__main__&quot;:
-    app.run()
-</code></pre><p>某一时刻，浏览器访问<code>http://127.0.0.1:5000/gen</code>，浏览器界面显示：</p>
-<pre><code>access at 1404022326.39
-</code></pre><p>不过，由上面的代码可以知道，此时生成了两个flash信息。</p>
-<p>使用浏览器访问<code>http://127.0.0.1:5000/show1</code>，得到如下内容：</p>
-<pre><code>[&#39;1 access at 1404022326.39&#39;]
-</code></pre><p>而继续访问<code>http://127.0.0.1:5000/show2</code>，得到的内容为空：</p>
-<pre><code>[]
-</code></pre><h3 id="在模板文件中获取flash的内容"><a href="#在模板文件中获取flash的内容" class="headerlink" title="在模板文件中获取flash的内容"></a>在模板文件中获取flash的内容</h3><p>在Flask中，<code>get_flashed_messages()</code>默认已经集成到<code>Jinja2</code>模板引擎中，易用性很强。下面是来自官方的一个示例：<br><img src="/content/images/2014/06/2014-06-29-flask-flash.jpg" alt=""></p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/闪存系统-flashing-system.html">Python Flask Web 框架 - 闪存系统 flashing system</a></p>
 
       
     </div>
@@ -618,17 +530,8 @@ if __name__ == &quot;__main__&quot;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -699,22 +602,6 @@ if __name__ == &quot;__main__&quot;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写HelloWorld-index-py"><span class="nav-text">编写HelloWorld/index.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行与观察"><span class="nav-text">运行与观察</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级用法"><span class="nav-text">高级用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在模板文件中获取flash的内容"><span class="nav-text">在模板文件中获取flash的内容</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

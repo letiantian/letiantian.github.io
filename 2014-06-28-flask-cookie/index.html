@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 使用 Cookie">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：Cookie">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-cookie/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 使用 Cookie">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T13:17:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：Cookie">
-<meta name="twitter:description" content="2014-06-28 Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见http://zh.wikipedia.org/wiki/Cookie。常用的用于记录用户登录状态的session大多是基于cookie实现的。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 使用 Cookie">
 
 
 
@@ -392,80 +392,7 @@
       
 
       
-        <p>2014-06-28</p>
-<p>Cookie是存储在客户端的记录访问者状态的数据。具体原理，请见<a href="http://zh.wikipedia.org/wiki/Cookie" target="_blank" rel="noopener">http://zh.wikipedia.org/wiki/Cookie</a>。常用的用于记录用户登录状态的session大多是基于cookie实现的。</p>
-<a id="more"></a>
-<p>cookie可以借助<code>flask.Response</code>来实现。<code>flask.Response</code>在<a href="/2014-06-24-flask-process-post-data/">浅入浅出Flask框架：处理客户端通过POST方法传送的数据</a>有过介绍。下面是一个示例。</p>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>修改<code>HelloWorld/index.py</code>：</p>
-<pre><code>from flask import Flask, request, Response, make_response
-import time
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/add&#39;)
-def login():
-    res = Response(&#39;add cookies&#39;)
-    res.set_cookie(key=&#39;name&#39;, value=&#39;letian&#39;, expires=time.time()+6*60)
-    return res
-
-@app.route(&#39;/show&#39;)
-def show():
-    return request.cookies.__str__()
-
-@app.route(&#39;/del&#39;)
-def del_cookie():
-    res = Response(&#39;delete cookies&#39;)
-    res.set_cookie(&#39;name&#39;, &#39;&#39;, expires=0)
-    # print res.headers
-    # print res.data
-    return res
-
-
-if __name__ == &#39;__main__&#39;:
-    app.run(host=&#39;0.0.0.0&#39;, debug=True)
-</code></pre><p>由上可以看到，可以使用<code>Response.set_cookie</code>添加和删除cookie。<code>expires</code>参数用来设置cookie有效时间，它的值可以是<code>datetime</code>对象或者unix时间戳，笔者使用的是unix时间戳。</p>
-<pre><code>res.set_cookie(key=&#39;name&#39;, value=&#39;letian&#39;, expires=time.time()+6*60)
-</code></pre><p>上面的expire参数的值表示cookie在从现在开始的6分钟内都是有效的。</p>
-<p>要删除cookie，将expire参数的值设为0即可：</p>
-<pre><code>res.set_cookie(&#39;name&#39;, &#39;&#39;, expires=0)
-</code></pre><p><code>set_cookie()</code>函数的原型如下：</p>
-<blockquote>
-<p>set_cookie(key, value=’’, max_age=None, expires=None, path=’/‘, domain=None, secure=None, httponly=False)</p>
-</blockquote>
-<blockquote>
-<p>Sets a cookie. The parameters are the same as in the cookie Morsel object in the Python standard library but it accepts unicode data, too.<br>Parameters: </p>
-</blockquote>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;   key – the key (name) of the cookie to be set.<br>&nbsp;&nbsp;&nbsp;&nbsp;   value – the value of the cookie.<br>&nbsp;&nbsp;&nbsp;&nbsp;   max_age – should be a number of seconds, or None (default) if the cookie should last only as long as the client’s browser session.</p>
-</blockquote>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;   expires – should be a datetime object or UNIX timestamp.</p>
-</blockquote>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;   domain – if you want to set a cross-domain cookie. For example, domain=”.example.com” will set a cookie that is readable by the domain <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a>, foo.example.com etc. Otherwise, a cookie will only be readable by the domain that set it.</p>
-</blockquote>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;   path – limits the cookie to a given path, per default it will span the whole domain.</p>
-</blockquote>
-<h3 id="运行与测试"><a href="#运行与测试" class="headerlink" title="运行与测试"></a>运行与测试</h3><p>运行<code>HelloWorld/index.py</code>：</p>
-<pre><code>$ python HelloWorld/index.py
-</code></pre><p>使用浏览器打开<code>http://127.0.0.1:5000/add</code>，浏览器界面会显示</p>
-<pre><code>add cookies
-</code></pre><p>下面查看一下cookie，如果使用firefox浏览器，可以用firebug插件查看。打开firebug，选择<code>Cookies</code>选项，刷新页面，可以看到名为<code>name</code>的cookie，其值为<code>letian</code>。</p>
-<p>在“网络”选项中，可以查看响应头中设置cookie的HTTP“指令”：</p>
-<pre><code>Set-Cookie: name=letian; Expires=Sun, 29-Jun-2014 05:16:27 GMT; Path=/
-</code></pre><p>在cookie有效期间，使用浏览器访问<code>http://127.0.0.1:5000/show</code>，可以看到：</p>
-<pre><code>{&#39;name&#39;: u&#39;letian&#39;}
-</code></pre><h3 id="相关资料："><a href="#相关资料：" class="headerlink" title="相关资料："></a>相关资料：</h3><p><a href="http://stackoverflow.com/questions/14386304/flask-how-to-remove-cookies" target="_blank" rel="noopener">Flask: How to remove cookies?</a><br><a href="http://flask.pocoo.org/docs/api/" target="_blank" rel="noopener">Flask API</a>  </p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/使用Cookie.html">Python Flask Web 框架 - 使用 Cookie</a></p>
 
       
     </div>
@@ -603,17 +530,8 @@ if __name__ == &#39;__main__&#39;:
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -684,22 +602,6 @@ if __name__ == &#39;__main__&#39;:
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行与测试"><span class="nav-text">运行与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关资料："><span class="nav-text">相关资料：</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

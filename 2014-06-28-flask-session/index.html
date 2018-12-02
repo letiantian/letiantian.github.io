@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-28 session用来记录用户的登录状态，一般基于cookie实现。">
+<meta name="description" content="本文新地址：Python Flask Web 框架 - 用户会话">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：用户会话">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-28-flask-session/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2014-06-28 session用来记录用户的登录状态，一般基于cookie实现。">
+<meta property="og:description" content="本文新地址：Python Flask Web 框架 - 用户会话">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:19:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：用户会话">
-<meta name="twitter:description" content="2014-06-28 session用来记录用户的登录状态，一般基于cookie实现。">
+<meta name="twitter:description" content="本文新地址：Python Flask Web 框架 - 用户会话">
 
 
 
@@ -392,67 +392,7 @@
       
 
       
-        <p>2014-06-28</p>
-<p>session用来记录用户的登录状态，一般基于cookie实现。</p>
-<a id="more"></a>
-<p>下面是一个简单的示例。</p>
-<h3 id="建立Flask项目"><a href="#建立Flask项目" class="headerlink" title="建立Flask项目"></a>建立Flask项目</h3><p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><h3 id="编辑HelloWorld-index-py"><a href="#编辑HelloWorld-index-py" class="headerlink" title="编辑HelloWorld/index.py"></a>编辑<code>HelloWorld/index.py</code></h3><p>内容如下：</p>
-<pre><code>from flask import Flask, render_template_string, \
-    session, request, redirect, url_for
-
-app = Flask(__name__)
-
-app.secret_key = &#39;F12Zr47j\3yX R~X@H!jLwf/T&#39;
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;hello world&#39;
-
-@app.route(&#39;/login&#39;)
-def login():
-    page = &#39;&#39;&#39;
-    &lt;form action=&quot;{{ url_for('do_login') }}&quot; method=&quot;post&quot;&gt;
-        &lt;p&gt;name: &lt;input type=&quot;text&quot; name=&quot;user_name&quot; /&gt;&lt;/p&gt;
-        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
-    &lt;/form&gt;
-    &#39;&#39;&#39;
-    return render_template_string(page)
-
-@app.route(&#39;/do_login&#39;, methods=[&#39;POST&#39;])
-def do_login():
-    name = request.form.get(&#39;user_name&#39;)
-    session[&#39;user_name&#39;] = name
-    return &#39;success&#39;
-
-@app.route(&#39;/show&#39;)
-def show():
-    return session[&#39;user_name&#39;]
-
-@app.route(&#39;/logout&#39;)
-def logout():
-    session.pop(&#39;user_name&#39;, None)
-    return redirect(url_for(&#39;login&#39;))
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)
-</code></pre><h3 id="代码的含义"><a href="#代码的含义" class="headerlink" title="代码的含义"></a>代码的含义</h3><p><code>app.secret_key</code>用于给session加密。</p>
-<p>在<code>/login</code>中将向用户展示一个表单，要求输入一个名字，submit后将数据以post的方式传递给<code>/do_login</code>，<code>/do_login</code>将名字存放在session中。</p>
-<p>如果用户成功登录，访问<code>/show</code>时会显示用户的名字。此时，打开firebug等调试工具，选择session面板，会看到有一个cookie的名称为<code>session</code>。</p>
-<p><code>/logout</code>用于登出，通过将<code>session</code>中的<code>user_name</code>字段pop即可。Flask中的session基于字典类型实现，调用pop方法时会返回pop的键对应的值；如果要pop的键并不存在，那么返回值是<code>pop()</code>的第二个参数。</p>
-<p>另外，使用<code>redirect()</code>重定向时，一定要在前面加上<code>return</code>。</p>
-<h3 id="设置sessin的有效时间"><a href="#设置sessin的有效时间" class="headerlink" title="设置sessin的有效时间"></a>设置sessin的有效时间</h3><p>下面这段代码来自<a href="http://stackoverflow.com/questions/11783025/is-there-an-easy-way-to-make-sessions-timeout-in-flask" target="_blank" rel="noopener">Is there an easy way to make sessions timeout in flask?</a>：</p>
-<pre><code>from datetime import timedelta
-from flask import session, app
-
-session.permanent = True
-app.permanent_session_lifetime = timedelta(minutes=5)
-</code></pre><p>这段代码将session的有效时间设置为5分钟。</p>
-<h3 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h3><p><a href="http://flask.pocoo.org/docs/api/#flask.session" target="_blank" rel="noopener">class flask.session</a><br><a href="http://flask.pocoo.org/docs/tutorial/views/" target="_blank" rel="noopener">Step 5: The View Functions</a><br><a href="http://flask.pocoo.org/snippets/category/sessions/" target="_blank" rel="noopener">把session持久化到其他介质中</a>  </p>
+        <p>本文新地址：<a href="/jiaocheng/python-flask/入门/用户会话.html">Python Flask Web 框架 - 用户会话</a></p>
 
       
     </div>
@@ -590,17 +530,8 @@ app.permanent_session_lifetime = timedelta(minutes=5)
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -671,22 +602,6 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立Flask项目"><span class="nav-text">建立Flask项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑HelloWorld-index-py"><span class="nav-text">编辑HelloWorld/index.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码的含义"><span class="nav-text">代码的含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置sessin的有效时间"><span class="nav-text">设置sessin的有效时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关资料"><span class="nav-text">相关资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
