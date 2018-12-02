@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="description" content="本文新地址：一对一和一对多的实现">
 <meta name="keywords" content="orm,MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出MyBatis(08)：获取一个用户的所有blog">
 <meta property="og:url" content="http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-08/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta property="og:description" content="本文新地址：一对一和一对多的实现">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-17T01:32:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出MyBatis(08)：获取一个用户的所有blog">
-<meta name="twitter:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="twitter:description" content="本文新地址：一对一和一对多的实现">
 
 
 
@@ -392,277 +392,8 @@
       
 
       
-        <hr>
-<blockquote>
-<p><strong>2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 <a href="/mybatis-tutorial/">《MyBatis 教程》</a>。</strong></p>
-</blockquote>
-<hr>
-<p>2015-01-14</p>
-<p><strong>该文章是《专题：浅入浅出MyBatis》系列文章的一篇。<a href="/topic-learn-mybatis-from-scratch">点击进入该专题目录</a></strong></p>
-<p>工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。</p>
-<p>在<a href="/2015-01-14-learn-mybatis-from-scratch-01">浅入浅出MyBatis(01)：查询id为1的用户的信息</a>的基础上，我们看一下该如何实现。</p>
-<h2 id="新建Table"><a href="#新建Table" class="headerlink" title="新建Table"></a>新建Table</h2><p>在之前，已经创建了user表，其中的数据有：</p>
-<pre><code>mysql&gt; select * from user;
-+----+--------+----------------+----------+
-| id | name   | email          | password |
-+----+--------+----------------+----------+
-|  1 | letian | letian@111.com | 123      |
-|  2 | xiaosi | xiaosi@111.com | 123      |
-+----+--------+----------------+----------+
-2 rows in set (0.00 sec)
-</code></pre><p>现在新建一个blog表，</p>
-<pre><code>CREATE  TABLE `blog_db`.`blog` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `owner_id` INT NOT NULL ,
-  `title` TEXT NOT NULL ,
-  `content` TEXT NOT NULL ,
-  PRIMARY KEY (`id`) )
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-</code></pre><p>并插入数据：</p>
-<pre><code>INSERT INTO `blog_db`.`blog` (`owner_id`, `title`, `content`) VALUES (&#39;1&#39;, &#39;标题1&#39;, &#39;文本1&#39;);
+        <p>本文新地址：<a href="/jiaocheng/mybatis/通过示例学习MyBatis/一对一和一对多的实现.html">一对一和一对多的实现</a></p>
 
-......
-</code></pre><p>最终如下：</p>
-<pre><code>mysql&gt; SELECT * FROM blog_db.blog;
-+----+----------+----------+----------+
-| id | owner_id | title    | content  |
-+----+----------+----------+----------+
-|  1 |        1 | 标题1    | 文本1    |
-|  2 |        1 | 标题2    | 文本2    |
-|  3 |        1 | 标题3    | 文本3    |
-|  4 |        1 | 标题4    | 文本4    |
-|  5 |        1 | 标题5    | 文本5    |
-|  6 |        2 | 标题21   | 文本21   |
-+----+----------+----------+----------+
-6 rows in set (0.00 sec)
-</code></pre><p>user对blog是<code>一对多</code>的关系。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="在letian-mybatis-bean下新建Blog-java"><a href="#在letian-mybatis-bean下新建Blog-java" class="headerlink" title="在letian.mybatis.bean下新建Blog.java"></a>在letian.mybatis.bean下新建Blog.java</h3><p>其内容如下：</p>
-<pre><code>package letian.mybatis.bean;
-
-public class Blog {
-    private int id;
-    private int ownerId;
-    private String title;
-    private String content;
-
-    public int getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        return &quot;Blog{&quot; +
-                &quot;id=&quot; + id +
-                &quot;, ownerId=&quot; + ownerId +
-                &quot;, title=&#39;&quot; + title + &#39;\&#39;&#39; +
-                &quot;, content=&#39;&quot; + content + &#39;\&#39;&#39; +
-                &#39;}&#39; + &#39;\n&#39;;
-    }
-}
-</code></pre><h3 id="修改letian-mybatis-bean下的User-java"><a href="#修改letian-mybatis-bean下的User-java" class="headerlink" title="修改letian.mybatis.bean下的User.java"></a>修改letian.mybatis.bean下的User.java</h3><p>将其修改为：</p>
-<pre><code>package letian.mybatis.bean;
-
-import java.util.List;
-
-public class User {
-
-    private int id;
-    private String name;
-    private String email;
-    private String password;
-    private List&lt;Blog&gt; blogs;
-
-    public List&lt;Blog&gt; getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(List&lt;Blog&gt; blogs) {
-        this.blogs = blogs;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return &quot;User{&quot; +
-                &quot;id=&quot; + id +
-                &quot;, name=&#39;&quot; + name + &#39;\&#39;&#39; +
-                &quot;, email=&#39;&quot; + email + &#39;\&#39;&#39; +
-                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; + &#39;\n&#39; +
-                &quot;, blogs=&quot; + blogs +
-                &#39;}&#39;;
-    }
-}
-</code></pre><p>就是加了个<code>blogs</code>属性用来保存一个用户的所有blog。</p>
-<h3 id="修改letian-mybatis-dao下的UserMapper-java"><a href="#修改letian-mybatis-dao下的UserMapper-java" class="headerlink" title="修改letian.mybatis.dao下的UserMapper.java"></a>修改letian.mybatis.dao下的UserMapper.java</h3><pre><code>package letian.mybatis.dao;
-
-import letian.mybatis.bean.User;
-
-public interface UserMapper {
-
-    User findById(int id);
-
-}
-</code></pre><p>其实内容没变化，我把代码贴出来强调一下。</p>
-<h3 id="修改letian-mybatis-mapper下的UserMapper-xml"><a href="#修改letian-mybatis-mapper下的UserMapper-xml" class="headerlink" title="修改letian.mybatis.mapper下的UserMapper.xml"></a>修改letian.mybatis.mapper下的UserMapper.xml</h3><p>将其内容修改为：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE mapper PUBLIC
-        &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
-
-&lt;mapper namespace=&quot;letian.mybatis.dao.UserMapper&quot;&gt;
-
-    &lt;resultMap id=&quot;userResult&quot; type=&quot;letian.mybatis.bean.User&quot;&gt;
-        &lt;result property=&quot;id&quot; column=&quot;user_id&quot;/&gt;
-        &lt;result property=&quot;name&quot; column=&quot;user_name&quot;/&gt;
-        &lt;result property=&quot;email&quot; column=&quot;user_email&quot;/&gt;
-        &lt;result property=&quot;password&quot; column=&quot;user_password&quot;/&gt;
-
-        &lt;collection property=&quot;blogs&quot; ofType=&quot;letian.mybatis.bean.Blog&quot;&gt;
-            &lt;id property=&quot;id&quot; column=&quot;blog_id&quot;/&gt; &lt;!-- 用result也可以 --&gt;
-            &lt;result property=&quot;ownerId&quot; column=&quot;user_id&quot;/&gt;
-            &lt;result property=&quot;title&quot; column=&quot;blog_title&quot;/&gt;
-            &lt;result property=&quot;content&quot; column=&quot;blog_content&quot;/&gt;
-        &lt;/collection&gt;
-
-    &lt;/resultMap&gt;
-
-    &lt;select id=&quot;findById&quot; parameterType=&quot;Integer&quot; resultMap=&quot;userResult&quot; resultType=&quot;letian.mybatis.bean.User&quot;&gt;
-        SELECT
-        user.id AS user_id,
-        user.name AS user_name,
-        user.email AS user_email,
-        user.password AS user_password,
-        blog.id AS blog_id,
-        blog.title AS blog_title,
-        blog.content AS blog_content
-        FROM user, blog WHERE user.id = #{id} and user.id=blog.owner_id;
-    &lt;/select&gt;
-
-&lt;/mapper&gt;
-</code></pre><p><code>&lt;select id=&quot;findById&quot;&gt;&lt;/select&gt;</code>中的sql语句的作用是根据给出的用户id得到用户的信息以及该用户所有的blog。</p>
-<p><code>&lt;select id=&quot;findById&quot;&gt;&lt;/select&gt;</code>的<code>resultMap</code>属性指向了<code>&lt;resultMap id=&quot;userResult&quot;&gt;&lt;/resultMap&gt;</code>。下面看一下这个<code>userResult</code>。</p>
-<pre><code>        &lt;result property=&quot;id&quot; column=&quot;user_id&quot;/&gt;
-        &lt;result property=&quot;name&quot; column=&quot;user_name&quot;/&gt;
-        &lt;result property=&quot;email&quot; column=&quot;user_email&quot;/&gt;
-        &lt;result property=&quot;password&quot; column=&quot;user_password&quot;/&gt;
-</code></pre><p>上面的代码片段的作用是将sql语句得到的四个column（<code>user_id</code>、<code>user_name</code>、<code>user_email</code>、<code>user_password</code>）分别放入<code>letian.mybatis.bean.User</code>类生成的对象的四个属性（<code>id</code>、<code>name</code>、<code>email</code>、<code>password</code>）中。</p>
-<p><code>letian.mybatis.bean.User</code>类的<code>blogs</code>属性是<code>List&lt;Blog&gt;</code>类型，用来存放多个blog，所以用<code>&lt;collection&gt;&lt;/collection&gt;</code>来配置：</p>
-<pre><code>        &lt;collection property=&quot;blogs&quot; ofType=&quot;letian.mybatis.bean.Blog&quot;&gt;
-            &lt;id property=&quot;id&quot; column=&quot;blog_id&quot;/&gt; &lt;!-- 用result也可以 --&gt;
-            &lt;result property=&quot;ownerId&quot; column=&quot;user_id&quot;/&gt;
-            &lt;result property=&quot;title&quot; column=&quot;blog_title&quot;/&gt;
-            &lt;result property=&quot;content&quot; column=&quot;blog_content&quot;/&gt;
-        &lt;/collection&gt;
-</code></pre><p><code>ofType</code>属性指定每个blog的类型。<code>&lt;collection&gt;&lt;/collection&gt;</code>中的子元素的配置和配置<code>letian.mybatis.bean.Blog</code>类是一样的。这里，将<code>letian.mybatis.bean.Blog</code>的<code>id</code>属性与执行sql语句得到的<code>blog_id</code>字段对应，<code>ownerId</code>、<code>title</code>等类似。</p>
-<h3 id="修改Main-java"><a href="#修改Main-java" class="headerlink" title="修改Main.java"></a>修改Main.java</h3><pre><code>import java.io.IOException;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import letian.mybatis.bean.User;
-import letian.mybatis.dao.UserMapper;
-
-
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-
-        SqlSessionFactory sessionFactory;
-        sessionFactory = new SqlSessionFactoryBuilder()
-                .build(Resources.getResourceAsReader(&quot;mybatis-config.xml&quot;));
-
-        SqlSession sqlSession = sessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-        User user = userMapper.findById(1);
-        System.out.println(user);
-
-    }
-}
-</code></pre><h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><p>执行Main.java，结果如下：</p>
-<pre><code>User{id=1, name=&#39;letian&#39;, email=&#39;letian@111.com&#39;, password=&#39;123&#39;
-, blogs=[Blog{id=1, ownerId=1, title=&#39;标题1&#39;, content=&#39;文本1&#39;}
-, Blog{id=2, ownerId=1, title=&#39;标题2&#39;, content=&#39;文本2&#39;}
-, Blog{id=3, ownerId=1, title=&#39;标题3&#39;, content=&#39;文本3&#39;}
-, Blog{id=4, ownerId=1, title=&#39;标题4&#39;, content=&#39;文本4&#39;}
-, Blog{id=5, ownerId=1, title=&#39;标题5&#39;, content=&#39;文本5&#39;}
-]}
-</code></pre><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>如果你想让用户保存自己的Blog，那么你可以这样做：</p>
-<p>修改letian.mybatis.dao下的UserMapper.java：</p>
-<pre><code>package letian.mybatis.dao;
-
-import letian.mybatis.bean.User;
-import letian.mybatis.bean.Blog;
-
-public interface UserMapper {
-
-    User findById(int id);
-    void saveBlog(Blog blog);
-
-}
-</code></pre>
       
     </div>
 
@@ -799,17 +530,8 @@ public interface UserMapper {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -880,22 +602,6 @@ public interface UserMapper {
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建Table"><span class="nav-text">新建Table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在letian-mybatis-bean下新建Blog-java"><span class="nav-text">在letian.mybatis.bean下新建Blog.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改letian-mybatis-bean下的User-java"><span class="nav-text">修改letian.mybatis.bean下的User.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改letian-mybatis-dao下的UserMapper-java"><span class="nav-text">修改letian.mybatis.dao下的UserMapper.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改letian-mybatis-mapper下的UserMapper-xml"><span class="nav-text">修改letian.mybatis.mapper下的UserMapper.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Main-java"><span class="nav-text">修改Main.java</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行"><span class="nav-text">执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

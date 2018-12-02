@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="description" content="本文新地址：添加、删除、修改数据">
 <meta name="keywords" content="orm,MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出MyBatis(05)：插入数据">
 <meta property="og:url" content="http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-05/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta property="og:description" content="本文新地址：添加、删除、修改数据">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-17T01:31:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出MyBatis(05)：插入数据">
-<meta name="twitter:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="twitter:description" content="本文新地址：添加、删除、修改数据">
 
 
 
@@ -392,147 +392,8 @@
       
 
       
-        <hr>
-<blockquote>
-<p><strong>2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 <a href="/mybatis-tutorial/">《MyBatis 教程》</a>。</strong></p>
-</blockquote>
-<hr>
-<p>2015-01-14</p>
-<p><strong>该文章是《专题：浅入浅出MyBatis》系列文章的一篇。<a href="/topic-learn-mybatis-from-scratch">点击进入该专题目录</a></strong></p>
-<p>工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。</p>
-<p>在<a href="/2015-01-14-learn-mybatis-from-scratch-01">浅入浅出MyBatis(01)：查询id为1的用户的信息</a>的基础上，我们看一下该如何实现。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="修改letian-mybatis-dao下的UserMapper-java"><a href="#修改letian-mybatis-dao下的UserMapper-java" class="headerlink" title="修改letian.mybatis.dao下的UserMapper.java"></a>修改letian.mybatis.dao下的UserMapper.java</h3><p>将其内容修改为：</p>
-<pre><code>package letian.mybatis.dao;
+        <p>本文新地址：<a href="/jiaocheng/mybatis/通过示例学习MyBatis/添加、删除、修改数据.html">添加、删除、修改数据</a></p>
 
-import letian.mybatis.bean.User;
-
-public interface UserMapper {
-
-    User findById(int id);
-    void insertUser1(User user);
-    void insertUser2(User user);
-
-}
-</code></pre><p>新增加了两个增加用户的方法。</p>
-<h3 id="修改letian-mybatis-mapper下的UserMapper-xml"><a href="#修改letian-mybatis-mapper下的UserMapper-xml" class="headerlink" title="修改letian.mybatis.mapper下的UserMapper.xml"></a>修改letian.mybatis.mapper下的UserMapper.xml</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE mapper PUBLIC
-        &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
-
-&lt;mapper namespace=&quot;letian.mybatis.dao.UserMapper&quot;&gt;
-
-    &lt;select id=&quot;findById&quot; parameterType=&quot;Integer&quot; resultType=&quot;letian.mybatis.bean.User&quot;&gt;
-        select *
-        from blog_db.user where id=#{id}
-    &lt;/select&gt;
-
-    &lt;insert id=&quot;insertUser1&quot; parameterType=&quot;letian.mybatis.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;
-        INSERT INTO `blog_db`.`user` ( `name`, `email`, `password`)
-        VALUES (#{name}, #{email}, #{password})
-    &lt;/insert&gt;
-
-    &lt;parameterMap id=&quot;insertUser2ParamsMap&quot; type=&quot;letian.mybatis.bean.User&quot;&gt;
-        &lt;parameter property=&quot;name&quot;/&gt;
-        &lt;parameter property=&quot;email&quot; /&gt;
-        &lt;parameter property=&quot;password&quot; /&gt;
-    &lt;/parameterMap&gt;
-
-    &lt;insert id=&quot;insertUser2&quot; parameterType=&quot;letian.mybatis.bean.User&quot; parameterMap=&quot;insertUser2ParamsMap&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;
-        INSERT INTO `blog_db`.`user` ( `name`, `email`, `password`)
-        VALUES (?, ?, ?)
-    &lt;/insert&gt;
-
-&lt;/mapper&gt;
-</code></pre><p><code>&lt;insert id=&quot;insertUser1&quot;&gt;</code>对应UserMapper接口中的<code>void insertUser1(User user);</code>方法。<code>parameterType</code>和方法<code>insertUser1</code>的参数类型一致。我们的SQL语句，只插入了User的name、email、password，主键id依靠数据库的自动生成。在官方文档<a href="http://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html" target="_blank" rel="noopener">Mapper XML 文件</a>中如下介绍useGeneratedKeys和keyProperty属性：</p>
-<blockquote>
-<p>useGeneratedKeys：（仅对 insert 和 update 有用）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系数据库管理系统的自动递增字段），默认值：false。 </p>
-</blockquote>
-<blockquote>
-<p>keyProperty： （仅对 insert 和 update 有用）唯一标记一个属性，MyBatis 会通过 getGeneratedKeys 的返回值或者通过 insert 语句的 selectKey 子元素设置它的键值，默认：unset。如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。 </p>
-</blockquote>
-<p>通过设置useGeneratedKeys和keyProperty属性，可以将生成的id注入到被保存的user对象中。</p>
-<p>在<code>&lt;insert id=&quot;insertUser2&quot;&gt;</code>使用了占位符<code>?</code>，所以要设置一下输入参数映射。<code>&lt;insert id=&quot;insertUser2&quot;&gt;</code>通过<code>parameterMap</code>属性引用了<code>&lt;parameterMap id=&quot;insertUser2ParamsMap&quot;&gt;</code>对应的参数映射配置。</p>
-<h3 id="修改Main-java"><a href="#修改Main-java" class="headerlink" title="修改Main.java"></a>修改Main.java</h3><p>将其内容修改为：</p>
-<pre><code>import java.io.IOException;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import letian.mybatis.bean.User;
-import letian.mybatis.dao.UserMapper;
-
-
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-
-        SqlSessionFactory sessionFactory;
-        sessionFactory = new SqlSessionFactoryBuilder()
-                .build(Resources.getResourceAsReader(&quot;mybatis-config.xml&quot;));
-
-        SqlSession sqlSession = sessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-        User user1 = new User();
-        user1.setName(&quot;xiaowei&quot;);
-        user1.setEmail(&quot;xiaowei@111.com&quot;);
-        user1.setPassword(&quot;456&quot;);
-
-        userMapper.insertUser1(user1);
-        sqlSession.commit();  // 一定要有的。
-        System.out.println(user1);
-
-    }
-}
-</code></pre><p>运行结果是：</p>
-<pre><code>User{id=6, name=&#39;xiaowei&#39;, email=&#39;xiaowei@111.com&#39;, password=&#39;456&#39;}
-</code></pre><p>在数据库中也能看到这条记录。（请不要在意id的不连贯，这是我多次调试代码造成的。）</p>
-<p>如果再执行一次Main.java，由于user表的<code>name</code>字段是unique的，所以会报错：</p>
-<pre><code>Exception in thread &quot;main&quot; org.apache.ibatis.exceptions.PersistenceException: 
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry &#39;xiaowei&#39; for key &#39;name_unique&#39;
-### The error may involve letian.mybatis.dao.UserMapper.insertUser1-Inline
-### The error occurred while setting parameters
-### SQL: INSERT INTO `blog_db`.`user` ( `name`, `email`, `password`)         VALUES (?, ?, ?)
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry &#39;xiaowei&#39; for key &#39;name_unique&#39;
-</code></pre><p>下面尝试使用<code>insertUser2</code>方法插入数据，修改Main.java：</p>
-<pre><code>import java.io.IOException;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import letian.mybatis.bean.User;
-import letian.mybatis.dao.UserMapper;
-
-
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-
-        SqlSessionFactory sessionFactory;
-        sessionFactory = new SqlSessionFactoryBuilder()
-                .build(Resources.getResourceAsReader(&quot;mybatis-config.xml&quot;));
-
-        SqlSession sqlSession = sessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-        User user2 = new User();
-        user2.setName(&quot;xiaohu&quot;);
-        user2.setEmail(&quot;xiaohu@111.com&quot;);
-        user2.setPassword(&quot;456&quot;);
-
-        userMapper.insertUser2(user2);
-        sqlSession.commit();
-        System.out.println(user2);
-
-    }
-}
-</code></pre><p>执行结果如下：</p>
-<pre><code>User{id=9, name=&#39;xiaohu&#39;, email=&#39;xiaohu@111.com&#39;, password=&#39;456&#39;}
-</code></pre>
       
     </div>
 
@@ -669,17 +530,8 @@ public class Main {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -750,22 +602,6 @@ public class Main {
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改letian-mybatis-dao下的UserMapper-java"><span class="nav-text">修改letian.mybatis.dao下的UserMapper.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改letian-mybatis-mapper下的UserMapper-xml"><span class="nav-text">修改letian.mybatis.mapper下的UserMapper.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Main-java"><span class="nav-text">修改Main.java</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

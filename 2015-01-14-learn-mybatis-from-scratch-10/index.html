@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 本文以浅入浅出MyBatis(01)：查询id为1的用户的">
+<meta name="description" content="本文新地址：分页查询">
 <meta name="keywords" content="orm,MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出MyBatis(10)：分页查询">
 <meta property="og:url" content="http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-10/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 本文以浅入浅出MyBatis(01)：查询id为1的用户的">
+<meta property="og:description" content="本文新地址：分页查询">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-17T01:37:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出MyBatis(10)：分页查询">
-<meta name="twitter:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 本文以浅入浅出MyBatis(01)：查询id为1的用户的">
+<meta name="twitter:description" content="本文新地址：分页查询">
 
 
 
@@ -392,244 +392,7 @@
       
 
       
-        <hr>
-<blockquote>
-<p><strong>2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 <a href="/mybatis-tutorial/">《MyBatis 教程》</a>。</strong></p>
-</blockquote>
-<hr>
-<p>2015-01-14</p>
-<p><strong>该文章是《专题：浅入浅出MyBatis》系列文章的一篇。<a href="/topic-learn-mybatis-from-scratch">点击进入该专题目录</a></strong></p>
-<p>工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。</p>
-<p>本文以<a href="/2015-01-14-learn-mybatis-from-scratch-01">浅入浅出MyBatis(01)：查询id为1的用户的信息</a>为基础。</p>
-<h2 id="什么是分页（pagination）"><a href="#什么是分页（pagination）" class="headerlink" title="什么是分页（pagination）"></a>什么是分页（pagination）</h2><p>例如在数据库的某个表里有1000条数据，我们每次只显示100条数据，在第1页显示第0到第99条，在第2页显示第100到199条，依次类推，这就是分页。</p>
-<p>分页可以分为<code>逻辑分页</code>和<code>物理分页</code>。<code>逻辑分页</code>是我们的程序在显示每页的数据时，首先查询得到表中的1000条数据，然后成熟根据当前页的“页码”选出其中的100条数据来显示。</p>
-<p><code>物理分页</code>是程序先判断出该选出这1000条的第几条到第几条，然后数据库根据程序给出的信息查询出程序需要的100条返回给我们的程序。</p>
-<h2 id="创建blog表并插入数据"><a href="#创建blog表并插入数据" class="headerlink" title="创建blog表并插入数据"></a>创建blog表并插入数据</h2><p>在之前，已经创建了user表，其中的数据有：</p>
-<pre><code>mysql&gt; select * from user;
-+----+--------+----------------+----------+
-| id | name   | email          | password |
-+----+--------+----------------+----------+
-|  1 | letian | letian@111.com | 123      |
-|  2 | xiaosi | xiaosi@111.com | 123      |
-+----+--------+----------------+----------+
-2 rows in set (0.00 sec)
-</code></pre><p>现在新建一个blog表，</p>
-<pre><code>CREATE  TABLE `blog_db`.`blog` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `owner_id` INT NOT NULL ,
-  `title` TEXT NOT NULL ,
-  `content` TEXT NOT NULL ,
-  PRIMARY KEY (`id`) )
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-</code></pre><p>并插入数据：</p>
-<pre><code>INSERT INTO `blog_db`.`blog` (`owner_id`, `title`, `content`) VALUES (&#39;1&#39;, &#39;标题1&#39;, &#39;文本1&#39;);
-
-......
-</code></pre><p>最终如下：</p>
-<pre><code>mysql&gt; SELECT * FROM blog_db.blog;
-+----+----------+----------+----------+
-| id | owner_id | title    | content  |
-+----+----------+----------+----------+
-|  1 |        1 | 标题1    | 文本1    |
-|  2 |        1 | 标题2    | 文本2    |
-|  3 |        1 | 标题3    | 文本3    |
-|  4 |        1 | 标题4    | 文本4    |
-|  5 |        1 | 标题5    | 文本5    |
-|  6 |        2 | 标题21   | 文本21   |
-+----+----------+----------+----------+
-6 rows in set (0.00 sec)
-</code></pre><p>下面，我们看一下如何对这些blog进行分页查询。</p>
-<h2 id="在letian-mybatis-bean下添加Blog-java"><a href="#在letian-mybatis-bean下添加Blog-java" class="headerlink" title="在letian.mybatis.bean下添加Blog.java"></a>在letian.mybatis.bean下添加Blog.java</h2><p>其内容如下：</p>
-<pre><code>package letian.mybatis.bean;
-
-public class Blog {
-    private int id;
-    private int ownerId;
-    private String title;
-    private String content;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        return &quot;Blog{&quot; +
-                &quot;id=&quot; + id +
-                &quot;, ownerId=&quot; + ownerId +
-                &quot;, title=&#39;&quot; + title + &#39;\&#39;&#39; +
-                &quot;, content=&#39;&quot; + content + &#39;\&#39;&#39; +
-                &#39;}&#39; + &#39;\n&#39;;
-    }
-}
-
-</code></pre><h2 id="在letian-mybatis-dao创建BlogMapper-java"><a href="#在letian-mybatis-dao创建BlogMapper-java" class="headerlink" title="在letian.mybatis.dao创建BlogMapper.java"></a>在letian.mybatis.dao创建BlogMapper.java</h2><p>其内容如下：</p>
-<pre><code>package letian.mybatis.dao;
-
-
-import letian.mybatis.bean.Blog;
-
-import java.util.HashMap;
-import java.util.List;
-
-public interface BlogMapper {
-
-    List&lt;Blog&gt; findAll();
-    List&lt;Blog&gt; findAll2(HashMap&lt;String, Integer&gt; offsetLimit);
-}
-</code></pre><h2 id="在letian-mybatis-mapper创建BlogMapper-xml"><a href="#在letian-mybatis-mapper创建BlogMapper-xml" class="headerlink" title="在letian.mybatis.mapper创建BlogMapper.xml"></a>在letian.mybatis.mapper创建BlogMapper.xml</h2><p>其内容如下：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE mapper PUBLIC
-        &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
-
-&lt;mapper namespace=&quot;letian.mybatis.dao.BlogMapper&quot;&gt;
-
-
-    &lt;resultMap id=&quot;findAllResult&quot; type=&quot;letian.mybatis.bean.Blog&quot;&gt;
-        &lt;result property=&quot;ownerId&quot; column=&quot;owner_id&quot;/&gt;
-    &lt;/resultMap&gt;
-
-    &lt;select id=&quot;findAll&quot; resultMap=&quot;findAllResult&quot; resultType=&quot;letian.mybatis.bean.Blog&quot;&gt;
-        SELECT *
-        FROM blog;
-    &lt;/select&gt;
-
-    &lt;select id=&quot;findAll2&quot; parameterType=&quot;HashMap&quot; resultMap=&quot;findAllResult&quot; resultType=&quot;letian.mybatis.bean.Blog&quot;&gt;
-        SELECT *
-        FROM blog LIMIT #{offset}, #{limit};
-    &lt;/select&gt;
-
-&lt;/mapper&gt;
-</code></pre><p>然后将BlogMapper.xml加入mybatis的配置文件<code>mybatis-config.xml</code>中：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE configuration
-        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
-&lt;configuration&gt;
-    &lt;environments default=&quot;development&quot;&gt;
-        &lt;environment id=&quot;development&quot;&gt;
-            &lt;transactionManager type=&quot;JDBC&quot;/&gt;
-            &lt;dataSource type=&quot;POOLED&quot;&gt;
-                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
-                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/blog_db?useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;
-                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
-                &lt;property name=&quot;password&quot; value=&quot;123&quot;/&gt;
-            &lt;/dataSource&gt;
-        &lt;/environment&gt;
-    &lt;/environments&gt;
-    &lt;mappers&gt;
-        &lt;mapper resource=&quot;letian/mybatis/mapper/UserMapper.xml&quot;/&gt;
-        &lt;!--加入BlogMapper.xml--&gt;
-        &lt;mapper resource=&quot;letian/mybatis/mapper/BlogMapper.xml&quot;/&gt; 
-    &lt;/mappers&gt;
-
-&lt;/configuration&gt;
-</code></pre><h2 id="修改Main-java"><a href="#修改Main-java" class="headerlink" title="修改Main.java"></a>修改Main.java</h2><p>将Main.java内容修改为：</p>
-<pre><code>import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import letian.mybatis.bean.User;
-import letian.mybatis.bean.Blog;
-import letian.mybatis.dao.UserMapper;
-import letian.mybatis.dao.BlogMapper;
-
-
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-
-        SqlSessionFactory sessionFactory;
-        sessionFactory = new SqlSessionFactoryBuilder()
-                .build(Resources.getResourceAsReader(&quot;mybatis-config.xml&quot;));
-
-        SqlSession sqlSession = sessionFactory.openSession();
-
-        List&lt;Blog&gt; blogs;
-
-        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
-        blogs = blogMapper.findAll();  //!
-        System.out.println(blogs+&quot;\n&quot;);
-
-        int offset = 0;
-        int limit = 2;
-        RowBounds rowBounds = new RowBounds(offset, limit);
-        blogs = sqlSession.selectList(&quot;letian.mybatis.dao.BlogMapper.findAll&quot;, new Object(), rowBounds); //!
-        System.out.println(blogs+&quot;\n&quot;);
-
-        HashMap&lt;String, Integer&gt; offsetLimit = new HashMap&lt;String, Integer&gt;();
-        offsetLimit.put(&quot;offset&quot;, 0);
-        offsetLimit.put(&quot;limit&quot;, 3);
-        blogs = blogMapper.findAll2(offsetLimit); //!
-        System.out.println(blogs+&quot;\n&quot;);
-
-        sqlSession.close();
-    }
-}
-</code></pre><p>其中：</p>
-<pre><code>blogs = blogMapper.findAll();
-</code></pre><p>是获取所有的blog信息。</p>
-<pre><code>blogs = sqlSession.selectList(&quot;letian.mybatis.dao.BlogMapper.findAll&quot;, new Object(), rowBounds); 
-</code></pre><p>是逻辑分页，即在获取所有blog信息的基础上得到offset为0、limit为2的2条blog的信息。</p>
-<pre><code>blogs = blogMapper.findAll2(offsetLimit); 
-</code></pre><p>是物理分页。<code>findAll2</code>方法通过<code>offsetLimit</code>将offset和limit信息传递给下面的sql语句：</p>
-<pre><code>SELECT *
-FROM blog LIMIT #{offset}, #{limit};
-</code></pre><p>。mysql本身实现分页查询。</p>
-<h2 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h2><p>执行Main.java，结果如下：</p>
-<pre><code>[Blog{id=1, ownerId=1, title=&#39;标题1&#39;, content=&#39;文本1&#39;}
-, Blog{id=2, ownerId=1, title=&#39;标题2&#39;, content=&#39;文本2&#39;}
-, Blog{id=3, ownerId=1, title=&#39;标题3&#39;, content=&#39;文本3&#39;}
-, Blog{id=4, ownerId=1, title=&#39;标题4&#39;, content=&#39;文本4&#39;}
-, Blog{id=5, ownerId=1, title=&#39;标题5&#39;, content=&#39;文本5&#39;}
-, Blog{id=6, ownerId=2, title=&#39;标题21&#39;, content=&#39;文本21&#39;}
-]
-
-[Blog{id=1, ownerId=1, title=&#39;标题1&#39;, content=&#39;文本1&#39;}
-, Blog{id=2, ownerId=1, title=&#39;标题2&#39;, content=&#39;文本2&#39;}
-]
-
-[Blog{id=1, ownerId=1, title=&#39;标题1&#39;, content=&#39;文本1&#39;}
-, Blog{id=2, ownerId=1, title=&#39;标题2&#39;, content=&#39;文本2&#39;}
-, Blog{id=3, ownerId=1, title=&#39;标题3&#39;, content=&#39;文本3&#39;}
-]
-</code></pre><h2 id="补充：通过插件实现Mysql的物理分页查询"><a href="#补充：通过插件实现Mysql的物理分页查询" class="headerlink" title="补充：通过插件实现Mysql的物理分页查询"></a>补充：通过插件实现Mysql的物理分页查询</h2><p>在<a href="http://www.cnblogs.com/zemliu/p/3242966.html" target="_blank" rel="noopener">MyBatis 物理分页</a>这篇文章中给出了一个基于MyBatis插件的物理分页查询的实现，其思路是捕获sql语句，为sql语句补全limit和offset信息。如果你熟悉MyBatis的插件机制，可以自己实现一个。</p>
+        <p>本文新地址：<a href="/jiaocheng/mybatis/通过示例学习MyBatis/分页查询.html">分页查询</a></p>
 
       
     </div>
@@ -767,17 +530,8 @@ FROM blog LIMIT #{offset}, #{limit};
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -848,22 +602,6 @@ FROM blog LIMIT #{offset}, #{limit};
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是分页（pagination）"><span class="nav-text">什么是分页（pagination）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建blog表并插入数据"><span class="nav-text">创建blog表并插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在letian-mybatis-bean下添加Blog-java"><span class="nav-text">在letian.mybatis.bean下添加Blog.java</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在letian-mybatis-dao创建BlogMapper-java"><span class="nav-text">在letian.mybatis.dao创建BlogMapper.java</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在letian-mybatis-mapper创建BlogMapper-xml"><span class="nav-text">在letian.mybatis.mapper创建BlogMapper.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改Main-java"><span class="nav-text">修改Main.java</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行结果"><span class="nav-text">执行结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充：通过插件实现Mysql的物理分页查询"><span class="nav-text">补充：通过插件实现Mysql的物理分页查询</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

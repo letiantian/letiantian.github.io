@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="description" content="本文新地址：自定义连接池">
 <meta name="keywords" content="orm,MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出MyBatis(13)：关于连接池">
 <meta property="og:url" content="http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-13/index.html">
 <meta property="og:site_name" content="樂天笔记">
-<meta property="og:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta property="og:description" content="本文新地址：自定义连接池">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-17T01:41:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出MyBatis(13)：关于连接池">
-<meta name="twitter:description" content="2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 《MyBatis 教程》。   2015-01-14 该文章是《专题：浅入浅出MyBatis》系列文章的一篇。点击进入该专题目录 工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。 在浅入浅出MyBatis(01)：查询id为1的用户的信息">
+<meta name="twitter:description" content="本文新地址：自定义连接池">
 
 
 
@@ -392,72 +392,8 @@
       
 
       
-        <hr>
-<blockquote>
-<p><strong>2018-11-17：我重新整理了一份更易读易懂的 mybatis 教程，内容更多、更新，欢迎移步 <a href="/mybatis-tutorial/">《MyBatis 教程》</a>。</strong></p>
-</blockquote>
-<hr>
-<p>2015-01-14</p>
-<p><strong>该文章是《专题：浅入浅出MyBatis》系列文章的一篇。<a href="/topic-learn-mybatis-from-scratch">点击进入该专题目录</a></strong></p>
-<p>工具与环境：Intellij IDEA 14，JDK 1.7，MyBatis 3.2，MySQL 5.5。</p>
-<p>在<a href="/2015-01-14-learn-mybatis-from-scratch-01">浅入浅出MyBatis(01)：查询id为1的用户的信息</a>中MyBatis已经配置成启用连接池了。</p>
-<p>我们看一下<a href="/2015-01-14-learn-mybatis-from-scratch-01">浅入浅出MyBatis(01)：查询id为1的用户的信息</a>中MyBatis的配置文件<code>mybatis-config.xml</code>的内容：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;!DOCTYPE configuration
-        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
-        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
-&lt;configuration&gt;
-    &lt;environments default=&quot;development&quot;&gt;
-        &lt;environment id=&quot;development&quot;&gt;
-            &lt;transactionManager type=&quot;JDBC&quot;/&gt;
-            &lt;dataSource type=&quot;POOLED&quot;&gt;
-                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
-                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/blog_db?useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;
-                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
-                &lt;property name=&quot;password&quot; value=&quot;123&quot;/&gt;
-            &lt;/dataSource&gt;
-        &lt;/environment&gt;
-    &lt;/environments&gt;
-    &lt;mappers&gt;
-        &lt;mapper resource=&quot;letian/mybatis/mapper/UserMapper.xml&quot;/&gt;
-    &lt;/mappers&gt;
-&lt;/configuration&gt;
-</code></pre><p>从中，我们可以找到这么几行：</p>
-<pre><code>&lt;dataSource type=&quot;POOLED&quot;&gt;
-    &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
-    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/blog_db?useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;
-    &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
-    &lt;property name=&quot;password&quot; value=&quot;123&quot;/&gt;
-&lt;/dataSource&gt;
-</code></pre><p><code>&lt;dataSource&gt;</code>的<code>type</code>属性值为<code>POOLED</code>，意味着开启连接池。若设置成<code>UNPOOLED</code>，则不开启连接池。</p>
-<p>这些相关的配置选项都可以在<a href="http://mybatis.github.io/mybatis-3/zh/configuration.html" target="_blank" rel="noopener">http://mybatis.github.io/mybatis-3/zh/configuration.html</a>找到。以开启连接池为例，从中摘录一段：</p>
-<p>—摘录start—&gt;&gt;&gt;</p>
-<p>有连接池（POOLED）– 这种数据源的实现利用“池”的概念将 JDBC 连接对象组织起来，避免了创建新的连接实例时所必需的初始化和认证时间。这是一种使得并发 Web 应用快速响应请求的流行处理方式。</p>
-<p>除了上述无连接池（UNPOOLED）的属性外，会有更多属性用来配置有连接池（POOLED）的数据源：</p>
-<ul>
-<li>poolMaximumActiveConnections – 在任意时间可以存在的活动（也就是正在使用）连接数量，默认值：10</li>
-<li>poolMaximumIdleConnections – 任意时间可能存在的空闲连接数。</li>
-<li>poolMaximumCheckoutTime – 在被强制返回之前，池中连接被检出（checked out）时间，默认值：20000 毫秒（即 20 秒）</li>
-<li>poolTimeToWait – 这是一个低层设置，如果获取连接花费的相当长的时间，它会给连接池打印日志并重新尝试获取一个连接的机会（避免在误配置的情况下一直安静的失败），默认值：20000 毫秒（即 20 秒）。</li>
-<li>poolPingQuery – 发送到数据的侦测查询，用来检验连接是否处在正常工作秩序中并准备接受请求。默认是“NO PING QUERY SET”，这会导致多数数据库驱动失败时带有一个恰当的错误消息。</li>
-<li>poolPingEnabled – 是否启用侦测查询。若开启，也必须使用一个可执行的 SQL 语句设置 poolPingQuery 属性（最好是一个非常快的 SQL），默认值：false。</li>
-<li>poolPingConnectionsNotUsedFor – 配置 poolPingQuery 的使用频度。这可以被设置成匹配标准的数据库连接超时时间，来避免不必要的侦测，默认值：0（即所有连接每一时刻都被侦测 — 当然仅当 </li>
-<li>poolPingEnabled 为 true 时适用）。</li>
-</ul>
-<p>—摘录end—&lt;&lt;&lt;</p>
-<p>下面的代码简单地配置了下连接池：</p>
-<pre><code>&lt;dataSource type=&quot;POOLED&quot;&gt;
-    &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
-    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/blog_db?useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;
-    &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
-    &lt;property name=&quot;password&quot; value=&quot;123&quot;/&gt;
+        <p>本文新地址：<a href="/jiaocheng/mybatis/通过示例学习MyBatis/自定义连接池.html">自定义连接池</a></p>
 
-    &lt;property name=&quot;poolMaximumActiveConnections&quot; value=&quot;10&quot; /&gt;
-    &lt;property name=&quot;poolTimeToWait&quot; value=&quot;5000&quot; /&gt;
-    &lt;property name=&quot;poolPingEnabled&quot; value=&quot;true&quot;/&gt;
-    &lt;property name=&quot;poolPingQuery&quot; value=&quot;select 1 from user&quot; /&gt;
-&lt;/dataSource&gt;
-</code></pre>
       
     </div>
 
