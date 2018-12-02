@@ -1,0 +1,552 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>获取 POST 方法传送的数据 · Python Flask Web 框架教程 - 乐天的开发教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="处理和响应JSON数据.html" />
+    
+    
+    <link rel="prev" href="获取URL参数.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="." target="_blank" class="custom-link">Python Flask Web 框架教程</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    教程简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="安装.html">
+            
+                <a href="安装.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="从Hello-World开始.html">
+            
+                <a href="从Hello-World开始.html">
+            
+                    
+                    从 Hello World 开始
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="获取URL参数.html">
+            
+                <a href="获取URL参数.html">
+            
+                    
+                    获取 URL 参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.4" data-path="获取POST方法传送的数据.html">
+            
+                <a href="获取POST方法传送的数据.html">
+            
+                    
+                    获取 POST 方法传送的数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="处理和响应JSON数据.html">
+            
+                <a href="处理和响应JSON数据.html">
+            
+                    
+                    处理和响应 JSON 数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="上传文件.html">
+            
+                <a href="上传文件.html">
+            
+                    
+                    上传文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="Restful-URL.html">
+            
+                <a href="Restful-URL.html">
+            
+                    
+                    Restful URL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="使用url_for生成链接.html">
+            
+                <a href="使用url_for生成链接.html">
+            
+                    
+                    使用 url_for 生成链接
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="使用redirect重定向网址.html">
+            
+                <a href="使用redirect重定向网址.html">
+            
+                    
+                    使用 redirect 重定向网址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" data-path="使用Jinja2模板引擎.html">
+            
+                <a href="使用Jinja2模板引擎.html">
+            
+                    
+                    使用 Jinja2 模板引擎
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" data-path="自定义404等错误的响应.html">
+            
+                <a href="自定义404等错误的响应.html">
+            
+                    
+                    自定义404等错误的响应
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" data-path="用户会话.html">
+            
+                <a href="用户会话.html">
+            
+                    
+                    用户会话
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" data-path="使用Cookie.html">
+            
+                <a href="使用Cookie.html">
+            
+                    
+                    使用 Cookie
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.14" data-path="闪存系统-flashing-system.html">
+            
+                <a href="闪存系统-flashing-system.html">
+            
+                    
+                    闪存系统 flashing system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.15" data-path="值得读.html">
+            
+                <a href="值得读.html">
+            
+                    
+                    值得读
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >获取 POST 方法传送的数据</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x83B7;&#x53D6;-post-&#x65B9;&#x6CD5;&#x4F20;&#x9001;&#x7684;&#x6570;&#x636E;">&#x83B7;&#x53D6; POST &#x65B9;&#x6CD5;&#x4F20;&#x9001;&#x7684;&#x6570;&#x636E;</h1>
+<hr>
+<p>&#x4F5C;&#x4E3A;&#x4E00;&#x79CD;HTTP&#x8BF7;&#x6C42;&#x65B9;&#x6CD5;&#xFF0C;POST&#x7528;&#x4E8E;&#x5411;&#x6307;&#x5B9A;&#x7684;&#x8D44;&#x6E90;&#x63D0;&#x4EA4;&#x8981;&#x88AB;&#x5904;&#x7406;&#x7684;&#x6570;&#x636E;&#x3002;&#x6211;&#x4EEC;&#x5728;&#x67D0;&#x7F51;&#x7AD9;&#x6CE8;&#x518C;&#x7528;&#x6237;&#x3001;&#x5199;&#x6587;&#x7AE0;&#x7B49;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x5C06;&#x6570;&#x636E;&#x4F20;&#x9012;&#x5230;&#x7F51;&#x7AD9;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x3002;&#x5E76;&#x4E0D;&#x9002;&#x5408;&#x5C06;&#x6570;&#x636E;&#x653E;&#x5230;URL&#x53C2;&#x6570;&#x4E2D;&#xFF0C;&#x5BC6;&#x7801;&#x653E;&#x5230;URL&#x53C2;&#x6570;&#x4E2D;&#x5BB9;&#x6613;&#x88AB;&#x770B;&#x5230;&#xFF0C;&#x6587;&#x7AE0;&#x6570;&#x636E;&#x53C8;&#x592A;&#x591A;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x4E00;&#x5B9A;&#x652F;&#x6301;&#x592A;&#x957F;&#x957F;&#x5EA6;&#x7684;URL&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x4E00;&#x822C;&#x4F7F;&#x7528;POST&#x65B9;&#x6CD5;&#x3002;  </p>
+<p>&#x672C;&#x6587;&#x4F7F;&#x7528;python&#x7684;requests&#x5E93;&#x6A21;&#x62DF;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>
+<p>&#x5B89;&#x88C5;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code>$ sudo pip3 install requests
+</code></pre><h3 id="&#x5EFA;&#x7ACB;flask&#x9879;&#x76EE;">&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;</h3>
+<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
+<pre><code>mkdir HelloWorld
+mkdir HelloWorld/static
+mkdir HelloWorld/templates
+touch HelloWorld/server.py
+</code></pre><h3 id="&#x67E5;&#x770B;post&#x6570;&#x636E;&#x5185;&#x5BB9;">&#x67E5;&#x770B;POST&#x6570;&#x636E;&#x5185;&#x5BB9;</h3>
+<p>&#x4EE5;&#x7528;&#x6237;&#x6CE8;&#x518C;&#x4E3A;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5411;&#x670D;&#x52A1;&#x5668;<code>/register</code>&#x4F20;&#x9001;&#x7528;&#x6237;&#x540D;<code>name</code>&#x548C;&#x5BC6;&#x7801;<code>password</code>&#x3002;&#x5982;&#x4E0B;&#x7F16;&#x5199;<code>HelloWorld/server.py</code>&#x3002;</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
+
+app = Flask(__name__)
+
+
+<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
+
+
+<span class="hljs-meta">@app.route(&apos;/register&apos;, methods=[&apos;POST&apos;])</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span><span class="hljs-params">()</span>:</span>
+    print(request.headers)
+    print(request.stream.read())
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;welcome&apos;</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
+</code></pre>
+<p><code>@app.route(&apos;/register&apos;, methods=[&apos;POST&apos;])</code>&#x662F;&#x6307;url<code>/register</code>&#x53EA;&#x63A5;&#x53D7;POST&#x65B9;&#x6CD5;&#x3002;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x9700;&#x8981;&#x4FEE;&#x6539;<code>methods</code>&#x53C2;&#x6570;&#xFF0C;&#x4F8B;&#x5982;&#x5982;&#x679C;&#x60F3;&#x8981;&#x8BA9;&#x5B83;&#x540C;&#x65F6;&#x652F;&#x6301;GET&#x548C;POST&#xFF0C;&#x8FD9;&#x6837;&#x5199;&#xFF1A;</p>
+<pre><code>@app.route(&apos;/register&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])
+</code></pre><p>&#x6D4F;&#x89C8;&#x5668;&#x6A21;&#x62DF;&#x5DE5;&#x5177;<code>client.py</code>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>import requests
+
+user_info = {&apos;name&apos;: &apos;letian&apos;, &apos;password&apos;: &apos;123&apos;}
+r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
+
+print(r.text)
+</code></pre><p>&#x8FD0;&#x884C;<code>HelloWorld/server.py</code>&#xFF0C;&#x7136;&#x540E;&#x8FD0;&#x884C;<code>client.py</code>&#x3002;<code>client.py</code>&#x5C06;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code>welcome
+</code></pre><p>&#x800C;<code>HelloWorld/server.py</code>&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x8F93;&#x51FA;&#x4EE5;&#x4E0B;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#xFF08;&#x901A;&#x8FC7;<code>print</code>&#x8F93;&#x51FA;&#xFF09;&#xFF1A;</p>
+<pre><code>Host: 127.0.0.1:5000
+User-Agent: python-requests/2.19.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 24
+Content-Type: application/x-www-form-urlencoded
+
+
+b&apos;name=letian&amp;password=123&apos;
+</code></pre><p>&#x524D;6&#x884C;&#x662F;client.py&#x751F;&#x6210;&#x7684;HTTP&#x8BF7;&#x6C42;&#x5934;&#xFF0C;&#x7531;<code>print(request.headers)</code>&#x8F93;&#x51FA;&#x3002;</p>
+<p>&#x8BF7;&#x6C42;&#x4F53;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;<code>print(request.stream.read())</code>&#x8F93;&#x51FA;&#xFF0C;&#x7ED3;&#x679C;&#x662F;&#xFF1A;</p>
+<pre><code>b&apos;name=letian&amp;password=123&apos;
+</code></pre><h3 id="&#x89E3;&#x6790;post&#x6570;&#x636E;">&#x89E3;&#x6790;POST&#x6570;&#x636E;</h3>
+<p>&#x4E0A;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x5230;post&#x7684;&#x6570;&#x636E;&#x5185;&#x5BB9;&#x662F;&#xFF1A;</p>
+<pre><code>b&apos;name=letian&amp;password=123&apos;
+</code></pre><p>&#x6211;&#x4EEC;&#x8981;&#x60F3;&#x529E;&#x6CD5;&#x628A;&#x6211;&#x4EEC;&#x8981;&#x7684;name&#x3001;password&#x63D0;&#x53D6;&#x51FA;&#x6765;&#xFF0C;&#x600E;&#x4E48;&#x505A;&#x5462;&#xFF1F;&#x81EA;&#x5DF1;&#x5199;&#xFF1F;&#x4E0D;&#x7528;&#xFF0C;Flask&#x5DF2;&#x7ECF;&#x5185;&#x7F6E;&#x4E86;&#x89E3;&#x6790;&#x5668;<code>request.form</code>&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x5C06;&#x670D;&#x52A1;&#x4EE3;&#x7801;&#x6539;&#x6210;&#xFF1A;</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
+
+app = Flask(__name__)
+
+<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
+
+
+<span class="hljs-meta">@app.route(&apos;/register&apos;, methods=[&apos;POST&apos;])</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span><span class="hljs-params">()</span>:</span>
+    print(request.headers)
+    <span class="hljs-comment"># print(request.stream.read()) # &#x4E0D;&#x8981;&#x7528;&#xFF0C;&#x5426;&#x5219;&#x4E0B;&#x9762;&#x7684;form&#x53D6;&#x4E0D;&#x5230;&#x6570;&#x636E;</span>
+    print(request.form)
+    print(request.form[<span class="hljs-string">&apos;name&apos;</span>])
+    print(request.form.get(<span class="hljs-string">&apos;name&apos;</span>))
+    print(request.form.getlist(<span class="hljs-string">&apos;name&apos;</span>))
+    print(request.form.get(<span class="hljs-string">&apos;nickname&apos;</span>, default=<span class="hljs-string">&apos;little apple&apos;</span>))
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;welcome&apos;</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
+</code></pre>
+<p>&#x6267;&#x884C;<code>client.py</code>&#x8BF7;&#x6C42;&#x6570;&#x636E;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x4EE3;&#x7801;&#x4F1A;&#x5728;&#x7EC8;&#x7AEF;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code>Host: 127.0.0.1:5000
+User-Agent: python-requests/2.19.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 24
+Content-Type: application/x-www-form-urlencoded
+
+
+ImmutableMultiDict([(&apos;name&apos;, &apos;letian&apos;), (&apos;password&apos;, &apos;123&apos;)])
+letian
+letian
+[&apos;letian&apos;]
+little apple
+</code></pre><p><code>request.form</code>&#x4F1A;&#x81EA;&#x52A8;&#x89E3;&#x6790;&#x6570;&#x636E;&#x3002;</p>
+<p><code>request.form[&apos;name&apos;]</code>&#x548C;<code>request.form.get(&apos;name&apos;)</code>&#x90FD;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;<code>name</code>&#x5BF9;&#x5E94;&#x7684;&#x503C;&#x3002;&#x5BF9;&#x4E8E;<code>request.form.get()</code>&#x53EF;&#x4EE5;&#x4E3A;&#x53C2;&#x6570;<code>default</code>&#x6307;&#x5B9A;&#x503C;&#x4EE5;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;&#x3002;&#x6240;&#x4EE5;&#xFF1A;</p>
+<pre><code>print(request.form.get(&apos;nickname&apos;, default=&apos;little apple&apos;))
+</code></pre><p>&#x8F93;&#x51FA;&#x7684;&#x662F;&#x9ED8;&#x8BA4;&#x503C;</p>
+<pre><code>little apple
+</code></pre><p>&#x5982;&#x679C;<code>name</code>&#x6709;&#x591A;&#x4E2A;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>request.form.getlist(&apos;name&apos;)</code>&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x5C06;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5217;&#x8868;&#x3002;&#x6211;&#x4EEC;&#x5C06;client.py&#x6539;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<pre><code>import requests
+
+user_info = {&apos;name&apos;: [&apos;letian&apos;, &apos;letian2&apos;], &apos;password&apos;: &apos;123&apos;}
+r = requests.post(&quot;http://127.0.0.1:5000/register&quot;, data=user_info)
+
+print(r.text)
+</code></pre><p>&#x6B64;&#x65F6;&#x8FD0;&#x884C;<code>client.py</code>&#xFF0C;<code>print(request.form.getlist(&apos;name&apos;))</code>&#x5C06;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code>[u&apos;letian&apos;, u&apos;letian2&apos;]
+</code></pre><h3 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h3>
+<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-003" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-003</a></p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="获取URL参数.html" class="navigation navigation-prev " aria-label="Previous page: 获取 URL 参数">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="处理和响应JSON数据.html" class="navigation navigation-next " aria-label="Next page: 处理和响应 JSON 数据">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"获取 POST 方法传送的数据","level":"1.2.4","depth":2,"next":{"title":"处理和响应 JSON 数据","level":"1.2.5","depth":2,"path":"入门/处理和响应JSON数据.md","ref":"入门/处理和响应JSON数据.md","articles":[]},"previous":{"title":"获取 URL 参数","level":"1.2.3","depth":2,"path":"入门/获取URL参数.md","ref":"入门/获取URL参数.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-130194393-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"Python Flask Web 框架教程":"."}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/获取POST方法传送的数据.md","mtime":"2018-12-01T14:36:52.878Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-02T00:52:27.983Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+

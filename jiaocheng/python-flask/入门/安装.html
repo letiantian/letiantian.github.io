@@ -1,0 +1,463 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>安装 · Python Flask Web 框架教程 - 乐天的开发教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="从Hello-World开始.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="." target="_blank" class="custom-link">Python Flask Web 框架教程</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    教程简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    入门
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.2.1" data-path="安装.html">
+            
+                <a href="安装.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="从Hello-World开始.html">
+            
+                <a href="从Hello-World开始.html">
+            
+                    
+                    从 Hello World 开始
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="获取URL参数.html">
+            
+                <a href="获取URL参数.html">
+            
+                    
+                    获取 URL 参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="获取POST方法传送的数据.html">
+            
+                <a href="获取POST方法传送的数据.html">
+            
+                    
+                    获取 POST 方法传送的数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="处理和响应JSON数据.html">
+            
+                <a href="处理和响应JSON数据.html">
+            
+                    
+                    处理和响应 JSON 数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="上传文件.html">
+            
+                <a href="上传文件.html">
+            
+                    
+                    上传文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="Restful-URL.html">
+            
+                <a href="Restful-URL.html">
+            
+                    
+                    Restful URL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="使用url_for生成链接.html">
+            
+                <a href="使用url_for生成链接.html">
+            
+                    
+                    使用 url_for 生成链接
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="使用redirect重定向网址.html">
+            
+                <a href="使用redirect重定向网址.html">
+            
+                    
+                    使用 redirect 重定向网址
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" data-path="使用Jinja2模板引擎.html">
+            
+                <a href="使用Jinja2模板引擎.html">
+            
+                    
+                    使用 Jinja2 模板引擎
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" data-path="自定义404等错误的响应.html">
+            
+                <a href="自定义404等错误的响应.html">
+            
+                    
+                    自定义404等错误的响应
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" data-path="用户会话.html">
+            
+                <a href="用户会话.html">
+            
+                    
+                    用户会话
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" data-path="使用Cookie.html">
+            
+                <a href="使用Cookie.html">
+            
+                    
+                    使用 Cookie
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.14" data-path="闪存系统-flashing-system.html">
+            
+                <a href="闪存系统-flashing-system.html">
+            
+                    
+                    闪存系统 flashing system
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.15" data-path="值得读.html">
+            
+                <a href="值得读.html">
+            
+                    
+                    值得读
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >安装</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x5B89;&#x88C5;">&#x5B89;&#x88C5;</h1>
+<hr>
+<h3 id="&#x5B89;&#x88C5;-python-3">&#x5B89;&#x88C5; Python 3</h3>
+<p>&#x81EA;&#x884C;&#x767E;&#x5EA6;/&#x8C37;&#x6B4C;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x5728;Linux/MacOS&#x5B89;&#x88C5;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>python3</code>&#x547D;&#x4EE4;&#x6267;&#x884C;Python&#x7A0B;&#x5E8F;&#xFF0C;&#x4F7F;&#x7528;<code>pip3</code>&#x5B89;&#x88C5;Python&#x5E93;&#x3002;
+&#x5728;Windows&#x7CFB;&#x7EDF;&#xFF0C;&#x4ECD;&#x7136;&#x662F;<code>python</code>&#x548C;<code>pip</code>&#x3002;</p>
+<h3 id="&#x5B89;&#x88C5;-falsk">&#x5B89;&#x88C5; Falsk</h3>
+<p>&#x901A;&#x8FC7;pip3&#x5B89;&#x88C5;Flask&#x5373;&#x53EF;&#xFF1A;</p>
+<p><strong>&#x65B9;&#x5F0F;1 - &#x5168;&#x5C40;&#x5B89;&#x88C5;&#xFF1A;</strong>  </p>
+<pre><code>$ sudo pip3 install Flask
+</code></pre><p><strong>&#x65B9;&#x5F0F;2 - &#x9488;&#x5BF9;&#x5F53;&#x524D;&#x7528;&#x6237;&#x5B89;&#x88C5;&#xFF1A;</strong>  </p>
+<pre><code>$ pip3 install --user Flask
+</code></pre><p><strong>&#x786E;&#x8BA4;&#x5B89;&#x88C5;&#x6210;&#x529F;&#xFF1A;</strong>  </p>
+<p>&#x8FDB;&#x5165;python&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x770B;&#x4E0B;Flask&#x7684;&#x4ECB;&#x7ECD;&#x548C;&#x7248;&#x672C;&#xFF1A;</p>
+<pre><code>$ python3
+
+&gt;&gt;&gt; import flask
+&gt;&gt;&gt; print(flask.__doc__)
+
+    flask
+    ~~~~~
+
+    A microframework based on Werkzeug.  It&apos;s extensively documented
+    and follows best practice patterns.
+
+    :copyright: &#xA9; 2010 by the Pallets team.
+    :license: BSD, see LICENSE for more details.
+
+&gt;&gt;&gt; print(flask.__version__)
+1.0.2
+</code></pre>
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 入门">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="从Hello-World开始.html" class="navigation navigation-next " aria-label="Next page: 从 Hello World 开始">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"安装","level":"1.2.1","depth":2,"next":{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"path":"入门/从Hello-World开始.md","ref":"入门/从Hello-World开始.md","articles":[]},"previous":{"title":"入门","level":"1.2","depth":1,"path":"入门/README.md","ref":"入门/README.md","articles":[{"title":"安装","level":"1.2.1","depth":2,"path":"入门/安装.md","ref":"入门/安装.md","articles":[]},{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"path":"入门/从Hello-World开始.md","ref":"入门/从Hello-World开始.md","articles":[]},{"title":"获取 URL 参数","level":"1.2.3","depth":2,"path":"入门/获取URL参数.md","ref":"入门/获取URL参数.md","articles":[]},{"title":"获取 POST 方法传送的数据","level":"1.2.4","depth":2,"path":"入门/获取POST方法传送的数据.md","ref":"入门/获取POST方法传送的数据.md","articles":[]},{"title":"处理和响应 JSON 数据","level":"1.2.5","depth":2,"path":"入门/处理和响应JSON数据.md","ref":"入门/处理和响应JSON数据.md","articles":[]},{"title":"上传文件","level":"1.2.6","depth":2,"path":"入门/上传文件.md","ref":"入门/上传文件.md","articles":[]},{"title":"Restful URL","level":"1.2.7","depth":2,"path":"入门/Restful-URL.md","ref":"入门/Restful-URL.md","articles":[]},{"title":"使用 url_for 生成链接","level":"1.2.8","depth":2,"path":"入门/使用url_for生成链接.md","ref":"入门/使用url_for生成链接.md","articles":[]},{"title":"使用 redirect 重定向网址","level":"1.2.9","depth":2,"path":"入门/使用redirect重定向网址.md","ref":"入门/使用redirect重定向网址.md","articles":[]},{"title":"使用 Jinja2 模板引擎","level":"1.2.10","depth":2,"path":"入门/使用Jinja2模板引擎.md","ref":"入门/使用Jinja2模板引擎.md","articles":[]},{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"path":"入门/自定义404等错误的响应.md","ref":"入门/自定义404等错误的响应.md","articles":[]},{"title":"用户会话","level":"1.2.12","depth":2,"path":"入门/用户会话.md","ref":"入门/用户会话.md","articles":[]},{"title":"使用 Cookie","level":"1.2.13","depth":2,"path":"入门/使用Cookie.md","ref":"入门/使用Cookie.md","articles":[]},{"title":"闪存系统 flashing system","level":"1.2.14","depth":2,"path":"入门/闪存系统-flashing-system.md","ref":"入门/闪存系统-flashing-system.md","articles":[]},{"title":"值得读","level":"1.2.15","depth":2,"path":"入门/值得读.md","ref":"入门/值得读.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-130194393-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"Python Flask Web 框架教程":"."}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/安装.md","mtime":"2018-12-01T14:39:12.734Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-02T00:52:27.983Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
