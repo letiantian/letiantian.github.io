@@ -1,0 +1,490 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>数据库事务 · JDBC 教程 - 乐天的开发教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="批处理.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link"><< 更多教程</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/jdbc/" target="_blank" class="custom-link">JDBC 教程</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="创建数据库和表.html">
+            
+                <a href="创建数据库和表.html">
+            
+                    
+                    创建数据库和表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="使用Statement插入数据.html">
+            
+                <a href="使用Statement插入数据.html">
+            
+                    
+                    Statement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="使用Statement查询数据.html">
+            
+                <a href="使用Statement查询数据.html">
+            
+                    
+                    Statement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="使用Statement更新和删除数据.html">
+            
+                <a href="使用Statement更新和删除数据.html">
+            
+                    
+                    Statement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="不安全的Statement.html">
+            
+                <a href="不安全的Statement.html">
+            
+                    
+                    不安全的 JDBC Statement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="使用PreparedStatement插入数据.html">
+            
+                <a href="使用PreparedStatement插入数据.html">
+            
+                    
+                    PreparedStatement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="使用PreparedStatement查询数据.html">
+            
+                <a href="使用PreparedStatement查询数据.html">
+            
+                    
+                    PreparedStatement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="使用PreparedStatement更新和删除数据.html">
+            
+                <a href="使用PreparedStatement更新和删除数据.html">
+            
+                    
+                    PreparedStatement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="使用CallableStatement调用存储过程.html">
+            
+                <a href="使用CallableStatement调用存储过程.html">
+            
+                    
+                    使用 CallableStatement 调用存储过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="数据库字段类型与Java类型的映射.html">
+            
+                <a href="数据库字段类型与Java类型的映射.html">
+            
+                    
+                    JDBC 中数据库字段类型与Java类型的映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="execute-executeQuery-executeUpdate区别.html">
+            
+                <a href="execute-executeQuery-executeUpdate区别.html">
+            
+                    
+                    execute、executeQuery、executeUpdate 之间的区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="批处理.html">
+            
+                <a href="批处理.html">
+            
+                    
+                    批处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.14" data-path="事务.html">
+            
+                <a href="事务.html">
+            
+                    
+                    数据库事务
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >数据库事务</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x6570;&#x636E;&#x5E93;&#x4E8B;&#x52A1;">&#x6570;&#x636E;&#x5E93;&#x4E8B;&#x52A1;</h1>
+<hr>
+<p>&#x6570;&#x636E;&#x5E93;&#x4E8B;&#x52A1;&#xFF0C;&#x4E00;&#x822C;&#x5305;&#x542B;&#x591A;&#x4E2A;SQL&#x8BED;&#x53E5;&#xFF0C;&#x5177;&#x6709;ACID&#x7279;&#x6027;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x662F;&#x7EF4;&#x57FA;&#x767E;&#x79D1;&#x7ED9;&#x51FA;&#x7684;&#x56DB;&#x4E2A;&#x7279;&#x6027;&#x7684;&#x89E3;&#x91CA;&#xFF1A;</p>
+<ul>
+<li><strong>&#x539F;&#x5B50;&#x6027;&#xFF08;Atomicity&#xFF09;</strong>&#xFF1A;&#x4E8B;&#x52A1;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x6574;&#x4F53;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x5305;&#x542B;&#x5728;&#x5176;&#x4E2D;&#x7684;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x7684;&#x64CD;&#x4F5C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x8981;&#x4E48;&#x90FD;&#x4E0D;&#x6267;&#x884C;&#x3002;</li>
+<li><strong>&#x4E00;&#x81F4;&#x6027;&#xFF08;Consistency&#xFF09;</strong>&#xFF1A;&#x4E8B;&#x52A1;&#x5E94;&#x786E;&#x4FDD;&#x6570;&#x636E;&#x5E93;&#x7684;&#x72B6;&#x6001;&#x4ECE;&#x4E00;&#x4E2A;&#x4E00;&#x81F4;&#x72B6;&#x6001;&#x8F6C;&#x53D8;&#x4E3A;&#x53E6;&#x4E00;&#x4E2A;&#x4E00;&#x81F4;&#x72B6;&#x6001;&#x3002;<em>&#x4E00;&#x81F4;&#x72B6;&#x6001;</em>&#x7684;&#x542B;&#x4E49;&#x662F;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5E94;&#x6EE1;&#x8DB3;&#x5B8C;&#x6574;&#x6027;&#x7EA6;&#x675F;&#x3002;</li>
+<li><strong>&#x9694;&#x79BB;&#x6027;&#xFF08;Isolation&#xFF09;</strong>&#xFF1A;&#x591A;&#x4E2A;&#x4E8B;&#x52A1;&#x5E76;&#x53D1;&#x6267;&#x884C;&#x65F6;&#xFF0C;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x7684;&#x6267;&#x884C;&#x4E0D;&#x5E94;&#x5F71;&#x54CD;&#x5176;&#x4ED6;&#x4E8B;&#x52A1;&#x7684;&#x6267;&#x884C;&#x3002;</li>
+<li><strong>&#x6301;&#x4E45;&#x6027;&#xFF08;Durability&#xFF09;</strong>&#xFF1A;&#x5DF2;&#x88AB;&#x63D0;&#x4EA4;&#x7684;&#x4E8B;&#x52A1;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4FEE;&#x6539;&#x5E94;&#x8BE5;&#x6C38;&#x4E45;&#x4FDD;&#x5B58;&#x5728;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x3002;</li>
+</ul>
+<p>&#x4EE5;&#x4E0B;&#x662F;JDBC&#x4F7F;&#x7528;&#x4E8B;&#x52A1;&#x7684;&#x793A;&#x4F8B;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> demo;
+
+<span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.DriverManager;
+<span class="hljs-keyword">import</span> java.sql.PreparedStatement;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TransactionExample</span> </span>{
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String USER = <span class="hljs-string">&quot;root&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String PASSWORD = <span class="hljs-string">&quot;123456&quot;</span>;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String JDBC_DRIVER = <span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DB_URL = <span class="hljs-string">&quot;jdbc:mysql://127.0.0.1:3306/bank&quot;</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Connection <span class="hljs-title">getConnection</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, SQLException </span>{
+        Class.forName(JDBC_DRIVER);
+        <span class="hljs-keyword">return</span>  DriverManager.getConnection(DB_URL, USER, PASSWORD);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(Connection connection, String name, Long balance)</span> <span class="hljs-keyword">throws</span> SQLException </span>{
+        PreparedStatement pstmt = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> {
+            pstmt = connection.prepareStatement(<span class="hljs-string">&quot;INSERT INTO user_balance(name, balance) VALUES(?, ?)&quot;</span>);
+            pstmt.setString(<span class="hljs-number">1</span>, name);
+            pstmt.setLong(<span class="hljs-number">2</span>, balance);
+            <span class="hljs-keyword">int</span> affectRowsNum = pstmt.executeUpdate();
+            System.out.println(<span class="hljs-string">&quot;&#x5F71;&#x54CD;&#x7684;&#x884C;&#x6570;&#xFF1A;&quot;</span> + affectRowsNum);
+        } <span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span> (pstmt != <span class="hljs-keyword">null</span>) {
+                pstmt.close();
+            }
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">raiseException</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> raise)</span> </span>{
+        <span class="hljs-keyword">if</span> (raise) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;&#x5F02;&#x5E38;&quot;</span>);
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test01</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Connection connection = getConnection();
+        connection.setAutoCommit(<span class="hljs-keyword">false</span>);
+        insert(connection, <span class="hljs-string">&quot;letian&quot;</span>, <span class="hljs-number">10000L</span>);
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test02</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Connection connection = getConnection();
+        connection.setAutoCommit(<span class="hljs-keyword">false</span>);
+        <span class="hljs-keyword">try</span> {
+            insert(connection, <span class="hljs-string">&quot;letian&quot;</span>, <span class="hljs-number">10000L</span>);
+            insert(connection, <span class="hljs-string">&quot;xiaosi&quot;</span>, <span class="hljs-number">10000L</span>);
+            raiseException(<span class="hljs-keyword">true</span>); <span class="hljs-comment">// &#x4EA7;&#x751F;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;</span>
+            System.out.println(<span class="hljs-string">&quot;commit&quot;</span>);
+            connection.commit();
+        } <span class="hljs-keyword">catch</span> (Exception ex) {
+            System.out.println(<span class="hljs-string">&quot;rollback&quot;</span>);
+            connection.rollback();
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test03</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Connection connection = getConnection();
+        connection.setAutoCommit(<span class="hljs-keyword">false</span>);
+        <span class="hljs-keyword">try</span> {
+            insert(connection, <span class="hljs-string">&quot;letian&quot;</span>, <span class="hljs-number">10000L</span>);
+            insert(connection, <span class="hljs-string">&quot;xiaosi&quot;</span>, <span class="hljs-number">10000L</span>);
+            raiseException(<span class="hljs-keyword">false</span>); <span class="hljs-comment">// &#x4E0D;&#x4EA7;&#x751F;&#x5F02;&#x5E38;</span>
+            System.out.println(<span class="hljs-string">&quot;commit&quot;</span>);
+            connection.commit();
+        } <span class="hljs-keyword">catch</span> (Exception ex) {
+            System.out.println(<span class="hljs-string">&quot;rollback&quot;</span>);
+            connection.rollback();
+        }
+    }
+
+}
+</code></pre>
+<p><code>connection.setAutoCommit(false)</code>&#xFF1A;&#x5F00;&#x542F;&#x4E8B;&#x52A1;&#x3002;</p>
+<p><code>connection.commit();</code>&#xFF1A;&#x63D0;&#x4EA4;&#x4E8B;&#x52A1;&#x3002;</p>
+<p><code>connection.rollback();</code> &#x56DE;&#x6EDA;&#x4E8B;&#x52A1;&#x3002;</p>
+<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B; connection &#x7684; autoCommit &#x5C5E;&#x6027;&#x4E3A; true&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;SQL&#x7684;&#x6267;&#x884C;&#xFF0C;&#x90FD;&#x4F1A;&#x9A6C;&#x4E0A;&#x751F;&#x6548;&#xFF0C;&#x90FD;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x91CC;&#xFF0C;&#x8FD9;&#x79CD;&#x662F;&#x9690;&#x5F0F;&#x7684;&#x4E8B;&#x52A1;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5199;rollback&#x3001;commit&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>&#x5F53;&#x901A;&#x8FC7;<code>connection.setAutoCommit(false)</code>&#x5F00;&#x542F;&#x4E8B;&#x52A1;&#x540E;&#xFF0C;&#x5FC5;&#x987B;&#x8981;&#x663E;&#x5F0F;&#x7684;&#x8FDB;&#x884C; commit &#x6216;&#x8005; rollback&#x3002;rollback &#x4E00;&#x822C;&#x5728;&#x51FA;&#x73B0;&#x5F02;&#x5E38;&#x65F6;&#x8FDB;&#x884C;&#x3002;</p>
+<p>&#x4E0A;&#x9762;&#x7684;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;<code>test01</code>&#x7684;&#x5199;&#x6CD5;&#x662F;&#x4E0D;&#x5BF9;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;commit&#x6216;&#x8005;rollback&#xFF0C;&#x63D2;&#x5165;&#x7684;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x5B58;&#x5165;MySQL&#x3002;</p>
+<p><code>test02</code> &#x901A;&#x8FC7; <code>raiseException(true);</code>&#x629B;&#x51FA;&#x4E86;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;&#xFF0C;&#x6240;&#x4EE5;&#x8D70;&#x4E0D;&#x5230;<code>commit</code>&#xFF0C;&#x800C;&#x662F;&#x8D70;&#x5230;&#x4E86;<code>rollback</code>&#xFF0C;&#x63D2;&#x5165;&#x7684;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x5B58;&#x5165;MySQL&#x3002;</p>
+<p><code>test03</code>&#x4F1A;&#x8D70;&#x5230;commit&#xFF0C;&#x4F1A;&#x5728;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x63D2;&#x5165;&#x4E24;&#x6761;&#x6570;&#x636E;&#x3002;</p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="批处理.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 批处理">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"数据库事务","level":"1.14","depth":1,"previous":{"title":"批处理","level":"1.13","depth":1,"path":"批处理.md","ref":"批处理.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-130194393-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/jdbc/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"JDBC 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","JDBC 教程":"/jiaocheng/jdbc/"}},"gitbook":"*","description":"Java 基础教程，Java教程，零基础学Java，Java 进阶"},"file":{"path":"事务.md","mtime":"2018-12-13T01:19:31.669Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-13T01:24:01.224Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+

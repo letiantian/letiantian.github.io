@@ -1,0 +1,559 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>JDBC 中数据库字段类型与Java类型的映射 · JDBC 教程 - 乐天的开发教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="execute-executeQuery-executeUpdate区别.html" />
+    
+    
+    <link rel="prev" href="使用CallableStatement调用存储过程.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link"><< 更多教程</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/jdbc/" target="_blank" class="custom-link">JDBC 教程</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="创建数据库和表.html">
+            
+                <a href="创建数据库和表.html">
+            
+                    
+                    创建数据库和表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="使用Statement插入数据.html">
+            
+                <a href="使用Statement插入数据.html">
+            
+                    
+                    Statement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="使用Statement查询数据.html">
+            
+                <a href="使用Statement查询数据.html">
+            
+                    
+                    Statement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="使用Statement更新和删除数据.html">
+            
+                <a href="使用Statement更新和删除数据.html">
+            
+                    
+                    Statement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="不安全的Statement.html">
+            
+                <a href="不安全的Statement.html">
+            
+                    
+                    不安全的 JDBC Statement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="使用PreparedStatement插入数据.html">
+            
+                <a href="使用PreparedStatement插入数据.html">
+            
+                    
+                    PreparedStatement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="使用PreparedStatement查询数据.html">
+            
+                <a href="使用PreparedStatement查询数据.html">
+            
+                    
+                    PreparedStatement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="使用PreparedStatement更新和删除数据.html">
+            
+                <a href="使用PreparedStatement更新和删除数据.html">
+            
+                    
+                    PreparedStatement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="使用CallableStatement调用存储过程.html">
+            
+                <a href="使用CallableStatement调用存储过程.html">
+            
+                    
+                    使用 CallableStatement 调用存储过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.11" data-path="数据库字段类型与Java类型的映射.html">
+            
+                <a href="数据库字段类型与Java类型的映射.html">
+            
+                    
+                    JDBC 中数据库字段类型与Java类型的映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="execute-executeQuery-executeUpdate区别.html">
+            
+                <a href="execute-executeQuery-executeUpdate区别.html">
+            
+                    
+                    execute、executeQuery、executeUpdate 之间的区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="批处理.html">
+            
+                <a href="批处理.html">
+            
+                    
+                    批处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="事务.html">
+            
+                <a href="事务.html">
+            
+                    
+                    数据库事务
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >JDBC 中数据库字段类型与Java类型的映射</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="jdbc-&#x4E2D;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x7C7B;&#x578B;&#x4E0E;java&#x7C7B;&#x578B;&#x7684;&#x6620;&#x5C04;">JDBC &#x4E2D;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x7C7B;&#x578B;&#x4E0E;Java&#x7C7B;&#x578B;&#x7684;&#x6620;&#x5C04;</h1>
+<hr>
+<p>&#x5728;&#x4F7F;&#x7528;JDBC&#x4ECE; MySQL &#x67E5;&#x8BE2;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x4F7F;&#x7528; PreparedStatement &#x5411; SQL &#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x7684;&#x5360;&#x4F4D;&#x7B26;&#x8BBE;&#x7F6E;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x8981;&#x8003;&#x8651;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x5B57;&#x6BB5;&#x7C7B;&#x578B;&#xFF0C;&#x5BF9;&#x5E94; Java &#x4E2D;&#x7684;&#x4EC0;&#x4E48;&#x7C7B;&#x578B; &#xFF1F; </p>
+<p>&#x4EE5;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x4E3A;&#x4F8B;&#xFF0C;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x4F1A;&#x653E;&#x5728; ResultSet &#x4E2D;&#x3002;ResultSet &#x4E0D;&#x6B62;&#x6709;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#xFF0C;&#x8FD8;&#x6709;&#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x5143;&#x4FE1;&#x606F;&#xFF08;&#x6BD4;&#x5982;&#x5BF9;&#x5E94;&#x7684;Java&#x7C7B;&#x578B;&#xFF09;&#x3002;&#x600E;&#x4E48;&#x770B;&#xFF1F;&#x53C2;&#x8003; <a href="&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x548C;&#x8868;.html">&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x548C;&#x8868;</a> &#x4E2D;&#x793A;&#x4F8B;&#x3002;</p>
+<p>&#x4E0B;&#x8868;&#x6458;&#x81EA; <a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-type-conversions.html" target="_blank">Java, JDBC and MySQL Types</a> &#xFF0C;&#x7B2C;1&#x5217;&#x662F; MySQL&#x4E2D;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x7B2C;3&#x5217;&#x662F;&#x5BF9;&#x5E94;&#x7684; Java &#x7C7B;&#x578B;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>MySQL Type Name</th>
+<th>Return value of <code>GetColumnTypeName</code></th>
+<th>Return value of <code>GetColumnClassName</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BIT(1)</code> (new in MySQL-5.0)</td>
+<td><code>BIT</code></td>
+<td><code>java.lang.Boolean</code></td>
+</tr>
+<tr>
+<td><code>BIT( &gt; 1)</code> (new in MySQL-5.0)</td>
+<td><code>BIT</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>TINYINT</code></td>
+<td><code>TINYINT</code></td>
+<td><code>java.lang.Boolean</code> if the configuration property <code>tinyInt1isBit</code> is set to <code>true</code> (the default) and the storage size is 1, or <code>java.lang.Integer</code> if not.</td>
+</tr>
+<tr>
+<td><code>BOOL</code>, <code>BOOLEAN</code></td>
+<td><code>TINYINT</code></td>
+<td>See <code>TINYINT</code>, above as these are aliases for <code>TINYINT(1)</code>, currently.</td>
+</tr>
+<tr>
+<td><code>SMALLINT[(M)] [UNSIGNED]</code></td>
+<td><code>SMALLINT [UNSIGNED]</code></td>
+<td><code>java.lang.Integer</code> (regardless of whether it is <code>UNSIGNED</code> or not)</td>
+</tr>
+<tr>
+<td><code>MEDIUMINT[(M)] [UNSIGNED]</code></td>
+<td><code>MEDIUMINT [UNSIGNED]</code></td>
+<td><code>java.lang.Integer</code> (regardless of whether it is <code>UNSIGNED</code> or not)</td>
+</tr>
+<tr>
+<td><code>INT,INTEGER[(M)] [UNSIGNED]</code></td>
+<td><code>INTEGER [UNSIGNED]</code></td>
+<td><code>java.lang.Integer</code>, if <code>UNSIGNED</code> <code>java.lang.Long</code></td>
+</tr>
+<tr>
+<td><code>BIGINT[(M)] [UNSIGNED]</code></td>
+<td><code>BIGINT [UNSIGNED]</code></td>
+<td><code>java.lang.Long</code>, if UNSIGNED <code>java.math.BigInteger</code></td>
+</tr>
+<tr>
+<td><code>FLOAT[(M,D)]</code></td>
+<td><code>FLOAT</code></td>
+<td><code>java.lang.Float</code></td>
+</tr>
+<tr>
+<td><code>DOUBLE[(M,B)]</code></td>
+<td><code>DOUBLE</code></td>
+<td><code>java.lang.Double</code></td>
+</tr>
+<tr>
+<td><code>DECIMAL[(M[,D])]</code></td>
+<td><code>DECIMAL</code></td>
+<td><code>java.math.BigDecimal</code></td>
+</tr>
+<tr>
+<td><code>DATE</code></td>
+<td><code>DATE</code></td>
+<td><code>java.sql.Date</code></td>
+</tr>
+<tr>
+<td><code>DATETIME</code></td>
+<td><code>DATETIME</code></td>
+<td><code>java.sql.Timestamp</code></td>
+</tr>
+<tr>
+<td><code>TIMESTAMP[(M)]</code></td>
+<td><code>TIMESTAMP</code></td>
+<td><code>java.sql.Timestamp</code></td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td><code>TIME</code></td>
+<td><code>java.sql.Time</code></td>
+</tr>
+<tr>
+<td><code>YEAR</code>&#x3001;<code>YEAR(2)</code>&#x3001;<code>YEAR(4)</code></td>
+<td><code>YEAR</code></td>
+<td>If <code>yearIsDateType</code> configuration property is set to <code>false</code>, then the returned object type is <code>java.sql.Short</code>. If set to<code>true</code> (the default), then the returned object is of type <code>java.sql.Date</code> with the date set to January 1st, at midnight.</td>
+</tr>
+<tr>
+<td><code>CHAR(M)</code></td>
+<td><code>CHAR</code></td>
+<td><code>java.lang.String</code> (unless the character set for the column is <code>BINARY</code>, then <code>byte[]</code> is returned.</td>
+</tr>
+<tr>
+<td><code>VARCHAR(M) [BINARY]</code></td>
+<td><code>VARCHAR</code></td>
+<td><code>java.lang.String</code> (unless the character set for the column is <code>BINARY</code>, then <code>byte[]</code> is returned.</td>
+</tr>
+<tr>
+<td><code>BINARY(M)</code></td>
+<td><code>BINARY</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>VARBINARY(M)</code></td>
+<td><code>VARBINARY</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>TINYBLOB</code></td>
+<td><code>TINYBLOB</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>TINYTEXT</code></td>
+<td><code>VARCHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+<tr>
+<td><code>BLOB</code></td>
+<td><code>BLOB</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>TEXT</code></td>
+<td><code>VARCHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+<tr>
+<td><code>MEDIUMBLOB</code></td>
+<td><code>MEDIUMBLOB</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>MEDIUMTEXT</code></td>
+<td><code>VARCHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+<tr>
+<td><code>LONGBLOB</code></td>
+<td><code>LONGBLOB</code></td>
+<td><code>byte[]</code></td>
+</tr>
+<tr>
+<td><code>LONGTEXT</code></td>
+<td><code>VARCHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+<tr>
+<td><code>ENUM(&apos;value1&apos;,&apos;value2&apos;,...)</code></td>
+<td><code>CHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+<tr>
+<td><code>SET(&apos;value1&apos;,&apos;value2&apos;,...)</code></td>
+<td><code>CHAR</code></td>
+<td><code>java.lang.String</code></td>
+</tr>
+</tbody>
+</table>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="使用CallableStatement调用存储过程.html" class="navigation navigation-prev " aria-label="Previous page: 使用 CallableStatement 调用存储过程">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="execute-executeQuery-executeUpdate区别.html" class="navigation navigation-next " aria-label="Next page: execute、executeQuery、executeUpdate 之间的区别">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"JDBC 中数据库字段类型与Java类型的映射","level":"1.11","depth":1,"next":{"title":"execute、executeQuery、executeUpdate 之间的区别","level":"1.12","depth":1,"path":"execute-executeQuery-executeUpdate区别.md","ref":"execute-executeQuery-executeUpdate区别.md","articles":[]},"previous":{"title":"使用 CallableStatement 调用存储过程","level":"1.10","depth":1,"path":"使用CallableStatement调用存储过程.md","ref":"使用CallableStatement调用存储过程.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-130194393-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/jdbc/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"JDBC 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","JDBC 教程":"/jiaocheng/jdbc/"}},"gitbook":"*","description":"Java 基础教程，Java教程，零基础学Java，Java 进阶"},"file":{"path":"数据库字段类型与Java类型的映射.md","mtime":"2018-12-11T01:41:14.193Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-13T01:24:01.224Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+

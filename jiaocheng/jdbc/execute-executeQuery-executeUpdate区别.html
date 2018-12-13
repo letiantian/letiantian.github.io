@@ -1,0 +1,543 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>execute、executeQuery、executeUpdate 之间的区别 · JDBC 教程 - 乐天的开发教程</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="批处理.html" />
+    
+    
+    <link rel="prev" href="数据库字段类型与Java类型的映射.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link"><< 更多教程</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/jdbc/" target="_blank" class="custom-link">JDBC 教程</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="创建数据库和表.html">
+            
+                <a href="创建数据库和表.html">
+            
+                    
+                    创建数据库和表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="使用Statement插入数据.html">
+            
+                <a href="使用Statement插入数据.html">
+            
+                    
+                    Statement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="使用Statement查询数据.html">
+            
+                <a href="使用Statement查询数据.html">
+            
+                    
+                    Statement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="使用Statement更新和删除数据.html">
+            
+                <a href="使用Statement更新和删除数据.html">
+            
+                    
+                    Statement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="不安全的Statement.html">
+            
+                <a href="不安全的Statement.html">
+            
+                    
+                    不安全的 JDBC Statement
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="使用PreparedStatement插入数据.html">
+            
+                <a href="使用PreparedStatement插入数据.html">
+            
+                    
+                    PreparedStatement 插入数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="使用PreparedStatement查询数据.html">
+            
+                <a href="使用PreparedStatement查询数据.html">
+            
+                    
+                    PreparedStatement 查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="使用PreparedStatement更新和删除数据.html">
+            
+                <a href="使用PreparedStatement更新和删除数据.html">
+            
+                    
+                    PreparedStatement 更新和删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="使用CallableStatement调用存储过程.html">
+            
+                <a href="使用CallableStatement调用存储过程.html">
+            
+                    
+                    使用 CallableStatement 调用存储过程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="数据库字段类型与Java类型的映射.html">
+            
+                <a href="数据库字段类型与Java类型的映射.html">
+            
+                    
+                    JDBC 中数据库字段类型与Java类型的映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.12" data-path="execute-executeQuery-executeUpdate区别.html">
+            
+                <a href="execute-executeQuery-executeUpdate区别.html">
+            
+                    
+                    execute、executeQuery、executeUpdate 之间的区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="批处理.html">
+            
+                <a href="批处理.html">
+            
+                    
+                    批处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="事务.html">
+            
+                <a href="事务.html">
+            
+                    
+                    数据库事务
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >execute、executeQuery、executeUpdate 之间的区别</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="execute&#x3001;executequery&#x3001;executeupdate-&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;">execute&#x3001;executeQuery&#x3001;executeUpdate &#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;</h1>
+<hr>
+<p>&#x4ECE;&#x524D;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x793A;&#x4F8B;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;Statement&#x3001;PreparedStatement&#x3001;CallableStatement &#x6709;&#x4E09;&#x4E2A; execute &#x5F00;&#x5934;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;execute&#x3001;executeQuery&#x3001;executeUpdate&#x3002;</p>
+<p>&#x4E09;&#x4E2A;&#x7684;&#x8FD4;&#x56DE;&#x53C2;&#x6570;&#x7684;&#x533A;&#x522B;&#xFF1A;</p>
+<table>
+<thead>
+<tr>
+<th>&#x65B9;&#x6CD5;&#x540D;</th>
+<th>&#x8FD4;&#x56DE;&#x53C2;&#x6570;</th>
+<th>&#x652F;&#x6301;&#x7684;SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>executeQuery</td>
+<td>ResultSet</td>
+<td>SELECT</td>
+</tr>
+<tr>
+<td>executeUpdate</td>
+<td>int &#xFF0C;&#x4EE3;&#x8868;&#x5F71;&#x54CD;&#x7684;&#x884C;&#x6570;&#x3002;&#x5BF9;&#x4E8E;&#x4EC0;&#x4E48;&#x90FD;&#x4E0D;&#x8FD4;&#x56DE;&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;0&#x3002;</td>
+<td>CREATE&#x3001;DROP&#x3001;ALTER,&#xFF1B;DELETE&#x3001;UPDATE&#x3001;INSERT</td>
+</tr>
+<tr>
+<td>execute</td>
+<td>boolean&#x3002;true&#x4EE3;&#x8868;&#x6267;&#x884C;&#x7684;SQL&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;ResultSet&#xFF0C;false&#x4EE3;&#x8868;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x5F71;&#x54CD;&#x7684;&#x884C;&#x6570;&#x3002;</td>
+<td>&#x6240;&#x6709;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x6211;&#x4EEC;&#x6D4B;&#x8BD5;&#x4E0B;&#x7528; execute&#x3001;executeUpdate &#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;&#x3001;&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x3001;&#x521B;&#x5EFA;&#x8868;&#x3001;&#x5220;&#x9664;&#x8868;&#x4F1A;&#x8FD4;&#x56DE;&#x4EC0;&#x4E48;&#xFF1F;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> demo;
+
+<span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-keyword">import</span> java.sql.*;
+
+<span class="hljs-comment">/**
+ * &#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x548C;&#x8868;&#x683C;&#xFF0C;&#x5E76;&#x67E5;&#x8BE2;&#x8868;&#x683C;&#x4FE1;&#x606F;
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateDbAndTableExampleV2</span> </span>{
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String USER = <span class="hljs-string">&quot;root&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String PASSWORD = <span class="hljs-string">&quot;123456&quot;</span>;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String JDBC_DRIVER = <span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DB_URL = <span class="hljs-string">&quot;jdbc:mysql://127.0.0.1:3306&quot;</span>; <span class="hljs-comment">// &#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x672A;&#x6307;&#x5B9A;&#x6570;&#x636E;&#x5E93;</span>
+
+
+    <span class="hljs-comment">/**
+     * &#x83B7;&#x53D6;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">getConnection</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Class.forName(JDBC_DRIVER);  <span class="hljs-comment">// &#x6CE8;&#x518C; MySQL JDBC &#x9A71;&#x52A8;</span>
+        <span class="hljs-keyword">return</span> DriverManager.getConnection(DB_URL, USER, PASSWORD);
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test01</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Connection conn = getConnection();
+        Statement stmt = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">boolean</span> result;
+        <span class="hljs-keyword">try</span> {
+            stmt = conn.createStatement();
+            <span class="hljs-comment">// &#x5DF2;&#x6709;&#x5219;&#x5220;&#x9664;</span>
+            result = stmt.execute(<span class="hljs-string">&quot;DROP DATABASE IF EXISTS `bank`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;drop database: &quot;</span> + result);
+            <span class="hljs-comment">// &#x521B;&#x5EFA;&#x5E93;</span>
+            result = stmt.execute(<span class="hljs-string">&quot;CREATE DATABASE `bank`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;create database: &quot;</span> + result);
+            <span class="hljs-comment">// &#x5207;&#x6362;&#x5230; bank &#x5E93;</span>
+            conn.setCatalog(<span class="hljs-string">&quot;bank&quot;</span>);
+            <span class="hljs-comment">// &#x9700;&#x8981;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x83B7;&#x53D6;stmt</span>
+            stmt.close();
+            stmt = conn.createStatement();
+            <span class="hljs-comment">// &#x521B;&#x5EFA;&#x8868;</span>
+            result = stmt.execute(<span class="hljs-string">&quot;CREATE TABLE `user_balance` (\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `name` VARCHAR(45) NOT NULL ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `balance` BIGINT NOT NULL ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  PRIMARY KEY (`id`)\n&quot;</span> +
+                    <span class="hljs-string">&quot;)\n&quot;</span> +
+                    <span class="hljs-string">&quot;ENGINE = InnoDB\n&quot;</span> +
+                    <span class="hljs-string">&quot;DEFAULT CHARACTER SET = utf8mb4\n&quot;</span> +
+                    <span class="hljs-string">&quot;COLLATE = utf8mb4_general_ci;&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;create table: &quot;</span> + result);
+            <span class="hljs-comment">// &#x5220;&#x9664;&#x8868;</span>
+            result = stmt.execute(<span class="hljs-string">&quot;DROP TABLE `user_balance`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;drop table: &quot;</span> + result);
+        } <span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span> (stmt != <span class="hljs-keyword">null</span>) {
+                stmt.close();
+            }
+            conn.close();
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test02</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>{
+        Connection conn = getConnection();
+        Statement stmt = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">int</span> affected;
+        <span class="hljs-keyword">try</span> {
+            stmt = conn.createStatement();
+            <span class="hljs-comment">// &#x5DF2;&#x6709;&#x5219;&#x5220;&#x9664;</span>
+            affected = stmt.executeUpdate(<span class="hljs-string">&quot;DROP DATABASE IF EXISTS `bank`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;drop db: &quot;</span> + affected);
+            <span class="hljs-comment">// &#x521B;&#x5EFA;&#x5E93;</span>
+            affected = stmt.executeUpdate(<span class="hljs-string">&quot;CREATE DATABASE `bank`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;create db: &quot;</span> + affected);
+            <span class="hljs-comment">// &#x5207;&#x6362;&#x5230; bank &#x5E93;</span>
+            conn.setCatalog(<span class="hljs-string">&quot;bank&quot;</span>);
+            <span class="hljs-comment">// &#x9700;&#x8981;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x83B7;&#x53D6;stmt</span>
+            stmt.close();
+            stmt = conn.createStatement();
+            <span class="hljs-comment">// &#x521B;&#x5EFA;&#x8868;</span>
+            affected = stmt.executeUpdate(<span class="hljs-string">&quot;CREATE TABLE `user_balance` (\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `name` VARCHAR(45) NOT NULL ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  `balance` BIGINT NOT NULL ,\n&quot;</span> +
+                    <span class="hljs-string">&quot;  PRIMARY KEY (`id`)\n&quot;</span> +
+                    <span class="hljs-string">&quot;)\n&quot;</span> +
+                    <span class="hljs-string">&quot;ENGINE = InnoDB\n&quot;</span> +
+                    <span class="hljs-string">&quot;DEFAULT CHARACTER SET = utf8mb4\n&quot;</span> +
+                    <span class="hljs-string">&quot;COLLATE = utf8mb4_general_ci;&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;create table: &quot;</span> + affected);
+            <span class="hljs-comment">// &#x5220;&#x9664;&#x8868;</span>
+            affected = stmt.executeUpdate(<span class="hljs-string">&quot;DROP TABLE `user_balance`&quot;</span>);
+            System.out.println(<span class="hljs-string">&quot;drop table: &quot;</span> + affected);
+        } <span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span> (stmt != <span class="hljs-keyword">null</span>) {
+                stmt.close();
+            }
+            conn.close();
+        }
+    }
+
+}
+</code></pre>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x5F15;&#x5165;&#x7684;junit&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x6846;&#x67B6;&#x3002;</p>
+<p>&#x6267;&#x884C; <code>test01</code> &#xFF0C;&#x7ED3;&#x679C;&#x662F;&#xFF1A;</p>
+<pre><code>drop database: false
+create database: false
+create table: false
+drop table: false
+</code></pre><p>&#x6267;&#x884C; <code>test02</code>&#xFF0C;&#x7ED3;&#x679C;&#x662F;&#xFF1A;</p>
+<pre><code>drop db: 0
+create db: 1
+create table: 0
+drop table: 0
+</code></pre>
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="数据库字段类型与Java类型的映射.html" class="navigation navigation-prev " aria-label="Previous page: JDBC 中数据库字段类型与Java类型的映射">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="批处理.html" class="navigation navigation-next " aria-label="Next page: 批处理">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"execute、executeQuery、executeUpdate 之间的区别","level":"1.12","depth":1,"next":{"title":"批处理","level":"1.13","depth":1,"path":"批处理.md","ref":"批处理.md","articles":[]},"previous":{"title":"JDBC 中数据库字段类型与Java类型的映射","level":"1.11","depth":1,"path":"数据库字段类型与Java类型的映射.md","ref":"数据库字段类型与Java类型的映射.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","sharing","fontsettings","disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"letiantian"},"splitter":{},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"ga":{"configuration":"auto","token":"UA-130194393-1"},"sharing":{"all":["facebook","google","twitter","weibo","instapaper"],"facebook":true,"google":false,"instapaper":false,"twitter":true,"vk":false,"weibo":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"pageinfo":{},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/jdbc/"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"JDBC 教程 - 乐天的开发教程","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","JDBC 教程":"/jiaocheng/jdbc/"}},"gitbook":"*","description":"Java 基础教程，Java教程，零基础学Java，Java 进阶"},"file":{"path":"execute-executeQuery-executeUpdate区别.md","mtime":"2018-12-12T01:25:05.951Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-13T01:24:01.224Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
