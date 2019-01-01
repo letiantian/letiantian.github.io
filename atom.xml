@@ -202,9 +202,9 @@
     </summary>
     
     
-      <category term="搜索引擎" scheme="http://www.letiantian.me/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
-    
       <category term="编程实践" scheme="http://www.letiantian.me/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+    
+      <category term="搜索引擎" scheme="http://www.letiantian.me/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
     
   </entry>
   
@@ -375,9 +375,9 @@ print random.randint(a,b)
     </summary>
     
     
-      <category term="算法" scheme="http://www.letiantian.me/tags/%E7%AE%97%E6%B3%95/"/>
-    
       <category term="机器学习" scheme="http://www.letiantian.me/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="算法" scheme="http://www.letiantian.me/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
