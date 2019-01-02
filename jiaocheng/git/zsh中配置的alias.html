@@ -1,0 +1,506 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>zsh中配置的alias · Git 速查 - 樂天笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="漂亮简洁的log.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link">< 返回</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/java/" target="_blank" class="custom-link">Java 进阶</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="让git记住密码.html">
+            
+                <a href="让git记住密码.html">
+            
+                    
+                    让git记住密码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="配置全局的gitignore.html">
+            
+                <a href="配置全局的gitignore.html">
+            
+                    
+                    配置全局的gitignore
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="漂亮简洁的log.html">
+            
+                <a href="漂亮简洁的log.html">
+            
+                    
+                    漂亮简洁的log
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5" data-path="zsh中配置的alias.html">
+            
+                <a href="zsh中配置的alias.html">
+            
+                    
+                    zsh中配置的alias
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >zsh中配置的alias</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684;alias">zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684;alias</h1>
+<hr>
+<p>zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684; alias &#x662F;&#x6307; shell &#x4E0B;&#x7684;alias&#xFF0C;&#x800C;&#x975E; git &#x7684;alias&#x529F;&#x80FD;&#x3002;</p>
+<p>&#x8FD9;&#x4E9B;alias&#x662F;&#x5F00;&#x7BB1;&#x5373;&#x7528;&#x7684;&#xFF0C;&#x5B89;&#x88C5;zsh&#x65F6;&#x4FBF;&#x5DF2;&#x7ECF;&#x914D;&#x7F6E;&#x597D;&#xFF0C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x662F;<code>~/.oh-my-zsh/plugins/git/git.plugin.zsh</code>&#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-shell"># Query/use custom command for `git`.
+zstyle -s &quot;:vcs_info:git:*:-all-&quot; &quot;command&quot; _omz_git_git_cmd
+: ${_omz_git_git_cmd:=git}
+
+#
+# Functions
+#
+
+# The name of the current branch
+# Back-compatibility wrapper for when this function was defined here in
+# the plugin, before being pulled in to core lib/git.zsh as git_current_branch()
+# to fix the core -&gt; git plugin dependency.
+function current_branch() {
+  git_current_branch
+}
+# The list of remotes
+function current_repository() {
+  if ! $_omz_git_git_cmd rev-parse --is-inside-work-tree &amp;&gt; /dev/null; then
+    return
+  fi
+  echo $($_omz_git_git_cmd remote -v | cut -d&apos;:&apos; -f 2)
+}
+# Pretty log messages
+function _git_log_prettily(){
+  if ! [ -z $1 ]; then
+    git log --pretty=$1
+  fi
+}
+# Warn if the current branch is a WIP
+function work_in_progress() {
+  if $(git log -n 1 2&gt;/dev/null | grep -q -c &quot;\-\-wip\-\-&quot;); then
+    echo &quot;WIP!!&quot;
+  fi
+}
+
+#
+# Aliases
+# (sorted alphabetically)
+#
+
+alias g=&apos;git&apos;
+
+alias ga=&apos;git add&apos;
+alias gaa=&apos;git add --all&apos;
+alias gapa=&apos;git add --patch&apos;
+alias gau=&apos;git add --update&apos;
+alias gap=&apos;git apply&apos;
+
+alias gb=&apos;git branch&apos;
+alias gba=&apos;git branch -a&apos;
+alias gbd=&apos;git branch -d&apos;
+alias gbda=&apos;git branch --no-color --merged | command grep -vE &quot;^(\*|\s*(master|develop|dev)\s*$)&quot; | command xargs -n 1 git branch -d&apos;
+alias gbl=&apos;git blame -b -w&apos;
+alias gbnm=&apos;git branch --no-merged&apos;
+alias gbr=&apos;git branch --remote&apos;
+alias gbs=&apos;git bisect&apos;
+alias gbsb=&apos;git bisect bad&apos;
+alias gbsg=&apos;git bisect good&apos;
+alias gbsr=&apos;git bisect reset&apos;
+alias gbss=&apos;git bisect start&apos;
+
+alias gc=&apos;git commit -v&apos;
+alias gc!=&apos;git commit -v --amend&apos;
+alias gcn!=&apos;git commit -v --no-edit --amend&apos;
+alias gca=&apos;git commit -v -a&apos;
+alias gca!=&apos;git commit -v -a --amend&apos;
+alias gcan!=&apos;git commit -v -a --no-edit --amend&apos;
+alias gcans!=&apos;git commit -v -a -s --no-edit --amend&apos;
+alias gcam=&apos;git commit -a -m&apos;
+alias gcsm=&apos;git commit -s -m&apos;
+alias gcb=&apos;git checkout -b&apos;
+alias gcf=&apos;git config --list&apos;
+alias gcl=&apos;git clone --recursive&apos;
+alias gclean=&apos;git clean -fd&apos;
+alias gpristine=&apos;git reset --hard &amp;&amp; git clean -dfx&apos;
+alias gcm=&apos;git checkout master&apos;
+alias gcd=&apos;git checkout develop&apos;
+alias gcmsg=&apos;git commit -m&apos;
+alias gco=&apos;git checkout&apos;
+alias gcount=&apos;git shortlog -sn&apos;
+compdef _git gcount
+alias gcp=&apos;git cherry-pick&apos;
+alias gcpa=&apos;git cherry-pick --abort&apos;
+alias gcpc=&apos;git cherry-pick --continue&apos;
+alias gcs=&apos;git commit -S&apos;
+
+alias gd=&apos;git diff&apos;
+alias gdca=&apos;git diff --cached&apos;
+alias gdcw=&apos;git diff --cached --word-diff&apos;
+alias gdct=&apos;git describe --tags `git rev-list --tags --max-count=1`&apos;
+alias gdt=&apos;git diff-tree --no-commit-id --name-only -r&apos;
+alias gdw=&apos;git diff --word-diff&apos;
+
+gdv() { git diff -w &quot;$@&quot; | view - }
+compdef _git gdv=git-diff
+
+alias gf=&apos;git fetch&apos;
+alias gfa=&apos;git fetch --all --prune&apos;
+alias gfo=&apos;git fetch origin&apos;
+
+function gfg() { git ls-files | grep $@ }
+compdef _grep gfg
+
+alias gg=&apos;git gui citool&apos;
+alias gga=&apos;git gui citool --amend&apos;
+
+ggf() {
+  [[ &quot;$#&quot; != 1 ]] &amp;&amp; local b=&quot;$(git_current_branch)&quot;
+  git push --force origin &quot;${b:=$1}&quot;
+}
+ggfl() {
+[[ &quot;$#&quot; != 1 ]] &amp;&amp; local b=&quot;$(git_current_branch)&quot;
+git push --force-with-lease origin &quot;${b:=$1}&quot;
+}
+compdef _git ggf=git-checkout
+
+ggl() {
+  if [[ &quot;$#&quot; != 0 ]] &amp;&amp; [[ &quot;$#&quot; != 1 ]]; then
+    git pull origin &quot;${*}&quot;
+  else
+    [[ &quot;$#&quot; == 0 ]] &amp;&amp; local b=&quot;$(git_current_branch)&quot;
+    git pull origin &quot;${b:=$1}&quot;
+  fi
+}
+compdef _git ggl=git-checkout
+
+ggp() {
+  if [[ &quot;$#&quot; != 0 ]] &amp;&amp; [[ &quot;$#&quot; != 1 ]]; then
+    git push origin &quot;${*}&quot;
+  else
+    [[ &quot;$#&quot; == 0 ]] &amp;&amp; local b=&quot;$(git_current_branch)&quot;
+    git push origin &quot;${b:=$1}&quot;
+  fi
+}
+compdef _git ggp=git-checkout
+
+ggpnp() {
+  if [[ &quot;$#&quot; == 0 ]]; then
+    ggl &amp;&amp; ggp
+  else
+    ggl &quot;${*}&quot; &amp;&amp; ggp &quot;${*}&quot;
+  fi
+}
+compdef _git ggpnp=git-checkout
+
+ggu() {
+  [[ &quot;$#&quot; != 1 ]] &amp;&amp; local b=&quot;$(git_current_branch)&quot;
+  git pull --rebase origin &quot;${b:=$1}&quot;
+}
+compdef _git ggu=git-checkout
+
+alias ggpur=&apos;ggu&apos;
+compdef _git ggpur=git-checkout
+
+alias ggpull=&apos;git pull origin $(git_current_branch)&apos;
+compdef _git ggpull=git-checkout
+
+alias ggpush=&apos;git push origin $(git_current_branch)&apos;
+compdef _git ggpush=git-checkout
+
+alias ggsup=&apos;git branch --set-upstream-to=origin/$(git_current_branch)&apos;
+alias gpsup=&apos;git push --set-upstream origin $(git_current_branch)&apos;
+
+alias ghh=&apos;git help&apos;
+
+alias gignore=&apos;git update-index --assume-unchanged&apos;
+alias gignored=&apos;git ls-files -v | grep &quot;^[[:lower:]]&quot;&apos;
+alias git-svn-dcommit-push=&apos;git svn dcommit &amp;&amp; git push github master:svntrunk&apos;
+compdef _git git-svn-dcommit-push=git
+
+alias gk=&apos;\gitk --all --branches&apos;
+compdef _git gk=&apos;gitk&apos;
+alias gke=&apos;\gitk --all $(git log -g --pretty=%h)&apos;
+compdef _git gke=&apos;gitk&apos;
+
+alias gl=&apos;git pull&apos;
+alias glg=&apos;git log --stat&apos;
+alias glgp=&apos;git log --stat -p&apos;
+alias glgg=&apos;git log --graph&apos;
+alias glgga=&apos;git log --graph --decorate --all&apos;
+alias glgm=&apos;git log --graph --max-count=10&apos;
+alias glo=&apos;git log --oneline --decorate&apos;
+alias glol=&quot;git log --graph --pretty=&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;
+alias glola=&quot;git log --graph --pretty=&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit --all&quot;
+alias glog=&apos;git log --oneline --decorate --graph&apos;
+alias gloga=&apos;git log --oneline --decorate --graph --all&apos;
+alias glp=&quot;_git_log_prettily&quot;
+compdef _git glp=git-log
+
+alias gm=&apos;git merge&apos;
+alias gmom=&apos;git merge origin/master&apos;
+alias gmt=&apos;git mergetool --no-prompt&apos;
+alias gmtvim=&apos;git mergetool --no-prompt --tool=vimdiff&apos;
+alias gmum=&apos;git merge upstream/master&apos;
+alias gma=&apos;git merge --abort&apos;
+
+alias gp=&apos;git push&apos;
+alias gpd=&apos;git push --dry-run&apos;
+alias gpoat=&apos;git push origin --all &amp;&amp; git push origin --tags&apos;
+compdef _git gpoat=git-push
+alias gpu=&apos;git push upstream&apos;
+alias gpv=&apos;git push -v&apos;
+
+alias gr=&apos;git remote&apos;
+alias gra=&apos;git remote add&apos;
+alias grb=&apos;git rebase&apos;
+alias grba=&apos;git rebase --abort&apos;
+alias grbc=&apos;git rebase --continue&apos;
+alias grbi=&apos;git rebase -i&apos;
+alias grbm=&apos;git rebase master&apos;
+alias grbs=&apos;git rebase --skip&apos;
+alias grh=&apos;git reset HEAD&apos;
+alias grhh=&apos;git reset HEAD --hard&apos;
+alias grmv=&apos;git remote rename&apos;
+alias grrm=&apos;git remote remove&apos;
+alias grset=&apos;git remote set-url&apos;
+alias grt=&apos;cd $(git rev-parse --show-toplevel || echo &quot;.&quot;)&apos;
+alias gru=&apos;git reset --&apos;
+alias grup=&apos;git remote update&apos;
+alias grv=&apos;git remote -v&apos;
+
+alias gsb=&apos;git status -sb&apos;
+alias gsd=&apos;git svn dcommit&apos;
+alias gsi=&apos;git submodule init&apos;
+alias gsps=&apos;git show --pretty=short --show-signature&apos;
+alias gsr=&apos;git svn rebase&apos;
+alias gss=&apos;git status -s&apos;
+alias gst=&apos;git status&apos;
+alias gsta=&apos;git stash save&apos;
+alias gstaa=&apos;git stash apply&apos;
+alias gstc=&apos;git stash clear&apos;
+alias gstd=&apos;git stash drop&apos;
+alias gstl=&apos;git stash list&apos;
+alias gstp=&apos;git stash pop&apos;
+alias gsts=&apos;git stash show --text&apos;
+alias gsu=&apos;git submodule update&apos;
+
+alias gts=&apos;git tag -s&apos;
+alias gtv=&apos;git tag | sort -V&apos;
+
+alias gunignore=&apos;git update-index --no-assume-unchanged&apos;
+alias gunwip=&apos;git log -n 1 | grep -q -c &quot;\-\-wip\-\-&quot; &amp;&amp; git reset HEAD~1&apos;
+alias gup=&apos;git pull --rebase&apos;
+alias gupv=&apos;git pull --rebase -v&apos;
+alias glum=&apos;git pull upstream master&apos;
+
+alias gwch=&apos;git whatchanged -p --abbrev-commit --pretty=medium&apos;
+alias gwip=&apos;git add -A; git rm $(git ls-files --deleted) 2&gt; /dev/null; git commit --no-verify -m &quot;--wip-- [skip ci]&quot;&apos;
+</code></pre>
+<p>&#x6700;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x51E0;&#x4E2A;&#xFF0C;&#x4F8B;&#x5982;<code>gco</code>&#x3001;<code>gst</code>&#x3001;<code>gd</code>&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x66F4;&#x65B9;&#x4FBF;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x66F4;&#x7B80;&#x5355;&#x7684;alias&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-shell">alias lg=&apos;git lg&apos;
+alias s=&apos;git status&apos;
+alias push=&apos;git push origin `git rev-parse --abbrev-ref HEAD`&apos;
+alias pull=&apos;git pull origin `git rev-parse --abbrev-ref HEAD`&apos;
+</code></pre>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="漂亮简洁的log.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 漂亮简洁的log">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"zsh中配置的alias","level":"1.5","depth":1,"previous":{"title":"漂亮简洁的log","level":"1.4","depth":1,"path":"漂亮简洁的log.md","ref":"漂亮简洁的log.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/java/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Git 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","Java 进阶":"/jiaocheng/java/"}},"gitbook":"*","description":"Git 学习, Git 教程, Git 速查"},"file":{"path":"zsh中配置的alias.md","mtime":"2019-01-02T00:37:53.548Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-02T00:43:35.573Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
