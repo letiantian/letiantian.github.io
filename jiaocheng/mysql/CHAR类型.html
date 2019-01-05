@@ -1,0 +1,464 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>CHAR类型 · MySQL 速查 - 樂天笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="不要使用utf8.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link">< 返回</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/mysql/" target="_blank" class="custom-link">MySQL 速查</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="CHAR类型.html">
+            
+                <a href="CHAR类型.html">
+            
+                    
+                    CHAR类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="不要使用utf8.html">
+            
+                <a href="不要使用utf8.html">
+            
+                    
+                    不要使用utf8
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="InnoDB存储引擎的限制.html">
+            
+                <a href="InnoDB存储引擎的限制.html">
+            
+                    
+                    InnoDB存储引擎的限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >CHAR类型</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="char&#x7C7B;&#x578B;">CHAR&#x7C7B;&#x578B;</h1>
+<hr>
+<p>&#x672C;&#x6587;&#x4E2D;&#x6BCF;&#x4E2A;&#x793A;&#x4F8B;&#x4E2D;&#x90FD;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;<code>test_table</code>&#x8868;&#xFF0C;&#x5728;&#x793A;&#x4F8B;&#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x5C06;&#x8BE5;&#x8868;drop&#x6389;&#x3002;</p>
+<p>&#x672C;&#x6587;&#x8BA8;&#x8BBA;&#x7684;&#x662F; InnoDB &#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x4E0B;&#x7684; char &#x548C; varchar &#x3002;</p>
+<h2 id="char&#x7684;&#x957F;&#x5EA6;&#x662F;&#x5B57;&#x7B26;&#x6570;&#xFF0C;&#x800C;&#x975E;&#x5B57;&#x8282;&#x6570;">char&#x7684;&#x957F;&#x5EA6;&#x662F;&#x5B57;&#x7B26;&#x6570;&#xFF0C;&#x800C;&#x975E;&#x5B57;&#x8282;&#x6570;</h2>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">2</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&apos;</span>);
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code>mysql letian@localhost:test&gt; select * from test_table;
++------+
+| c1   |
++------+
+| &#x4F60;&#x597D; |
++------+
+</code></pre><p><code>&#x4F60;&#x597D;</code>&#x5728; utf8 &#x4E2D;&#x662F;&#x51E0;&#x4E2A;&#x5B57;&#x8282;&#xFF1F;
+&#x6211;&#x4EEC;&#x8FDB;&#x5165; Python3 &#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x770B;&#x4E00;&#x4E0B;&#xFF1A;</p>
+<pre><code>&gt;&gt;&gt; s = &apos;&#x4F60;&#x597D;&apos;
+&gt;&gt;&gt; s.encode(&apos;utf8&apos;)
+b&apos;\xe4\xbd\xa0\xe5\xa5\xbd&apos;
+</code></pre><p>&#x5206;&#x522B;&#x5360;3&#x4E2A;&#x5B57;&#x8282;&#xFF0C;&#x5171;6&#x4E2A;&#x5B57;&#x8282;&#x3002;</p>
+<h2 id="char-&#x4F1A;&#x622A;&#x65AD;&#x8D85;&#x51FA;&#x957F;&#x5EA6;&#x8303;&#x56F4;&#x7684;&#x5B57;&#x7B26;">char &#x4F1A;&#x622A;&#x65AD;&#x8D85;&#x51FA;&#x957F;&#x5EA6;&#x8303;&#x56F4;&#x7684;&#x5B57;&#x7B26;</h2>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">2</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&#x4E16;&#x754C;&apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;abcd&apos;</span>);
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code>mysql&gt; select * from test_table;
++------+
+| c1   |
++------+
+| &#x4F60;&#x597D; |
+| ab   |
++------+
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x53EA;&#x4FDD;&#x7559;&#x4E86;2&#x4E2A;&#x5B57;&#x7B26;&#x3002;</p>
+<h2 id="char-&#x4F1A;&#x53BB;&#x6389;&#x540E;&#x90E8;&#x7684;&#x7A7A;&#x683C;">char &#x4F1A;&#x53BB;&#x6389;&#x540E;&#x90E8;&#x7684;&#x7A7A;&#x683C;</h2>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#xFF1F;</p>
+<blockquote>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/char.html" target="_blank">https://dev.mysql.com/doc/refman/8.0/en/char.html</a> &#xFF1A;</p>
+<p>The length of a <code>CHAR</code> column is fixed to the length that you declare when you create the table. The length can be any value from 0 to 255. When <code>CHAR</code> values are stored, they are right-padded with spaces to the specified length. When <code>CHAR</code> values are retrieved, trailing spaces are removed unless the <a href="https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html#sqlmode_pad_char_to_full_length" target="_blank"><code>PAD_CHAR_TO_FULL_LENGTH</code></a> SQL mode is enabled.  </p>
+</blockquote>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">100</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&#x4E16;&#x754C;    &apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;abcd\t&apos;</span>);
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#xFF1A;</p>
+<pre><code>mysql&gt; select concat(&apos;\&apos;&apos;, c1 ,&apos;\&apos;&apos;) from test_table;
++------------------------+
+| concat(&apos;\&apos;&apos;, c1 ,&apos;\&apos;&apos;) |
++------------------------+
+| &apos;&#x4F60;&#x597D;&#x4E16;&#x754C;&apos;             |
+| &apos;abcd    &apos;                |
++------------------------+
+</code></pre><h2 id="char-&#x957F;&#x5EA6;&#x6700;&#x5927;&#x503C;&#x662F;-255">char &#x957F;&#x5EA6;&#x6700;&#x5927;&#x503C;&#x662F; 255</h2>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">256</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x6267;&#x884C;&#x4E0A;&#x9762;&#x7684;SQL&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x5E76;&#x5EFA;&#x8BAE;&#x6362;&#x6210; blob&#x3001;text&#x7C7B;&#x578B;&#xFF1A;</p>
+<pre><code>(1074, u&quot;Column length too big for column &apos;c1&apos; (max = 255); use BLOB or TEXT instead&quot;)
+</code></pre><p>&#x4E0B;&#x9762;&#x7684;&#x4FBF;&#x4E0D;&#x4F1A;&#x62A5;&#x9519;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<h2 id="char-&#x957F;&#x5EA6;&#x6700;&#x5C0F;&#x503C;&#x662F;-0">char &#x957F;&#x5EA6;&#x6700;&#x5C0F;&#x503C;&#x662F; 0</h2>
+<p>char&#x7684;&#x957F;&#x5EA6;&#x4E0D;&#x80FD;&#x662F;&#x8D1F;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">-1</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x6267;&#x884C;&#x5931;&#x8D25;&#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>(1064, u&quot;You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;-1)\n) engine = InnoDB character set = utf8mb4&apos; at line 2&quot;)
+</code></pre><p>char &#x7684;&#x957F;&#x5EA6;&#x53EF;&#x4EE5;&#x662F; 0&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">0</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x65E2;&#x7136;&#x957F;&#x5EA6;&#x4E3A;0&#xFF0C;&#x90A3;&#x4E48;&#x652F;&#x6301;&#x7684;&#x503C;&#x53EA;&#x6709;&#x4E24;&#x4E2A;&#xFF0C;&#x4E00;&#x4E2A;&#x662F; NULL&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-literal">NULL</span>);
+</code></pre>
+<p>&#x67E5;&#x770B;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code>mysql&gt; select * from test_table;
++--------+
+| c1     |
++--------+
+|        |
+|        |
+| &lt;null&gt; |
++--------+
+
+mysql&gt; select concat(&apos;\&apos;&apos;, c1 ,&apos;\&apos;&apos;) from test_table;
++------------------------+
+| concat(&apos;\&apos;&apos;, c1 ,&apos;\&apos;&apos;) |
++------------------------+
+| &apos;&apos;                     |
+| &apos;&apos;                     |
+| &lt;null&gt;                 |
++------------------------+
+</code></pre><h2 id="null-&#x4E0E;-&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x4E0D;&#x540C;&#x7684;">null &#x4E0E; &#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x4E0D;&#x540C;&#x7684;</h2>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">10</span>)
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&apos;</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-literal">NULL</span>);
+</code></pre>
+<p>&#x770B;&#x4E0B;&#x67E5;&#x8BE2;&#x6548;&#x679C;&#xFF1A;</p>
+<pre><code>mysql&gt; select * from test_table;
++--------+
+| c1     |
++--------+
+| &#x4F60;&#x597D;   |
+|        |
+| &lt;null&gt; |
++--------+
+3 rows in set
+
+mysql&gt; select * from test_table where c1 is null;
++--------+
+| c1     |
++--------+
+| &lt;null&gt; |
++--------+
+1 row in set
+
+mysql&gt; select * from test_table where c1 = &apos;&apos;;
++----+
+| c1 |
++----+
+|    |
++----+
+1 row in set
+</code></pre><h2 id="not-null">not null</h2>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&#x4F60;&#x597D;&apos;</span>); <span class="hljs-comment">-- &#x6210;&#x529F;</span>
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-string">&apos;&apos;</span>);  <span class="hljs-comment">-- &#x6210;&#x529F;</span>
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(c1) <span class="hljs-keyword">values</span>(<span class="hljs-literal">NULL</span>);  <span class="hljs-comment">-- &#x62A5;&#x9519;</span>
+</code></pre>
+<p>&#x5F53;&#x63D2;&#x5165; null &#x65F6;&#xFF0C;&#x62A5;&#x9519;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-sql">(1048, u&quot;Column &apos;c1&apos; cannot be null&quot;)
+</code></pre>
+<h2 id="&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x957F;&#x5EA6;">&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x957F;&#x5EA6;</h2>
+<pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    <span class="hljs-keyword">KEY</span> idx_c1(c1(<span class="hljs-number">10</span>))
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span> = utf8mb4;
+</code></pre>
+<p>&#x67E5;&#x770B;&#x4E0B;&#x521B;&#x5EFA;&#x8BED;&#x53E5;&#xFF1A;</p>
+<pre><code>mysql letian@localhost:test&gt; show create table test_table;
++------------+-----------------------------------------+
+| Table      | Create Table                            |
++------------+-----------------------------------------+
+| test_table | CREATE TABLE `test_table` (             |
+|            |   `c1` char(255) DEFAULT NULL,          |
+|            |   KEY `idx_c1` (`c1`(10))               |
+|            | ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 |
++------------+-----------------------------------------+
+</code></pre><p>&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;c1&#x662F;&#x80FD;&#x63D2;&#x5165;255&#x4E2A;&#x5B57;&#x7B26;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x53EA;&#x4F1A;&#x7D22;&#x5F15;&#x524D;10&#x4E2A;&#x5B57;&#x7B26;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x300C;&#x524D;&#x7F00;&#x7D22;&#x5F15;&#x300D;&#x3002;&#x5728;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#x7684;&#x4E2D;&#x7684;c1&#x4E5F;&#x4F1A;&#x53D6;&#x524D;10&#x4E2A;&#x5B57;&#x7B26;&#xFF0C;&#x67E5;&#x5230;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x518D;&#x53BB;&#x770B;&#x662F;&#x5426;&#x4E0E;c1&#x7684;&#x5B8C;&#x6574;&#x503C;&#x5339;&#x914D;&#x3002;</p>
+<h2 id="char-&#x7684;&#x53EF;&#x7D22;&#x5F15;&#x957F;&#x5EA6;">char &#x7684;&#x53EF;&#x7D22;&#x5F15;&#x957F;&#x5EA6;</h2>
+<p>&#x6BCF;&#x4E2A;&#x5217;&#x7684;&#x957F;&#x5EA6;&#x4E0D;&#x80FD;&#x5927;&#x4E8E;767&#x5B57;&#x8282;&#xFF1B;&#x6240;&#x6709;&#x7EC4;&#x6210;&#x7D22;&#x5F15;&#x5217;&#x7684;&#x957F;&#x5EA6;&#x548C;&#x4E0D;&#x80FD;&#x5927;&#x4E8E;3072&#x5B57;&#x8282;&#x3002;&#x5177;&#x4F53;&#x53EF;&#x53C2;&#x8003;<a href="InnoDB&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x7684;&#x9650;&#x5236;.html">InnoDB&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x7684;&#x9650;&#x5236;</a>&#x3002;</p>
+<p><strong>&#x9A8C;&#x8BC1;1&#xFF1A;</strong></p>
+<pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c2 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c3 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c4 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c5 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    <span class="hljs-keyword">KEY</span> idx_c1(c1),
+    <span class="hljs-keyword">KEY</span> idx_c12(c1, c2),
+    <span class="hljs-keyword">KEY</span> idx_c123(c1, c2, c3),
+    <span class="hljs-keyword">KEY</span> idx_c1234(c1, c2, c3, c4)
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span> = utf8mb4;
+</code></pre>
+<pre><code>mysql&gt; show create table test_table;
++------------+-------------------------------------------------------------+
+| Table      | Create Table                                                |
++------------+-------------------------------------------------------------+
+| test_table | CREATE TABLE `test_table` (                                 |
+|            |   `c1` char(255) DEFAULT NULL,                              |
+|            |   `c2` char(255) DEFAULT NULL,                              |
+|            |   `c3` char(255) DEFAULT NULL,                              |
+|            |   `c4` char(255) DEFAULT NULL,                              |
+|            |   KEY `idx_c1` (`c1`(191)),                                 |
+|            |   KEY `idx_c12` (`c1`(191),`c2`(191)),                      |
+|            |   KEY `idx_c123` (`c1`(191),`c2`(191),`c3`(191)),           |
+|            |   KEY `idx_c1234` (`c1`(191),`c2`(191),`c3`(191),`c4`(191)) |
+|            | ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4                     |
++------------+-------------------------------------------------------------+
+</code></pre><p>&#x4E3A;&#x4EC0;&#x4E48;&#x662F; 191 &#xFF1F; &#x56E0;&#x4E3A; utf8mb4 &#x652F;&#x6301;4&#x5B57;&#x8282;&#x5B57;&#x7B26;&#xFF0C;191&#xD7;4 &lt; 767 &lt; 192&#xD7;4&#x3002;</p>
+<p><strong>&#x9A8C;&#x8BC1;2&#xFF1A;</strong></p>
+<pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> test_table (
+    c1 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c2 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c3 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c4 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    c5 <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">255</span>),
+    <span class="hljs-keyword">KEY</span> idx_c12345(c1, c2, c3, c4, c5)
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span> = utf8mb4;
+</code></pre>
+<p>idx_c12345 &#x542B;&#x6709;5&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x6267;&#x884C;&#x4F1A;&#x62A5;&#x9519;&#xFF1A;</p>
+<pre><code>(1071, u&apos;Specified key was too long; max key length is 3072 bytes&apos;)
+</code></pre><p>&#x56E0;&#x4E3A; 191 &#xD7; 5 &#xD7; 4 &gt; 3072 &#x3002;</p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 介绍">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="不要使用utf8.html" class="navigation navigation-next " aria-label="Next page: 不要使用utf8">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"CHAR类型","level":"1.2","depth":1,"next":{"title":"不要使用utf8","level":"1.3","depth":1,"path":"不要使用utf8.md","ref":"不要使用utf8.md","articles":[]},"previous":{"title":"介绍","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"CHAR类型.md","mtime":"2019-01-05T02:07:38.908Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-05T02:08:34.935Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
