@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>不要使用utf8 · MySQL 速查 - 樂天笔记</title>
+        <title>NULL的判等 · MySQL 速查 - 樂天笔记</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -53,10 +53,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="唯一索引与NULL.html" />
+    <link rel="next" href="DDL、DML、DCL等的含义.html" />
     
     
-    <link rel="prev" href="时间戳.html" />
+    <link rel="prev" href="唯一索引与NULL.html" />
     
 
     </head>
@@ -264,7 +264,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.14" data-path="不要使用utf8.html">
+        <li class="chapter " data-level="1.14" data-path="不要使用utf8.html">
             
                 <a href="不要使用utf8.html">
             
@@ -290,7 +290,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.16" data-path="NULL的判等.html">
+        <li class="chapter active" data-level="1.16" data-path="NULL的判等.html">
             
                 <a href="NULL的判等.html">
             
@@ -372,7 +372,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >不要使用utf8</a>
+        <a href="." >NULL的判等</a>
     </h1>
 </div>
 
@@ -384,10 +384,49 @@
                             
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x4E0D;&#x8981;&#x4F7F;&#x7528;utf8">&#x4E0D;&#x8981;&#x4F7F;&#x7528;utf8</h1>
+                                <h1 id="null&#x7684;&#x5224;&#x7B49;">NULL&#x7684;&#x5224;&#x7B49;</h1>
 <hr>
-<p>&#x662F;&#x7684;&#xFF0C;&#x4E0D;&#x8981;&#x4F7F;&#x7528;utf8&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x7528; utf8mb4 &#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#xFF1F;&#x56E0;&#x4E3A;utf8&#x4E0D;&#x652F;&#x6301;&#x8868;&#x60C5;&#x7B26;&#x53F7;&#x7B49;&#x56DB;&#x5B57;&#x8282;&#x5B57;&#x7B26;&#xFF0C;&#x800C; utf8mb4 &#x652F;&#x6301;&#x3002;</p>
-<p>&#x5173;&#x4E8E;&#x5982;&#x4F55;&#x914D;&#x7F6E; utf8mb4&#x3001;&#x5982;&#x4F55;&#x5728;&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x548C;&#x8868;&#x7684;&#x65F6;&#x5019;&#x6307;&#x5B9A;utf8mb4&#xFF0C;&#x53EF;&#x4EE5;&#x53C2;&#x8003; <a href="https://www.letiantian.me/jiaocheng/mybatis/%E9%80%9A%E8%BF%87%E7%A4%BA%E4%BE%8B%E5%AD%A6%E4%B9%A0MyBatis/%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87.html" target="_blank">MyBatis &#x6559;&#x7A0B; - &#x6570;&#x636E;&#x51C6;&#x5907;</a>&#x3002;</p>
+<p>NULL &#x7684;&#x5224;&#x7B49;&#xFF0C;&#x4E0D;&#x80FD;&#x7528; <code>=</code>&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x7528; <code>is</code> &#x3002;&#x5224;&#x4E0D;&#x7B49;&#xFF0C;&#x4E0D;&#x80FD;&#x7528;<code>!=</code>&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x7528;<code>is not</code>&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>&#x793A;&#x4F8B;</th>
+<th>&#x6267;&#x884C;&#x7ED3;&#x679C;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>select null is null;</td>
+<td>1</td>
+</tr>
+<tr>
+<td>select null =  null;</td>
+<td>null</td>
+</tr>
+<tr>
+<td>select 1 = 1;</td>
+<td>1</td>
+</tr>
+<tr>
+<td>select 1 = 0;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>select 1 != null;</td>
+<td>null</td>
+</tr>
+<tr>
+<td>select 1 is not null;</td>
+<td>1</td>
+</tr>
+<tr>
+<td>select null is not null;</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>&#x6267;&#x884C;&#x7ED3;&#x679C;&#x4E2D;&#xFF0C;1 &#x662F; true&#xFF0C;0&#x662F;false&#xFF0C;null&#x4EE3;&#x8868;&#x672A;&#x77E5;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x7406;&#x89E3;&#xFF0C;<strong>&#x672A;&#x77E5;&#x662F;&#x672A;&#x77E5;&#xFF0C;&#x4F46;&#x4E24;&#x4E2A;&#x672A;&#x77E5;&#x4E0D;&#x4E00;&#x5B9A;&#x76F8;&#x7B49;</strong>&#x3002;</p>
 
                                 
                                 </section>
@@ -399,12 +438,12 @@
 
             
                 
-                <a href="时间戳.html" class="navigation navigation-prev " aria-label="Previous page: 时间戳">
+                <a href="唯一索引与NULL.html" class="navigation navigation-prev " aria-label="Previous page: 唯一索引与NULL">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="唯一索引与NULL.html" class="navigation navigation-next " aria-label="Next page: 唯一索引与NULL">
+                <a href="DDL、DML、DCL等的含义.html" class="navigation navigation-next " aria-label="Next page: DDL、DML、DCL等的含义">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -415,7 +454,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"不要使用utf8","level":"1.14","depth":1,"next":{"title":"唯一索引与NULL","level":"1.15","depth":1,"path":"唯一索引与NULL.md","ref":"唯一索引与NULL.md","articles":[]},"previous":{"title":"时间戳","level":"1.13","depth":1,"path":"时间戳.md","ref":"时间戳.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"不要使用utf8.md","mtime":"2019-01-03T01:04:15.712Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-05T14:43:00.764Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"NULL的判等","level":"1.16","depth":1,"next":{"title":"DDL、DML、DCL等的含义","level":"1.17","depth":1,"path":"DDL、DML、DCL等的含义.md","ref":"DDL、DML、DCL等的含义.md","articles":[]},"previous":{"title":"唯一索引与NULL","level":"1.15","depth":1,"path":"唯一索引与NULL.md","ref":"唯一索引与NULL.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"NULL的判等.md","mtime":"2019-01-05T13:55:17.330Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-05T14:43:00.764Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

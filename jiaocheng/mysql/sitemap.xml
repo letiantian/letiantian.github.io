@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/./</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/MySQL管理工具.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除数据库.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/切换和查看数据库.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除表.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/在表中增加、删除、修改列.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/添加和删除索引.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除主键.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/大小写和反引号.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/SQL注释.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/CHAR类型.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/整型数字.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/时间戳.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/不要使用utf8.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/唯一索引与NULL.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/NULL的判等.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/DDL、DML、DCL等的含义.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/查看表的状态.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/InnoDB存储引擎的限制.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 </urlset>
