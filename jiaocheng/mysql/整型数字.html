@@ -56,7 +56,7 @@
     <link rel="next" href="时间戳.html" />
     
     
-    <link rel="prev" href="CHAR类型.html" />
+    <link rel="prev" href="VARCHAR类型.html" />
     
 
     </head>
@@ -186,7 +186,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="创建和删除主键.html">
+        <li class="chapter " data-level="1.8" data-path="增删查改数据.html">
+            
+                <a href="增删查改数据.html">
+            
+                    
+                    增删查改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="创建和删除主键.html">
             
                 <a href="创建和删除主键.html">
             
@@ -199,7 +212,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.9" data-path="大小写和反引号.html">
+        <li class="chapter " data-level="1.10" data-path="大小写和反引号.html">
             
                 <a href="大小写和反引号.html">
             
@@ -212,7 +225,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.10" data-path="SQL注释.html">
+        <li class="chapter " data-level="1.11" data-path="SQL注释.html">
             
                 <a href="SQL注释.html">
             
@@ -225,7 +238,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.11" data-path="CHAR类型.html">
+        <li class="chapter " data-level="1.12" data-path="CHAR类型.html">
             
                 <a href="CHAR类型.html">
             
@@ -238,7 +251,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.12" data-path="整型数字.html">
+        <li class="chapter " data-level="1.13" data-path="VARCHAR类型.html">
+            
+                <a href="VARCHAR类型.html">
+            
+                    
+                    VARCHAR类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.14" data-path="整型数字.html">
             
                 <a href="整型数字.html">
             
@@ -251,7 +277,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.13" data-path="时间戳.html">
+        <li class="chapter " data-level="1.15" data-path="时间戳.html">
             
                 <a href="时间戳.html">
             
@@ -264,7 +290,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.14" data-path="不要使用utf8.html">
+        <li class="chapter " data-level="1.16" data-path="不要使用utf8.html">
             
                 <a href="不要使用utf8.html">
             
@@ -277,7 +303,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.15" data-path="唯一索引与NULL.html">
+        <li class="chapter " data-level="1.17" data-path="唯一索引与NULL.html">
             
                 <a href="唯一索引与NULL.html">
             
@@ -290,7 +316,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.16" data-path="NULL的判等.html">
+        <li class="chapter " data-level="1.18" data-path="NULL的判等.html">
             
                 <a href="NULL的判等.html">
             
@@ -303,7 +329,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.17" data-path="DDL、DML、DCL等的含义.html">
+        <li class="chapter " data-level="1.19" data-path="DDL、DML、DCL等的含义.html">
             
                 <a href="DDL、DML、DCL等的含义.html">
             
@@ -316,7 +342,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.18" data-path="查看表的状态.html">
+        <li class="chapter " data-level="1.20" data-path="查看表的状态.html">
             
                 <a href="查看表的状态.html">
             
@@ -329,7 +355,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.19" data-path="InnoDB存储引擎的限制.html">
+        <li class="chapter " data-level="1.21" data-path="InnoDB存储引擎的限制.html">
             
                 <a href="InnoDB存储引擎的限制.html">
             
@@ -571,7 +597,7 @@ mysql&gt; select * from test_table;
 <h2 id="&#x66F4;&#x597D;&#x7684;&#x663E;&#x793A;&#x957F;&#x5EA6;&#x5B9E;&#x73B0;">&#x66F4;&#x597D;&#x7684;&#x663E;&#x793A;&#x957F;&#x5EA6;&#x5B9E;&#x73B0;</h2>
 <p>&#x9996;&#x5148;&#xFF1A;<strong>&#x4E0D;&#x8981;&#x5728;&#x521B;&#x5EFA;&#x8868;&#x65F6;&#x6307;&#x5B9A;&#x663E;&#x793A;&#x957F;&#x5EA6;&#xFF0C;&#x4E5F;&#x4E0D;&#x8981;&#x4F7F;&#x7528; zerofill &#x5173;&#x952E;&#x8BCD;&#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#xFF0C;&#x56E0;&#x4E3A;&#x6709;&#x526F;&#x4F5C;&#x7528;&#x3002;</strong></p>
 <p>&#x90A3;&#x4E48;&#x6709;&#x4EC0;&#x4E48;&#x5176;&#x4ED6;&#x7684;&#x65B9;&#x6848;&#x53EF;&#x4EE5;&#x8FBE;&#x5230;&#x76F8;&#x540C;&#x7684;&#x663E;&#x793A;&#x6548;&#x679C;&#x5462;&#xFF1F;</p>
-<p><strong>&#x65B9;&#x6848;1&#xFF1A;</strong>&#x4EA4;&#x7ED9;&#x4E1A;&#x52A1;&#x65B9;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x4EEC;Java&#x7F16;&#x5199;&#x4E86;&#x4E00;&#x4E2A;web&#x7248;&#x7684;&#x6570;&#x636E;&#x5E93;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#xFF0C;&#x5C55;&#x793A;&#x6210;&#x4EC0;&#x4E48;&#x6837;&#x5B50;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x5728; Java &#x4ECE;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x53D6;&#x51FA;&#x6570;&#x636E;&#x540E;&#xFF0C;Java &#x5904;&#x7406;&#x4E00;&#x4E0B;&#xFF0C;&#x518D;&#x4F20;&#x7ED9;&#x524D;&#x7AEF;&#x3002;&#x4F8B;&#x5982; Java &#x5C06; 1 &#x8F6C;&#x6362;&#x6210;&#x5B57;&#x7B26;&#x4E32; 00001&#x8FD4;&#x56DE;&#x7ED9;&#x524D;&#x7AEF;&#x3002;</p>
+<p><strong>&#x65B9;&#x6848;1&#xFF1A;</strong>&#x4EA4;&#x7ED9;&#x4E1A;&#x52A1;&#x65B9;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x4EEC;Java&#x7F16;&#x5199;&#x4E86;&#x4E00;&#x4E2A;web&#x7248;&#x7684;&#x6570;&#x636E;&#x5E93;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#xFF0C;&#x5C55;&#x793A;&#x6210;&#x4EC0;&#x4E48;&#x6837;&#x5B50;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x5728; Java &#x4ECE;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x53D6;&#x51FA;&#x6570;&#x636E;&#x540E;&#xFF0C;Java &#x5904;&#x7406;&#x4E00;&#x4E0B;&#xFF0C;&#x518D;&#x4F20;&#x7ED9;&#x524D;&#x7AEF;&#x3002;&#x4F8B;&#x5982; Java &#x5C06; 1 &#x8F6C;&#x6362;&#x6210;&#x5B57;&#x7B26;&#x4E32; 00001&#x8FD4;&#x56DE;&#x7ED9;&#x524D;&#x7AEF;&#x3002;&#x6216;&#x8005;&#x8BA9;&#x524D;&#x7AEF;&#x4EE3;&#x7801;&#x5C06;1&#x8F6C;&#x6362;&#x6210;00001&#x3002;</p>
 <p><strong>&#x65B9;&#x6848;2&#xFF1A;</strong>&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#x4E2D;&#x7528; LPAD &#x548C; CAST &#x51FD;&#x6570;&#x3002;</p>
 <pre><code>create table test_table (
     num int unsigned
@@ -595,7 +621,7 @@ insert into test_table(num) values(2);
 
             
                 
-                <a href="CHAR类型.html" class="navigation navigation-prev " aria-label="Previous page: CHAR类型">
+                <a href="VARCHAR类型.html" class="navigation navigation-prev " aria-label="Previous page: VARCHAR类型">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -611,7 +637,7 @@ insert into test_table(num) values(2);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"整型数字","level":"1.12","depth":1,"next":{"title":"时间戳","level":"1.13","depth":1,"path":"时间戳.md","ref":"时间戳.md","articles":[]},"previous":{"title":"CHAR类型","level":"1.11","depth":1,"path":"CHAR类型.md","ref":"CHAR类型.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"整型数字.md","mtime":"2019-01-05T06:53:58.309Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-05T14:43:00.764Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"整型数字","level":"1.14","depth":1,"next":{"title":"时间戳","level":"1.15","depth":1,"path":"时间戳.md","ref":"时间戳.md","articles":[]},"previous":{"title":"VARCHAR类型","level":"1.13","depth":1,"path":"VARCHAR类型.md","ref":"VARCHAR类型.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"整型数字.md","mtime":"2019-01-06T00:19:23.536Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-06T01:42:55.858Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

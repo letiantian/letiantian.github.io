@@ -7,10 +7,12 @@
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除表.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/在表中增加、删除、修改列.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/添加和删除索引.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/增删查改数据.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除主键.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/大小写和反引号.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/SQL注释.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/CHAR类型.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/VARCHAR类型.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/整型数字.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/时间戳.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/不要使用utf8.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
