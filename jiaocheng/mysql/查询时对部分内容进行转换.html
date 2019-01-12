@@ -1,0 +1,635 @@
+
+<!DOCTYPE HTML>
+<html lang="zh_CN" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>查询时对部分内容进行转换 · MySQL 速查 - 樂天笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="自定义函数.html" />
+    
+    
+    <link rel="prev" href="InnoDB存储引擎的限制.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="/jiaocheng/" target="_blank" class="custom-link">< 返回</a>
+        </li>
+    
+        
+        <li>
+            <a href="/jiaocheng/mysql/" target="_blank" class="custom-link">MySQL 速查</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="MySQL管理工具.html">
+            
+                <a href="MySQL管理工具.html">
+            
+                    
+                    MySQL管理工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="创建和删除数据库.html">
+            
+                <a href="创建和删除数据库.html">
+            
+                    
+                    创建和删除数据库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="切换和查看数据库.html">
+            
+                <a href="切换和查看数据库.html">
+            
+                    
+                    切换和查看数据库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="创建和删除表.html">
+            
+                <a href="创建和删除表.html">
+            
+                    
+                    创建和删除表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="在表中增加、删除、修改列.html">
+            
+                <a href="在表中增加、删除、修改列.html">
+            
+                    
+                    在表中增加、删除、修改列
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="添加和删除索引.html">
+            
+                <a href="添加和删除索引.html">
+            
+                    
+                    添加和删除索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="增删查改数据.html">
+            
+                <a href="增删查改数据.html">
+            
+                    
+                    增删查改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="创建和删除主键.html">
+            
+                <a href="创建和删除主键.html">
+            
+                    
+                    创建和删除主键
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="大小写和反引号.html">
+            
+                <a href="大小写和反引号.html">
+            
+                    
+                    大小写和反引号
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="字符串类型的大小写.html">
+            
+                <a href="字符串类型的大小写.html">
+            
+                    
+                    字符串类型的大小写
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="SQL注释.html">
+            
+                <a href="SQL注释.html">
+            
+                    
+                    SQL注释
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="CHAR类型.html">
+            
+                <a href="CHAR类型.html">
+            
+                    
+                    CHAR类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="VARCHAR类型.html">
+            
+                <a href="VARCHAR类型.html">
+            
+                    
+                    VARCHAR类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="整型数字.html">
+            
+                <a href="整型数字.html">
+            
+                    
+                    整型数字
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="时间戳.html">
+            
+                <a href="时间戳.html">
+            
+                    
+                    时间戳
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="不要使用utf8.html">
+            
+                <a href="不要使用utf8.html">
+            
+                    
+                    不要使用utf8
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="唯一索引与NULL.html">
+            
+                <a href="唯一索引与NULL.html">
+            
+                    
+                    唯一索引与NULL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="唯一索引的单列长度限制.html">
+            
+                <a href="唯一索引的单列长度限制.html">
+            
+                    
+                    唯一索引的单列长度限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="NULL的判等.html">
+            
+                <a href="NULL的判等.html">
+            
+                    
+                    NULL的判等
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="DDL、DML、DCL等的含义.html">
+            
+                <a href="DDL、DML、DCL等的含义.html">
+            
+                    
+                    DDL、DML、DCL等的含义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="查看表的状态.html">
+            
+                <a href="查看表的状态.html">
+            
+                    
+                    查看表的状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23" data-path="InnoDB存储引擎的限制.html">
+            
+                <a href="InnoDB存储引擎的限制.html">
+            
+                    
+                    InnoDB存储引擎的限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.24" data-path="查询时对部分内容进行转换.html">
+            
+                <a href="查询时对部分内容进行转换.html">
+            
+                    
+                    查询时对部分内容进行转换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25" data-path="自定义函数.html">
+            
+                <a href="自定义函数.html">
+            
+                    
+                    自定义函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >查询时对部分内容进行转换</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x67E5;&#x8BE2;&#x65F6;&#x5BF9;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x8F6C;&#x6362;">&#x67E5;&#x8BE2;&#x65F6;&#x5BF9;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x8F6C;&#x6362;</h1>
+<hr>
+<p>&#x8FD9;&#x91CC;&#x7684;&#x8F6C;&#x6362;&#x662F;&#x6307;&#xFF0C;&#x6211;&#x67E5;&#x5230;&#x4E86;1&#xFF0C;&#x5E0C;&#x671B;&#x5C55;&#x793A;&#x4E3A;<code>&#x5DF2;&#x5B8C;&#x6210;</code>&#xFF0C;&#x67E5;&#x5230;&#x4E86;0&#xFF0C;&#x5E0C;&#x671B;&#x5C55;&#x793A;&#x4E3A;<code>&#x672A;&#x5B8C;&#x6210;</code>&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x7528; if &#x6216;&#x8005; case &#x3002;</p>
+<h2 id="&#x793A;&#x4F8B;1">&#x793A;&#x4F8B;1</h2>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    <span class="hljs-keyword">status</span> <span class="hljs-built_in">int</span>  <span class="hljs-comment">-- 0: &#x672A;&#x5B8C;&#x6210;&#xFF0C;1&#xFF1A;&#x5DF2;&#x5B8C;&#x6210;</span>
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>);
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;1&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">status</span>=<span class="hljs-number">0</span>, <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>, <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span>) <span class="hljs-keyword">as</span> human_status <span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;2&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">status</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>  
+        <span class="hljs-keyword">when</span> <span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span> 
+        <span class="hljs-keyword">end</span> <span class="hljs-keyword">as</span> human_status
+<span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;3&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">status</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>  
+        <span class="hljs-keyword">when</span> <span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span> 
+        <span class="hljs-keyword">else</span> <span class="hljs-string">&apos;&#x672A;&#x77E5;&apos;</span>
+        <span class="hljs-keyword">end</span> <span class="hljs-keyword">as</span> human_status
+<span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code>+--------------+
+| human_status |
++--------------+
+| &#x672A;&#x5B8C;&#x6210;       |
+| &#x5DF2;&#x5B8C;&#x6210;       |
++--------------+
+</code></pre><h2 id="&#x793A;&#x4F8B;2">&#x793A;&#x4F8B;2</h2>
+<p>&#x5982;&#x679C;&#x6709;3&#x4E2A;&#x72B6;&#x6001;&#x5462;&#xFF1F;</p>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    <span class="hljs-keyword">status</span> <span class="hljs-built_in">int</span>  <span class="hljs-comment">-- 0: &#x672A;&#x5B8C;&#x6210;&#xFF0C;1&#xFF1A;&#x5DF2;&#x5B8C;&#x6210;&#xFF0C;2&#xFF1A;&#x53D6;&#x6D88;</span>
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">2</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">2</span>);
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;1&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">status</span>=<span class="hljs-number">0</span>, <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>, <span class="hljs-keyword">if</span>(<span class="hljs-keyword">status</span>=<span class="hljs-number">1</span>, <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span>, <span class="hljs-string">&apos;&#x53D6;&#x6D88;&apos;</span>)) <span class="hljs-keyword">as</span> human_status <span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;2&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">status</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>  
+        <span class="hljs-keyword">when</span> <span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">2</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x53D6;&#x6D88;&apos;</span>
+        <span class="hljs-keyword">end</span> <span class="hljs-keyword">as</span> human_status
+<span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x65B9;&#x5F0F;3&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">status</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>  
+        <span class="hljs-keyword">when</span> <span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x5DF2;&#x5B8C;&#x6210;&apos;</span> 
+        <span class="hljs-keyword">when</span> <span class="hljs-number">2</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&apos;&#x53D6;&#x6D88;&apos;</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-string">&apos;&#x672A;&#x77E5;&apos;</span>
+        <span class="hljs-keyword">end</span> <span class="hljs-keyword">as</span> human_status
+<span class="hljs-keyword">from</span> test_table;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#xFF1A;</p>
+<pre><code>+--------------+
+| human_status |
++--------------+
+| &#x672A;&#x5B8C;&#x6210;       |
+| &#x5DF2;&#x5B8C;&#x6210;       |
+| &#x53D6;&#x6D88;         |
+| &#x53D6;&#x6D88;         |
++--------------+
+</code></pre><h2 id="&#x793A;&#x4F8B;3">&#x793A;&#x4F8B;3</h2>
+<p>&#x4E0A;&#x9762;&#x7684;if&#x548C;case&#x662F;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5E76;&#x975E;&#x6D41;&#x7A0B;&#x63A7;&#x5236;&#x8BED;&#x53E5;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x5728;&#x51FD;&#x6570;&#x4E2D;&#x4F7F;&#x7528; if &#x6216;&#x8005; case &#x8FDB;&#x884C;&#x6D41;&#x7A0B;&#x63A7;&#x5236;&#x3002;</p>
+<p>&#x521B;&#x5EFA;&#x8868;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test_table (
+    <span class="hljs-keyword">status</span> <span class="hljs-built_in">int</span>  <span class="hljs-comment">-- 0: &#x672A;&#x5B8C;&#x6210;&#xFF0C;1&#xFF1A;&#x5DF2;&#x5B8C;&#x6210;&#xFF0C;2&#xFF1A;&#x53D6;&#x6D88;</span>
+) <span class="hljs-keyword">engine</span> = <span class="hljs-keyword">InnoDB</span> <span class="hljs-built_in">character</span> <span class="hljs-keyword">set</span> = utf8mb4;
+</code></pre>
+<p>&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">2</span>);
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test_table(<span class="hljs-keyword">status</span>) <span class="hljs-keyword">values</span>(<span class="hljs-number">2</span>);
+</code></pre>
+<p>&#x521B;&#x5EFA;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">function</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">exists</span> human_status;
+delimiter //
+
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">function</span> human_status(p_status <span class="hljs-built_in">int</span>) <span class="hljs-keyword">returns</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">charset</span> utf8mb4
+<span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span> p_status=<span class="hljs-number">0</span> <span class="hljs-keyword">then</span> 
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;&#x672A;&#x5B8C;&#x6210;&apos;</span>;
+    elseif p_status=1 then 
+        return &apos;&#x5DF2;&#x5B8C;&#x6210;&apos;;
+    elseif p_status=2 then 
+        return &apos;&#x53D6;&#x6D88;&apos;;
+    else 
+        return &apos;&#x672A;&#x77E5;&apos;;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+<span class="hljs-keyword">end</span> //
+
+delimiter ;
+</code></pre>
+<p>&#x67E5;&#x8BE2;&#x6570;&#x636E;&#xFF1A;</p>
+<pre><code>mysql&gt; select human_status(`status`) from test_table;
++------------------------+
+| human_status(`status`) |
++------------------------+
+| &#x672A;&#x5B8C;&#x6210;                 |
+| &#x5DF2;&#x5B8C;&#x6210;                 |
+| &#x53D6;&#x6D88;                   |
+| &#x53D6;&#x6D88;                   |
++------------------------+
+</code></pre>
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="InnoDB存储引擎的限制.html" class="navigation navigation-prev " aria-label="Previous page: InnoDB存储引擎的限制">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="自定义函数.html" class="navigation navigation-next " aria-label="Next page: 自定义函数">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"查询时对部分内容进行转换","level":"1.24","depth":1,"next":{"title":"自定义函数","level":"1.25","depth":1,"path":"自定义函数.md","ref":"自定义函数.md","articles":[]},"previous":{"title":"InnoDB存储引擎的限制","level":"1.23","depth":1,"path":"InnoDB存储引擎的限制.md","ref":"InnoDB存储引擎的限制.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mysql/"},"ga":{"configuration":"auto","token":"UA-130194393-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MySQL 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","MySQL 速查":"/jiaocheng/mysql/"}},"gitbook":"*","description":"一份 MySQL 手册"},"file":{"path":"查询时对部分内容进行转换.md","mtime":"2019-01-12T07:52:09.648Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-12T07:59:49.249Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+
+    </body>
+</html>
+
