@@ -10,6 +10,7 @@
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/增删查改数据.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/创建和删除主键.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/大小写和反引号.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/字符串类型的大小写.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/SQL注释.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/CHAR类型.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/VARCHAR类型.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
@@ -17,8 +18,11 @@
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/时间戳.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/不要使用utf8.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/唯一索引与NULL.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/唯一索引的单列长度限制.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/NULL的判等.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/DDL、DML、DCL等的含义.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/查看表的状态.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://www.letiantian.me/jiaocheng/mysql/InnoDB存储引擎的限制.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/查询时对部分内容进行转换.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://www.letiantian.me/jiaocheng/mysql/自定义函数.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 </urlset>
