@@ -203,7 +203,15 @@
                                 <h1 id="zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684;alias">zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684;alias</h1>
 <hr>
 <p>zsh&#x4E2D;&#x914D;&#x7F6E;&#x7684; alias &#x662F;&#x6307; shell &#x4E0B;&#x7684;alias&#xFF0C;&#x800C;&#x975E; git &#x7684;alias&#x529F;&#x80FD;&#x3002;</p>
-<p>&#x8FD9;&#x4E9B;alias&#x662F;&#x5F00;&#x7BB1;&#x5373;&#x7528;&#x7684;&#xFF0C;&#x5B89;&#x88C5;zsh&#x65F6;&#x4FBF;&#x5DF2;&#x7ECF;&#x914D;&#x7F6E;&#x597D;&#xFF0C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x662F;<code>~/.oh-my-zsh/plugins/git/git.plugin.zsh</code>&#xFF0C;&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x8FD9;&#x4E9B;alias&#x662F;&#x5F00;&#x7BB1;&#x5373;&#x7528;&#x7684;&#xFF0C;&#x5B89;&#x88C5;zsh&#x65F6;&#x4FBF;&#x5DF2;&#x7ECF;&#x914D;&#x7F6E;&#x597D;&#xFF0C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x662F;<code>~/.oh-my-zsh/plugins/git/git.plugin.zsh</code>&#x3002;</p>
+<p>&#x6700;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x51E0;&#x4E2A;&#xFF0C;&#x4F8B;&#x5982;<code>gco</code>&#x3001;<code>gst</code>&#x3001;<code>gd</code>&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x66F4;&#x65B9;&#x4FBF;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x66F4;&#x7B80;&#x5355;&#x7684;alias&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-shell">alias lg=&apos;git lg&apos;
+alias s=&apos;git status&apos;
+alias push=&apos;git push origin `git rev-parse --abbrev-ref HEAD`&apos;
+alias pull=&apos;git pull origin `git rev-parse --abbrev-ref HEAD`&apos;
+</code></pre>
+<p><code>~/.oh-my-zsh/plugins/git/git.plugin.zsh</code>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code class="lang-shell"># Query/use custom command for `git`.
 zstyle -s &quot;:vcs_info:git:*:-all-&quot; &quot;command&quot; _omz_git_git_cmd
 : ${_omz_git_git_cmd:=git}
@@ -453,13 +461,6 @@ alias glum=&apos;git pull upstream master&apos;
 alias gwch=&apos;git whatchanged -p --abbrev-commit --pretty=medium&apos;
 alias gwip=&apos;git add -A; git rm $(git ls-files --deleted) 2&gt; /dev/null; git commit --no-verify -m &quot;--wip-- [skip ci]&quot;&apos;
 </code></pre>
-<p>&#x6700;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x51E0;&#x4E2A;&#xFF0C;&#x4F8B;&#x5982;<code>gco</code>&#x3001;<code>gst</code>&#x3001;<code>gd</code>&#x3002;</p>
-<p>&#x4E3A;&#x4E86;&#x66F4;&#x65B9;&#x4FBF;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x66F4;&#x7B80;&#x5355;&#x7684;alias&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
-<pre><code class="lang-shell">alias lg=&apos;git lg&apos;
-alias s=&apos;git status&apos;
-alias push=&apos;git push origin `git rev-parse --abbrev-ref HEAD`&apos;
-alias pull=&apos;git pull origin `git rev-parse --abbrev-ref HEAD`&apos;
-</code></pre>
 
                                 
                                 </section>
@@ -483,7 +484,7 @@ alias pull=&apos;git pull origin `git rev-parse --abbrev-ref HEAD`&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"zsh中配置的alias","level":"1.5","depth":1,"previous":{"title":"漂亮简洁的log","level":"1.4","depth":1,"path":"漂亮简洁的log.md","ref":"漂亮简洁的log.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/git/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Git 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","Git 速查":"/jiaocheng/git/"}},"gitbook":"*","description":"Git 学习, Git 教程, Git 速查"},"file":{"path":"zsh中配置的alias.md","mtime":"2019-01-02T00:37:53.548Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:17:45.536Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"zsh中配置的alias","level":"1.5","depth":1,"previous":{"title":"漂亮简洁的log","level":"1.4","depth":1,"path":"漂亮简洁的log.md","ref":"漂亮简洁的log.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc","-expandable-chapters","-expandable-chapters-small"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/git/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Git 速查 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"< 返回":"/jiaocheng/","Git 速查":"/jiaocheng/git/"}},"gitbook":"*","description":"Git 学习, Git 教程, Git 速查"},"file":{"path":"zsh中配置的alias.md","mtime":"2019-01-22T00:44:48.861Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:55:20.515Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
