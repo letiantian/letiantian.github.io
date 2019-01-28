@@ -630,7 +630,7 @@
 <ol>
 <li>对于 T 远大于 M 的情况，有两种可能的原因，一个是ID消费的很慢，一个是系统时间出现异常（这种情况要告警）。为了消除ID 消费太慢的情况，IDservice 可以每5分钟检测下当前存的ID对应的时间，若是5分钟之前，则强制重新预取 ID。</li>
 <li>当T&lt;=M，流水号又已经分配完时，向前借1秒。</li>
-<li>为了降低DB操作，也可以一次预取更多的全局ID，比如一次取 10000000 个全局ID。</li>
+<li>为了降低DB操作，也可以一次预取更多的全局ID，比如一次取 100000 个全局ID。</li>
 </ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://juejin.im/post/5a7f9176f265da4e721c73a8" target="_blank" rel="noopener">分布式唯一id：snowflake算法思考</a></li>
