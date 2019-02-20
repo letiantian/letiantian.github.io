@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.letiantian.me/jiaocheng/index.html</loc>
+    
+    <lastmod>2019-02-20T01:19:20.379Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.letiantian.me/404.html</loc>
     
     <lastmod>2019-02-15T01:57:04.774Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://www.letiantian.me/zhaopin/index.html</loc>
     
     <lastmod>2019-01-28T00:56:06.254Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.letiantian.me/jiaocheng/index.html</loc>
-    
-    <lastmod>2019-01-12T08:00:34.892Z</lastmod>
     
   </url>
   
