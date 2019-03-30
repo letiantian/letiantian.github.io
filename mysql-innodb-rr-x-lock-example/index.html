@@ -1,3 +1,5 @@
+ <!-- 非首页-->
+
 <!doctype html>
 
 
@@ -79,7 +81,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="乐天的个人网站" type="application/atom+xml" />
 
 
 
@@ -96,7 +98,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL InnoDB 可重复读下的排他锁探索">
 <meta property="og:url" content="http://www.letiantian.me/mysql-innodb-rr-x-lock-example/index.html">
-<meta property="og:site_name" content="樂天笔记">
+<meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="排他锁是一种独占锁，用于独占资源。以多人轮流使用吹风机吹头发为例子。独占什么资源？独占吹风机，在独占的期间内，只有这个人能使用吹风机，独占结束后，别人尝试独占吹风机。当然之前用过吹风机的人也可以继续尝试独占。如何尝试独占？众人可以掷骰子，可以排队等等。锁在哪里？在这里，锁是隐式的，看不到的，存在于「吹风机同一时刻只能服务一个人」这句话里。 本文主要通过一些示例，观察MySQL InnoDB中，可重">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-09-23T00:10:28.000Z">
@@ -146,7 +148,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>MySQL InnoDB 可重复读下的排他锁探索 | 樂天笔记</title>
+  <title>MySQL InnoDB 可重复读下的排他锁探索 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -184,6 +186,9 @@
 
 
 
+
+
+
   
   
     
@@ -200,7 +205,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">樂天笔记</span>
+        <span class="site-title">乐天的个人网站</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -287,11 +292,14 @@
  </div>
     </header>
 
+
+
     <main id="main" class="main">
       <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
+        
+          <div class="content-wrap">
+            <div id="content" class="content">
+              
 
   <div id="posts" class="posts-expand">
     
@@ -312,7 +320,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
+      <meta itemprop="name" content="乐天的个人网站">
     </span>
 
     
@@ -2454,11 +2462,11 @@ INSERT INTO test01.kkk(id, num, age) VALUES(10, 4000, 23);
   </div>
 
 
-          </div>
-          
+            </div>
+            
 
 
-          
+            
   <div class="comments" id="comments">
     
       <div id="disqus_thread">
@@ -2471,7 +2479,8 @@ INSERT INTO test01.kkk(id, num, age) VALUES(10, 4000, 23);
   </div>
 
 
-        </div>
+          </div>
+      
         
           
   
@@ -2598,9 +2607,11 @@ INSERT INTO test01.kkk(id, num, age) VALUES(10, 4000, 23);
       </div>
     </main>
 
+  
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        
+          <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -2623,11 +2634,14 @@ INSERT INTO test01.kkk(id, num, age) VALUES(10, 4000, 23);
 </div>
 
 
-        
+          
 
-        
+          
+  
       </div>
     </footer>
+
+  
 
     
       <div class="back-to-top">
@@ -2637,6 +2651,8 @@ INSERT INTO test01.kkk(id, num, age) VALUES(10, 4000, 23);
     
 
   </div>
+
+  
 
   
 

@@ -1,3 +1,5 @@
+ <!-- 非首页-->
+
 <!doctype html>
 
 
@@ -79,7 +81,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="乐天的个人网站" type="application/atom+xml" />
 
 
 
@@ -96,7 +98,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="给自己写一个php框架(2)">
 <meta property="og:url" content="http://www.letiantian.me/2013-09-15-write-php-framework-2/index.html">
-<meta property="og:site_name" content="樂天笔记">
+<meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="2013-09-15 给自己写一个php框架-1给自己写一个php框架-2TPP —— 一个简单的PHP框架使用TPP做一个简单的登录系统   这次描述的是在“给自己写一个php框架-1”的基础上实现的支持RESTful url的版本。  该版本的实现目标是所有的访问（除了图片、css之类）都经过web app根目录下的index.php，而在url中又不会显示出index.php。姑且将该框架命">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2013/09/2013-09-05-tp2-01.png">
@@ -150,7 +152,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>给自己写一个php框架(2) | 樂天笔记</title>
+  <title>给自己写一个php框架(2) | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -188,6 +190,9 @@
 
 
 
+
+
+
   
   
     
@@ -204,7 +209,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">樂天笔记</span>
+        <span class="site-title">乐天的个人网站</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -291,11 +296,14 @@
  </div>
     </header>
 
+
+
     <main id="main" class="main">
       <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
+        
+          <div class="content-wrap">
+            <div id="content" class="content">
+              
 
   <div id="posts" class="posts-expand">
     
@@ -316,7 +324,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
+      <meta itemprop="name" content="乐天的个人网站">
     </span>
 
     
@@ -595,11 +603,11 @@ RewriteRule ^(.*)$ index.php/$1 [L]
   </div>
 
 
-          </div>
-          
+            </div>
+            
 
 
-          
+            
   <div class="comments" id="comments">
     
       <div id="disqus_thread">
@@ -612,7 +620,8 @@ RewriteRule ^(.*)$ index.php/$1 [L]
   </div>
 
 
-        </div>
+          </div>
+      
         
           
   
@@ -739,9 +748,11 @@ RewriteRule ^(.*)$ index.php/$1 [L]
       </div>
     </main>
 
+  
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        
+          <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -764,11 +775,14 @@ RewriteRule ^(.*)$ index.php/$1 [L]
 </div>
 
 
-        
+          
 
-        
+          
+  
       </div>
     </footer>
+
+  
 
     
       <div class="back-to-top">
@@ -778,6 +792,8 @@ RewriteRule ^(.*)$ index.php/$1 [L]
     
 
   </div>
+
+  
 
   
 

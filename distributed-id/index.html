@@ -1,3 +1,5 @@
+ <!-- 非首页-->
+
 <!doctype html>
 
 
@@ -79,7 +81,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="乐天的个人网站" type="application/atom+xml" />
 
 
 
@@ -96,7 +98,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式 ID 生成方案探讨">
 <meta property="og:url" content="http://www.letiantian.me/distributed-id/index.html">
-<meta property="og:site_name" content="樂天笔记">
+<meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="我们用个业务场景的例子来说明： 如果一个业务的数据使用 MySQL  存储，基于用户ID进行分库分表，每一条数据都需要分配一个在这个业务中的全局唯一ID，如何实现全局唯一 ID ？本文探讨一些方案。 探讨方案前，先讨论下面两个点： 一、用数字，还是用字符串？ 下面的方案中既有用数字当全局唯一ID，也有用字符串作为全局唯一ID的。数字存储空间小，性能相对较高，但是取值范围有限，也很难有语义化的值。字">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.letiantian.me/content/images/2019/0001.png">
@@ -148,7 +150,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>分布式 ID 生成方案探讨 | 樂天笔记</title>
+  <title>分布式 ID 生成方案探讨 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -186,6 +188,9 @@
 
 
 
+
+
+
   
   
     
@@ -202,7 +207,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">樂天笔记</span>
+        <span class="site-title">乐天的个人网站</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -289,11 +294,14 @@
  </div>
     </header>
 
+
+
     <main id="main" class="main">
       <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
+        
+          <div class="content-wrap">
+            <div id="content" class="content">
+              
 
   <div id="posts" class="posts-expand">
     
@@ -314,7 +322,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
+      <meta itemprop="name" content="乐天的个人网站">
     </span>
 
     
@@ -739,11 +747,11 @@
   </div>
 
 
-          </div>
-          
+            </div>
+            
 
 
-          
+            
   <div class="comments" id="comments">
     
       <div id="disqus_thread">
@@ -756,7 +764,8 @@
   </div>
 
 
-        </div>
+          </div>
+      
         
           
   
@@ -883,9 +892,11 @@
       </div>
     </main>
 
+  
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        
+          <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -908,11 +919,14 @@
 </div>
 
 
-        
+          
 
-        
+          
+  
       </div>
     </footer>
+
+  
 
     
       <div class="back-to-top">
@@ -922,6 +936,8 @@
     
 
   </div>
+
+  
 
   
 

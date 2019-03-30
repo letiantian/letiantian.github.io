@@ -1,3 +1,5 @@
+ <!-- 非首页-->
+
 <!doctype html>
 
 
@@ -73,13 +75,13 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法,机器学习," />
+  <meta name="keywords" content="机器学习,算法," />
 
 
 
 
 
-  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="乐天的个人网站" type="application/atom+xml" />
 
 
 
@@ -92,11 +94,11 @@
 
 
 <meta name="description" content="2016-02-08 基于词库的汉字转拼音词库中既要包含每个字的拼音，也要包含常用单词/短语的读音。有些字是多音字，所以至少要保存其最常用的读音，不常用的读音多出现在单词/短语里。 好了，词库准备好了，现在手头有一句话要转换要转换为拼音，这句话是： 你好世界杯 我们的词库是这样子的： 你：nǐ 好：hǎo,hào 世：shì 界：jiè 杯：bēi 世界：shì,jiè 你好：nǐ,hǎo 苦尽甘">
-<meta name="keywords" content="算法,机器学习">
+<meta name="keywords" content="机器学习,算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何实现拼音与汉字的互相转换">
 <meta property="og:url" content="http://www.letiantian.me/2016-02-08-pinyin-hanzi/index.html">
-<meta property="og:site_name" content="樂天笔记">
+<meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="2016-02-08 基于词库的汉字转拼音词库中既要包含每个字的拼音，也要包含常用单词/短语的读音。有些字是多音字，所以至少要保存其最常用的读音，不常用的读音多出现在单词/短语里。 好了，词库准备好了，现在手头有一句话要转换要转换为拼音，这句话是： 你好世界杯 我们的词库是这样子的： 你：nǐ 好：hǎo,hào 世：shì 界：jiè 杯：bēi 世界：shì,jiè 你好：nǐ,hǎo 苦尽甘">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-02-16T07:02:28.000Z">
@@ -146,7 +148,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>如何实现拼音与汉字的互相转换 | 樂天笔记</title>
+  <title>如何实现拼音与汉字的互相转换 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -184,6 +186,9 @@
 
 
 
+
+
+
   
   
     
@@ -200,7 +205,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">樂天笔记</span>
+        <span class="site-title">乐天的个人网站</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -287,11 +292,14 @@
  </div>
     </header>
 
+
+
     <main id="main" class="main">
       <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
+        
+          <div class="content-wrap">
+            <div id="content" class="content">
+              
 
   <div id="posts" class="posts-expand">
     
@@ -312,7 +320,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
+      <meta itemprop="name" content="乐天的个人网站">
     </span>
 
     
@@ -354,8 +362,8 @@
               </span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/tags/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -365,8 +373,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/tags/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/tags/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -587,11 +595,11 @@ nihao:你好:0.6
   </div>
 
 
-          </div>
-          
+            </div>
+            
 
 
-          
+            
   <div class="comments" id="comments">
     
       <div id="disqus_thread">
@@ -604,7 +612,8 @@ nihao:你好:0.6
   </div>
 
 
-        </div>
+          </div>
+      
         
           
   
@@ -731,9 +740,11 @@ nihao:你好:0.6
       </div>
     </main>
 
+  
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        
+          <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -756,11 +767,14 @@ nihao:你好:0.6
 </div>
 
 
-        
+          
 
-        
+          
+  
       </div>
     </footer>
+
+  
 
     
       <div class="back-to-top">
@@ -770,6 +784,8 @@ nihao:你好:0.6
     
 
   </div>
+
+  
 
   
 

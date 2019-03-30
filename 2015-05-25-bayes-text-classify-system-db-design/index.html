@@ -1,3 +1,5 @@
+ <!-- 非首页-->
+
 <!doctype html>
 
 
@@ -79,7 +81,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="樂天笔记" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="乐天的个人网站" type="application/atom+xml" />
 
 
 
@@ -96,7 +98,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于贝叶斯的文本分类系统的数据库设计">
 <meta property="og:url" content="http://www.letiantian.me/2015-05-25-bayes-text-classify-system-db-design/index.html">
-<meta property="og:site_name" content="樂天笔记">
+<meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="2015-05-25 本博客中贝叶斯相关的文章： 使用朴素贝叶斯分类器划分邮件朴素贝叶斯的三个常用模型：高斯、多项式、伯努利基于贝叶斯的文本分类实战   本文以使用多项式贝叶斯模型为例。该模型在文本分类这一领域的正确率一般都比较高，而且有一个很大的有点，就是支持增量训练。 在该模型下： 先验概率P(c)= 类c下单词总数/整个训练样本的单词总数  类条件概率P(tk|c)=(类c下单词tk在该类下">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-05-25T15:23:23.000Z">
@@ -146,7 +148,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>基于贝叶斯的文本分类系统的数据库设计 | 樂天笔记</title>
+  <title>基于贝叶斯的文本分类系统的数据库设计 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -184,6 +186,9 @@
 
 
 
+
+
+
   
   
     
@@ -200,7 +205,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">樂天笔记</span>
+        <span class="site-title">乐天的个人网站</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -287,11 +292,14 @@
  </div>
     </header>
 
+
+
     <main id="main" class="main">
       <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
+        
+          <div class="content-wrap">
+            <div id="content" class="content">
+              
 
   <div id="posts" class="posts-expand">
     
@@ -312,7 +320,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="樂天笔记">
+      <meta itemprop="name" content="乐天的个人网站">
     </span>
 
     
@@ -535,11 +543,11 @@ P(no | d)
   </div>
 
 
-          </div>
-          
+            </div>
+            
 
 
-          
+            
   <div class="comments" id="comments">
     
       <div id="disqus_thread">
@@ -552,7 +560,8 @@ P(no | d)
   </div>
 
 
-        </div>
+          </div>
+      
         
           
   
@@ -654,9 +663,11 @@ P(no | d)
       </div>
     </main>
 
+  
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        
+          <div class="copyright" >
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -679,11 +690,14 @@ P(no | d)
 </div>
 
 
-        
+          
 
-        
+          
+  
       </div>
     </footer>
+
+  
 
     
       <div class="back-to-top">
@@ -693,6 +707,8 @@ P(no | d)
     
 
   </div>
+
+  
 
   
 
