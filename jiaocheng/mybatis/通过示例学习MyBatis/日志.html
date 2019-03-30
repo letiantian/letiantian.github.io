@@ -523,49 +523,7 @@
                                 
                                 <h1 id="09&#x3001;&#x65E5;&#x5FD7;">09&#x3001;&#x65E5;&#x5FD7;</h1>
 <hr>
-<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#xFF0C;&#x8BA9;mybatis&#x6253;&#x5370;&#x51FA;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x65E5;&#x5FD7;&#x3002;</p>
-<p>&#x4EE5; <a href="&#x6392;&#x5E8F;.html">&#x6392;&#x5E8F;</a> &#x4E2D;&#x7684;&#x793A;&#x4F8B;  <a href="https://github.com/letiantian/mybatis-tutorial/tree/master/demo/mybatis-demo-007" target="_blank">mybatis-demo-007</a> &#x4E3A;&#x4F8B;&#xFF0C;log4j.properties &#x914D;&#x7F6E;&#x4E3A;&#xFF1A;</p>
-<pre><code class="lang-ini">log4j.rootLogger=INFO, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
-</code></pre>
-<p>&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x52A0;&#x4E00;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-ini">log4j.logger.org.mybatis.mapper=TRACE
-</code></pre>
-<p>&#x5C31;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x51FA; mapper &#x5305;&#x4E0B;&#x6240;&#x6709; Mapper &#x63A5;&#x53E3;&#x4E2D;&#x51FD;&#x6570;&#x7684;&#x6267;&#x884C;&#x65E5;&#x5FD7;&#x3002;&#x56E0;&#x4E3A;<code>log4j.rootLogger=INFO</code>&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x4F1A;&#x6253;&#x5370;&#x51FA;<code>INFO</code>&#x7EA7;&#x522B;&#x53CA;&#x4EE5;&#x4E0A;&#x7EA7;&#x522B;&#x7684;&#x65E5;&#x5FD7;&#x3002;&#x4E3A;&#x4E86;&#x770B;&#x5230;&#x66F4;&#x591A;&#x65E5;&#x5FD7;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x6539;&#x6210;&#x66F4;&#x4F4E;&#x7EA7;&#x522B;&#x7684;<code>DEBUG</code>&#x3002;&#x6700;&#x7EC8;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-ini">log4j.rootLogger=DEBUG, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
-
-# mapper &#x5305;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x63A5;&#x53E3;&#x7684;&#x65B9;&#x6CD5;&#x90FD;&#x4F1A;&#x6253;&#x65E5;&#x5FD7;&#xFF0C;&#x4F1A;&#x6253;&#x5370;&#x4E0D;&#x4F4E;&#x4E8E; DEBUG &#x7EA7;&#x522B;&#x7684;&#x65E5;&#x5FD7;
-log4j.logger.org.mybatis.mapper=TRACE
-</code></pre>
-<p>&#x6267;&#x884C; Main &#x7C7B;&#x4E2D;&#x7684;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_01</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
-    SqlSession sqlSession = getSqlSession();
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-    List&lt;User&gt; userList = userMapper.findByPassword(<span class="hljs-string">&quot;123&quot;</span>, <span class="hljs-string">&quot;id asc&quot;</span>);
-    log.info(<span class="hljs-string">&quot;{}&quot;</span>, userList);
-}
-</code></pre>
-<p>&#x8F93;&#x51FA;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-java">DEBUG [main] - Logging initialized using <span class="hljs-string">&apos;class org.apache.ibatis.logging.slf4j.Slf4jImpl&apos;</span> adapter.
-DEBUG [main] - PooledDataSource forcefully closed/removed all connections.
-DEBUG [main] - PooledDataSource forcefully closed/removed all connections.
-DEBUG [main] - PooledDataSource forcefully closed/removed all connections.
-DEBUG [main] - PooledDataSource forcefully closed/removed all connections.
-DEBUG [main] - Opening JDBC Connection
-DEBUG [main] - Created connection <span class="hljs-number">17037394</span>.
-DEBUG [main] - Setting autocommit to <span class="hljs-keyword">false</span> on JDBC Connection [com.mysql.jdbc.JDBC4Connection@<span class="hljs-number">103f</span>852]
-DEBUG [main] - ==&gt;  Preparing: select * from blog_db.user where password=? order by id asc 
-DEBUG [main] - ==&gt; Parameters: <span class="hljs-number">123</span>(String)
-DEBUG [main] - &lt;==      Total: <span class="hljs-number">2</span>
- INFO [main] - [User(id=<span class="hljs-number">1</span>, name=letian, email=letian@<span class="hljs-number">111</span>.com, password=<span class="hljs-number">123</span>), User(id=<span class="hljs-number">2</span>, name=xiaosi, email=xiaosi@<span class="hljs-number">111</span>.com, password=<span class="hljs-number">123</span>)]
-</code></pre>
-<p>&#x672C;&#x8282;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x5728; <a href="https://github.com/letiantian/mybatis-tutorial/tree/master/demo/mybatis-demo-008" target="_blank">mybatis-demo-008</a> &#x3002;</p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/mybatis/mybatis-log.html" target="_blank">https://blog.letiantian.me/mybatis/mybatis-log.html</a></p>
 
                                 
                                 </section>
@@ -593,7 +551,7 @@ DEBUG [main] - &lt;==      Total: <span class="hljs-number">2</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"09、日志","level":"1.3.9","depth":2,"next":{"title":"10、添加、删除、修改数据","level":"1.3.10","depth":2,"path":"通过示例学习MyBatis/添加、删除、修改数据.md","ref":"通过示例学习MyBatis/添加、删除、修改数据.md","articles":[]},"previous":{"title":"08、排序","level":"1.3.8","depth":2,"path":"通过示例学习MyBatis/排序.md","ref":"通过示例学习MyBatis/排序.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/日志.md","mtime":"2018-11-25T00:27:46.363Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:17:55.068Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"09、日志","level":"1.3.9","depth":2,"next":{"title":"10、添加、删除、修改数据","level":"1.3.10","depth":2,"path":"通过示例学习MyBatis/添加、删除、修改数据.md","ref":"通过示例学习MyBatis/添加、删除、修改数据.md","articles":[]},"previous":{"title":"08、排序","level":"1.3.8","depth":2,"path":"通过示例学习MyBatis/排序.md","ref":"通过示例学习MyBatis/排序.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"通过示例学习MyBatis/日志.md","mtime":"2019-03-30T02:49:57.001Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T02:51:30.860Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

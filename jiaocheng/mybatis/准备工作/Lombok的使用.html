@@ -523,143 +523,7 @@
                                 
                                 <h1 id="06&#x3001;lombok&#x7684;&#x4F7F;&#x7528;">06&#x3001;Lombok&#x7684;&#x4F7F;&#x7528;</h1>
 <hr>
-<p>Lombok&#x53EF;&#x4EE5;&#x4E3A;&#x6211;&#x4EEC;&#x51CF;&#x5C11;&#x6837;&#x677F;&#x4EE3;&#x7801;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x66F4;&#x65E9;&#x7684;&#x4F53;&#x9A8C;Java&#x7684;&#x672A;&#x6765;&#x7279;&#x6027;&#x3002;</p>
-<p>&#x5B98;&#x7F51;&#xFF1A; <a href="https://projectlombok.org/" target="_blank">https://projectlombok.org/</a></p>
-<blockquote>
-<p>Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.
-Never write another getter or equals method again. Early access to future java features such as val, and much more.</p>
-</blockquote>
-<!--more-->
-<h2 id="&#x793A;&#x4F8B;1&#xFF1A;&#x4F7F;&#x7528;data&#x6CE8;&#x89E3;">&#x793A;&#x4F8B;1&#xFF1A;&#x4F7F;&#x7528;@Data&#x6CE8;&#x89E3;</h2>
-<p>&#x8FD9;&#x4E2A;&#x6CE8;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x4E0D;&#x7528;&#x5199;set&#x3001;get&#x3001;hashCode&#x3001;toString&#x65B9;&#x6CD5;&#x3002;</p>
-<p>&#x9879;&#x76EE;&#x7ED3;&#x6784;&#xFF1A;</p>
-<pre><code class="lang-java">
-&#x251C;&#x2500;&#x2500; build.gradle
-&#x251C;&#x2500;&#x2500; settings.gradle
-&#x2514;&#x2500;&#x2500; src
-    &#x251C;&#x2500;&#x2500; main
-    &#x2502;   &#x251C;&#x2500;&#x2500; java
-    &#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; demo
-    &#x2502;   &#x2502;       &#x251C;&#x2500;&#x2500; Main.java
-    &#x2502;   &#x2502;       &#x2514;&#x2500;&#x2500; Person.java
-    &#x2502;   &#x2514;&#x2500;&#x2500; resources
-    &#x2514;&#x2500;&#x2500; test
-        &#x251C;&#x2500;&#x2500; java
-        &#x2514;&#x2500;&#x2500; resources
-</code></pre>
-<p>build.gradle:</p>
-<pre><code class="lang-gradle">plugins {
-    id <span class="hljs-string">&apos;java&apos;</span>
-}
-
-<span class="hljs-keyword">group</span> <span class="hljs-string">&apos;com.example&apos;</span>
-version <span class="hljs-string">&apos;1.0-SNAPSHOT&apos;</span>
-
-<span class="hljs-keyword">sourceCompatibility</span> = <span class="hljs-number">1.8</span>
-
-<span class="hljs-keyword">repositories</span> {
-    mavenCentral()
-}
-
-<span class="hljs-keyword">dependencies</span> {
-    <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;org.projectlombok&apos;</span>, name: <span class="hljs-string">&apos;lombok&apos;</span>, version: <span class="hljs-string">&apos;1.18.0&apos;</span>
-
-    testCompile <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;junit&apos;</span>, name: <span class="hljs-string">&apos;junit&apos;</span>, version: <span class="hljs-string">&apos;4.12&apos;</span>
-}
-</code></pre>
-<p>&#x867D;&#x7136;&#x662F;compile&#xFF0C;&#x4F46;lombok&#x53EA;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#x4F7F;&#x7528;&#x3002;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> demo;
-
-<span class="hljs-keyword">import</span> lombok.AllArgsConstructor;
-<span class="hljs-keyword">import</span> lombok.Data;
-<span class="hljs-keyword">import</span> java.io.Serializable;
-
-<span class="hljs-meta">@Data</span>
-<span class="hljs-meta">@AllArgsConstructor</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>{
-
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;
-
-}
-</code></pre>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> demo;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        Person p = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">&quot;Tom&quot;</span>, <span class="hljs-number">18</span>);
-
-        System.out.println(p);
-        System.out.println(p.getName());
-        System.out.println(p.getAge());
-    }
-
-}
-</code></pre>
-<p>&#x7F16;&#x8BD1;&#x8FD0;&#x884C;&#xFF1A;</p>
-<pre><code class="lang-plain">$ gradle build
-$ java -classpath build/libs/demo-1.0-SNAPSHOT.jar demo.Main
-Person(name=Tom, age=18)
-Tom
-18
-</code></pre>
-<p><strong>&#x7528;Intellij IDEA&#x7F16;&#x8F91;&#x3001;&#x8FD0;&#x884C;&#x4EE3;&#x7801;&#xFF0C;&#x9700;&#x8981;&#x88C5;lombok&#x63D2;&#x4EF6;&#xFF0C;&#x4EE5;&#x53CA;&#x505A;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x3002;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x300A;<a href="https://blog.csdn.net/xzp_12345/article/details/80268834" target="_blank">IDEA&#x4E0B;lombok&#x5B89;&#x88C5;&#xFF0C;&#x4EE5;&#x53CA;&#x627E;&#x4E0D;&#x5230;get,set&#x7684;&#x95EE;&#x9898;</a>&#x300B;&#x3002;</strong> </p>
-<p>&#x7528;lombok&#x6700;&#x53EF;&#x80FD;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;&#x4EE3;&#x7801;&#x770B;&#x8D77;&#x6765;&#x6CA1;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x5728;IDE&#x4E2D;&#x4E00;&#x8FD0;&#x884C;&#x5C31;&#x62A5;&#x9519;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x542F;&#x7528;&#x6CE8;&#x89E3;&#x5904;&#x7406;&#x5668;&#xFF08;Annotation Processors&#xFF09;&#x3002;&#x8FDB;&#x5165; IDEA &#x83DC;&#x5355; =&gt; Preferences =&gt; Build, Execution, Deployment =&gt; Compiler =&gt; Annotation Processors &#xFF0C;&#x9009;&#x4E2D;<code>Enable annotation processing</code> &#x5373;&#x53EF;&#x3002;</p>
-<h2 id="&#x793A;&#x4F8B;2&#xFF1A;&#x4F7F;&#x7528;slf4j">&#x793A;&#x4F8B;2&#xFF1A;&#x4F7F;&#x7528;@Slf4j</h2>
-<p>Slf4j&#x662F;&#x4E00;&#x4E2A;&#x65E5;&#x5FD7;&#x6846;&#x67B6;&#x3002;</p>
-<p>&#x9879;&#x76EE;&#x7ED3;&#x6784;&#xFF1A;</p>
-<pre><code class="lang-plain">&#x251C;&#x2500;&#x2500; build.gradle
-&#x251C;&#x2500;&#x2500; settings.gradle
-&#x2514;&#x2500;&#x2500; src
-    &#x251C;&#x2500;&#x2500; main
-    &#x2502;   &#x251C;&#x2500;&#x2500; java
-    &#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; demo
-    &#x2502;   &#x2502;       &#x2514;&#x2500;&#x2500; Main.java
-    &#x2502;   &#x2514;&#x2500;&#x2500; resources
-    &#x2514;&#x2500;&#x2500; test
-        &#x251C;&#x2500;&#x2500; java
-        &#x2514;&#x2500;&#x2500; resources
-</code></pre>
-<p>build.gradle &#xFF1A;</p>
-<pre><code class="lang-gradle">plugins {
-    id <span class="hljs-string">&apos;java&apos;</span>
-}
-
-<span class="hljs-keyword">group</span> <span class="hljs-string">&apos;com.example&apos;</span>
-version <span class="hljs-string">&apos;1.0-SNAPSHOT&apos;</span>
-
-<span class="hljs-keyword">sourceCompatibility</span> = <span class="hljs-number">1.8</span>
-
-<span class="hljs-keyword">repositories</span> {
-    mavenCentral()
-}
-
-<span class="hljs-keyword">dependencies</span> {
-    <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;org.projectlombok&apos;</span>, name: <span class="hljs-string">&apos;lombok&apos;</span>, version: <span class="hljs-string">&apos;1.18.0&apos;</span>
-    <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;org.slf4j&apos;</span>, name: <span class="hljs-string">&apos;slf4j-api&apos;</span>, version: <span class="hljs-string">&apos;1.7.25&apos;</span>
-    <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;org.slf4j&apos;</span>, name: <span class="hljs-string">&apos;slf4j-simple&apos;</span>, version: <span class="hljs-string">&apos;1.7.25&apos;</span>
-
-    testCompile <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;junit&apos;</span>, name: <span class="hljs-string">&apos;junit&apos;</span>, version: <span class="hljs-string">&apos;4.12&apos;</span>
-}
-</code></pre>
-<p>@Slf4j &#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x751F;&#x6210; log &#x53D8;&#x91CF;&#x3002;</p>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> demo;
-
-<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
-
-<span class="hljs-meta">@Slf</span>4j
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        log.info(<span class="hljs-string">&quot;1+1 = {}&quot;</span>, <span class="hljs-number">2</span>);
-    }
-
-}
-</code></pre>
-<p>&#x8FD0;&#x884C; <code>Main</code> &#x7C7B;&#xFF0C;&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code class="lang-plain">[main] INFO demo.Main - 1+1 = 2
-</code></pre>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/java/java-lombok.html" target="_blank">https://blog.letiantian.me/java/java-lombok.html</a> </p>
 
                                 
                                 </section>
@@ -687,7 +551,7 @@ version <span class="hljs-string">&apos;1.0-SNAPSHOT&apos;</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"06、Lombok的使用","level":"1.2.6","depth":2,"next":{"title":"07、如何编写Java示例代码","level":"1.2.7","depth":2,"path":"准备工作/如何编写Java示例代码.md","ref":"准备工作/如何编写Java示例代码.md","articles":[]},"previous":{"title":"05、Slf4j日志框架的使用","level":"1.2.5","depth":2,"path":"准备工作/Slf4j日志框架的使用.md","ref":"准备工作/Slf4j日志框架的使用.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"准备工作/Lombok的使用.md","mtime":"2018-11-25T15:43:33.811Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:17:55.068Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"06、Lombok的使用","level":"1.2.6","depth":2,"next":{"title":"07、如何编写Java示例代码","level":"1.2.7","depth":2,"path":"准备工作/如何编写Java示例代码.md","ref":"准备工作/如何编写Java示例代码.md","articles":[]},"previous":{"title":"05、Slf4j日志框架的使用","level":"1.2.5","depth":2,"path":"准备工作/Slf4j日志框架的使用.md","ref":"准备工作/Slf4j日志框架的使用.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/mybatis/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MyBatis 教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"MyBatis 教程":"."}},"gitbook":"*","description":"MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。本教程结合案例带你深入浅出地了解和学习 MyBatis。"},"file":{"path":"准备工作/Lombok的使用.md","mtime":"2019-03-30T02:28:15.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T02:51:30.860Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

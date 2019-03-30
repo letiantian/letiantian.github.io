@@ -366,138 +366,7 @@
                                 
                                 <h1 id="&#x83B7;&#x53D6;-url-&#x53C2;&#x6570;">&#x83B7;&#x53D6; URL &#x53C2;&#x6570;</h1>
 <hr>
-<blockquote>
-<p>&#x672C;&#x6587;&#x8BB2;&#x8FF0;&#x5728; Python Flask Web &#x6846;&#x67B6;&#x4E2D;&#x5982;&#x4F55;&#x83B7;&#x53D6; URL &#x53C2;&#x6570;&#x3002;</p>
-</blockquote>
-<p>URL&#x53C2;&#x6570;&#x662F;&#x51FA;&#x73B0;&#x5728;url&#x4E2D;&#x7684;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x4F8B;&#x5982;<code>http://127.0.0.1:5000/?disp=3</code>&#x4E2D;&#x7684;url&#x53C2;&#x6570;&#x662F;<code>{&apos;disp&apos;:3}</code>&#x3002;</p>
-<h3 id="&#x5EFA;&#x7ACB;flask&#x9879;&#x76EE;">&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;</h3>
-<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/server.py
-</code></pre><h3 id="&#x5217;&#x51FA;&#x6240;&#x6709;&#x7684;url&#x53C2;&#x6570;">&#x5217;&#x51FA;&#x6240;&#x6709;&#x7684;url&#x53C2;&#x6570;</h3>
-<p>&#x5728;server.py&#x4E2D;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> request.args.__str__()
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>&#xFF0C;&#x5C06;&#x663E;&#x793A;&#xFF1A;</p>
-<pre><code>ImmutableMultiDict([(&apos;user&apos;, &apos;Flask&apos;), (&apos;time&apos;, &apos;&apos;), (&apos;p&apos;, &apos;7&apos;), (&apos;p&apos;, &apos;8&apos;)])
-</code></pre><p>&#x8F83;&#x65B0;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E5F;&#x652F;&#x6301;&#x76F4;&#x63A5;&#x5728;url&#x4E2D;&#x8F93;&#x5165;&#x4E2D;&#x6587;&#xFF08;&#x6700;&#x65B0;&#x7684;&#x706B;&#x72D0;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x90E8;&#x4F1A;&#x5E2E;&#x5FD9;&#x5C06;&#x4E2D;&#x6587;&#x8F6C;&#x6362;&#x6210;&#x7B26;&#x5408;URL&#x89C4;&#x8303;&#x7684;&#x6570;&#x636E;&#xFF09;&#xFF0C;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/?info=&#x8FD9;&#x662F;&#x7231;&#xFF0C;</code>&#xFF0C;&#x5C06;&#x663E;&#x793A;&#xFF1A;</p>
-<pre><code>ImmutableMultiDict([(&apos;info&apos;, &apos;&#x8FD9;&#x662F;&#x7231;&#xFF0C;&apos;)])
-</code></pre><p>&#x6D4F;&#x89C8;&#x5668;&#x4F20;&#x7ED9;&#x6211;&#x4EEC;&#x7684;Flask&#x670D;&#x52A1;&#x7684;&#x6570;&#x636E;&#x957F;&#x4EC0;&#x4E48;&#x6837;&#x5B50;&#x5462;&#xFF1F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<code>request.full_path</code>&#x548C;<code>request.path</code>&#x6765;&#x770B;&#x4E00;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    print(request.path)
-    print(request.full_path)
-    <span class="hljs-keyword">return</span> request.args.__str__()
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/?info=&#x8FD9;&#x662F;&#x7231;&#xFF0C;</code>&#xFF0C;&#x8FD0;&#x884C;<code>server.py</code>&#x7684;&#x7EC8;&#x7AEF;&#x4F1A;&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code>/
-/?info=%E8%BF%99%E6%98%AF%E7%88%B1%EF%BC%8C
-</code></pre><h3 id="&#x83B7;&#x53D6;&#x67D0;&#x4E2A;&#x6307;&#x5B9A;&#x7684;&#x53C2;&#x6570;">&#x83B7;&#x53D6;&#x67D0;&#x4E2A;&#x6307;&#x5B9A;&#x7684;&#x53C2;&#x6570;</h3>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x8981;&#x83B7;&#x53D6;&#x952E;<code>info</code>&#x5BF9;&#x5E94;&#x7684;&#x503C;&#xFF0C;&#x5982;&#x4E0B;&#x4FEE;&#x6539;<code>server.py</code>&#xFF1A;</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&apos;/&apos;)
-def hello_world():
-    return request.args.get(&apos;info&apos;)
-
-if __name__ == &apos;__main__&apos;:
-    app.run(port=5000)
-</code></pre><p>&#x8FD0;&#x884C;<code>server.py</code>&#xFF0C;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/?info=hello</code>&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x5C06;&#x663E;&#x793A;&#xFF1A;</p>
-<pre><code>hello
-</code></pre><p>&#x4E0D;&#x8FC7;&#xFF0C;&#x5F53;&#x6211;&#x4EEC;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/</code>&#x65F6;&#x5019;&#x5374;&#x51FA;&#x73B0;&#x4E86;500&#x9519;&#x8BEF;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x663E;&#x793A;&#xFF1A;</p>
-<p><img src="../img/flask-001.jpg" width="600"></p>
-<p>&#x5982;&#x679C;&#x5F00;&#x542F;&#x4E86;Debug&#x6A21;&#x5F0F;&#xFF0C;&#x4F1A;&#x663E;&#x793A;&#xFF1A;</p>
-<p><img src="../img/flask-002.jpg" width="600"></p>
-<p>&#x4E3A;&#x4EC0;&#x4E48;&#x4E3A;&#x8FD9;&#x6837;&#xFF1F;</p>
-<p>&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x5728;URL&#x53C2;&#x6570;&#x4E2D;&#x627E;&#x5230;<code>info</code>&#x3002;&#x6240;&#x4EE5;<code>request.args.get(&apos;info&apos;)</code>&#x8FD4;&#x56DE;Python&#x5185;&#x7F6E;&#x7684;None&#xFF0C;&#x800C;Flask&#x4E0D;&#x5141;&#x8BB8;&#x8FD4;&#x56DE;None&#x3002;</p>
-<p>&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x5224;&#x65AD;&#x4E0B;&#x5B83;&#x662F;&#x4E0D;&#x662F;None&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
-
-app = Flask(__name__)
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    r = request.args.get(<span class="hljs-string">&apos;info&apos;</span>)
-    <span class="hljs-keyword">if</span> r==<span class="hljs-keyword">None</span>:
-        <span class="hljs-comment"># do something</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;&apos;</span>
-    <span class="hljs-keyword">return</span> r
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x662F;&#xFF0C;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53D6;&#x4E0D;&#x5230;&#x6570;&#x636E;&#x65F6;&#x7528;&#x8FD9;&#x4E2A;&#x503C;&#xFF1A;</p>
-<pre><code>from flask import Flask, request
-
-app = Flask(__name__)
-
-@app.route(&apos;/&apos;)
-def hello_world():
-    r = request.args.get(&apos;info&apos;, &apos;hi&apos;)
-    return r
-
-if __name__ == &apos;__main__&apos;:
-    app.run(port=5000, debug=True)
-</code></pre><p>&#x51FD;&#x6570;<code>request.args.get</code>&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x7528;&#x6765;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x503C;&#x3002;&#x6B64;&#x65F6;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/</code>&#xFF0C;&#x5C06;&#x663E;&#x793A;&#xFF1A;</p>
-<pre><code>hi
-</code></pre><h3 id="&#x5982;&#x4F55;&#x5904;&#x7406;&#x591A;&#x503C;">&#x5982;&#x4F55;&#x5904;&#x7406;&#x591A;&#x503C;</h3>
-<p>&#x8FD8;&#x8BB0;&#x5F97;&#x4E0A;&#x9762;&#x6709;&#x4E00;&#x6B21;&#x8BF7;&#x6C42;&#x662F;&#x8FD9;&#x6837;&#x7684;&#x5417;&#xFF1F; <code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>&#xFF0C;&#x4ED4;&#x7EC6;&#x770B;&#x4E0B;&#xFF0C;<code>p</code>&#x6709;&#x4E24;&#x4E2A;&#x503C;&#x3002;</p>
-<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7801;&#x662F;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
-
-app = Flask(__name__)
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    r = request.args.get(<span class="hljs-string">&apos;p&apos;</span>)
-    <span class="hljs-keyword">return</span> r
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x4F1A;&#x770B;&#x5230;<code>7</code>&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x628A;<code>p</code>&#x7684;&#x6240;&#x6709;&#x503C;&#x90FD;&#x83B7;&#x53D6;&#x5230;&#xFF0C;&#x8BE5;&#x600E;&#x4E48;&#x529E;&#xFF1F;</p>
-<p>&#x4E0D;&#x7528;<code>get</code>&#xFF0C;&#x7528;<code>getlist</code>&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    r = request.args.getlist(<span class="hljs-string">&apos;p&apos;</span>)  <span class="hljs-comment"># &#x8FD4;&#x56DE;&#x4E00;&#x4E2A;list</span>
-    <span class="hljs-keyword">return</span> str(r)
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x6D4F;&#x89C8;&#x5668;&#x8F93;&#x5165; <code>http://127.0.0.1:5000/?user=Flask&amp;time&amp;p=7&amp;p=8</code>&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x770B;&#x5230;<code>[&apos;7&apos;, &apos;8&apos;]</code>&#x3002;</p>
-<h3 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h3>
-<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-002" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-002</a></p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/python-flask/py-flask-get-url-params.html" target="_blank">https://blog.letiantian.me/python-flask/py-flask-get-url-params.html</a></p>
 
                                 
                                 </section>
@@ -525,7 +394,7 @@ app = Flask(__name__)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"获取 URL 参数","level":"1.2.3","depth":2,"next":{"title":"获取 POST 方法传送的数据","level":"1.2.4","depth":2,"path":"入门/获取POST方法传送的数据.md","ref":"入门/获取POST方法传送的数据.md","articles":[]},"previous":{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"path":"入门/从Hello-World开始.md","ref":"入门/从Hello-World开始.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/获取URL参数.md","mtime":"2018-12-02T14:37:39.463Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:18:02.492Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"获取 URL 参数","level":"1.2.3","depth":2,"next":{"title":"获取 POST 方法传送的数据","level":"1.2.4","depth":2,"path":"入门/获取POST方法传送的数据.md","ref":"入门/获取POST方法传送的数据.md","articles":[]},"previous":{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"path":"入门/从Hello-World开始.md","ref":"入门/从Hello-World开始.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/获取URL参数.md","mtime":"2019-03-30T03:05:52.025Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T03:06:10.689Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

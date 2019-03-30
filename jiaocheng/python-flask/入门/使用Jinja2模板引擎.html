@@ -366,106 +366,7 @@
                                 
                                 <h1 id="&#x4F7F;&#x7528;-jinja2-&#x6A21;&#x677F;&#x5F15;&#x64CE;">&#x4F7F;&#x7528; Jinja2 &#x6A21;&#x677F;&#x5F15;&#x64CE;</h1>
 <hr>
-<blockquote>
-<p>&#x672C;&#x6587;&#x8BB2;&#x8FF0;&#x5728; Python Flask Web &#x6846;&#x67B6;&#x4E2D;&#x5982;&#x4F55;&#x4F7F;&#x7528; Jinja2 &#x6A21;&#x677F;&#x5F15;&#x64CE;&#x6E32;&#x67D3;html&#x3002;</p>
-</blockquote>
-<p>&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x8D1F;&#x8D23;MVC&#x4E2D;&#x7684;V&#xFF08;view&#xFF0C;&#x89C6;&#x56FE;&#xFF09;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#x3002;Flask&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;Jinja2&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x3002;</p>
-<p>Flask&#x4E0E;&#x6A21;&#x677F;&#x76F8;&#x5173;&#x7684;&#x51FD;&#x6570;&#x6709;&#xFF1A;</p>
-<ul>
-<li>flask.render_template(template_name_or_list, **context)
- Renders a template from the template folder with the given context.</li>
-<li>flask.render_template_string(source, **context)
- Renders a template from the given template source string with the given context.</li>
-<li>flask.get_template_attribute(template_name, attribute)
- Loads a macro (or variable) a template exports. This can be used to invoke a macro from within Python code. </li>
-</ul>
-<p>&#x8FD9;&#x5176;&#x4E2D;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x662F;&#x524D;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x5B9E;&#x4F8B;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;&#x6A21;&#x677F;&#x7EE7;&#x627F;&#x3001;if&#x5224;&#x65AD;&#x3001;for&#x5FAA;&#x73AF;&#x3002;</p>
-<h3 id="&#x5EFA;&#x7ACB;flask&#x9879;&#x76EE;">&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;</h3>
-<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/server.py
-</code></pre><h3 id="&#x521B;&#x5EFA;&#x5E76;&#x7F16;&#x8F91;helloworldtemplatesdefaulthtml">&#x521B;&#x5EFA;&#x5E76;&#x7F16;&#x8F91;HelloWorld/templates/default.html</h3>
-<p>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>
-        {% if page_title %}
-            {{ page_title }}
-        {% endif %}
-    <span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    {% block body %}{% endblock %}
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
-</code></pre>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5728;<code>&lt;head&gt;</code>&#x6807;&#x7B7E;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;if&#x5224;&#x65AD;&#xFF0C;&#x5982;&#x679C;&#x7ED9;&#x6A21;&#x677F;&#x4F20;&#x9012;&#x4E86;<code>page_title</code>&#x53D8;&#x91CF;&#xFF0C;&#x663E;&#x793A;&#x4E4B;&#xFF0C;&#x5426;&#x5219;&#xFF0C;&#x4E0D;&#x663E;&#x793A;&#x3002;</p>
-<p><code>&lt;body&gt;</code>&#x6807;&#x7B7E;&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;<code>body</code>&#x7684;block&#xFF0C;&#x7528;&#x6765;&#x88AB;&#x5176;&#x4ED6;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x7EE7;&#x627F;&#x3002;</p>
-<h3 id="&#x521B;&#x5EFA;&#x5E76;&#x7F16;&#x8F91;helloworldtemplatesuserinfohtml">&#x521B;&#x5EFA;&#x5E76;&#x7F16;&#x8F91;HelloWorld/templates/user_info.html</h3>
-<p>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code>{% extends &quot;default.html&quot; %}
-
-{% block body %}
-    {% for key in user_info %}
-
-        {{ key }}: {{ user_info[key] }} &lt;br/&gt;
-
-    {% endfor %}
-{% endblock %}
-</code></pre><p>&#x53D8;&#x91CF;<code>user_info</code>&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x5178;&#xFF0C;for&#x5FAA;&#x73AF;&#x7528;&#x6765;&#x5FAA;&#x73AF;&#x8F93;&#x51FA;&#x952E;&#x503C;&#x5BF9;&#x3002;</p>
-<h3 id="&#x7F16;&#x8F91;helloworldserverpy">&#x7F16;&#x8F91;HelloWorld/server.py</h3>
-<p>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/user&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">user</span><span class="hljs-params">()</span>:</span>
-    user_info = {
-        <span class="hljs-string">&apos;name&apos;</span>: <span class="hljs-string">&apos;letian&apos;</span>,
-        <span class="hljs-string">&apos;email&apos;</span>: <span class="hljs-string">&apos;123@aa.com&apos;</span>,
-        <span class="hljs-string">&apos;age&apos;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&apos;github&apos;</span>: <span class="hljs-string">&apos;https://github.com/letiantian&apos;</span>
-    }
-    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&apos;user_info.html&apos;</span>, page_title=<span class="hljs-string">&apos;letian\&apos;s info&apos;</span>, user_info=user_info)
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p><code>render_template()</code>&#x51FD;&#x6570;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x53C2;&#x6570;&#x662F;&#x8981;&#x4F20;&#x9012;&#x7684;&#x6570;&#x636E;&#x3002;</p>
-<h3 id="&#x8FD0;&#x884C;&#x4E0E;&#x6D4B;&#x8BD5;">&#x8FD0;&#x884C;&#x4E0E;&#x6D4B;&#x8BD5;</h3>
-<p>&#x8FD0;&#x884C;HelloWorld/server.py&#xFF1A;</p>
-<pre><code>$ python3 HelloWorld/server.py
-</code></pre><p>&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/user</code>&#xFF0C;&#x6548;&#x679C;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><img src="../img/flask-003.jpg" width="600"></p>
-<p>&#x67E5;&#x770B;&#x7F51;&#x9875;&#x6E90;&#x7801;&#xFF1A;</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>
-            letian&amp;#39;s info
-    <span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-        name: letian <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
-        email: 123@aa.com <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
-        age: 0 <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
-        github: https://github.com/letiantian <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
-</code></pre>
-<h3 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h3>
-<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-009" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-009</a></p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/python-flask/py-flask-jinja2-template-engine.html" target="_blank">https://blog.letiantian.me/python-flask/py-flask-jinja2-template-engine.html</a></p>
 
                                 
                                 </section>
@@ -493,7 +394,7 @@ app = Flask(__name__)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"使用 Jinja2 模板引擎","level":"1.2.10","depth":2,"next":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"path":"入门/自定义404等错误的响应.md","ref":"入门/自定义404等错误的响应.md","articles":[]},"previous":{"title":"使用 redirect 重定向网址","level":"1.2.9","depth":2,"path":"入门/使用redirect重定向网址.md","ref":"入门/使用redirect重定向网址.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/使用Jinja2模板引擎.md","mtime":"2018-12-02T14:31:40.686Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:18:02.492Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"使用 Jinja2 模板引擎","level":"1.2.10","depth":2,"next":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"path":"入门/自定义404等错误的响应.md","ref":"入门/自定义404等错误的响应.md","articles":[]},"previous":{"title":"使用 redirect 重定向网址","level":"1.2.9","depth":2,"path":"入门/使用redirect重定向网址.md","ref":"入门/使用redirect重定向网址.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/使用Jinja2模板引擎.md","mtime":"2019-03-30T03:05:12.808Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T03:06:10.689Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

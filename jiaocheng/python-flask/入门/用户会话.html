@@ -366,85 +366,7 @@
                                 
                                 <h1 id="&#x7528;&#x6237;&#x4F1A;&#x8BDD;">&#x7528;&#x6237;&#x4F1A;&#x8BDD;</h1>
 <hr>
-<blockquote>
-<p>&#x672C;&#x6587;&#x8BB2;&#x8FF0;&#x5728; Python Flask Web &#x6846;&#x67B6;&#x4E2D;&#x5982;&#x4F55;&#x5904;&#x7406;&#x7528;&#x6237;&#x4F1A;&#x8BDD;&#xFF0C;&#x5373; session&#x3002;</p>
-</blockquote>
-<p>session&#x7528;&#x6765;&#x8BB0;&#x5F55;&#x7528;&#x6237;&#x7684;&#x767B;&#x5F55;&#x72B6;&#x6001;&#xFF0C;&#x4E00;&#x822C;&#x57FA;&#x4E8E;cookie&#x5B9E;&#x73B0;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x793A;&#x4F8B;&#x3002;</p>
-<h3 id="&#x5EFA;&#x7ACB;flask&#x9879;&#x76EE;">&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;</h3>
-<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/server.py
-</code></pre><h3 id="&#x7F16;&#x8F91;helloworldserverpy">&#x7F16;&#x8F91;<code>HelloWorld/server.py</code></h3>
-<p>&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template_string, \
-    session, request, redirect, url_for
-
-app = Flask(__name__)
-
-app.secret_key = <span class="hljs-string">&apos;F12Zr47j\3yX R~X@H!jLwf/T&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/login&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">login</span><span class="hljs-params">()</span>:</span>
-    page = <span class="hljs-string">&apos;&apos;&apos;
-    &lt;form action=&quot;{{ url_for(&apos;do_login&apos;) }}&quot; method=&quot;post&quot;&gt;
-        &lt;p&gt;name: &lt;input type=&quot;text&quot; name=&quot;user_name&quot; /&gt;&lt;/p&gt;
-        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
-    &lt;/form&gt;
-    &apos;&apos;&apos;</span>
-    <span class="hljs-keyword">return</span> render_template_string(page)
-
-
-<span class="hljs-meta">@app.route(&apos;/do_login&apos;, methods=[&apos;POST&apos;])</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_login</span><span class="hljs-params">()</span>:</span>
-    name = request.form.get(<span class="hljs-string">&apos;user_name&apos;</span>)
-    session[<span class="hljs-string">&apos;user_name&apos;</span>] = name
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;success&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/show&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> session[<span class="hljs-string">&apos;user_name&apos;</span>]
-
-
-<span class="hljs-meta">@app.route(&apos;/logout&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">logout</span><span class="hljs-params">()</span>:</span>
-    session.pop(<span class="hljs-string">&apos;user_name&apos;</span>, <span class="hljs-keyword">None</span>)
-    <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&apos;login&apos;</span>))
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<h3 id="&#x4EE3;&#x7801;&#x7684;&#x542B;&#x4E49;">&#x4EE3;&#x7801;&#x7684;&#x542B;&#x4E49;</h3>
-<p><code>app.secret_key</code>&#x7528;&#x4E8E;&#x7ED9;session&#x52A0;&#x5BC6;&#x3002;</p>
-<p>&#x5728;<code>/login</code>&#x4E2D;&#x5C06;&#x5411;&#x7528;&#x6237;&#x5C55;&#x793A;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#xFF0C;&#x8981;&#x6C42;&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x540D;&#x5B57;&#xFF0C;submit&#x540E;&#x5C06;&#x6570;&#x636E;&#x4EE5;post&#x7684;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x7ED9;<code>/do_login</code>&#xFF0C;<code>/do_login</code>&#x5C06;&#x540D;&#x5B57;&#x5B58;&#x653E;&#x5728;session&#x4E2D;&#x3002;</p>
-<p>&#x5982;&#x679C;&#x7528;&#x6237;&#x6210;&#x529F;&#x767B;&#x5F55;&#xFF0C;&#x8BBF;&#x95EE;<code>/show</code>&#x65F6;&#x4F1A;&#x663E;&#x793A;&#x7528;&#x6237;&#x7684;&#x540D;&#x5B57;&#x3002;&#x6B64;&#x65F6;&#xFF0C;&#x6253;&#x5F00;firebug&#x7B49;&#x8C03;&#x8BD5;&#x5DE5;&#x5177;&#xFF0C;&#x9009;&#x62E9;session&#x9762;&#x677F;&#xFF0C;&#x4F1A;&#x770B;&#x5230;&#x6709;&#x4E00;&#x4E2A;cookie&#x7684;&#x540D;&#x79F0;&#x4E3A;<code>session</code>&#x3002;</p>
-<p><code>/logout</code>&#x7528;&#x4E8E;&#x767B;&#x51FA;&#xFF0C;&#x901A;&#x8FC7;&#x5C06;<code>session</code>&#x4E2D;&#x7684;<code>user_name</code>&#x5B57;&#x6BB5;pop&#x5373;&#x53EF;&#x3002;Flask&#x4E2D;&#x7684;session&#x57FA;&#x4E8E;&#x5B57;&#x5178;&#x7C7B;&#x578B;&#x5B9E;&#x73B0;&#xFF0C;&#x8C03;&#x7528;pop&#x65B9;&#x6CD5;&#x65F6;&#x4F1A;&#x8FD4;&#x56DE;pop&#x7684;&#x952E;&#x5BF9;&#x5E94;&#x7684;&#x503C;&#xFF1B;&#x5982;&#x679C;&#x8981;pop&#x7684;&#x952E;&#x5E76;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x503C;&#x662F;<code>pop()</code>&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x3002;</p>
-<p>&#x53E6;&#x5916;&#xFF0C;&#x4F7F;&#x7528;<code>redirect()</code>&#x91CD;&#x5B9A;&#x5411;&#x65F6;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A;<code>return</code>&#x3002;</p>
-<h3 id="&#x6548;&#x679C;">&#x6548;&#x679C;</h3>
-<p>&#x8FDB;&#x5165;<code>http://127.0.0.1:5000/login</code>&#xFF0C;&#x8F93;&#x5165;name&#xFF0C;&#x70B9;&#x51FB;submit&#xFF1A;</p>
-<p><img src="../img/flask-006.jpg" width="600"></p>
-<p>&#x8FDB;&#x5165;<code>http://127.0.0.1:5000/show</code>&#x67E5;&#x770B;session&#x4E2D;&#x5B58;&#x50A8;&#x7684;name&#xFF1A;</p>
-<p><img src="../img/flask-007.jpg" width="600"></p>
-<h3 id="&#x8BBE;&#x7F6E;sessin&#x7684;&#x6709;&#x6548;&#x65F6;&#x95F4;">&#x8BBE;&#x7F6E;sessin&#x7684;&#x6709;&#x6548;&#x65F6;&#x95F4;</h3>
-<p>&#x4E0B;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x6765;&#x81EA;<a href="http://stackoverflow.com/questions/11783025/is-there-an-easy-way-to-make-sessions-timeout-in-flask" target="_blank">Is there an easy way to make sessions timeout in flask?</a>&#xFF1A;</p>
-<pre><code>from datetime import timedelta
-from flask import session, app
-
-session.permanent = True
-app.permanent_session_lifetime = timedelta(minutes=5)
-</code></pre><p>&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x5C06;session&#x7684;&#x6709;&#x6548;&#x65F6;&#x95F4;&#x8BBE;&#x7F6E;&#x4E3A;5&#x5206;&#x949F;&#x3002;</p>
-<h3 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h3>
-<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-011" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-011</a></p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/python-flask/py-flask-session.html" target="_blank">https://blog.letiantian.me/python-flask/py-flask-session.html</a></p>
 
                                 
                                 </section>
@@ -472,7 +394,7 @@ app.permanent_session_lifetime = timedelta(minutes=5)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"用户会话","level":"1.2.12","depth":2,"next":{"title":"使用 Cookie","level":"1.2.13","depth":2,"path":"入门/使用Cookie.md","ref":"入门/使用Cookie.md","articles":[]},"previous":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"path":"入门/自定义404等错误的响应.md","ref":"入门/自定义404等错误的响应.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/用户会话.md","mtime":"2018-12-02T14:36:45.507Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:18:02.492Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"用户会话","level":"1.2.12","depth":2,"next":{"title":"使用 Cookie","level":"1.2.13","depth":2,"path":"入门/使用Cookie.md","ref":"入门/使用Cookie.md","articles":[]},"previous":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"path":"入门/自定义404等错误的响应.md","ref":"入门/自定义404等错误的响应.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/用户会话.md","mtime":"2019-03-30T03:05:39.173Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T03:06:10.689Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

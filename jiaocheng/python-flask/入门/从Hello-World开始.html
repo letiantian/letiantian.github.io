@@ -366,66 +366,7 @@
                                 
                                 <h1 id="&#x4ECE;-hello-world-&#x5F00;&#x59CB;">&#x4ECE; Hello World &#x5F00;&#x59CB;</h1>
 <hr>
-<blockquote>
-<p>&#x672C;&#x6587;&#x8BB2;&#x8FF0;&#x5982;&#x4F55;&#x4F7F;&#x7528; Python Flask Web &#x6846;&#x67B6;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x663E;&#x793A;&quot;Hello World!&quot;&#x7684;web&#x7A0B;&#x5E8F;&#xFF0C;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x914D;&#x7F6E;&#x3001;&#x8C03;&#x8BD5; Flask&#x3002;</p>
-</blockquote>
-<h3 id="hello-world">Hello World</h3>
-<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
-<pre><code class="lang-plain">mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/server.py
-</code></pre>
-<p><code>static</code>&#x548C;<code>templates</code>&#x76EE;&#x5F55;&#x662F;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF0C;&#x5176;&#x4E2D;<code>static</code>&#x7528;&#x6765;&#x5B58;&#x653E;&#x9759;&#x6001;&#x8D44;&#x6E90;&#xFF0C;&#x4F8B;&#x5982;&#x56FE;&#x7247;&#x3001;js&#x3001;css&#x6587;&#x4EF6;&#x7B49;&#x3002;<code>templates</code>&#x5B58;&#x653E;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x3002;
-&#x6211;&#x4EEC;&#x7684;&#x7F51;&#x7AD9;&#x903B;&#x8F91;&#x57FA;&#x672C;&#x5728;<code>server.py</code>&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7ED9;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x8D77;&#x5176;&#x4ED6;&#x7684;&#x540D;&#x5B57;&#x3002;</p>
-<p>&#x5728;<code>server.py</code>&#x4E2D;&#x52A0;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask
-
-app = Flask(__name__)
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;Hello World!&apos;</span>
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run()
-</code></pre>
-<p>&#x8FD0;&#x884C;<code>server.py</code>&#xFF1A;</p>
-<pre><code>$ python3 server.py 
- * Running on http://127.0.0.1:5000/
-</code></pre><p>&#x6253;&#x5F00;&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/</code>&#xFF0C;&#x6D4F;&#x89C8;&#x9875;&#x9762;&#x4E0A;&#x5C06;&#x51FA;&#x73B0;<code>Hello World!</code>&#x3002;
-&#x7EC8;&#x7AEF;&#x91CC;&#x4F1A;&#x663E;&#x793A;&#x4E0B;&#x9762;&#x7684;&#x4FE1;&#x606F;&#xFF1A;</p>
-<pre><code>127.0.0.1 - - [16/May/2014 10:29:08] &quot;GET / HTTP/1.1&quot; 200 -
-</code></pre><p>&#x53D8;&#x91CF;app&#x662F;&#x4E00;&#x4E2A;Flask&#x5B9E;&#x4F8B;&#xFF0C;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;Hello World!&apos;</span>
-</code></pre>
-<p>&#x5F53;&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;<code>/</code>&#x65F6;&#xFF0C;&#x5C06;&#x54CD;&#x5E94;<code>hello_world()</code>&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x5185;&#x5BB9;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x4E0D;&#x662F;&#x8FD4;&#x56DE;<code>Hello World!</code>&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#xFF0C;<code>Hello World!</code>&#x53EA;&#x662F;HTTP&#x54CD;&#x5E94;&#x62A5;&#x6587;&#x7684;&#x5B9E;&#x4F53;&#x90E8;&#x5206;&#xFF0C;&#x72B6;&#x6001;&#x7801;&#x7B49;&#x4FE1;&#x606F;&#x65E2;&#x53EF;&#x4EE5;&#x7531;Flask&#x81EA;&#x52A8;&#x5904;&#x7406;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7F16;&#x7A0B;&#x6765;&#x5236;&#x5B9A;&#x3002;</p>
-<h3 id="&#x4FEE;&#x6539;flask&#x7684;&#x914D;&#x7F6E;">&#x4FEE;&#x6539;Flask&#x7684;&#x914D;&#x7F6E;</h3>
-<pre><code class="lang-python">app = Flask(__name__)
-</code></pre>
-<p>&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;python&#x5185;&#x7F6E;&#x53D8;&#x91CF;<code>__name__</code>&#x7684;&#x503C;&#x662F;&#x5B57;&#x7B26;&#x4E32;<code>__main__</code> &#x3002;Flask&#x7C7B;&#x5C06;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x7A0B;&#x5E8F;&#x540D;&#x79F0;&#x3002;&#x5F53;&#x7136;&#x8FD9;&#x4E2A;&#x662F;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x6BD4;&#x5982;<code>app = Flask(&quot;my-app&quot;)</code>&#x3002;</p>
-<p>Flask&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;<code>static</code>&#x76EE;&#x5F55;&#x5B58;&#x653E;&#x9759;&#x6001;&#x8D44;&#x6E90;&#xFF0C;<code>templates</code>&#x76EE;&#x5F55;&#x5B58;&#x653E;&#x6A21;&#x677F;&#xFF0C;&#x8FD9;&#x662F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;&#x66F4;&#x6539;&#x7684;&#xFF1A;</p>
-<pre><code>app = Flask(&quot;my-app&quot;, static_folder=&quot;path1&quot;, template_folder=&quot;path2&quot;)
-</code></pre><p>&#x66F4;&#x591A;&#x53C2;&#x6570;&#x8BF7;&#x53C2;&#x8003;<code>__doc__</code>&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask
-print(Flask.__doc__)
-</code></pre>
-<h3 id="&#x8C03;&#x8BD5;&#x6A21;&#x5F0F;">&#x8C03;&#x8BD5;&#x6A21;&#x5F0F;</h3>
-<p>&#x4E0A;&#x9762;&#x7684;server.py&#x4E2D;&#x4EE5;<code>app.run()</code>&#x65B9;&#x5F0F;&#x8FD0;&#x884C;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x51FA;&#x73B0;&#x9519;&#x8BEF;&#x662F;&#x4E0D;&#x4F1A;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x663E;&#x793A;&#x7684;&#x3002;&#x4F46;&#x662F;&#x5728;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x663E;&#x793A;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x662F;&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x7684;&#xFF0C;&#x8981;&#x663E;&#x793A;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF0C;&#x5E94;&#x8BE5;&#x4EE5;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#x8FD0;&#x884C;Flask&#xFF1A;</p>
-<pre><code class="lang-python">app.run(debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p>&#x5C06;<code>debug</code>&#x8BBE;&#x7F6E;&#x4E3A;<code>True</code>&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x597D;&#x5904;&#x662F;&#xFF0C;&#x7A0B;&#x5E8F;&#x542F;&#x52A8;&#x540E;&#xFF0C;&#x4F1A;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x6E90;&#x7801;&#x662F;&#x5426;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x82E5;&#x6709;&#x53D8;&#x5316;&#x5219;&#x81EA;&#x52A8;&#x91CD;&#x542F;&#x7A0B;&#x5E8F;&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x5E2E;&#x6211;&#x4EEC;&#x7701;&#x4E0B;&#x5F88;&#x591A;&#x65F6;&#x95F4;&#x3002;</p>
-<h3 id="&#x7ED1;&#x5B9A;ip&#x548C;&#x7AEF;&#x53E3;">&#x7ED1;&#x5B9A;IP&#x548C;&#x7AEF;&#x53E3;</h3>
-<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Flask&#x7ED1;&#x5B9A;IP&#x4E3A;<code>127.0.0.1</code>&#xFF0C;&#x7AEF;&#x53E3;&#x4E3A;<code>5000</code>&#x3002;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;&#x81EA;&#x5B9A;&#x4E49;&#xFF1A;</p>
-<pre><code class="lang-python">app.run(host=<span class="hljs-string">&apos;0.0.0.0&apos;</span>, port=<span class="hljs-number">80</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p><code>0.0.0.0</code>&#x4EE3;&#x8868;&#x7535;&#x8111;&#x6240;&#x6709;&#x7684;IP&#x3002;<code>80</code>&#x662F;HTTP&#x7F51;&#x7AD9;&#x670D;&#x52A1;&#x7684;&#x9ED8;&#x8BA4;&#x7AEF;&#x53E3;&#x3002;&#x4EC0;&#x4E48;&#x662F;&#x9ED8;&#x8BA4;&#xFF1F;&#x6BD4;&#x5982;&#xFF0C;&#x6211;&#x4EEC;&#x8BBF;&#x95EE;&#x7F51;&#x7AD9;<code>http://www.example.com</code>&#xFF0C;&#x5176;&#x5B9E;&#x662F;&#x8BBF;&#x95EE;&#x7684;<code>http://www.example.com:80</code>&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;<code>:80</code>&#x53EF;&#x4EE5;&#x7701;&#x7565;&#x4E0D;&#x5199;&#x3002;</p>
-<p>&#x7531;&#x4E8E;&#x7ED1;&#x5B9A;&#x4E86;80&#x7AEF;&#x53E3;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;root&#x6743;&#x9650;&#x8FD0;&#x884C;<code>server.py</code>&#x3002;&#x4E5F;&#x5C31;&#x662F;&#xFF1A;</p>
-<pre><code>$ sudo python3 server.py
-</code></pre><h3 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h3>
-<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-001" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-001</a></p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/python-flask/py-flask-hello-world.html" target="_blank">https://blog.letiantian.me/python-flask/py-flask-hello-world.html</a></p>
 
                                 
                                 </section>
@@ -453,7 +394,7 @@ print(Flask.__doc__)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"next":{"title":"获取 URL 参数","level":"1.2.3","depth":2,"path":"入门/获取URL参数.md","ref":"入门/获取URL参数.md","articles":[]},"previous":{"title":"安装","level":"1.2.1","depth":2,"path":"入门/安装.md","ref":"入门/安装.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/从Hello-World开始.md","mtime":"2018-12-02T14:32:55.637Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:18:02.492Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"从 Hello World 开始","level":"1.2.2","depth":2,"next":{"title":"获取 URL 参数","level":"1.2.3","depth":2,"path":"入门/获取URL参数.md","ref":"入门/获取URL参数.md","articles":[]},"previous":{"title":"安装","level":"1.2.1","depth":2,"path":"入门/安装.md","ref":"入门/安装.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/从Hello-World开始.md","mtime":"2019-03-30T03:05:01.120Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T03:06:10.689Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

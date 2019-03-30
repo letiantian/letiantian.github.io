@@ -366,74 +366,7 @@
                                 
                                 <h1 id="&#x81EA;&#x5B9A;&#x4E49;404&#x7B49;&#x9519;&#x8BEF;&#x7684;&#x54CD;&#x5E94;">&#x81EA;&#x5B9A;&#x4E49;404&#x7B49;&#x9519;&#x8BEF;&#x7684;&#x54CD;&#x5E94;</h1>
 <hr>
-<blockquote>
-<p>&#x672C;&#x6587;&#x8BB2;&#x8FF0;&#x5728; Python Flask Web &#x6846;&#x67B6;&#x4E2D;&#x5982;&#x4F55;&#x81EA;&#x5B9A;&#x4E49; 404 &#x7B49;&#x9519;&#x8BEF;&#x7684;&#x54CD;&#x5E94;&#x3002;</p>
-</blockquote>
-<p>&#x8981;&#x5904;&#x7406;HTTP&#x9519;&#x8BEF;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>flask.abort</code>&#x51FD;&#x6570;&#x3002;</p>
-<h2 id="&#x793A;&#x4F8B;1&#xFF1A;&#x7B80;&#x5355;&#x5165;&#x95E8;">&#x793A;&#x4F8B;1&#xFF1A;&#x7B80;&#x5355;&#x5165;&#x95E8;</h2>
-<h4 id="&#x5EFA;&#x7ACB;flask&#x9879;&#x76EE;">&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;</h4>
-<p>&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5EFA;&#x7ACB;Flask&#x9879;&#x76EE;HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/server.py
-</code></pre><h4 id="&#x4EE3;&#x7801;">&#x4EE3;&#x7801;</h4>
-<p>&#x7F16;&#x8F91;<code>HelloWorld/server.py</code>&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template_string, abort
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/user&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">user</span><span class="hljs-params">()</span>:</span>
-    abort(<span class="hljs-number">401</span>)  <span class="hljs-comment"># Unauthorized &#x672A;&#x6388;&#x6743;</span>
-    print(<span class="hljs-string">&apos;Unauthorized, &#x8BF7;&#x5148;&#x767B;&#x5F55;&apos;</span>)
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<h4 id="&#x6548;&#x679C;">&#x6548;&#x679C;</h4>
-<p>&#x8FD0;&#x884C;<code>HelloWorld/server.py</code>&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/user</code>&#xFF0C;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><img src="../img/flask-004.jpg" width="600"></p>
-<p>&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;<code>HelloWorld/server.py</code>&#x4E2D;<code>abort(401)</code>&#x540E;&#x7684;<code>print</code>&#x5E76;&#x6CA1;&#x6709;&#x6267;&#x884C;&#x3002;</p>
-<h2 id="&#x793A;&#x4F8B;2&#xFF1A;&#x81EA;&#x5B9A;&#x4E49;&#x9519;&#x8BEF;&#x9875;&#x9762;">&#x793A;&#x4F8B;2&#xFF1A;&#x81EA;&#x5B9A;&#x4E49;&#x9519;&#x8BEF;&#x9875;&#x9762;</h2>
-<h4 id="&#x4EE3;&#x7801;">&#x4EE3;&#x7801;</h4>
-<p>&#x5C06;&#x670D;&#x52A1;&#x5668;&#x4EE3;&#x7801;&#x6539;&#x4E3A;&#xFF1A;</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template_string, abort
-
-app = Flask(__name__)
-
-
-<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;hello world&apos;</span>
-
-
-<span class="hljs-meta">@app.route(&apos;/user&apos;)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">user</span><span class="hljs-params">()</span>:</span>
-    abort(<span class="hljs-number">401</span>)  <span class="hljs-comment"># Unauthorized</span>
-
-
-<span class="hljs-meta">@app.errorhandler(401)</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">page_unauthorized</span><span class="hljs-params">(error)</span>:</span>
-    <span class="hljs-keyword">return</span> render_template_string(<span class="hljs-string">&apos;&lt;h1&gt; Unauthorized &lt;/h1&gt;&lt;h2&gt;{{ error_info }}&lt;/h2&gt;&apos;</span>, error_info=error), <span class="hljs-number">401</span>
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
-    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-keyword">True</span>)
-</code></pre>
-<p><code>page_unauthorized</code>&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x5143;&#x7EC4;&#xFF0C;401 &#x4EE3;&#x8868;HTTP &#x54CD;&#x5E94;&#x72B6;&#x6001;&#x7801;&#x3002;&#x5982;&#x679C;&#x7701;&#x7565;401&#xFF0C;&#x5219;&#x54CD;&#x5E94;&#x72B6;&#x6001;&#x7801;&#x4F1A;&#x53D8;&#x6210;&#x9ED8;&#x8BA4;&#x7684; 200&#x3002;</p>
-<h4 id="&#x6548;&#x679C;">&#x6548;&#x679C;</h4>
-<p>&#x8FD0;&#x884C;<code>HelloWorld/server.py</code>&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<code>http://127.0.0.1:5000/user</code>&#xFF0C;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><img src="../img/flask-005.jpg" width="600"></p>
-<h2 id="&#x672C;&#x8282;&#x6E90;&#x7801;">&#x672C;&#x8282;&#x6E90;&#x7801;</h2>
-<p><a href="https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-010" target="_blank">https://github.com/letiantian/flask-tutorial/tree/master/demo/flask-demo-010</a></p>
+<p>&#x672C;&#x6587;&#x5DF2;&#x7ECF;&#x8FC1;&#x79FB;&#x5230; <a href="https://blog.letiantian.me/python-flask/py-flask-custom-404.html" target="_blank">https://blog.letiantian.me/python-flask/py-flask-custom-404.html</a></p>
 
                                 
                                 </section>
@@ -461,7 +394,7 @@ app = Flask(__name__)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"next":{"title":"用户会话","level":"1.2.12","depth":2,"path":"入门/用户会话.md","ref":"入门/用户会话.md","articles":[]},"previous":{"title":"使用 Jinja2 模板引擎","level":"1.2.10","depth":2,"path":"入门/使用Jinja2模板引擎.md","ref":"入门/使用Jinja2模板引擎.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/自定义404等错误的响应.md","mtime":"2018-12-02T14:37:01.827Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T00:18:02.492Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"自定义404等错误的响应","level":"1.2.11","depth":2,"next":{"title":"用户会话","level":"1.2.12","depth":2,"path":"入门/用户会话.md","ref":"入门/用户会话.md","articles":[]},"previous":{"title":"使用 Jinja2 模板引擎","level":"1.2.10","depth":2,"path":"入门/使用Jinja2模板引擎.md","ref":"入门/使用Jinja2模板引擎.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-livereload","-search","-lunr","-sharing","-fontsettings","-disqus","highlight","splitter","sitemap3","ga","pageinfo","-page-toc"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"shortName":"letiantian"},"sitemap3":{"hostname":"https://www.letiantian.me/jiaocheng/python-flask/"},"ga":{"configuration":"auto","token":"UA-56203613-1"},"page-toc":{"selector":".markdown-section h2, .markdown-section h3, .markdown-section h4","position":"before-first","showByDefault":true},"highlight":{},"splitter":{},"pageinfo":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Python Flask Web 框架教程 - 樂天笔记","language":"zh_CN","links":{"sidebar":{"<< 更多教程":"/jiaocheng/","Python Flask Web 框架教程":"/jiaocheng/python-flask/"}},"gitbook":"*","description":"Flask 是一个轻量级的基于 Python 的 Web 框架，支持 Python 2 和 Python 3，简单易用，适合快速开发。"},"file":{"path":"入门/自定义404等错误的响应.md","mtime":"2019-03-30T03:05:43.945Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-30T03:06:10.689Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
