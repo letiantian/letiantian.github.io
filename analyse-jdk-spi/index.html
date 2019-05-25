@@ -93,21 +93,18 @@
 
 
 
-<meta name="description" content="SPI 是什么？ Service Provider Interface，服务提供接口。是一种基于资源文件配置的服务发现机制。 我们用一个示例看下 JDK 自带的 SPI 机制如何使用。代码参考了「 Java SPI(Service Provider Interface)简介 」。 这篇文章中，使用 IDEA 创建maven项目，maven版本是3.5.3，Java版本是1.8。 1. 从一个简单的">
+<meta name="description" content="文章已迁移到  https://blog.letiantian.me/java/java-spi.html 。">
 <meta name="keywords" content="JDK, Java, SPI, 源码分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JDK SPI的使用和源码分析">
 <meta property="og:url" content="http://www.letiantian.me/analyse-jdk-spi/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="SPI 是什么？ Service Provider Interface，服务提供接口。是一种基于资源文件配置的服务发现机制。 我们用一个示例看下 JDK 自带的 SPI 机制如何使用。代码参考了「 Java SPI(Service Provider Interface)简介 」。 这篇文章中，使用 IDEA 创建maven项目，maven版本是3.5.3，Java版本是1.8。 1. 从一个简单的">
+<meta property="og:description" content="文章已迁移到  https://blog.letiantian.me/java/java-spi.html 。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2018/0001.jpg">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2018/0002.jpg">
 <meta property="og:updated_time" content="2018-07-13T13:10:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JDK SPI的使用和源码分析">
-<meta name="twitter:description" content="SPI 是什么？ Service Provider Interface，服务提供接口。是一种基于资源文件配置的服务发现机制。 我们用一个示例看下 JDK 自带的 SPI 机制如何使用。代码参考了「 Java SPI(Service Provider Interface)简介 」。 这篇文章中，使用 IDEA 创建maven项目，maven版本是3.5.3，Java版本是1.8。 1. 从一个简单的">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2018/0001.jpg">
+<meta name="twitter:description" content="文章已迁移到  https://blog.letiantian.me/java/java-spi.html 。">
 
 
 
@@ -244,7 +241,7 @@
       
         
         <li class="menu-item menu-item-jiaocheng">
-          <a href="/jiaocheng" rel="section">
+          <a href="https://blog.letiantian.me/zhuanti/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
             
@@ -400,223 +397,7 @@
       
 
       
-        <p>SPI 是什么？ Service Provider Interface，服务提供接口。是一种基于资源文件配置的服务发现机制。</p>
-<p>我们用一个示例看下 JDK 自带的 SPI 机制如何使用。代码参考了「 <a href="https://blog.csdn.net/top_code/article/details/51934459" target="_blank" rel="noopener">Java SPI(Service Provider Interface)简介</a> 」。</p>
-<p>这篇文章中，使用 IDEA 创建maven项目，maven版本是3.5.3，Java版本是1.8。</p>
-<h2 id="1-从一个简单的项目开始"><a href="#1-从一个简单的项目开始" class="headerlink" title="1. 从一个简单的项目开始"></a>1. 从一个简单的项目开始</h2><p>我们使用 IDEA 创建一个maven项目，增加两个module，一个是child1，一个是child2。child1提供服务，child2调用服务。</p>
-<p>先看下最终的项目结构：</p>
-<p><img src="/content/images/2018/0001.jpg" alt=""></p>
-<p>在child1模块中添加接口<code>DemoService</code>，内容如下：</p>
-<pre><code class="java">package com.example.child1.spi;
-
-public interface DemoService {
-
-    public String sayHi(String msg);
-
-}
-</code></pre>
-<p>是的，我们要把这个接口当做服务提供出去的。</p>
-<p>对于这个接口（服务），编写两个实现类<code>DemoServiceImpl01</code>和<code>DemoServiceImpl02</code>。代码分别如下：</p>
-<pre><code class="java">package com.example.child1.impl;
-
-import com.example.child1.spi.DemoService;
-
-public class DemoServiceImpl01 implements DemoService {
-    public String sayHi(String msg) {
-        return &quot;Hello &quot; + msg;
-    }
-}
-</code></pre>
-<pre><code class="java">package com.example.child1.impl;
-
-import com.example.child1.spi.DemoService;
-
-public class DemoServiceImpl02 implements DemoService {
-    public String sayHi(String msg) {
-        return &quot;Hi &quot; + msg;
-    }
-}
-</code></pre>
-<p>然后，需要把服务暴露出去。</p>
-<p>在<code>child1/src/main/resources/META-INF/services/</code>目录中创建文件 <code>com.example.child1.spi.DemoService</code>，将实现类全路径写进去：</p>
-<pre><code class="plain">com.example.child1.impl.DemoServiceImpl01
-com.example.child1.impl.DemoServiceImpl02
-</code></pre>
-<p>命令行进入<code>child1</code>目录，执行打包命令：</p>
-<pre><code class="plain">$ mvn package
-</code></pre>
-<p>可以看到<code>child1/target/</code>目录下生成了<code>child1-1.0-SNAPSHOT.jar</code>。</p>
-<p>我们把这个jar挪到<code>child2/libs</code>下面，然后在<code>child2/pom.xml</code>中将它作为依赖引入进来。</p>
-<pre><code class="xml">&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;com.example&lt;/groupId&gt;
-        &lt;artifactId&gt;child1&lt;/artifactId&gt;
-        &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-        &lt;scope&gt;system&lt;/scope&gt;
-        &lt;systemPath&gt;${basedir}/libs/child1-1.0-SNAPSHOT.jar&lt;/systemPath&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre>
-<p>child2如何通过 SPI 调用 child1 提供的服务呢？很简单，编写 Example01类：</p>
-<pre><code class="java">import com.example.child1.spi.DemoService;
-
-import java.util.Iterator;
-import java.util.ServiceLoader;
-
-public class Example01 {
-
-    public static void main(String[] args)  {
-        ServiceLoader&lt;DemoService&gt; serviceLoader = ServiceLoader.load(DemoService.class);
-        Iterator&lt;DemoService&gt; it = serviceLoader.iterator();
-        while (it.hasNext()) {
-            DemoService demoService = it.next();
-            System.out.println(String.format(&quot;class: %s, result: %s &quot;, demoService.getClass().getName(), demoService.sayHi(&quot;World&quot;)));
-        }
-    }
-}
-</code></pre>
-<p>运行后输出：</p>
-<pre><code class="plain">class: com.example.child1.impl.DemoServiceImpl01, result: Hello World 
-class: com.example.child1.impl.DemoServiceImpl02, result: Hi World 
-</code></pre>
-<p>从main函数里发现了什么没有？对，调用方child2只需要关心child1提供的接口就行，不关心具体的实现类。</p>
-<p>代码在： <a href="https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo1" target="_blank" rel="noopener">https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo1</a> 。</p>
-<h2 id="2-再复杂点"><a href="#2-再复杂点" class="headerlink" title="2. 再复杂点"></a>2. 再复杂点</h2><p>我们重新创建一个maven项目，把在上面的child1和child2再实现一遍。child1不打包成jar供child2用了，直接<code>mvn install</code>。如此，child2的pom.xml中的依赖要改成：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;child1&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>我们再增加一个module，叫child3。child3依赖child1，同时child3也实现一个DemoService。</p>
-<p>首先在child3的pom.xml中加入对child1的依赖：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;child1&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>然后增加一个实现类：</p>
-<pre><code class="java">package com.example.child3;
-
-import com.example.child1.spi.DemoService;
-
-public class DemoServiceImpl implements DemoService {
-
-    public String sayHi(String msg) {
-        return &quot;你好，&quot; + msg;
-    }
-}
-</code></pre>
-<p>接着在<code>child3/src/main/resources/META-INF/services/</code>目录中创建文件 <code>com.example.child1.spi.DemoService</code>，将实现类全路径写进去：</p>
-<pre><code class="plain">com.example.child3.DemoServiceImpl
-</code></pre>
-<p>然后针对该模块，执行<code>mvn install</code>。</p>
-<p>child2的pom.xml中的依赖增加以下内容：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;child3&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>执行 child2 中的<code>Example01</code>，输出：</p>
-<pre><code class="plain">class: com.example.child1.impl.DemoServiceImpl01, result: Hello World 
-class: com.example.child1.impl.DemoServiceImpl02, result: Hi World 
-class: com.example.child3.DemoServiceImpl, result: 你好，World 
-</code></pre>
-<p>最终的项目结构：</p>
-<p><img src="/content/images/2018/0002.jpg" alt=""></p>
-<p>代码在： <a href="https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo2" target="_blank" rel="noopener">https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo2</a> 。</p>
-<h2 id="3-原理剖析"><a href="#3-原理剖析" class="headerlink" title="3. 原理剖析"></a>3. 原理剖析</h2><p><code>ServiceLoader</code>的代码并不多，算上注释不到600行。但它用了懒加载、迭代器，直接贴代码，我怕解释的不好。干脆写个简化版本的吧，不到60行。</p>
-<p>在child2中增加类<code>CustomServiceLoader</code>。</p>
-<pre><code class="java">import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-public class CustomServiceLoader&lt;S&gt; {
-
-    private static final String PREFIX = &quot;META-INF/services/&quot;;
-
-    // 读取 META-INF/services/ 下文件的内容，返回由每一行内容组成的List
-    private static List&lt;String&gt; parseConfigFile(URL configURL) throws Exception {
-        InputStream in = configURL.openStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, &quot;utf-8&quot;));
-        ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();
-        while(true) {
-            String line = reader.readLine();
-            if (line != null) {
-                int ci = line.indexOf(&#39;#&#39;);  // `#`字符后的内容是注释
-                if (ci &gt;= 0) line = line.substring(0, ci);
-                line = line.trim();
-                if (line.length()&gt;0) {  // 空行就不要了
-                    names.add(line);
-                }
-            } else {
-                break;
-            }
-        }
-        return names;
-    }
-
-    // 得到参数 service 的所有实现类的实例
-    public static &lt;S&gt; List&lt;S&gt; load(Class&lt;S&gt; service) throws Exception {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String fullName = PREFIX + service.getName();
-
-        // 符合要求的文件可能不止一个
-        Enumeration&lt;URL&gt; configs = ClassLoader.getSystemResources(fullName);
-
-        List&lt;S&gt; instanceList = new ArrayList&lt;&gt;();
-
-        while(configs.hasMoreElements()) {
-            URL config = configs.nextElement();
-            List&lt;String&gt; implClassNames = parseConfigFile(config);
-            for(String impl: implClassNames) {
-                Class&lt;?&gt; cls = Class.forName(impl, false, classLoader);
-                S instance = service.cast(cls.newInstance()); // 生成实例
-                instanceList.add(instance);
-            }
-        }
-        return instanceList;
-    }
-
-}
-
-</code></pre>
-<p>然后，我们增加一个Example02类：</p>
-<pre><code class="java">import com.example.child1.spi.DemoService;
-import java.util.List;
-
-public class Example02 {
-
-    public static void main(String[] args)  throws Exception {
-        List&lt;DemoService&gt; serviceImplList = CustomServiceLoader.load(DemoService.class);
-
-        for (DemoService impl: serviceImplList) {
-            System.out.println(String.format(&quot;class: %s, result: %s &quot;, impl.getClass().getName(), impl.sayHi(&quot;World&quot;)));
-        }
-
-    }
-}
-</code></pre>
-<p>运行结果如下：</p>
-<pre><code class="plain">class: com.example.child1.impl.DemoServiceImpl01, result: Hello World 
-class: com.example.child1.impl.DemoServiceImpl02, result: Hi World 
-class: com.example.child3.DemoServiceImpl, result: 你好，World 
-</code></pre>
-<p>嗯，<code>CustomServiceLoader</code>写的没问题😆</p>
-<p>如果看懂了<code>CustomServiceLoader</code>，再去看<code>ServiceLoader</code>，应该会更快看明白。</p>
-<p>相比于<code>CustomServiceLoader</code>，<code>ServiceLoader</code>多了两个特性：</p>
-<ol>
-<li>懒加载。</li>
-<li>引入AccessController进行安全控制。想象下，如果有一个恶意的jar中针对<code>com.example.child1.spi.DemoService</code>接口实现了一个恶意的服务类，这个类中的sayHi函数会删掉你的操作系统中的文件，怎么办？引入安全管理（Security manager）机制。具体机制可以谷歌下。</li>
-</ol>
-<p>代码在： <a href="https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo3" target="_blank" rel="noopener">https://github.com/letiantian/demo/tree/master/jdk-spi/spi-demo3</a> 。</p>
-<h2 id="4-值得读"><a href="#4-值得读" class="headerlink" title="4. 值得读"></a>4. 值得读</h2><p>Java SPI思想梳理 <a href="https://zhuanlan.zhihu.com/p/28909673" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28909673</a><br>Java SPI(Service Provider Interface)简介 <a href="https://blog.csdn.net/top_code/article/details/51934459" target="_blank" rel="noopener">https://blog.csdn.net/top_code/article/details/51934459</a></p>
+        <p>文章已迁移到  <a href="https://blog.letiantian.me/java/java-spi.html" target="_blank" rel="noopener">https://blog.letiantian.me/java/java-spi.html</a> 。</p>
 
       
     </div>
@@ -755,17 +536,8 @@ class: com.example.child3.DemoServiceImpl, result: 你好，World
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -780,7 +552,7 @@ class: com.example.child3.DemoServiceImpl, result: 你好，World
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-count">218</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -836,22 +608,6 @@ class: com.example.child3.DemoServiceImpl, result: 你好，World
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-从一个简单的项目开始"><span class="nav-text">1. 从一个简单的项目开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-再复杂点"><span class="nav-text">2. 再复杂点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-原理剖析"><span class="nav-text">3. 原理剖析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-值得读"><span class="nav-text">4. 值得读</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

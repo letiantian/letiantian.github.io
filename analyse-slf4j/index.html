@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="slf4j全称是Simple Logging Facade for Java。facade是一种设计模式。 slf4j 是一个抽象程度更高的日志组件，本身并不提供实际的日志功能。实际的日志功能是通过log4j等日志组件实现，而使用者只需要关心 slf4j 给出的API。 示例代码： https://github.com/letiantian/demo/tree/master/slf4j 。 结合L">
+<meta name="description" content="文章已经迁移到 https://blog.letiantian.me/java/java-slf4j.html 。">
 <meta name="keywords" content="日志, log4j, slf4j, Java, 源码分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="日志组件slf4j的使用和源码分析">
 <meta property="og:url" content="http://www.letiantian.me/analyse-slf4j/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="slf4j全称是Simple Logging Facade for Java。facade是一种设计模式。 slf4j 是一个抽象程度更高的日志组件，本身并不提供实际的日志功能。实际的日志功能是通过log4j等日志组件实现，而使用者只需要关心 slf4j 给出的API。 示例代码： https://github.com/letiantian/demo/tree/master/slf4j 。 结合L">
+<meta property="og:description" content="文章已经迁移到 https://blog.letiantian.me/java/java-slf4j.html 。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-07-09T02:10:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日志组件slf4j的使用和源码分析">
-<meta name="twitter:description" content="slf4j全称是Simple Logging Facade for Java。facade是一种设计模式。 slf4j 是一个抽象程度更高的日志组件，本身并不提供实际的日志功能。实际的日志功能是通过log4j等日志组件实现，而使用者只需要关心 slf4j 给出的API。 示例代码： https://github.com/letiantian/demo/tree/master/slf4j 。 结合L">
+<meta name="twitter:description" content="文章已经迁移到 https://blog.letiantian.me/java/java-slf4j.html 。">
 
 
 
@@ -241,7 +241,7 @@
       
         
         <li class="menu-item menu-item-jiaocheng">
-          <a href="/jiaocheng" rel="section">
+          <a href="https://blog.letiantian.me/zhuanti/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
             
@@ -397,304 +397,7 @@
       
 
       
-        <p>slf4j全称是<code>Simple Logging Facade for Java</code>。facade是一种设计模式。</p>
-<p>slf4j 是一个抽象程度更高的日志组件，本身并不提供实际的日志功能。实际的日志功能是通过log4j等日志组件实现，而使用者只需要关心 slf4j 给出的API。</p>
-<p>示例代码： <a href="https://github.com/letiantian/demo/tree/master/slf4j" target="_blank" rel="noopener">https://github.com/letiantian/demo/tree/master/slf4j</a> 。</p>
-<h2 id="结合Log4j的使用示例-示例1"><a href="#结合Log4j的使用示例-示例1" class="headerlink" title="结合Log4j的使用示例 - 示例1"></a>结合Log4j的使用示例 - 示例1</h2><p>使用 IDEA 创建 gradle项目，我用的gradle版本是4.1。</p>
-<p>在 build.gradle 的 dependencies 中增加依赖：</p>
-<pre><code>// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
-
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-log4j12&#39;, version: &#39;1.7.25&#39;
-
-// https://mvnrepository.com/artifact/log4j/log4j
-compile group: &#39;log4j&#39;, name: &#39;log4j&#39;, version: &#39;1.2.17&#39;
-</code></pre><ul>
-<li><code>slf4j-api</code>提供了slf4j的抽象接口，我们作为使用者，只需要关心它提供的API就行。</li>
-<li><code>slf4j-log4j12</code>是slf4j与log4j的桥接组件。</li>
-<li><code>log4j</code>是我们常见的log4j日志组件。</li>
-</ul>
-<p>在<code>src/main/java</code>目录下创建类<code>Example01.java</code>，内容如下：</p>
-<pre><code class="java">import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Example01 {
-
-    public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Example01.class);
-        logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-    }
-}
-</code></pre>
-<p><code>logger.info(&quot;Hello {}&quot;, &quot;World&quot;);</code>的作用是打出info级别的日志内容<code>Hello World</code>。是的，我们不必写成<code>logger.info(&quot;Hello %s&quot;, &quot;World&quot;);</code> 或者<code>logger.info(&quot;Hello &quot; + &quot;World&quot;);</code>，一切变得不用想太多了。</p>
-<p>运行 Example01，输出：</p>
-<pre><code>log4j:WARN No appenders could be found for logger (Example01).
-log4j:WARN Please initialize the log4j system properly.
-log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
-</code></pre><p>是的，没有输出我们想要的内容，反而报了警告。这是因为我们没有配置log4j。</p>
-<p>在<code>src/main/resources</code>目录中创建文件<code>log4j.properties</code>，内容如下：</p>
-<pre><code>log4j.rootLogger=INFO, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
-</code></pre><p>再次运行 Example01，将会输出：</p>
-<pre><code> INFO [main] - Hello World
-</code></pre><h2 id="结合Log4j的使用示例-示例2"><a href="#结合Log4j的使用示例-示例2" class="headerlink" title="结合Log4j的使用示例 - 示例2"></a>结合Log4j的使用示例 - 示例2</h2><p>log4j有一个MDC(Mapped Diagnostic Context)、NDC(Nested Diagnostic Context)机制，这个机制用于打印一些线程粒度上下文信息，但又不需要每次<code>logger.info</code>时把上下文信息填进去。</p>
-<p>slf4j提供了对MDC的封装。</p>
-<p>有什么使用场景呢？比如我们写了一个web服务器，客户端的每一次请求一般都是放在一个线程中处理的。如果我们想在日志中加入客户端的IP信息，就可以用到MDC。</p>
-<p>首先修改<code>log4j.properties</code>中的<code>log4j.appender.stdout.layout.ConversionPattern</code>，在值中加入<code>%X{IP}</code>：</p>
-<pre><code>log4j.rootLogger=INFO, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%5p [%t] %X{IP} - %m%n
-</code></pre><p>创建新的Java类Example02：</p>
-<pre><code class="java">import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-
-public class Example02 {
-
-    public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Example01.class);
-        MDC.put(&quot;IP&quot;, &quot;123.123.123.123&quot;);
-        logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-    }
-}
-
-</code></pre>
-<p>运行结果：</p>
-<pre><code> INFO [main] 123.123.123.123 - Hello World
-</code></pre><p>Example01 也能正常运行，只不过没有IP信息而已。</p>
-<h2 id="结合Log4j的使用示例-示例3"><a href="#结合Log4j的使用示例-示例3" class="headerlink" title="结合Log4j的使用示例 - 示例3"></a>结合Log4j的使用示例 - 示例3</h2><p>slf4j自带了一个很好用的formatter，<code>{}</code>会被替换成对应的变量值。那么，如何转义<code>{}</code>呢 ？</p>
-<p>创建新的Java类Example03：</p>
-<pre><code class="java">import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-
-public class Example03 {
-
-    public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Example03.class);
-
-        MDC.put(&quot;IP&quot;, &quot;123.123.123.123&quot;);
-        logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-        logger.info(&quot;Hello {} {}&quot;, &quot;World&quot;);
-        logger.info(&quot;Hello {} \\{}&quot;, &quot;World&quot;);
-        logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;);
-        logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
-    }
-}
-</code></pre>
-<p>运行后输出：</p>
-<pre><code> INFO [main] 123.123.123.123 - Hello World
- INFO [main] 123.123.123.123 - Hello World {}
- INFO [main] 123.123.123.123 - Hello World \{}
- INFO [main] 123.123.123.123 - Hello World \{} {}
- INFO [main] 123.123.123.123 - Hello World {} HI
-</code></pre><p>我们把info的第一个参数称为format字符串，剩下的参数叫做参数列表。<br>可以总结下：</p>
-<ol>
-<li>如果format字符串中的<code>{}</code>，在参数列表找不到对应的参数。那么<code>{}</code>会被打印出来。</li>
-<li>如果format字符串中<code>\\{}</code>在两个<code>{}</code>之间，如果这两个<code>{}</code>能在参数列表中找到对应的参数，则<code>\\{}</code>会被输出为<code>{}</code>。</li>
-</ol>
-<h2 id="结合slf4j-simple的使用示例"><a href="#结合slf4j-simple的使用示例" class="headerlink" title="结合slf4j-simple的使用示例"></a>结合slf4j-simple的使用示例</h2><p><code>slf4j-simple</code>是slf4j系列自带的一个日志实现，可以不用配置，默认会把日志打印到终端。</p>
-<p>使用 IDEA 新创建一个 gradle 项目。<br><code>build.gradle</code>中添加依赖：</p>
-<pre><code>// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-simple&#39;, version: &#39;1.7.25&#39;
-</code></pre><p>编写类 Example01，内容如下：</p>
-<pre><code>import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Example01 {
-    public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Example01.class);
-        logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-    }
-}
-</code></pre><p>运行后输出：</p>
-<pre><code>[main] INFO Example01 - Hello World
-</code></pre><p>如果要配置<code>slf4j-simple</code>，可以参考下这篇文章： <a href="https://stackoverflow.com/questions/14544991/how-to-configure-slf4j-simple" target="_blank" rel="noopener">How to configure slf4j-simple</a>。</p>
-<h2 id="剖析：slf4j如何找到log4j？"><a href="#剖析：slf4j如何找到log4j？" class="headerlink" title="剖析：slf4j如何找到log4j？"></a>剖析：slf4j如何找到log4j？</h2><p>我们一点点翻代码。</p>
-<p>首先：</p>
-<pre><code>import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Example01 {
-
-    public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Example01.class);
-        logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-    }
-}
-
-</code></pre><p>看<code>LoggerFactory.getLogger</code>的主要实现：</p>
-<pre><code>package org.slf4j;
-public final class LoggerFactory {
-    // ... 省略
-
-    public static Logger getLogger(Class&lt;?&gt; clazz) {
-        Logger logger = getLogger(clazz.getName());
-        // ... 省略
-        return logger;
-    }
-
-    public static Logger getLogger(String name) {
-        ILoggerFactory iLoggerFactory = getILoggerFactory();
-        return iLoggerFactory.getLogger(name);
-    }
-
-   // ... 省略
-}
-</code></pre><p>getLoggerFactory 是如何实现的？</p>
-<pre><code>public final class LoggerFactory {
-    // ... 省略
-    public static ILoggerFactory getILoggerFactory() {
-        // ... 省略部分代码
-        performInitialization();
-        return StaticLoggerBinder.getSingleton().getLoggerFactory();
-    }
-    // ... 省略
-}
-</code></pre><p>performInitialization()的主要特性是调用 bind() 方法。</p>
-<p>我们直接看bind()的实现：</p>
-<pre><code>public final class LoggerFactory {
-    // ... 省略
-    private final static void bind() {
-        // 依然省略了很多代码
-        try {
-            Set&lt;URL&gt; staticLoggerBinderPathSet = null;
-            // skip check under android, see also
-            // http://jira.qos.ch/browse/SLF4J-328
-            if (!isAndroid()) {
-                staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
-                reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
-            }
-            // the next line does the binding
-            StaticLoggerBinder.getSingleton();
-        } catch (Exception e) {
-            failedBinding(e);
-            throw new IllegalStateException(&quot;Unexpected initialization failure&quot;, e);
-        }
-    }
-    // ... 省略
-}
-</code></pre><p><code>findPossibleStaticLoggerBinderPathSet()</code>是去找当前classpath下所有的<code>org/slf4j/impl/StaticLoggerBinder.class</code>。如果有多个，则通过<code>reportMultipleBindingAmbiguity</code>发出警告。</p>
-<blockquote>
-<p>是的，classpath下（包括自己的代码）有完全路径重名的类是可以接受的，如果我们代码里要获取这种类的实例，或者已经import进来了，实际使用的类是找到的第一个符合条件的类。所以有时会遇到坑，比如一个项目的jar包的低版本和高本版都在classpath中，我们希望用高版本中特性，但是程序表现一直不符合我们的预期。这时，可能是因为程序实际用的是低版本特性。这种情况下，需要分析依赖关系，禁止掉重复的依赖。<a href="http://javatar.iteye.com/blog/804187" target="_blank" rel="noopener">防痴呆设计</a>提供了一个简单但很有意思的思路，来防止自己编写的代码库出现这种问题。<br>当然，一个jar中不会出现完全路径重名的类。</p>
-</blockquote>
-<p>然后，最重要的代码来了：</p>
-<pre><code>StaticLoggerBinder.getSingleton();
-</code></pre><p>我们之前介绍过：</p>
-<ul>
-<li><code>slf4j-api</code>提供了slf4j的抽象接口，我们作为使用者，只需要关心它提供的API就行。</li>
-<li><code>slf4j-log4j12</code>是slf4j与log4j的桥接组件。</li>
-<li><code>log4j</code>是我们常见的log4j日志组件。</li>
-</ul>
-<p>我们刚才看到的代码都是<code>slf4j-api</code>中的，但是<code>StaticLoggerBinder</code>这个类是 <code>slf4j-log4j12</code>中的。也就是说，每一个slf4j和实际日志组件的桥接组件中都有一个<code>org.slf4j.impl.StaticLoggerBinder</code> 类。</p>
-<blockquote>
-<p> 补充： <code>slf4j-api</code>的源码中是有<code>org.slf4j.impl.StaticLoggerBinder</code>类的，不过没被打包到jar中。它的pom.xml中的打包配置，有一个删除操作：<code>&lt;delete dir=&quot;target/classes/org/slf4j/impl&quot;/&gt;</code>。</p>
-</blockquote>
-<p><strong>下面，我们进入<code>slf4j-log4j12</code>探索。</strong></p>
-<p><code>StaticLoggerBinder.getSingleton().getLoggerFactory()</code>返回的是什么呢？</p>
-<p>是<code>Log4jLoggerFactory</code>。</p>
-<p>我们直接去看<code>Log4jLoggerFactory</code>的<code>getLogger</code>方法：</p>
-<pre><code>    public Logger getLogger(String name) {
-        // `loggerMap`是缓存logger实例。
-        Logger slf4jLogger = loggerMap.get(name);
-        if (slf4jLogger != null) {
-            return slf4jLogger;
-        } else {
-            org.apache.log4j.Logger log4jLogger;
-            if (name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME))
-                log4jLogger = LogManager.getRootLogger();
-            else
-                log4jLogger = LogManager.getLogger(name);
-
-            Logger newInstance = new Log4jLoggerAdapter(log4jLogger);
-            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
-            return oldInstance == null ? newInstance : oldInstance;
-        }
-    }
-</code></pre><p>是的，getLogger并没有直接返回log4j的logger，因为不符合log4j的logger没有继承自<code>org.slf4j.Logger</code>，所以用<code>Log4jLoggerAdapter</code>进行了封装。</p>
-<blockquote>
-<p><code>Adapter</code>是一种设计模式。</p>
-</blockquote>
-<h2 id="剖析：slf4j的-formatter-原理"><a href="#剖析：slf4j的-formatter-原理" class="headerlink" title="剖析：slf4j的 formatter 原理"></a>剖析：slf4j的 formatter 原理</h2><p>我们看下<code>logger.info(&quot;Hello {}&quot;, &quot;World&quot;);</code>中的format机制是如何实现的，即<code>{}</code>是如何被替换的。</p>
-<p><code>slf4j-log4j12</code>中<code>Log4jLoggerAdapter</code>类info方法内容如下：</p>
-<pre><code class="java">public void info(String format, Object... argArray) {
-    if (logger.isInfoEnabled()) {
-        FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-        logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
-    }
-}
-</code></pre>
-<p><code>MessageFormatter</code>来自<code>slf4j-api</code>，arrayFormat 方法有多个同名实现，最终调用的是：</p>
-<pre><code class="java">final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
-
-    if (messagePattern == null) {
-        return new FormattingTuple(null, argArray, throwable);
-    }
-
-    if (argArray == null) {
-        return new FormattingTuple(messagePattern);
-    }
-
-    int i = 0;
-    int j;
-    // use string builder for better multicore performance
-    StringBuilder sbuf = new StringBuilder(messagePattern.length() + 50);
-
-    int L;
-    for (L = 0; L &lt; argArray.length; L++) {
-
-        j = messagePattern.indexOf(DELIM_STR, i); // DELIM_STR 的值是 &quot;{}&quot;
-
-        if (j == -1) {
-            // no more variables
-            if (i == 0) { // this is a simple string
-                return new FormattingTuple(messagePattern, argArray, throwable);
-            } else { // add the tail string which contains no variables and return
-                // the result.
-                sbuf.append(messagePattern, i, messagePattern.length());
-                return new FormattingTuple(sbuf.toString(), argArray, throwable);
-            }
-        } else {
-            if (isEscapedDelimeter(messagePattern, j)) {
-                if (!isDoubleEscaped(messagePattern, j)) {
-                    L--; // DELIM_START was escaped, thus should not be incremented
-                    sbuf.append(messagePattern, i, j - 1);
-                    sbuf.append(DELIM_START);  // DELIM_START 的值是 &quot;{&quot;
-                    i = j + 1;
-                } else {
-                    // The escape character preceding the delimiter start is
-                    // itself escaped: &quot;abc x:\\{}&quot;
-                    // we have to consume one backward slash
-                    sbuf.append(messagePattern, i, j - 1);
-                    deeplyAppendParameter(sbuf, argArray[L], new HashMap&lt;Object[], Object&gt;());
-                    i = j + 2;
-                }
-            } else {
-                // normal case
-                sbuf.append(messagePattern, i, j);
-                deeplyAppendParameter(sbuf, argArray[L], new HashMap&lt;Object[], Object&gt;());
-                i = j + 2;
-            }
-        }
-    }
-    // append the characters following the last {} pair.
-    sbuf.append(messagePattern, i, messagePattern.length());
-    return new FormattingTuple(sbuf.toString(), argArray, throwable);
-}
-</code></pre>
-<p>原理就是解析字符串，进行替换。<br>对照下面几个用例，理解下就行了：</p>
-<pre><code class="java">logger.info(&quot;Hello {}&quot;, &quot;World&quot;);
-logger.info(&quot;Hello {} {}&quot;, &quot;World&quot;);
-logger.info(&quot;Hello {} \\{}&quot;, &quot;World&quot;);
-logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;);
-logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
-</code></pre>
+        <p>文章已经迁移到 <a href="https://blog.letiantian.me/java/java-slf4j.html" target="_blank" rel="noopener">https://blog.letiantian.me/java/java-slf4j.html</a> 。</p>
 
       
     </div>
@@ -833,17 +536,8 @@ logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -858,7 +552,7 @@ logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-count">218</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -914,22 +608,6 @@ logger.info(&quot;Hello {} \\{} {}&quot;, &quot;World&quot;, &quot;HI&quot;);
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结合Log4j的使用示例-示例1"><span class="nav-text">结合Log4j的使用示例 - 示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结合Log4j的使用示例-示例2"><span class="nav-text">结合Log4j的使用示例 - 示例2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结合Log4j的使用示例-示例3"><span class="nav-text">结合Log4j的使用示例 - 示例3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结合slf4j-simple的使用示例"><span class="nav-text">结合slf4j-simple的使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剖析：slf4j如何找到log4j？"><span class="nav-text">剖析：slf4j如何找到log4j？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剖析：slf4j的-formatter-原理"><span class="nav-text">剖析：slf4j的 formatter 原理</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

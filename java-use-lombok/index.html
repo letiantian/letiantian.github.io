@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
+<meta name="description" content="文章已迁移到 https://blog.letiantian.me/java/java-lombok.html 。">
 <meta name="keywords" content="JDK, Java, lombok">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为你减少代码量的Java库：Lombok">
 <meta property="og:url" content="http://www.letiantian.me/java-use-lombok/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
+<meta property="og:description" content="文章已迁移到 https://blog.letiantian.me/java/java-lombok.html 。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-07-31T00:10:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为你减少代码量的Java库：Lombok">
-<meta name="twitter:description" content="lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。 官网： https://projectlombok.org/  Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.Never write ano">
+<meta name="twitter:description" content="文章已迁移到 https://blog.letiantian.me/java/java-lombok.html 。">
 
 
 
@@ -241,7 +241,7 @@
       
         
         <li class="menu-item menu-item-jiaocheng">
-          <a href="/jiaocheng" rel="section">
+          <a href="https://blog.letiantian.me/zhuanti/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
             
@@ -397,141 +397,7 @@
       
 
       
-        <p>lombok可以为我们减少样板代码，也可以让我们更早的体验Java的未来特性。</p>
-<p>官网： <a href="https://projectlombok.org/" target="_blank" rel="noopener">https://projectlombok.org/</a></p>
-<blockquote>
-<p>Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up your java.<br>Never write another getter or equals method again. Early access to future java features such as val, and much more.</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="示例1：使用-Data注解"><a href="#示例1：使用-Data注解" class="headerlink" title="示例1：使用@Data注解"></a>示例1：使用@Data注解</h2><p>这个注解，可以让我们不用写set、get、hashCode、toString方法。</p>
-<p>项目结构：</p>
-<pre><code class="java">
-├── build.gradle
-├── settings.gradle
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── demo
-    │   │       ├── Main.java
-    │   │       └── Person.java
-    │   └── resources
-    └── test
-        ├── java
-        └── resources
-</code></pre>
-<p>build.gradle:</p>
-<pre><code class="gradle">plugins {
-    id &#39;java&#39;
-}
-
-group &#39;com.example&#39;
-version &#39;1.0-SNAPSHOT&#39;
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
-
-    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
-}
-</code></pre>
-<p>虽然是compile，但lombok只是在编译期使用。</p>
-<pre><code class="java">package demo;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import java.io.Serializable;
-
-@Data
-@AllArgsConstructor
-public class Person implements Serializable {
-
-    private String name;
-    private int age;
-
-}
-</code></pre>
-<pre><code class="java">package demo;
-
-public class Main {
-
-    public static void main(String[] args) {
-        Person p = new Person(&quot;Tom&quot;, 18);
-
-        System.out.println(p);
-        System.out.println(p.getName());
-        System.out.println(p.getAge());
-    }
-
-}
-</code></pre>
-<p>编译运行：</p>
-<pre><code class="plain">$ gradle build
-$ java -classpath build/libs/demo-1.0-SNAPSHOT.jar demo.Main
-Person(name=Tom, age=18)
-Tom
-18
-</code></pre>
-<p><strong>用Intellij IDEA编辑、运行代码，需要装lombok插件，以及做一些配置。可以参考《<a href="https://blog.csdn.net/xzp_12345/article/details/80268834" target="_blank" rel="noopener">IDEA下lombok安装，以及找不到get,set的问题</a>》。</strong> </p>
-<p>用lombok最可能遇到的问题是，代码看起来没问题，但是在IDE中一运行就报错。这是因为没有启用注解处理器（Annotation Processors）。进入 IDEA 菜单 =&gt; Preferences =&gt; Build, Execution, Deployment =&gt; Compiler =&gt; Annotation Processors ，选中<code>Enable annotation processing</code> 即可。</p>
-<h2 id="示例2：使用-Slf4j"><a href="#示例2：使用-Slf4j" class="headerlink" title="示例2：使用@Slf4j"></a>示例2：使用@Slf4j</h2><p>Slf4j是一个日志框架。</p>
-<p>项目结构：</p>
-<pre><code class="plain">├── build.gradle
-├── settings.gradle
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── demo
-    │   │       └── Main.java
-    │   └── resources
-    └── test
-        ├── java
-        └── resources
-</code></pre>
-<p>build.gradle ：</p>
-<pre><code class="gradle">plugins {
-    id &#39;java&#39;
-}
-
-group &#39;com.example&#39;
-version &#39;1.0-SNAPSHOT&#39;
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
-    compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
-    compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-simple&#39;, version: &#39;1.7.25&#39;
-
-    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
-}
-</code></pre>
-<p>@Slf4j 可以自动生成 log 变量。</p>
-<pre><code class="java">package demo;
-
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-public class Main {
-
-    public static void main(String[] args) {
-        log.info(&quot;1+1 = {}&quot;, 2);
-    }
-
-}
-
-</code></pre>
-<p>运行 <code>Main</code> 类，输出：</p>
-<pre><code class="plain">[main] INFO demo.Main - 1+1 = 2
-</code></pre>
+        <p>文章已迁移到 <a href="https://blog.letiantian.me/java/java-lombok.html" target="_blank" rel="noopener">https://blog.letiantian.me/java/java-lombok.html</a> 。</p>
 
       
     </div>
@@ -670,17 +536,8 @@ public class Main {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -695,7 +552,7 @@ public class Main {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-count">218</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -751,22 +608,6 @@ public class Main {
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例1：使用-Data注解"><span class="nav-text">示例1：使用@Data注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例2：使用-Slf4j"><span class="nav-text">示例2：使用@Slf4j</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

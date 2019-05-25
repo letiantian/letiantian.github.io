@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="为什么写示例代码？ 1、自己写了一些Java代码，通过示例告诉别人该怎么用。 2、看到神奇的Java项目，通过编写示例学习怎么用。 对于我，最开始用的是下面的方案1。 方案1：创建类，然后写main函数在类中写几个static函数，在 main 函数中有选择的调用，然后执行代码，看运行结果。运行结果来自哪里？来自System.out.println 。 但是这种方式要经常更换 main 函数中的代">
+<meta name="description" content="文章已迁移到 https://blog.letiantian.me/java/java-how-to-write-demo.html 。">
 <meta name="keywords" content="JDK, Java, junit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="怎么写 Java 示例代码？">
 <meta property="og:url" content="http://www.letiantian.me/how-to-write-java-demo/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="为什么写示例代码？ 1、自己写了一些Java代码，通过示例告诉别人该怎么用。 2、看到神奇的Java项目，通过编写示例学习怎么用。 对于我，最开始用的是下面的方案1。 方案1：创建类，然后写main函数在类中写几个static函数，在 main 函数中有选择的调用，然后执行代码，看运行结果。运行结果来自哪里？来自System.out.println 。 但是这种方式要经常更换 main 函数中的代">
+<meta property="og:description" content="文章已迁移到 https://blog.letiantian.me/java/java-how-to-write-demo.html 。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-10-26T01:04:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎么写 Java 示例代码？">
-<meta name="twitter:description" content="为什么写示例代码？ 1、自己写了一些Java代码，通过示例告诉别人该怎么用。 2、看到神奇的Java项目，通过编写示例学习怎么用。 对于我，最开始用的是下面的方案1。 方案1：创建类，然后写main函数在类中写几个static函数，在 main 函数中有选择的调用，然后执行代码，看运行结果。运行结果来自哪里？来自System.out.println 。 但是这种方式要经常更换 main 函数中的代">
+<meta name="twitter:description" content="文章已迁移到 https://blog.letiantian.me/java/java-how-to-write-demo.html 。">
 
 
 
@@ -241,7 +241,7 @@
       
         
         <li class="menu-item menu-item-jiaocheng">
-          <a href="/jiaocheng" rel="section">
+          <a href="https://blog.letiantian.me/zhuanti/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
             
@@ -397,65 +397,7 @@
       
 
       
-        <p>为什么写示例代码？</p>
-<p>1、自己写了一些Java代码，通过示例告诉别人该怎么用。</p>
-<p>2、看到神奇的Java项目，通过编写示例学习怎么用。</p>
-<p>对于我，最开始用的是下面的方案1。</p>
-<h3 id="方案1：创建类，然后写main函数"><a href="#方案1：创建类，然后写main函数" class="headerlink" title="方案1：创建类，然后写main函数"></a>方案1：创建类，然后写main函数</h3><p>在类中写几个static函数，在 main 函数中有选择的调用，然后执行代码，看运行结果。运行结果来自哪里？来自<code>System.out.println</code> 。</p>
-<p>但是这种方式要经常更换 main 函数中的代码。所以，后来优化为，写多个类，每个类都有 main 函数，尽量保证代码少改动。这也有问题，就是类太多。</p>
-<p>后来，在用 junit 写了一堆单元测试代码后，我发现 junit 可以完美应对写示例代码的需求。</p>
-<h3 id="方案2：使用-junit-单元测试框架"><a href="#方案2：使用-junit-单元测试框架" class="headerlink" title="方案2：使用 junit 单元测试框架"></a>方案2：使用 junit 单元测试框架</h3><p>我现在用的 Intellij IDEA IDE 很好的集成了junit。在一个类中写一堆用<code>@Test</code>注解的函数，随便一个函数中鼠标右击，就有执行这个函数的选项。</p>
-<p>举个简单的使用示例。</p>
-<p><strong>第一步</strong>，用 Intellij IDEA 创建一个基于 gradle 的 java 项目。</p>
-<p><strong>第二步</strong>，将 build.gradle 中依赖</p>
-<pre><code class="gradle">dependencies {
-    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
-}
-</code></pre>
-<p>修改为：</p>
-<pre><code class="gradle">dependencies {
-    compile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
-}
-</code></pre>
-<p>我们的目的不是写单测代码，而是示例代码。把<code>testCompile</code>改成<code>compile</code>，这样就可以在<code>main/java</code>目录中使用 junit 了。</p>
-<p><strong>第三步</strong>，写个示例：</p>
-<pre><code class="java">import org.junit.Test;
-
-public class Demo {
-
-    @Test
-    public void test_01() {
-        System.out.println(1+1);
-    }
-
-    @Test
-    public void test_02() {
-        System.out.println(1+2);
-    }
-
-}
-</code></pre>
-<p>搞定。</p>
-<h3 id="方案3：在方案2的基础上引入lombok和slf4j"><a href="#方案3：在方案2的基础上引入lombok和slf4j" class="headerlink" title="方案3：在方案2的基础上引入lombok和slf4j"></a>方案3：在方案2的基础上引入lombok和slf4j</h3><p>lombok和slf4j的使用可以参考我的这两篇文章：</p>
-<ul>
-<li><a href="https://www.letiantian.me/java-use-lombok/">为你减少代码量的Java库：Lombok</a></li>
-<li><a href="https://www.letiantian.me/analyse-slf4j/">日志组件slf4j的使用和源码分析</a></li>
-</ul>
-<p>对于这个方案，build.gradle 中的依赖配置如下：</p>
-<pre><code>compile group: &#39;org.projectlombok&#39;, name: &#39;lombok&#39;, version: &#39;1.18.0&#39;
-
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-api&#39;, version: &#39;1.7.25&#39;
-compile group: &#39;org.slf4j&#39;, name: &#39;slf4j-log4j12&#39;, version: &#39;1.7.25&#39;
-compile group: &#39;log4j&#39;, name: &#39;log4j&#39;, version: &#39;1.2.17&#39;
-
-compile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.12&#39;
-</code></pre><p>在 resources 目录中增加 log4j 的配置文件log4j.properties，内容如下：</p>
-<pre><code class="ini">log4j.rootLogger=INFO, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
-</code></pre>
-<p>可根据需要修改。</p>
+        <p>文章已迁移到 <a href="https://blog.letiantian.me/java/java-how-to-write-demo.html" target="_blank" rel="noopener">https://blog.letiantian.me/java/java-how-to-write-demo.html</a> 。</p>
 
       
     </div>
@@ -594,17 +536,8 @@ log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -619,7 +552,7 @@ log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-count">218</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -675,22 +608,6 @@ log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#方案1：创建类，然后写main函数"><span class="nav-text">方案1：创建类，然后写main函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案2：使用-junit-单元测试框架"><span class="nav-text">方案2：使用 junit 单元测试框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案3：在方案2的基础上引入lombok和slf4j"><span class="nav-text">方案3：在方案2的基础上引入lombok和slf4j</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
