@@ -241,7 +241,7 @@
       
         
         <li class="menu-item menu-item-jiaocheng">
-          <a href="https://blog.letiantian.me/zhuanti/" rel="section">
+          <a href="https://www.letianbiji.com/zhuanti/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
             
@@ -415,7 +415,7 @@
     listen   80; ## listen for ipv4; this line is default and implied
     #listen   [::]:80 default ipv6only=on; ## listen for ipv6
 
-    server_name blog.letiantian.me www.blog.letiantian.me;
+    server_name letiantian.me www.letiantian.me;
 
     location / {
         root /home/www;
@@ -424,12 +424,12 @@
     }
 }
 </code></pre><a id="more"></a>
-<p>以上配置的重点在<code>try_files $uri $uri/ $uri/index.html /error.html;</code>，它表示，如果你的请求是<code>http://blog.letiantian.me/3</code>，nginx会依次寻找以下资源：</p>
+<p>以上配置的重点在<code>try_files $uri $uri/ $uri/index.html /error.html;</code>，它表示，如果你的请求是<code>http://www.letiantian.me/3</code>，nginx会依次寻找以下资源：</p>
 <blockquote>
 <ol>
-<li><code>http://blog.letiantian.me/3</code></li>
-<li><code>http://blog.letiantian.me/3/</code> = <code>http://blog.letiantian.me/3/index.html</code>  = <code>http://blog.letiantian.me/3/index.htm</code></li>
-<li><code>http://blog.letiantian.me/error.html</code></li>
+<li><code>http://www.letiantian.me/3</code></li>
+<li><code>http://www.letiantian.me/3/</code> = <code>http://www.letiantian.me/3/index.html</code>  = <code>http://www.letiantian.me/3/index.htm</code></li>
+<li><code>http://www.letiantian.me/error.html</code></li>
 </ol>
 </blockquote>
 <p>所以，当请求的页面不存在的时候，其会访问<code>/home/www/error.html</code>。这样做基本达到要求，问题是返回error.html内容时，http状态为200，这对搜索引擎是不友好的。如果要http状态为404，可以如下配置：</p>
@@ -437,7 +437,7 @@
     listen   80; ## listen for ipv4; this line is default and implied
     #listen   [::]:80 default ipv6only=on; ## listen for ipv6
 
-    server_name blog.letiantian.me www.blog.letiantian.me;
+    server_name letiantian.me www.letiantian.me;
 
     location / {
         root /home/www;
