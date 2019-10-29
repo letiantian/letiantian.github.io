@@ -10,9 +10,6 @@
     <loc>http://www.letiantian.me/mysql-innodb-rr-x-lock-example/</loc>
     <lastmod>2018-09-23T00:10:28.000Z</lastmod>
   </url>  <url>
-    <loc>http://www.letiantian.me/learn-flask/</loc>
-    <lastmod>2018-09-01T02:30:01.000Z</lastmod>
-  </url>  <url>
     <loc>http://www.letiantian.me/java-use-lombok/</loc>
     <lastmod>2018-07-31T00:10:28.000Z</lastmod>
   </url>  <url>
@@ -154,56 +151,8 @@
     <loc>http://www.letiantian.me/2014-12-23-nmf-pca-vq/</loc>
     <lastmod>2015-05-17T02:51:10.000Z</lastmod>
   </url>  <url>
-    <loc>http://www.letiantian.me/topic-learn-flask/</loc>
-    <lastmod>2015-05-17T02:30:01.000Z</lastmod>
-  </url>  <url>
     <loc>http://www.letiantian.me/2014-06-13-apple-swift/</loc>
     <lastmod>2015-05-17T02:17:02.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-13/</loc>
-    <lastmod>2015-05-17T01:41:38.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-12/</loc>
-    <lastmod>2015-05-17T01:40:22.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-10/</loc>
-    <lastmod>2015-05-17T01:37:46.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-14/</loc>
-    <lastmod>2015-05-17T01:34:26.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-11/</loc>
-    <lastmod>2015-05-17T01:33:32.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-09/</loc>
-    <lastmod>2015-05-17T01:32:38.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-08/</loc>
-    <lastmod>2015-05-17T01:32:25.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-07/</loc>
-    <lastmod>2015-05-17T01:31:40.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-06/</loc>
-    <lastmod>2015-05-17T01:31:22.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-05/</loc>
-    <lastmod>2015-05-17T01:31:04.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-04/</loc>
-    <lastmod>2015-05-17T01:30:45.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-03/</loc>
-    <lastmod>2015-05-17T01:30:29.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-02/</loc>
-    <lastmod>2015-05-17T01:30:10.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2015-01-14-learn-mybatis-from-scratch-01/</loc>
-    <lastmod>2015-05-17T01:28:50.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/topic-learn-mybatis-from-scratch/</loc>
-    <lastmod>2015-05-17T01:26:50.000Z</lastmod>
   </url>  <url>
     <loc>http://www.letiantian.me/2015-01-21-java-reverse-array/</loc>
     <lastmod>2015-05-17T00:59:00.000Z</lastmod>
@@ -280,9 +229,6 @@
     <loc>http://www.letiantian.me/2014-12-12-beautifulsoup-remove-js/</loc>
     <lastmod>2014-12-12T08:34:57.000Z</lastmod>
   </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-jinja2-template-engine/</loc>
-    <lastmod>2014-12-10T14:43:04.000Z</lastmod>
-  </url>  <url>
     <loc>http://www.letiantian.me/2014-02-25-modify-project-in-github/</loc>
     <lastmod>2014-12-01T08:55:20.000Z</lastmod>
   </url>  <url>
@@ -355,9 +301,6 @@
     <loc>http://www.letiantian.me/2014-06-10-knn/</loc>
     <lastmod>2014-10-08T01:16:41.000Z</lastmod>
   </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-23-flask-get-url-params/</loc>
-    <lastmod>2014-10-07T14:38:37.000Z</lastmod>
-  </url>  <url>
     <loc>http://www.letiantian.me/2013-09-15-method-chains/</loc>
     <lastmod>2014-10-07T14:37:54.000Z</lastmod>
   </url>  <url>
@@ -384,12 +327,6 @@
   </url>  <url>
     <loc>http://www.letiantian.me/2014-06-10-pagerank/</loc>
     <lastmod>2014-10-07T13:29:01.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-restful-url/</loc>
-    <lastmod>2014-10-07T13:21:14.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-cookie/</loc>
-    <lastmod>2014-10-07T13:17:42.000Z</lastmod>
   </url>  <url>
     <loc>http://www.letiantian.me/2014-07-12-ffmpeg-avconv/</loc>
     <lastmod>2014-10-07T13:12:28.000Z</lastmod>
@@ -574,29 +511,8 @@
     <loc>http://www.letiantian.me/2014-06-18-db-undo-redo-checkpoint/</loc>
     <lastmod>2014-10-07T07:28:11.000Z</lastmod>
   </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-24-flask-process-post-data/</loc>
-    <lastmod>2014-10-07T07:26:08.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-url-for/</loc>
-    <lastmod>2014-10-07T07:23:59.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-redirect/</loc>
-    <lastmod>2014-10-07T07:23:05.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-handle-errors/</loc>
-    <lastmod>2014-10-07T07:20:48.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-28-flask-session/</loc>
-    <lastmod>2014-10-07T07:19:41.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-29-flask-flash/</loc>
-    <lastmod>2014-10-07T07:17:54.000Z</lastmod>
-  </url>  <url>
     <loc>http://www.letiantian.me/2014-06-29-nginx-expires/</loc>
     <lastmod>2014-10-07T07:16:48.000Z</lastmod>
-  </url>  <url>
-    <loc>http://www.letiantian.me/2014-06-30-flask-datum-collected/</loc>
-    <lastmod>2014-10-07T07:15:44.000Z</lastmod>
   </url>  <url>
     <loc>http://www.letiantian.me/2014-07-12-tornado-xsrf/</loc>
     <lastmod>2014-10-07T07:14:52.000Z</lastmod>

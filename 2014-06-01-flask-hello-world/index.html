@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="2014-06-01 本文主要内容：使用Flask写一个显示”hello world”的web程序，如何配置、调试Flask。">
+<meta name="description" content="本文已经迁移到：Python Flask: 从 Hello Wolrd 开始">
 <meta name="keywords" content="web,flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅入浅出Flask框架：从HelloWorld开始Flask">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-01-flask-hello-world/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="2014-06-01 本文主要内容：使用Flask写一个显示”hello world”的web程序，如何配置、调试Flask。">
+<meta property="og:description" content="本文已经迁移到：Python Flask: 从 Hello Wolrd 开始">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2014-10-07T07:42:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅入浅出Flask框架：从HelloWorld开始Flask">
-<meta name="twitter:description" content="2014-06-01 本文主要内容：使用Flask写一个显示”hello world”的web程序，如何配置、调试Flask。">
+<meta name="twitter:description" content="本文已经迁移到：Python Flask: 从 Hello Wolrd 开始">
 
 
 
@@ -408,56 +408,7 @@
       
 
       
-        <p>2014-06-01</p>
-<p>本文主要内容：使用Flask写一个显示”hello world”的web程序，如何配置、调试Flask。</p>
-<a id="more"></a>
-<h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><hr>
-<p>按照以下命令建立Flask项目HelloWorld:</p>
-<pre><code>mkdir HelloWorld
-mkdir HelloWorld/static
-mkdir HelloWorld/templates
-touch HelloWorld/index.py
-</code></pre><p><code>static</code>和<code>templates</code>目录是默认配置，其中<code>static</code>用来存放静态资源，例如图片、js、css文件等。<code>templates</code>存放模板文件。<br>我们的网站逻辑基本在<code>index.py</code>文件中，当然，也可以给这个文件起其他的名字。</p>
-<p>在<code>index.py</code>中加入以下内容：</p>
-<pre><code class="python">from flask import Flask
-
-app = Flask(__name__)
-
-@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;Hello World!&#39;
-
-if __name__ == &#39;__main__&#39;:
-    app.run()
-</code></pre>
-<p>运行index.py：</p>
-<pre><code>$ python index.py 
- * Running on http://127.0.0.1:5000/
-</code></pre><p>打开浏览器访问<code>http://127.0.0.1:5000/</code>，浏览页面上将出现<code>Hello World!</code>。<br>终端里会显示下面的信息：</p>
-<pre><code>127.0.0.1 - - [16/May/2014 10:29:08] &quot;GET / HTTP/1.1&quot; 200 -
-</code></pre><p>变量app是一个Flask实例，通过下面的方式：</p>
-<pre><code class="python">@app.route(&#39;/&#39;)
-def hello_world():
-    return &#39;Hello World!&#39;
-</code></pre>
-<p>当客户端访问<code>/</code>时，将响应<code>hello_world()</code>函数返回的内容。注意，这不是返回<code>Hello World!</code>这么简单，<code>Hello World!</code>只是HTTP响应报文的实体部分，状态码等信息既可以由Flask自动处理，也可以通过编程来制定。</p>
-<h3 id="修改Flask的目录配置"><a href="#修改Flask的目录配置" class="headerlink" title="修改Flask的目录配置"></a>修改Flask的目录配置</h3><hr>
-<p>Flask使用<code>static</code>目录存放静态资源，这是可以更改的，请在index.py的：</p>
-<pre><code class="python">app = Flask(__name__)
-</code></pre>
-<p>中为Flask多加几个参数值，这些参数请参考<code>__doc__</code>：</p>
-<pre><code class="python">from flask import Flask
-print Flask.__doc__
-</code></pre>
-<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><hr>
-<p>上面的index.py中以<code>app.run()</code>方式运行，这种方式下，如果服务器端出现错误是不会在客户端显示的。但是在开发环境中，显示错误信息是很有必要的，要显示错误信息，应该以下面的方式运行Flask：</p>
-<pre><code class="python">app.run(debug=True)
-</code></pre>
-<h3 id="绑定网络接口和端口"><a href="#绑定网络接口和端口" class="headerlink" title="绑定网络接口和端口"></a>绑定网络接口和端口</h3><hr>
-<p>默认情况下，Flask绑定IP为<code>127.0.0.1</code>，端口为<code>5000</code>，可以通过下面的方式指定：</p>
-<pre><code class="python">app.run(host=&#39;0.0.0.0&#39;, port=80, debug=True)
-</code></pre>
-<p>由于绑定了80端口，需要使用root权限运行index.py。</p>
+        <p>本文已经迁移到：<a href="https://www.letianbiji.com/python-flask/py-flask-hello-world.html" target="_blank" rel="noopener">Python Flask: 从 Hello Wolrd 开始</a></p>
 
       
     </div>
@@ -596,17 +547,8 @@ print Flask.__doc__
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -621,7 +563,7 @@ print Flask.__doc__
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">218</span>
+                <span class="site-state-item-count">190</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -634,7 +576,7 @@ print Flask.__doc__
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -677,22 +619,6 @@ print Flask.__doc__
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hello-World"><span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Flask的目录配置"><span class="nav-text">修改Flask的目录配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试"><span class="nav-text">调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定网络接口和端口"><span class="nav-text">绑定网络接口和端口</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
