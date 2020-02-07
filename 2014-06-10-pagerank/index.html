@@ -94,21 +94,18 @@
 
 
 
-<meta name="description" content="2014-06-10 网络上将pagerank的博文已经很多了，一般的数据挖掘相关的书籍中也会有介绍。本文只是粗略的讲一下笔者对pagerank的理解，以及如何放在真实场景中使用pagerank。 下图显示了某一时刻网页A、B、C的链接情况，网页A中存在到网页B、C中的链接，网页B存在到网页C的链接，网页C存在到网页A的链接。">
+<meta name="description" content="本文已迁移至 https://www.letianbiji.com/machine-learning/page-rank.html 。">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅入浅出：PageRank算法">
+<meta property="og:title" content="【已迁移】浅入浅出：PageRank算法">
 <meta property="og:url" content="http://www.letiantian.me/2014-06-10-pagerank/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="2014-06-10 网络上将pagerank的博文已经很多了，一般的数据挖掘相关的书籍中也会有介绍。本文只是粗略的讲一下笔者对pagerank的理解，以及如何放在真实场景中使用pagerank。 下图显示了某一时刻网页A、B、C的链接情况，网页A中存在到网页B、C中的链接，网页B存在到网页C的链接，网页C存在到网页A的链接。">
+<meta property="og:description" content="本文已迁移至 https://www.letianbiji.com/machine-learning/page-rank.html 。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-10-pagerank-01.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-10-pagerank-02.png">
 <meta property="og:updated_time" content="2014-10-07T13:29:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅入浅出：PageRank算法">
-<meta name="twitter:description" content="2014-06-10 网络上将pagerank的博文已经很多了，一般的数据挖掘相关的书籍中也会有介绍。本文只是粗略的讲一下笔者对pagerank的理解，以及如何放在真实场景中使用pagerank。 下图显示了某一时刻网页A、B、C的链接情况，网页A中存在到网页B、C中的链接，网页B存在到网页C的链接，网页C存在到网页A的链接。">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/06/2014-06-10-pagerank-01.png">
+<meta name="twitter:title" content="【已迁移】浅入浅出：PageRank算法">
+<meta name="twitter:description" content="本文已迁移至 https://www.letianbiji.com/machine-learning/page-rank.html 。">
 
 
 
@@ -152,7 +149,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>浅入浅出：PageRank算法 | 乐天的个人网站</title>
+  <title>【已迁移】浅入浅出：PageRank算法 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -312,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">浅入浅出：PageRank算法</h1>
+          <h1 class="post-title" itemprop="name headline">【已迁移】浅入浅出：PageRank算法</h1>
         
 
         <div class="post-meta">
@@ -381,167 +378,7 @@
       
 
       
-        <p>2014-06-10</p>
-<p>网络上将pagerank的博文已经很多了，一般的数据挖掘相关的书籍中也会有介绍。本文只是粗略的讲一下笔者对pagerank的理解，以及如何放在真实场景中使用pagerank。</p>
-<p>下图显示了某一时刻网页A、B、C的链接情况，网页A中存在到网页B、C中的链接，网页B存在到网页C的链接，网页C存在到网页A的链接。</p>
-<a id="more"></a>
-<p><img src="/content/images/2014/06/2014-06-10-pagerank-01.png" alt="图01"><br><em>图01</em></p>
-<p>PageRank的目的就是在已知这种链接方式的情况下判断三个网页的重要性。如果A和B中含有相同的关键字，而A的重要性高于B，那么搜索这个关键字的结果中网页A应该放在网页B之前。</p>
-<h3 id="最简单的PageRank"><a href="#最简单的PageRank" class="headerlink" title="最简单的PageRank"></a>最简单的PageRank</h3><hr>
-<p>一个网页本身具有一定的重要性，我们认为一个网页的链接会把该网页的重要性传递到链接的网页中，而一个网页的重要性又必须通过链接它的网页来确定。公平起见，一个网页X若链接了m个网页，那么这m个网页的每个网页接收到的来自网页X的重要性是PR(X)/m。设A、B、C的重要性，也就是PageRank值分别是PR(A)、PR(B)、PR(C)。</p>
-<p>于是由图01，可得以下方程组：</p>
-<pre><code>PR(A) = PR(C)
-PR(B) = PR(A)/2
-PR(C) = PR(A)/2 + PR(B)
-</code></pre><p>计算可得：</p>
-<pre><code>PR(A) = PR(C) = 2*PR(B)
-</code></pre><p>上面的结果已经大致能看出A、B、C各自的重要性。不过有一个问题是，没有把重要程度量化。下面，通过迭代的方式将其量化。</p>
-<p>设A、B、C的初始的重要性均为1，通过上面的方程组进行迭代，每次迭代后会更新A、B、C的重要性。为了方面，先把方程组转换为矩阵运算。</p>
-<pre><code>PR(A) = 0*PR(A) + 0*PR(B) + PR(C)
-PR(B) = 0.5*PR(A) + 0*PR(B) + 0*PR(C)
-PR(C) = 0.5*PR(A) + PR(B) + 0*PR(C)
-</code></pre><p>下面是MATLAB版本的代码：</p>
-<pre><code>M = [0 0 1 
-    0.5 0 0
-    0.5 1 0];
-PR = [1; 1 ; 1];
-
-for iter = 1:100
-    PR = M*PR;
-    disp(iter);
-    disp(PR);
-end
-</code></pre><table>
-<thead>
-<tr>
-<th>第几次迭代</th>
-<th>A的重要性</th>
-<th>B的重要性</th>
-<th>C的重要性</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>1.5</td>
-</tr>
-<tr>
-<td>2</td>
-<td>1.5</td>
-<td>0.5</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>0.75</td>
-<td>1.25</td>
-</tr>
-<tr>
-<td>4</td>
-<td>1.25</td>
-<td>0.5</td>
-<td>1.25</td>
-</tr>
-<tr>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>… </td>
-</tr>
-<tr>
-<td>20</td>
-<td>1.2002</td>
-<td>0.5996</td>
-<td>1.2002   </td>
-</tr>
-<tr>
-<td>27</td>
-<td>1.2000</td>
-<td>0.6000</td>
-<td>1.2000</td>
-</tr>
-<tr>
-<td>100</td>
-<td>1.2000</td>
-<td>0.6000</td>
-<td>1.2000</td>
-</tr>
-</tbody>
-</table>
-<p>但是，上面的方法是有问题的。先看下图：</p>
-<p><img src="/content/images/2014/06/2014-06-10-pagerank-02.png" alt="图02"></p>
-<p>从上图，得到的方程组如下：</p>
-<pre><code>PR(A) = PR(B) + PR(C)
-</code></pre><p>这种情况下，网页之间的重要性无法比较。</p>
-<p>而通过迭代的方法求重要性：</p>
-<pre><code>M = [0 1 1 
-    0 0 0
-    0 0 0];
-
-PR = [1; 1 ; 1];
-
-for iter = 1:100
-    PR = M*PR;
-    disp(iter);
-    disp(PR);
-end
-</code></pre><p>最终收敛的结果是：</p>
-<pre><code>PR(A) = PR(B) = PR(C) = 0
-</code></pre><p>于是，修正是有必要的。</p>
-<h3 id="修正版本的PageRank"><a href="#修正版本的PageRank" class="headerlink" title="修正版本的PageRank"></a>修正版本的PageRank</h3><hr>
-<p>第一种修正方式是网页通过链接传递的重要性乘以一个在0和1之间的阻尼系数d：</p>
-<p>[latex]<br>PR(A) = (1-d) + d * \sum_{i=1}^{m} \frac{PR(T_{i})}{C(T_{i})}<br>[/latex]</p>
-<p>上式是计算网页A的重要性的式子。[latex]T_{i}[/latex]是存在到A的链接的网页。[latex]C(T_{i})[/latex]是网页[latex]T_{i}[/latex]中的存在的链接的数量。d是阻尼系数，一般定义为用户随机点击链接的概率，常取值0.85。而<code>(1-d)</code>代表着不考虑入站链接的情况下随机进入一个页面的概率。</p>
-<p>另一种修正方式和第一种很像，如下：</p>
-<p>[latex]<br>PR(A) = \frac{(1-d)}{N} + d * \sum_{i=1}^m \frac{PR(T_{i})}{C(T_{i})}<br>[/latex]<br><code>N</code>是网页的总数。</p>
-<p>本文只讨论第一种修正方式。</p>
-<p>首先，取阻尼系数为0.85，解决图02中的问题，方程组如下：</p>
-<pre><code>A = 0.15 + 0.85*(B+C)
-B = 0.15
-C = 0.15
-</code></pre><p>解得：</p>
-<pre><code>A = 0.4050
-B = 0.15
-C = 0.15
-</code></pre><p>通过迭代的方法计算：</p>
-<pre><code>M = [0 1 1 
-    0 0 0
-    0 0 0];
-
-PR = [1; 1 ; 1];
-
-for iter = 1:100
-    PR = 0.15 + 0.85*M*PR;
-    disp(iter);
-    disp(PR);
-end
-</code></pre><p>最终收敛到：</p>
-<pre><code>A = 0.4050
-B = 0.15
-C = 0.15
-</code></pre><h3 id="与特征值的关系"><a href="#与特征值的关系" class="headerlink" title="与特征值的关系"></a>与特征值的关系</h3><hr>
-<p>使用迭代的方法处理<code>图01</code>中的链接关系的时候，使用的矩阵是：</p>
-<pre><code>M = [0 0 1 
-    0.5 0 0
-    0.5 1 0];
-</code></pre><p>这是一个典型的状态转移矩阵（所有元素不小于0，每一列的和为1），也可以叫做随机矩阵（Stochastic matrix），状态转移矩阵的最大特征值为1。在迭代的每一步，进行了下面的运算：</p>
-<pre><code>PR = M*PR;
-</code></pre><p>由于图01中的迭代是能够收敛的，所以对于最终的向量PR，肯定会满足上式。这也就意味着PR是矩阵M的特征值1对应的特征向量。</p>
-<p>这里只说到这儿，详细可以参考<a href="http://www.ams.org/samplings/feature-column/fcarc-pagerank" target="_blank" rel="noopener">How Google Finds Your Needle in the Web’s Haystack</a>。</p>
-<h3 id="MapReduce实现"><a href="#MapReduce实现" class="headerlink" title="MapReduce实现"></a>MapReduce实现</h3><hr>
-<p>矩阵与向量的乘法很容易用MapReduce编程模型实现，不讨论。</p>
-<h3 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h3><hr>
-<p><a href="http://zh.wikipedia.org/wiki/PageRank" target="_blank" rel="noopener">PageRank 维基百科</a><br><a href="http://blog.csdn.net/monkey_d_meng/article/details/6554518" target="_blank" rel="noopener">深入探讨PageRank（一）：PageRank算法原理入门</a><br><a href="http://blog.csdn.net/monkey_d_meng/article/details/6556295" target="_blank" rel="noopener">深入探讨PageRank（二）：PageRank原理剖析</a><br><a href="http://blog.csdn.net/monkey_d_meng/article/details/6558100" target="_blank" rel="noopener">深入探讨PageRank（四）：PageRank的危机及搜索引擎的未来</a><br><a href="http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf" target="_blank" rel="noopener">The PageRank Citation Ranking: Bringing Order to the Web</a><br><a href="http://www.changhai.org/articles/technology/misc/google_math.php" target="_blank" rel="noopener">谷歌背后的数学</a><br><a href="http://blog.csdn.net/hguisu/article/details/7996185" target="_blank" rel="noopener">PageRank算法</a><br><a href="http://www.charlesgao.com/?p=157" target="_blank" rel="noopener">Google PageRank算法</a><br><a href="http://blog.codinglabs.org/articles/intro-to-pagerank.html" target="_blank" rel="noopener">浅析PageRank算法</a></p>
-<p><a href="http://whzecomjm.wordpress.com/2013/04/13/随机矩阵的最大特征值/" target="_blank" rel="noopener">随机矩阵的最大特征值</a><br><a href="http://www.ams.org/samplings/feature-column/fcarc-pagerank" target="_blank" rel="noopener">How Google Finds Your Needle in the Web’s Haystack</a><br><a href="http://www.math.cornell.edu/~mec/Winter2009/RalucaRemus/Lecture3/lecture3.html" target="_blank" rel="noopener">Lecture #3: PageRank Algorithm - The Mathematics of Google Search</a><br><a href="http://en.wikipedia.org/wiki/Stochastic_matrix" target="_blank" rel="noopener">Stochastic matrix</a></p>
+        <p>本文已迁移至 <a href="https://www.letianbiji.com/machine-learning/page-rank.html" target="_blank" rel="noopener">https://www.letianbiji.com/machine-learning/page-rank.html</a> 。</p>
 
       
     </div>
@@ -589,7 +426,7 @@ C = 0.15
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/2014-06-10-pagerank/" title="浅入浅出：PageRank算法">http://www.letiantian.me/2014-06-10-pagerank/</a>
+      <a href="http://www.letiantian.me/2014-06-10-pagerank/" title="【已迁移】浅入浅出：PageRank算法">http://www.letiantian.me/2014-06-10-pagerank/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -680,17 +517,8 @@ C = 0.15
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -762,22 +590,6 @@ C = 0.15
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#最简单的PageRank"><span class="nav-text">最简单的PageRank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修正版本的PageRank"><span class="nav-text">修正版本的PageRank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与特征值的关系"><span class="nav-text">与特征值的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce实现"><span class="nav-text">MapReduce实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关资料"><span class="nav-text">相关资料</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -796,7 +608,7 @@ C = 0.15
           <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -929,7 +741,7 @@ C = 0.15
         var disqus_config = function () {
           this.page.url = 'http://www.letiantian.me/2014-06-10-pagerank/';
           this.page.identifier = '2014-06-10-pagerank/';
-          this.page.title = '浅入浅出：PageRank算法';
+          this.page.title = '【已迁移】浅入浅出：PageRank算法';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://letiantian.disqus.com/embed.js';
