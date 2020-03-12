@@ -94,20 +94,18 @@
 
 
 
-<meta name="description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
+<meta name="description" content="文章已迁移到 https://www.letianbiji.com/note/unicode-utf8.html 。">
 <meta name="keywords" content="编程实践">
 <meta property="og:type" content="article">
-<meta property="og:title" content="字符编码简介">
+<meta property="og:title" content="【已迁移】字符编码简介">
 <meta property="og:url" content="http://www.letiantian.me/2015-03-02-character-encoding/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
-<meta property="og:description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
+<meta property="og:description" content="文章已迁移到 https://www.letianbiji.com/note/unicode-utf8.html 。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-02-utf-8.png">
 <meta property="og:updated_time" content="2015-03-02T11:41:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="字符编码简介">
-<meta name="twitter:description" content="2015-03-02 字符集、代码点、代码单元 将所有的字符放在一起就是字符集。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。 对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2015/03/2015-03-02-utf-8.png">
+<meta name="twitter:title" content="【已迁移】字符编码简介">
+<meta name="twitter:description" content="文章已迁移到 https://www.letianbiji.com/note/unicode-utf8.html 。">
 
 
 
@@ -151,7 +149,7 @@
   });
 </script>
 <meta name="google-site-verification" content="BSDkju6FtcFUTqc6rkqXDvZqZfZ1XuoT_OBTv4x8-Jk" />
-  <title>字符编码简介 | 乐天的个人网站</title>
+  <title>【已迁移】字符编码简介 | 乐天的个人网站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -311,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">字符编码简介</h1>
+          <h1 class="post-title" itemprop="name headline">【已迁移】字符编码简介</h1>
         
 
         <div class="post-meta">
@@ -380,72 +378,7 @@
       
 
       
-        <p>2015-03-02</p>
-<h2 id="字符集、代码点、代码单元"><a href="#字符集、代码点、代码单元" class="headerlink" title="字符集、代码点、代码单元"></a>字符集、代码点、代码单元</h2><hr>
-<p>将所有的字符放在一起就是<code>字符集</code>。例如将所有的英文字母放在一起可以组成一个字符集，将所有的英文字母和一些标点符号放在一起可以组成一个字符集，将所有的汉字放在一起可以组成一个字符集，将所有的英文字母以及汉字放在一起也可以组成一个字符集。</p>
-<p>对一个字符集中的所有字符进行编号（整数的序号），每个字符的编号在这个字符集里都是独一无二的。例如，由所有英文字母组成的字符集中有52个字符（小写字母26个，大写字母26个），可以将这些字符依次编号为0、1、2、…、51。一个字符的编号称为该字符的<code>代码点（Code Point）</code>。这种编码后的字符集叫做<code>编码字符集</code>。常见的编码字符集有ASCII、Unicode、GBK等。值得注意的是，有些编码字符集中的代码点不一定被使用了，例如Unicode。</p>
-<p><code>代码单元（Code Unit）</code>是编码时使用的最小单元。这个和如何存储一个字符的编码有关。以为下文将提到的UTF-8为例，其代码单元是8bit，由于UTF-8是变长编码，这意味着在UTF-8有些字符用8bit来存储和表示，有些是8×2bit存储和表示，还有8×3bit等等。</p>
-<h2 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h2><hr>
-<p>Unicode的目标是包含世界上所有语言的文字。Unicode 6.0中已经包含了超过109 000个字符。要了解Unicode，先给出下面的等式：</p>
-<pre><code>2^16 = 65_536
-17 × 65536 = 1_114_112
-0x10FFFF = 1_114_111
-</code></pre><p>Unicode个定义了1 114 112个代码点，值的范围是0～0x10FFFF。这些代码点当前只被使用了一小部分。</p>
-<p>Unicode被分为17个区域，一个区域叫一个平面（plane），每个平面有65 536个字符。<code>0x10FFFF</code>的最高两位为<code>0x10</code>，由0到<code>0x10</code>，刚好17个平面，每个平面是16进制表示的最低4位是从<code>0x0000</code>到<code>0xFFFF</code>。</p>
-<p>第一个平面的范围是<code>0x000000</code>到<code>0x00FFFF</code>，叫做基本多语言平面（BMP），包含了最常用的字符和符号。第2、3、4平面作补充了一些字符。第5到14个平面尚未分配。第15个平面主要包含非非图形化字符。第16、17个平面叫做私有使用区域平面（PUA），供第三方自定义。</p>
-<h2 id="如何表示和存储Unicode"><a href="#如何表示和存储Unicode" class="headerlink" title="如何表示和存储Unicode"></a>如何表示和存储Unicode</h2><hr>
-<p>一个比较简单的思路是，既然Unicode代码点的值的范围是0～0x10FFF，那么可以直接用3个字节来表示，即使用定长的3个字节来表示所有Unicode代码点对应的字符。但是这存在一个空间使用的问题，例如对于使用英语的人而言，ASCII基本可以满足他的使用。如果使用ASCII，只需要1个字节来存储和表示字符，如果使用Unicode的3个字节来存储，显然是浪费空间的。那么让我们来看看现实中的编码方案。</p>
-<h3 id="UTF-8编码"><a href="#UTF-8编码" class="headerlink" title="UTF-8编码"></a>UTF-8编码</h3><p>UTF-8使用8bit作为一个代码单元，是变长编码。先看一下<a href="http://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/UTF-8</a>给出的表格。</p>
-<p><img src="/content/images/2015/03/2015-03-02-utf-8.png" alt=""></p>
-<p>可以看出，Unicode中代码点可以用7bit表示的字符在UTF-8中均用1字节表示，代码点可以分别用8到11（8、9、10、11）bit表示的字符在UTF-8中均用2字节表示，依次类推。总的来说UTF-8与Unicode兼容，但是可以表示比目前的Unicode更多的字符。</p>
-<p>下面举例说明UTF-8与Unicode的映射方式。</p>
-<p>汉字“你”的Unicode代码点是<code>Ox4F60</code>，其二进制形式（下划线用于优化阅读体验，无特殊意义）：</p>
-<pre><code>0100_1111 0110_0000
-</code></pre><p>至少需要15bit才能表示“你”，所以其对应的UTF-8编码需要3字节：</p>
-<pre><code>1110_0100 10_111101 10_100000
-</code></pre><p>即<code>E4BDA0</code>。把每个字节<code>_</code>后的bit位提取出来放在一起，就是Unicode中对应的代码点了。</p>
-<h3 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h3><p>UTF-16使用16bit作为一个代码单元，是变长编码。首先记住这一点：<strong>在Unicode中，代码点0xD800～0xDFFF是没有定义字符的。</strong></p>
-<p>对于Unicode中代码点位于<code>0x0000</code>～<code>0xFFFF</code>中字符，UTF-16使用一个代码单元即可，那么额对于Unicode中代码点不在<code>0x0000</code>～<code>0xFFFF</code>之间的字符呢？即对于Unicode中代码点位于<code>0x10000</code>～<code>0x10FFFF</code>中字符，UTF-16该怎么表示？</p>
-<p><strong>思路是这样的：</strong>使用两个代码单元来表示这些字符，其中第一个代码单元的值在0xD800~0xDBFF之间，第二个代码单元的值在0xDC00~0xDFFF之间，前者称为<code>高位代理</code>，后者称为<code>低位代理</code>，两者一起称为<code>代理项对</code>（surrogate pair）。</p>
-<p><strong>下面计算UTF-16能否表示所有的Unicode字符。</strong>使用一个UTF-16代码单元可以表示的字符数量是<code>2^16</code>，<code>0xD800～0xDFFF</code>对于Unicode或者UTF-16的一个代理单元都是不可用的。使用两个UTF-16代码单元可以表示的字符数量为：</p>
-<pre><code>(0xdbff-0xd800+1) * (0xdfff-0xdc00+1)
-= 1024 * 1024
-= 1048576
-</code></pre><p>所以UTF-16可以表示的字符数量为：</p>
-<pre><code>1048576 + 2^16 = 1114112
-</code></pre><p>这和Unicode表示的字符数量是相同的。</p>
-<p><strong>对于Unicode中代码点位于<code>0x10000</code>～<code>0x10FFFF</code>中字符，如何转化为<code>代理项对</code>？</strong><br>首先，将代码点减去<code>0x10000</code>，这样新的代码点的范围变成了<code>0</code>～<code>0xFFFFF</code>，这些代码点可以用20bit来表示。将这20bit的前10bit（<code>0～0x3FF</code>）加上<code>0xD800</code>可得到高位代理，将这20bit的后10bit（<code>0～0x3FF</code>）加上<code>0xDC00</code>可得到低位代理。</p>
-<p>对于utf-16还有字节序的问题（即大端序、小端序、混合序），可以参考<a href="http://zh.wikipedia.org/zh-cn/%E5%AD%97%E8%8A%82%E5%BA%8F" target="_blank" rel="noopener">维基百科-字节序</a>。</p>
-<h3 id="UTF-32"><a href="#UTF-32" class="headerlink" title="UTF-32"></a>UTF-32</h3><p>一个代理单元是32bit，所以一个代码单元就可以表示所有的Unicode字符，是定长编码，与Unicode代码点一一对应。</p>
-<h3 id="UCS-2"><a href="#UCS-2" class="headerlink" title="UCS-2"></a>UCS-2</h3><p>定长编码，使用2个字节表示字符，是UTF-16的子集，只能表示Unicode中代码点位于<code>0x0000</code>～<code>0xFFFF</code>中字符。</p>
-<h2 id="Java的编码"><a href="#Java的编码" class="headerlink" title="Java的编码"></a>Java的编码</h2><hr>
-<p>java平台内部统一使用UTF-16编码。</p>
-<pre><code>// 文件是utf-8编码
-public static void main(String[] args) throws UnsupportedEncodingException {
-    // “你” -&gt; utf-8编码：E4BDA0 ， unicode代码点：4F60
-    byte[] bs = new byte[]{(byte)0xE4, (byte)0xBD, (byte)0xA0};
-    String str = new String(bs, &quot;UTF-8&quot;);
-    System.out.println(str);
-    char c0 = str.charAt(0);
-    System.out.println( (int)c0 );
-    System.out.println(Integer.toHexString( (int)c0 ));
-    System.out.println(new String(&quot;你&quot;).equals(str));
-}
-</code></pre><p>运行结果：</p>
-<pre><code>你
-20320
-4f60
-true
-</code></pre><p><code>0xE4</code>等16进制表示的整数默认是int类型，由于只有8bit，所以是正数。将<code>0xE4</code>强制转换为byte，就是保留int的低8位。byte是有符号的，所以<code>(byte)0xE4</code>是负数。</p>
-<p>String内部使用char数组存放数据，char是16bit，无符号，一个char相当于UTF-16的一个代码单元。new <code>new String(bs, &quot;UTF-8&quot;);</code>将UTF-8编码的<code>E4BDA0</code>，转换成UTF-16表示。<code>“你”</code>的UTF-16表示是<code>4F60</code>，这也是<code>Integer.toHexString( (int)c0 )</code>的结果。</p>
-<p>由于<code>new String(&quot;你&quot;).equals(str)</code>输出<code>true</code>，可以看出java自动将字符串<code>&quot;你&quot;</code>转换成为UTF-16编码。</p>
-<h2 id="参考-amp-amp-更多相关"><a href="#参考-amp-amp-更多相关" class="headerlink" title="参考&amp;&amp;更多相关"></a>参考&amp;&amp;更多相关</h2><hr>
-<p>成富 《深入理解Java7 核心技术与最佳实践》 第四章 国际化与本地化</p>
-<p><a href="http://zh.wikipedia.org/zh-cn/%E5%AD%97%E8%8A%82%E5%BA%8F" target="_blank" rel="noopener">字节序</a>  </p>
-<p><a href="http://en.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener">wikiedia- Unicode</a></p>
-<p><a href="http://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">wikipedia - UTF-8</a></p>
-<p><a href="http://unicode.org/" target="_blank" rel="noopener">http://unicode.org/</a></p>
-<p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">字符编码笔记：ASCII，Unicode和UTF-8</a>  </p>
+        <p>文章已迁移到 <a href="https://www.letianbiji.com/note/unicode-utf8.html" target="_blank" rel="noopener">https://www.letianbiji.com/note/unicode-utf8.html</a> 。</p>
 
       
     </div>
@@ -493,7 +426,7 @@ true
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/2015-03-02-character-encoding/" title="字符编码简介">http://www.letiantian.me/2015-03-02-character-encoding/</a>
+      <a href="http://www.letiantian.me/2015-03-02-character-encoding/" title="【已迁移】字符编码简介">http://www.letiantian.me/2015-03-02-character-encoding/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -584,17 +517,8 @@ true
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/content/images/avatar.jpg"
@@ -665,22 +589,6 @@ true
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集、代码点、代码单元"><span class="nav-text">字符集、代码点、代码单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unicode"><span class="nav-text">Unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示和存储Unicode"><span class="nav-text">如何表示和存储Unicode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-8编码"><span class="nav-text">UTF-8编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-16"><span class="nav-text">UTF-16</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-32"><span class="nav-text">UTF-32</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UCS-2"><span class="nav-text">UCS-2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的编码"><span class="nav-text">Java的编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考-amp-amp-更多相关"><span class="nav-text">参考&amp;&amp;更多相关</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -833,7 +741,7 @@ true
         var disqus_config = function () {
           this.page.url = 'http://www.letiantian.me/2015-03-02-character-encoding/';
           this.page.identifier = '2015-03-02-character-encoding/';
-          this.page.title = '字符编码简介';
+          this.page.title = '【已迁移】字符编码简介';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://letiantian.disqus.com/embed.js';
