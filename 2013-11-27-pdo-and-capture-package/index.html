@@ -98,35 +98,35 @@
 <meta name="keywords" content="mysql,php">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用PDO并抓包分析">
-<meta property="og:url" content="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/index.html">
+<meta property="og:url" content="http://letiantian.xyz/2013-11-27-pdo-and-capture-package/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="2013-11-27 PDO是什么？  PHP Data Objects (PDO) is an interface for accessing databases.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-001.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-002.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-003.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-1.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-2.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-3.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-004-4.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-005.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-1.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-2.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-3.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-4.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-5.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-6.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-7.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-006-8.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-1.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-2.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-3.png">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-007-4.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-001.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-002.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-003.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-004-1.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-004-2.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-004-3.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-004-4.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-005.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-1.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-2.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-3.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-4.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-5.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-6.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-7.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-006-8.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-007-1.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-007-2.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-007-3.png">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-007-4.png">
 <meta property="og:updated_time" content="2016-02-29T06:40:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用PDO并抓包分析">
 <meta name="twitter:description" content="2013-11-27 PDO是什么？  PHP Data Objects (PDO) is an interface for accessing databases.">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2013/11/2013-11-27-pdo-001.png">
+<meta name="twitter:image" content="http://letiantian.xyz/content/images/2013/11/2013-11-27-pdo-001.png">
 
 
 
@@ -154,7 +154,7 @@
 
 
 
-  <link rel="canonical" href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/"/>
+  <link rel="canonical" href="http://letiantian.xyz/2013-11-27-pdo-and-capture-package/"/>
 
 
 
@@ -313,7 +313,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/">
+    <link itemprop="mainEntityOfPage" href="http://letiantian.xyz/2013-11-27-pdo-and-capture-package/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -608,7 +608,7 @@ if ($stmt-&gt;execute()) {
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/2013-11-27-pdo-and-capture-package/" title="使用PDO并抓包分析">http://www.letiantian.me/2013-11-27-pdo-and-capture-package/</a>
+      <a href="http://letiantian.xyz/2013-11-27-pdo-and-capture-package/" title="使用PDO并抓包分析">http://letiantian.xyz/2013-11-27-pdo-and-capture-package/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -946,7 +946,7 @@ if ($stmt-&gt;execute()) {
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://www.letiantian.me/2013-11-27-pdo-and-capture-package/';
+          this.page.url = 'http://letiantian.xyz/2013-11-27-pdo-and-capture-package/';
           this.page.identifier = '2013-11-27-pdo-and-capture-package/';
           this.page.title = '使用PDO并抓包分析';
         };

@@ -5,16 +5,16 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://www.letiantian.me/"/>
+  <link href="http://letiantian.xyz/"/>
   <updated>2019-01-28T01:04:45.000Z</updated>
-  <id>http://www.letiantian.me/</id>
+  <id>http://letiantian.xyz/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
     <title>【已迁移】分布式 ID 生成方案探讨</title>
-    <link href="http://www.letiantian.me/distributed-id/"/>
-    <id>http://www.letiantian.me/distributed-id/</id>
+    <link href="http://letiantian.xyz/distributed-id/"/>
+    <id>http://letiantian.xyz/distributed-id/</id>
     <published>2019-01-28T01:04:45.000Z</published>
     <updated>2019-01-28T01:04:45.000Z</updated>
     
@@ -30,14 +30,14 @@
     </summary>
     
     
-      <category term="分布式" scheme="http://www.letiantian.me/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="http://letiantian.xyz/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>【已迁移】怎么写 Java 示例代码？</title>
-    <link href="http://www.letiantian.me/how-to-write-java-demo/"/>
-    <id>http://www.letiantian.me/how-to-write-java-demo/</id>
+    <link href="http://letiantian.xyz/how-to-write-java-demo/"/>
+    <id>http://letiantian.xyz/how-to-write-java-demo/</id>
     <published>2018-10-26T01:04:45.000Z</published>
     <updated>2018-10-26T01:04:45.000Z</updated>
     
@@ -53,14 +53,14 @@
     </summary>
     
     
-      <category term="Java" scheme="http://www.letiantian.me/tags/Java/"/>
+      <category term="Java" scheme="http://letiantian.xyz/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>MySQL InnoDB 可重复读下的排他锁探索</title>
-    <link href="http://www.letiantian.me/mysql-innodb-rr-x-lock-example/"/>
-    <id>http://www.letiantian.me/mysql-innodb-rr-x-lock-example/</id>
+    <link href="http://letiantian.xyz/mysql-innodb-rr-x-lock-example/"/>
+    <id>http://letiantian.xyz/mysql-innodb-rr-x-lock-example/</id>
     <published>2018-09-23T00:10:28.000Z</published>
     <updated>2018-09-23T00:10:28.000Z</updated>
     
@@ -76,16 +76,16 @@
     </summary>
     
     
-      <category term="MySQL" scheme="http://www.letiantian.me/tags/MySQL/"/>
+      <category term="MySQL" scheme="http://letiantian.xyz/tags/MySQL/"/>
     
-      <category term="InnoDB" scheme="http://www.letiantian.me/tags/InnoDB/"/>
+      <category term="InnoDB" scheme="http://letiantian.xyz/tags/InnoDB/"/>
     
   </entry>
   
   <entry>
     <title>【已迁移】为你减少代码量的Java库：Lombok</title>
-    <link href="http://www.letiantian.me/java-use-lombok/"/>
-    <id>http://www.letiantian.me/java-use-lombok/</id>
+    <link href="http://letiantian.xyz/java-use-lombok/"/>
+    <id>http://letiantian.xyz/java-use-lombok/</id>
     <published>2018-07-31T00:10:28.000Z</published>
     <updated>2018-07-31T00:10:28.000Z</updated>
     
@@ -101,14 +101,14 @@
     </summary>
     
     
-      <category term="Java" scheme="http://www.letiantian.me/tags/Java/"/>
+      <category term="Java" scheme="http://letiantian.xyz/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>【已迁移】JDK SPI的使用和源码分析</title>
-    <link href="http://www.letiantian.me/analyse-jdk-spi/"/>
-    <id>http://www.letiantian.me/analyse-jdk-spi/</id>
+    <link href="http://letiantian.xyz/analyse-jdk-spi/"/>
+    <id>http://letiantian.xyz/analyse-jdk-spi/</id>
     <published>2018-07-13T13:10:28.000Z</published>
     <updated>2018-07-13T13:10:28.000Z</updated>
     
@@ -124,14 +124,14 @@
     </summary>
     
     
-      <category term="Java" scheme="http://www.letiantian.me/tags/Java/"/>
+      <category term="Java" scheme="http://letiantian.xyz/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>【已迁移】日志组件slf4j的使用和源码分析</title>
-    <link href="http://www.letiantian.me/analyse-slf4j/"/>
-    <id>http://www.letiantian.me/analyse-slf4j/</id>
+    <link href="http://letiantian.xyz/analyse-slf4j/"/>
+    <id>http://letiantian.xyz/analyse-slf4j/</id>
     <published>2018-07-09T02:10:28.000Z</published>
     <updated>2018-07-09T02:10:28.000Z</updated>
     
@@ -147,14 +147,14 @@
     </summary>
     
     
-      <category term="Java" scheme="http://www.letiantian.me/tags/Java/"/>
+      <category term="Java" scheme="http://letiantian.xyz/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>【已迁移】关于选择的一些思考</title>
-    <link href="http://www.letiantian.me/2018-06-30-the-thinking-of-choice/"/>
-    <id>http://www.letiantian.me/2018-06-30-the-thinking-of-choice/</id>
+    <link href="http://letiantian.xyz/2018-06-30-the-thinking-of-choice/"/>
+    <id>http://letiantian.xyz/2018-06-30-the-thinking-of-choice/</id>
     <published>2018-06-30T09:10:28.000Z</published>
     <updated>2018-06-30T09:10:28.000Z</updated>
     
@@ -170,14 +170,14 @@
     </summary>
     
     
-      <category term="思考" scheme="http://www.letiantian.me/tags/%E6%80%9D%E8%80%83/"/>
+      <category term="思考" scheme="http://letiantian.xyz/tags/%E6%80%9D%E8%80%83/"/>
     
   </entry>
   
   <entry>
     <title>基于 Elasticsearch 的站内搜索引擎实战</title>
-    <link href="http://www.letiantian.me/site-search-tutorial/"/>
-    <id>http://www.letiantian.me/site-search-tutorial/</id>
+    <link href="http://letiantian.xyz/site-search-tutorial/"/>
+    <id>http://letiantian.xyz/site-search-tutorial/</id>
     <published>2017-12-02T09:10:28.000Z</published>
     <updated>2017-12-02T09:10:28.000Z</updated>
     
@@ -194,16 +194,16 @@
     </summary>
     
     
-      <category term="编程实践" scheme="http://www.letiantian.me/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
+      <category term="编程实践" scheme="http://letiantian.xyz/tags/%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5/"/>
     
-      <category term="搜索引擎" scheme="http://www.letiantian.me/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
+      <category term="搜索引擎" scheme="http://letiantian.xyz/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
     
   </entry>
   
   <entry>
     <title>man2:一个快速查找命令使用示例的工具</title>
-    <link href="http://www.letiantian.me/tool-man2/"/>
-    <id>http://www.letiantian.me/tool-man2/</id>
+    <link href="http://letiantian.xyz/tool-man2/"/>
+    <id>http://letiantian.xyz/tool-man2/</id>
     <published>2017-11-18T09:10:28.000Z</published>
     <updated>2017-11-18T09:10:28.000Z</updated>
     
@@ -245,16 +245,16 @@ OPTIONS
     </summary>
     
     
-      <category term="工具" scheme="http://www.letiantian.me/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="工具" scheme="http://letiantian.xyz/tags/%E5%B7%A5%E5%85%B7/"/>
     
-      <category term="实战" scheme="http://www.letiantian.me/tags/%E5%AE%9E%E6%88%98/"/>
+      <category term="实战" scheme="http://letiantian.xyz/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>浅入浅出Android EventBus库</title>
-    <link href="http://www.letiantian.me/android-eventbus/"/>
-    <id>http://www.letiantian.me/android-eventbus/</id>
+    <link href="http://letiantian.xyz/android-eventbus/"/>
+    <id>http://letiantian.xyz/android-eventbus/</id>
     <published>2017-06-25T09:02:28.000Z</published>
     <updated>2017-06-25T09:10:28.000Z</updated>
     
@@ -273,14 +273,14 @@ OPTIONS
     </summary>
     
     
-      <category term="Android" scheme="http://www.letiantian.me/tags/Android/"/>
+      <category term="Android" scheme="http://letiantian.xyz/tags/Android/"/>
     
   </entry>
   
   <entry>
     <title>浅入浅出Android Volley</title>
-    <link href="http://www.letiantian.me/android-volley/"/>
-    <id>http://www.letiantian.me/android-volley/</id>
+    <link href="http://letiantian.xyz/android-volley/"/>
+    <id>http://letiantian.xyz/android-volley/</id>
     <published>2017-06-17T07:02:28.000Z</published>
     <updated>2017-06-17T07:02:28.000Z</updated>
     
@@ -308,14 +308,14 @@ OPTIONS
     </summary>
     
     
-      <category term="Android" scheme="http://www.letiantian.me/tags/Android/"/>
+      <category term="Android" scheme="http://letiantian.xyz/tags/Android/"/>
     
   </entry>
   
   <entry>
     <title>一个红包随机分配算法</title>
-    <link href="http://www.letiantian.me/2016-04-23-red-envelope/"/>
-    <id>http://www.letiantian.me/2016-04-23-red-envelope/</id>
+    <link href="http://letiantian.xyz/2016-04-23-red-envelope/"/>
+    <id>http://letiantian.xyz/2016-04-23-red-envelope/</id>
     <published>2016-04-23T04:15:00.000Z</published>
     <updated>2016-04-23T04:15:00.000Z</updated>
     
@@ -334,14 +334,14 @@ print random.randint(a,b)
     </summary>
     
     
-      <category term="算法" scheme="http://www.letiantian.me/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://letiantian.xyz/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>如何实现拼音与汉字的互相转换</title>
-    <link href="http://www.letiantian.me/2016-02-08-pinyin-hanzi/"/>
-    <id>http://www.letiantian.me/2016-02-08-pinyin-hanzi/</id>
+    <link href="http://letiantian.xyz/2016-02-08-pinyin-hanzi/"/>
+    <id>http://letiantian.xyz/2016-02-08-pinyin-hanzi/</id>
     <published>2016-02-08T08:45:00.000Z</published>
     <updated>2016-02-16T07:02:28.000Z</updated>
     
@@ -367,16 +367,16 @@ print random.randint(a,b)
     </summary>
     
     
-      <category term="算法" scheme="http://www.letiantian.me/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="机器学习" scheme="http://letiantian.xyz/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-      <category term="机器学习" scheme="http://www.letiantian.me/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="算法" scheme="http://letiantian.xyz/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>从零开始Docker化Ghost博客系统</title>
-    <link href="http://www.letiantian.me/2015-12-06-docker-ghost/"/>
-    <id>http://www.letiantian.me/2015-12-06-docker-ghost/</id>
+    <link href="http://letiantian.xyz/2015-12-06-docker-ghost/"/>
+    <id>http://letiantian.xyz/2015-12-06-docker-ghost/</id>
     <published>2015-12-06T04:10:39.000Z</published>
     <updated>2015-12-07T08:45:40.000Z</updated>
     
@@ -395,20 +395,20 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="nodejs" scheme="http://www.letiantian.me/tags/nodejs/"/>
+      <category term="nodejs" scheme="http://letiantian.xyz/tags/nodejs/"/>
     
-      <category term="docker" scheme="http://www.letiantian.me/tags/docker/"/>
+      <category term="docker" scheme="http://letiantian.xyz/tags/docker/"/>
     
   </entry>
   
   <entry>
     <title>n的解析</title>
-    <link href="http://www.letiantian.me/2015-11-06-n/"/>
-    <id>http://www.letiantian.me/2015-11-06-n/</id>
+    <link href="http://letiantian.xyz/2015-11-06-n/"/>
+    <id>http://letiantian.xyz/2015-11-06-n/</id>
     <published>2015-11-06T08:58:55.000Z</published>
     <updated>2015-12-08T11:06:54.000Z</updated>
     
-    <content type="html"><![CDATA[<p>2015-11-06</p><p>n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。</p><p>源码地址： <a href="https://github.com/tj/n" target="_blank" rel="noopener">https://github.com/tj/n</a></p><p>源码注释： <a href="https://github.com/letiantian/n-source" target="_blank" rel="noopener">https://github.com/letiantian/n-source</a></p><a id="more"></a><h2 id="设计与实现"><a href="#设计与实现" class="headerlink" title="设计与实现"></a>设计与实现</h2><h3 id="文件存放位置"><a href="#文件存放位置" class="headerlink" title="文件存放位置"></a>文件存放位置</h3><p>n会把下载的各个版本的node放到<code>/usr/local/n/versions/</code>目录中。当指定某个版本的node时，对应的node、npm命令会复制到<code>/usr/local/bin/</code>目录中，lib、include等文件也会复制到<code>/usr/local/</code>下对应的文件中。而全局安装的package会放到<code>/usr/local/lib/node_modules/</code>目录下。</p><p>node有一个基本目录，再这个基本目录下，各个文件的布局是固定的。查看基本目录：</p><pre><code>$ npm get prefix/usr/local</code></pre><h3 id="n的help"><a href="#n的help" class="headerlink" title="n的help"></a>n的help</h3><pre><code>$ n -h  Usage: n [options/env] [COMMAND] [args]  Environments:    n [COMMAND] [args]            Uses default env (node)    n io [COMMAND]                Sets env as io    n project [COMMAND]           Uses custom env-variables to use non-official sources  Commands:    n                              Output versions installed    n latest                       Install or activate the latest node release    n -a x86 latest                As above but force 32 bit architecture    n stable                       Install or activate the latest stable node release    n &lt;version&gt;                    Install node &lt;version&gt;    n use &lt;version&gt; [args ...]     Execute node &lt;version&gt; with [args ...]    n bin &lt;version&gt;                Output bin path for &lt;version&gt;    n rm &lt;version ...&gt;             Remove the given version(s)    n --latest                     Output the latest node version available    n --stable                     Output the latest stable node version available    n ls                           Output the versions of node available  (iojs):    n io latest                    Install or activate the latest iojs release    n io -a x86 latest             As above but force 32 bit architecture    n io &lt;version&gt;                 Install iojs &lt;version&gt;    n io use &lt;version&gt; [args ...]  Execute iojs &lt;version&gt; with [args ...]    n io bin &lt;version&gt;             Output bin path for &lt;version&gt;    n io rm &lt;version ...&gt;          Remove the given version(s)    n io --latest                  Output the latest iojs version available    n io ls                        Output the versions of iojs available  Options:    -V, --version   Output current version of n    -h, --help      Display help information    -q, --quiet     Disable curl output (if available)    -d, --download  Download only    -a, --arch      Override system architecture  Aliases:    which   bin    use     as    list    ls    -       rm</code></pre><h3 id="处理命令行参数"><a href="#处理命令行参数" class="headerlink" title="处理命令行参数"></a>处理命令行参数</h3><p>下面是n处理参数的代码：</p><pre><code class="shell">if test $# -eq 0; then    # 参数个数为0  test -z &quot;$(versions_paths)&quot; &amp;&amp; err_no_installed_print_help   # versions_paths是函数  display_versionselse  while test $# -ne 0; do    case $1 in      -V|--version) display_n_version ;;    # display_n_version函数里有exit      -h|--help|help) display_help; exit ;;      -q|--quiet) set_quiet ;;      -d|--download) ACTIVATE=false ;;      --latest) display_latest_version; exit ;;      --stable) display_latest_stable_version; exit ;;      io) set_default $1 ;; # set bin and continue      project) DEFAULT=2 ;;      -a|--arch) shift; set_arch $1;; # set arch and continue      bin|which) display_bin_path_for_version $2; exit ;;      as|use) shift; execute_with_version $@; exit ;;      rm|-) shift; remove_versions $@; exit ;;      latest) install_latest; exit ;;      stable) install_stable; exit ;;      ls|list) display_remote_versions; exit ;;      *) install $1; exit ;;    esac    shift  donefi</code></pre><p><code>$#</code>是参数数量，<code>$@</code>是参数列表。</p><p>如果运行n时，没有给出任何参数，n要尝试显示当前已经安装的所有版本的node。如果没有安装任何node，则报错，并退出程序。如果有若干版本，则全屏显示，可以用上下方向键选择某一版本，回车后该版本的node生效。</p><p>假如第一个参数为<code>-V</code>，<code>case</code>代码块中匹配<code>-V后</code>会去执行<code>display_n_version</code>函数，然后break（即<code>;;</code>）。出了<code>case</code>代码块，通过<code>shift</code>从参数列表从删除位于第一个位置的参数<code>-V</code>，然后继续处理其他参数。</p><p>假如现在第一个参数是<code>io</code>，则意味着要处理的不是默认的node，而是iojs，<code>set_default io</code>会将这一设置放入脚本的全局变量<code>DEFAULT</code>中，之后安装、删除等操作都是针对iojs的。<strong>为方便介绍，下文中都不考虑io这一情况。</strong></p><p>假如现在第一个参数是<code>which</code>，则第2个参数应该是版本号，n会调用display_bin_path_for_version函数将该版本号的node的路径输出：</p><pre><code class="plain">$ n bin 4.2.2/usr/local/n/versions/node/4.2.2/bin/node $ n bin 4.2.3  Error: 4.2.3 is not installed</code></pre><p>输出后程序结束。</p><p>假如现在第一个参数是<code>use</code>，则下一个参数应该是版本号，此时会执行指定版本号的node或者iojs：</p><pre><code class="plain">$ n use 4.2.2&gt; 1+12</code></pre><p>然后退出程序。</p><p>假如现在第一个参数是<code>ls</code>，<code>DEFAULT</code>仍然指向默认的node，<code>display_remote_versions</code>函数会被调用，该函数拉取<code>https://nodejs.org/dist/</code>的网页源码，把所有的版本信息提取出来并输出，其中本地安装的版本和正在使用的版本的字体颜色会不一样。然后，程序退出。</p><p>假如现在第一个参数与给定的那些关键字都不同，则认为是一个版本号，n应该尝试去安装它。</p><h3 id="查找指定的主、次版本号的对应的最新版本"><a href="#查找指定的主、次版本号的对应的最新版本" class="headerlink" title="查找指定的主、次版本号的对应的最新版本"></a>查找指定的主、次版本号的对应的最新版本</h3><p>node的安装文件是在<code>https://nodejs.org/dist/</code>下载的。假如现在我们要查找<code>4.2</code>的最新版本，过程如下：</p><p>1、获取<code>https://nodejs.org/dist/</code>网页源码：<br>可以用curl或者wget，这里用curl。  </p><pre><code class="plain">$ curl -s https://nodejs.org/dist/&lt;html&gt;&lt;head&gt;&lt;title&gt;Index of /dist/&lt;/title&gt;&lt;/head&gt;&lt;body bgcolor=&quot;white&quot;&gt;&lt;h1&gt;Index of /dist/&lt;/h1&gt;&lt;hr&gt;&lt;a href=&quot;latest/&quot;&gt;latest/&lt;/a&gt;                                            29-Oct-2015 21:04                   -...........省略.........&lt;a href=&quot;v0.10.2/&quot;&gt;v0.10.2/&lt;/a&gt;                                           03-Apr-2013 05:01                   -&lt;a href=&quot;v0.10.20/&quot;&gt;v0.10.20/&lt;/a&gt;                                          09-Oct-2013 17:25                   -...........省略.........   &lt;hr&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>2、提取所有的链接<br>使用<code>egrep</code>命令将所有含链接的行提取出来。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39;...........省略.........&lt;a href=&quot;v0.9.9/&quot;&gt;v0.9.9/&lt;/a&gt;                                            14-Oct-2015 10:38                   -&lt;a href=&quot;v4.0.0/&quot;&gt;v4.0.0/&lt;/a&gt;                                            08-Sep-2015 22:08                   -...........省略.........</code></pre><p><code>egrep</code>就是<code>grep -E</code>。</p><p>3、把每一行的版本号提取出来<br>继续用<code>egrep</code>把所有版本号提取出来。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39;...........省略.........0.8.30.8.40.8.40.8.5...........省略.........0.9.94.0.0                  -...........省略.........</code></pre><p>4、去除0.0~0.7、0.8.0~0.8.5这些版本</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; </code></pre><p>5、去重，排序<br>使用<code>sort</code>命令对版本号去重、排序。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t .</code></pre><p>6、找到以<code>4.2</code>开头的所有版本</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t . | egrep &quot;^4.2&quot;4.2.04.2.14.2.2</code></pre><p>7、使用tail得到最新的版本号</p><pre><code>$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t . | egrep &quot;^4.2&quot; | tail -n 14.2.2</code></pre><p>8、把以上命令转换成shell脚本</p><pre><code class="shell"># !/usr/bin/env bashprefix=4.2version=$(curl -s https://nodejs.org/dist/ 2&gt; /dev/null \      | egrep &quot;&lt;/a&gt;&quot; \      | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; \      | egrep -v &#39;^0\.[0-7]\.&#39; \      | egrep -v &#39;^0\.8\.[0-5]$&#39; \      | sort -u -k 1,1n -k 2,2n -k 3,3n -t . \      | egrep ^$prefix \      | tail -n1)echo $version</code></pre><h3 id="安装某一版本"><a href="#安装某一版本" class="headerlink" title="安装某一版本"></a>安装某一版本</h3><p>安装某一版本时，调用的是install函数，参数是版本号。</p><p>主要流程如下：</p><ol><li>如果版本号只给出了主、次版本，没有给修订版本，则拉取最新的修订版本号。</li><li>若该版本对应的目录存在，且目录下没有<code>n.lock</code>文件（有则意味着正在被其他运行的n安装），意味着该版本已经被安装，根据其他条件判断是否激活该版本，然后退出。</li><li>生成该版本对应的安装文件的url，判断该url是否有效（返回200），无效则退出。</li><li>创建该版本对应的目录，并在该目录下创建文件<code>n.lock</code>，代表正在安装。下载文件，解压到该目录。</li><li>删除<code>n.lock</code>，安装完成。</li><li>根据其他条件判断是否激活该版本，然后退出。</li></ol><p>这里非常有意思的是用<code>n.lock</code>代表安装状态。</p><h3 id="如何进入全屏、退出全屏"><a href="#如何进入全屏、退出全屏" class="headerlink" title="如何进入全屏、退出全屏"></a>如何进入全屏、退出全屏</h3><p>下面的例子可以用来理解如何进入全屏、退出全屏：</p><pre><code class="shell"># !/usr/bin/env bashenter_fullscreen() {  tput smcup    # Save the display  stty -echo    # 不回显输入的字符}leave_fullscreen() {  tput rmcup    # Restore the display  stty echo     # 回显输入的字符}enter_fullscreenecho &quot;已经进入全屏&quot;sleep 12leave_fullscreen</code></pre><h3 id="捕捉方向键"><a href="#捕捉方向键" class="headerlink" title="捕捉方向键"></a>捕捉方向键</h3><p>方向键对应长度为3的特殊字符，可以在<a href="https://www.gnu.org/software/screen/manual/html_node/Input-Translation.html" target="_blank" rel="noopener">Input Translation</a>找到这些按键的字符标识。</p><p>下面是一个示例：</p><pre><code># !/usr/bin/env bashwhile true; do    read -n 3 c   # 读取3个字符放入变量c中    case &quot;$c&quot; in      $&#39;\033[A&#39;)        echo &quot;上方向键&quot;        ;;        # 相当于break      $&#39;\033[B&#39;)      # 下方向键        echo &quot;下方向键&quot;        ;;      $&#39;\033[D&#39;)      # 下方向键        echo &quot;左方向键&quot;        ;;      $&#39;\033[C&#39;)      # 下方向键        echo &quot;右方向键&quot;        ;;      *)          # 默认        echo $c   # 如果直接回车，$c是空字符串        echo &quot;退出程序&quot;        exit        ;;    esacdone</code></pre><p>如何退出上面的程序呢？<br>方法1是按回车键。<br>方法2是依次按三个数字或者字母或者其他字符，只要达到三个，就会退出。  </p><p>一个小问题，<strong>回车键如何捕捉</strong>，见下面的代码：</p><pre><code class="shell"># !/usr/bin/env bashwhile true; do    read -n 3 c      case &quot;$c&quot; in      &quot;&quot;)        printf &quot;\t enter \n&quot;        ;;              *)        exit        ;;    esacdone</code></pre><h3 id="如何激活某个版本的node"><a href="#如何激活某个版本的node" class="headerlink" title="如何激活某个版本的node"></a>如何激活某个版本的node</h3><p>这里的“激活”就是指将某一版本的node、npm等文件从<code>/usr/local/n/versions/</code>拷贝到<code>/usr/local/bin</code>，其他的相关文件也拷贝到对应目录的动作。</p><p>在n中，该功能由<code>display_versions</code>函数实现。</p><p>在终端输入n，回车后会进入全屏：<br><img src="/content/images/2015/11/2015-11-06-n-02.png" alt=""></p><p>此时，通过执行<code>check_current_version</code>函数得到当前使用的node版本，通过<code>versions_paths</code>函数得到本机安装的所有node版本，并排序。<code>display_versions_with_selected</code>函数用来显示本机所有的node版本，并高亮目前在使用的版本。</p><p>然后在一个while循环里监视键盘的输入，如果是上方向键或者下方向键选择其他的版本，就清屏，用<code>display_versions_with_selected</code>函数用来显示本机所有的node版本，并高亮目前选择的版本。</p><p>如果输入的是其他字符，则激活当前选中的版本，退出程序。</p><h3 id="删除某个版本的node"><a href="#删除某个版本的node" class="headerlink" title="删除某个版本的node"></a>删除某个版本的node</h3><p>删除操作由<code>remove_versions</code>函数实现。思路很简单，如果要删除的版本和当前在使用的版本不一致，则直接在<code>/usr/local/n/versions/</code>目录中删除对应版本的整个目录；若一致，则不删除。</p><p><code>remove_versions</code>函数可以接受多个版本号作为参数。</p><h3 id="隐藏-显示光标、删除当前行"><a href="#隐藏-显示光标、删除当前行" class="headerlink" title="隐藏/显示光标、删除当前行"></a>隐藏/显示光标、删除当前行</h3><p>先看下面的示例：<br><img src="/content/images/2015/11/2015-11-06-n-03.gif" alt=""></p><p>（如何制作gif图片，可以参考<a href="http://www.letiantian.me/2015-11-06-linux-gif/">Linux下GIF制作指南</a>）</p><p>代码为：</p><pre><code class="shell"># !/usr/bin/env bashhide_cursor() {  printf &quot;\e[?25l&quot;}show_cursor() {  printf &quot;\e[?25h&quot;}erase_line() {  printf &quot;\033[1A\033[2K&quot;}hide_cursorecho &quot;hide_cursor&quot;sleep 4erase_lineshow_cursorecho &quot;show_cursor&quot;sleep 4erase_line</code></pre><p>这里面就是特殊控制字符的使用。在<code>erase_line</code>函数中，<code>033</code>是八进制，十进制值是27，在ASCII表中代表特殊字符ESC (escape)，转义的意思。 <code>\033[1A</code>是将光标移动到前一行, <code>\033[2K</code>是清除光标所在行。</p><p>资料：<br><a href="http://wiki.bash-hackers.org/scripting/terminalcodes" target="_blank" rel="noopener">Terminal codes (ANSI/VT100) introduction</a><br><a href="http://stackoverflow.com/questions/15011478/ansi-questions-x1b25h-and-x1be" target="_blank" rel="noopener">ANSI questions: “… x1B ..?25h” and … x1BE”</a><br><a href="https://en.wikipedia.org/wiki/ANSI_escape_code" target="_blank" rel="noopener">ANSI escape code</a><br><a href="http://stackoverflow.com/questions/9134638/using-read-without-triggering-a-newline-action-on-terminal" target="_blank" rel="noopener">Using read without triggering a newline action on terminal</a>  </p><h2 id="n的Makefile"><a href="#n的Makefile" class="headerlink" title="n的Makefile"></a>n的Makefile</h2><p>下面是n的Makefile：</p><pre><code class="plain">PREFIX ?= /usr/localinstall: bin/n    mkdir -p $(PREFIX)/$(dir $&lt;)    cp $&lt; $(PREFIX)/$&lt;uninstall:    rm -f $(PREFIX)/bin/n.PHONY: install uninstall</code></pre><h3 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h3><p><code>?=</code>是赋值操作符，如果PREFIX已经有值就仍为原值，否则就用<code>/usr/local</code>。 </p><p>关于赋值，可以参考<a href="">Makefile 中:= ?= += =的区别</a></p><h3 id="dir命令"><a href="#dir命令" class="headerlink" title="dir命令"></a>dir命令</h3><p>dir用于列出目录中内容，例如：</p><pre><code class="plain">$ dir /usr/bin  games  include  lib  local  NX  sbin  share  src$ dir /etc/passwd/etc/passwd</code></pre><p>不过在Makefile里，<code>$(dir path/to/file)</code>是用来获取目录的。这个可以参考<a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html" target="_blank" rel="noopener">8.3 Functions for File Names</a>。  </p><p>例如下面的Makefile：</p><pre><code class="plain">test:     echo $(dir /etc/hosts)    $(dir /etc/hosts)</code></pre><p>执行结果如下：</p><pre><code>$ make test echo /etc//etc//etc/make: execvp: /etc/: Permission deniedmake: *** [test] Error 127</code></pre><p>上面报了一个<code>Permission denied</code>的错误，这是因为make尝试将<code>/etc/</code>当作可执行命令去执行了。</p><h3 id="文件依赖"><a href="#文件依赖" class="headerlink" title="文件依赖"></a>文件依赖</h3><p>举个例子，有的makefile可能有类似下面的内容：</p><pre><code class="plain">prog1: prog1.o utils.o    cc -o prog1 prog1.o utils.o</code></pre><p>这是在告诉make，目标文件prog1的生成依赖于prog1.o、utils.o。若依赖文件有缺失，会报错。</p><h3 id="lt-、-、"><a href="#lt-、-、" class="headerlink" title="$&lt;、$@、$^"></a>$&lt;、$@、$^</h3><p><code>$@</code>：目标文件<br><code>$^</code>：所有的依赖文件<br><code>$&lt;</code>：第一个依赖文件  </p><p>下面举个例子：</p><p>新建一个Makefile文件，内容如下（注意要用tab进行缩进）：</p><pre><code class="plain">prog1: prog1.o utils.o    echo $@    echo $^    echo $&lt;</code></pre><p>执行make：</p><pre><code class="plain">$ make prog1 make: *** No rule to make target `prog1.o&#39;, needed by `prog1&#39;.  Stop.</code></pre><p>为了快速解决这个报错，我们伪造两个<code>.o</code>格式的文件：</p><pre><code class="plain">$ touch prog1.o$ touch utils.o</code></pre><p>现在运行make：</p><pre><code class="plain">$ make prog1 echo prog1prog1echo prog1.o utils.oprog1.o utils.oecho prog1.oprog1.o</code></pre><h3 id="PHONY"><a href="#PHONY" class="headerlink" title=".PHONY"></a>.PHONY</h3><p>PHONY的含义是：假的、伪造的。用来说明哪些文件是假的，例如n的Makefile中目标文件install、uninstall就是假的。</p><h3 id="默认操作"><a href="#默认操作" class="headerlink" title="默认操作"></a>默认操作</h3><p>定义目标文件all即可。</p><p>例如Makefile内容如下：</p><pre><code class="plain">prog1: prog1.o utils.o    echo $@    echo $^    echo $&lt;all: prog1</code></pre><p>运行结果：</p><pre><code class="plain">$ makeecho prog1prog1echo prog1.o utils.oprog1.o utils.oecho prog1.oprog1.o</code></pre><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/guodongxiaren/article/details/39544805" target="_blank" rel="noopener">玩转Bash脚本：特殊变量</a><br><a href="http://blog.sina.com.cn/s/blog_64e166580100vwk2.html" target="_blank" rel="noopener">shell编程——if语句 if -z -n -f -eq -ne -lt</a><br><a href="http://www.cnblogs.com/fhefh/archive/2011/04/15/2017613.html" target="_blank" rel="noopener">linux中shell变量$#,$@,$0,$1,$2的含义解释</a><br><a href="http://rosettacode.org/wiki/Terminal_control/Preserve_screen#UNIX_Shell" target="_blank" rel="noopener">Terminal control/Preserve screen</a><br><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html" target="_blank" rel="noopener">ANSI Escape Sequences: Colours and Cursor Movement</a><br><strong><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/index.html" target="_blank" rel="noopener">Bash Prompt HOWTO</a></strong><br><a href="http://blog.csdn.net/zhuce0001/article/details/35840257" target="_blank" rel="noopener">shell中${ } 的一些特异功能</a>  </p><h2 id="细碎的知识点"><a href="#细碎的知识点" class="headerlink" title="细碎的知识点"></a>细碎的知识点</h2><p>以下是我阅读n源码时候整理的细碎的知识点，与n的设计无关。</p><h3 id=""><a href="#" class="headerlink" title="$#"></a><code>$#</code></h3><p>作用：获取参数个数。<br>示例：</p><pre><code class="sh"># !/usr/bin/env bashecho $#</code></pre><p>用例：  </p><pre><code class="sh">$ bash mytest.sh 0$ bash mytest.sh foo1$ bash mytest.sh foo bar2</code></pre><h3 id="var-value"><a href="#var-value" class="headerlink" title="${var-value}"></a>${var-value}</h3><p>value作为默认值。如果$var是空值，那么使用value。</p><p>示例：</p><pre><code class="shelll"># !/usr/bin/env bashN_PREFIX=${N_PREFIX-/usr/local}echo $N_PREFIX</code></pre><p>用例：</p><pre><code class="plain">$ bash mytest.sh /usr/local$ N_PREFIX=/usr bash mytest.sh /usr</code></pre><h3 id="与"><a href="#与" class="headerlink" title="$* 与 $@"></a>$* 与 $@</h3><blockquote><p>通配符*将所有参数视作一个变量，而@则可以理解为所有参数的集合。</p></blockquote><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><a href="http://www.cnblogs.com/chengmo/archive/2010/09/30/1839632.html" target="_blank" rel="noopener">linux shell 数组建立及使用技巧</a><br><a href="http://my.oschina.net/ylchou/blog/486753" target="_blank" rel="noopener">Linux Shell数组和关联数组</a>  </p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashBINS=(&quot;node&quot;      &quot;io&quot;)echo $BINS          # 输出nodeecho ${BINS[*]}     # 输出node ioecho ${BINS[0]}     # 输出nodeecho ${BINS[1]}     # 输出ioecho ${#BINS[*]}    # 输出2, 数组长度# 遍历，依次输出node，iofor var in ${BINS[*]}do    echo $vardone</code></pre><p>运行结果：</p><pre><code class="plain">$ bash mytest.sh nodenode ionodeio2nodeio</code></pre><h3 id="判断语句中的-n，-z"><a href="#判断语句中的-n，-z" class="headerlink" title="判断语句中的-n，-z"></a>判断语句中的-n，-z</h3><p><code>if [ -n $string ]</code>：如果string 非空(非0），返回0(true)。<br><code>if [ -z $string ]</code>：如果string 为空。</p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashBINS=(&quot;node&quot;      &quot;io&quot;)echo &quot;PROJECT_NAME： $PROJECT_NAME&quot;echo &quot;PROJECT_URL： $PROJECT_URL&quot;if [ -n &quot;$PROJECT_NAME&quot; ]; then     # 如果不为空  BINS+=($PROJECT_NAME)             # 数组中追加元素  if [ -z &quot;$PROJECT_URL&quot; ]; then    # 如果为空    echo &quot;Must specify PROJECT_URL when supplying PROJECT_NAME&quot;  fifiecho ${BINS[*]}                      # 输出数组中所有元素</code></pre><p>输出：</p><pre><code class="plain">$ bash mytest.sh PROJECT_NAME： PROJECT_URL： node io$ PROJECT_NAME=&quot;dev&quot; bash mytest.sh PROJECT_NAME： devPROJECT_URL： Must specify PROJECT_URL when supplying PROJECT_NAMEnode io dev$ PROJECT_NAME=&quot;dev&quot; PROJECT_URL=&quot;urlllll&quot; bash mytest.sh PROJECT_NAME： devPROJECT_URL： urlllllnode io dev</code></pre><h3 id="curl命令的若干参数"><a href="#curl命令的若干参数" class="headerlink" title="curl命令的若干参数"></a>curl命令的若干参数</h3><p><code>-#</code>： 用于显示进度条。</p><p><code>-L</code>： 用于跳转。如果访问的网页响应3××，则去请求新的网址。</p><p><code>-s</code>：–silent，即quiet。</p><h3 id="wget命令的参数"><a href="#wget命令的参数" class="headerlink" title="wget命令的参数"></a>wget命令的参数</h3><p><code>--no-check-certificate</code>： 不校验证书。<br><code>-q</code>： quiet，关掉wget的输出。<br><code>-O</code>： 指定获取的数据存放的位置。</p><p>下面的命令是将数据存放在baidu.html这个文件中：</p><pre><code>$ wget http://www.baidu.com -O baidu.html--2015-11-05 10:44:45--  http://www.baidu.com/Resolving www.baidu.com (www.baidu.com)... 119.75.218.70, 119.75.217.109Connecting to www.baidu.com (www.baidu.com)|119.75.218.70|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 761Saving to: ‘baidu.html’....</code></pre><p>下面的命令是将数据输出到终端：</p><pre><code>$ wget http://www.baidu.com -O---2015-11-05 10:45:58--  http://www.baidu.com/Resolving www.baidu.com (www.baidu.com)... 119.75.218.70, 119.75.217.109Connecting to www.baidu.com (www.baidu.com)|119.75.218.70|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 761Saving to: ‘STDOUT’....</code></pre><p>去掉多余的信息，将数据输出到终端：</p><pre><code>$ wget http://www.baidu.com -O- -q&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body&gt;&lt;script type=&quot;text/javascript&quot;&gt;var u=&#39;https://www.baidu.com/?tn=91055223_hao_pg&amp;rsr=5&#39;,ua=navigator.userAgent.toLowerCase();if(u.indexOf(&#39;baidu.com&#39;)&gt;0||u.indexOf(&#39;360.cn&#39;)&gt;0||u.indexOf(&#39;hao123.com&#39;)&gt;0){var cc = document.cookie.split(&#39;;&#39;);for(var i=0;i&lt;cc.length;i++){var name = cc[i].split(&quot;=&quot;)[0];document.cookie = name + &#39;=; path=/; domain=.baidu.com; expires=Thu, 01 Jan 1970 00:00:01 GMT;&#39;;}}if(ua.indexOf(&#39;applewebkit&#39;)&gt;0){var h = document.createElement(&#39;a&#39;);h.rel = &#39;noreferrer&#39;;h.href = u;document.body.appendChild(h);var evt = document.createEvent(&quot;MouseEvents&quot;);evt.initEvent(&quot;click&quot;, true, true);h.dispatchEvent(evt);} else {document.write(&#39;&lt;meta http-equiv=&quot;Refresh&quot; Content=&quot;0; Url=&#39; + u + &#39;&quot; &gt;&#39;);}&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><pre><code class="plain">$ command -v wget/usr/bin/wget$ command -v wget &gt;/dev/null$ command -v wget &amp;&amp; echo &quot;has wget&quot;/usr/bin/wgethas wget$ command -v wget &gt;/dev/null &amp;&amp; echo &quot;has wget&quot;has wget</code></pre><h3 id="脚本的参数"><a href="#脚本的参数" class="headerlink" title="脚本的参数"></a>脚本的参数</h3><p>示例：</p><pre><code># !/usr/bin/env bashecho &quot;脚本名：$0&quot;echo &quot;参数个数：$#&quot;echo &quot;所有参数：$@&quot;echo &quot;第1个参数：$1&quot;echo &quot;第2个参数：$2&quot;</code></pre><p>用例：</p><pre><code class="plain">$ bash mytest.sh 脚本名：mytest.sh参数个数：0所有参数：第1个参数：第2个参数：$ bash mytest.sh --name=letian -q脚本名：mytest.sh参数个数：2所有参数：--name=letian -q第1个参数：--name=letian第2个参数：-q</code></pre><h3 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h3><p>示例：</p><pre><code class="plain"># !/usr/bin/env bashfunction foo() {    echo &quot;脚本名：$0&quot;    echo &quot;参数个数：$#&quot;    echo &quot;所有参数：$@&quot;    echo &quot;第1个参数：$1&quot;    echo &quot;第2个参数：$2&quot;}fooecho # 添加空行foo --name=letian -q</code></pre><p>关键字<code>function</code>可以省略。</p><p>运行结果：</p><pre><code>脚本名：mytest.sh参数个数：0所有参数：第1个参数：第2个参数：脚本名：mytest.sh参数个数：2所有参数：--name=letian -q第1个参数：--name=letian第2个参数：-q</code></pre><h3 id="前一命令的退出码"><a href="#前一命令的退出码" class="headerlink" title="前一命令的退出码$?"></a>前一命令的退出码$?</h3><p>编写mytest.sh：</p><pre><code># !/usr/bin/env bashexit 1</code></pre><p>测试：</p><pre><code>$ bash mytest.sh$ echo $?1</code></pre><p>0代表正常退出。</p><h3 id="-1"><a href="#-1" class="headerlink" title="$$"></a>$$</h3><p><code>$$</code>是当前进程的pid。<br>示例：</p><pre><code>$ echo $$7662</code></pre><h3 id="tput命令"><a href="#tput命令" class="headerlink" title="tput命令"></a>tput命令</h3><p><a href="http://blog.csdn.net/fdipzone/article/details/9993961" target="_blank" rel="noopener">tput 命令行使用说明</a><br><strong><a href="http://rosettacode.org/wiki/Terminal_control/Preserve_screen" target="_blank" rel="noopener">Terminal control/Preserve screen</a></strong>  </p><p>关于smcup、rmcup，可以在终端中依次输入下面的命令看看效果：</p><pre><code>tput smcup    # Save the displayecho &#39;Hello&#39;tput rmcup    # Restore the display</code></pre><h3 id="将命令执行的结果放入一个变量中"><a href="#将命令执行的结果放入一个变量中" class="headerlink" title="将命令执行的结果放入一个变量中"></a>将命令执行的结果放入一个变量中</h3><p>有两种方法，一个是<code>$()</code>，另外一种是是用反引号<code>\`</code>。<br>示例：</p><pre><code>$ result=$(ls)$ echo $resultbaidu.html mytest.sh$ result=&quot;$(ls)&quot;$ echo $resultbaidu.html mytest.sh$ result=`ls`$ echo $resultbaidu.html mytest.sh</code></pre><h3 id="node命令直接执行字符串中的nodejs代码"><a href="#node命令直接执行字符串中的nodejs代码" class="headerlink" title="node命令直接执行字符串中的nodejs代码"></a>node命令直接执行字符串中的nodejs代码</h3><pre><code>$ node -p &quot;1+1;&quot;2$ node -p &quot;console.log(1+1);&quot;2undefined</code></pre><h3 id="grep命令的-A、-B参数"><a href="#grep命令的-A、-B参数" class="headerlink" title="grep命令的-A、-B参数"></a>grep命令的-A、-B参数</h3><p><img src="/content/images/2015/11/2015-11-06-n-01.png" alt=""></p><h3 id="关于函数中变量的取值范围"><a href="#关于函数中变量的取值范围" class="headerlink" title="关于函数中变量的取值范围"></a>关于函数中变量的取值范围</h3><p>要函数中定义的变量只在函数中有效，需要使用local关键字。<br>示例：</p><pre><code class="shell"># !/usr/bin/env bashfoo() {    bar=&quot;hi&quot;    local var=&quot;hello&quot;}fooecho &quot;$bar&quot;     # 输出hiecho &quot;$var&quot;     # 输出空字符</code></pre><h3 id="键盘中特殊键与字符的对应"><a href="#键盘中特殊键与字符的对应" class="headerlink" title="键盘中特殊键与字符的对应"></a>键盘中特殊键与字符的对应</h3><p>上方向键与<code>\033[A</code>对应，下方向键与<code>\033[B</code>对应。更多见<a href="https://www.gnu.org/software/screen/manual/html_node/Input-Translation.html" target="_blank" rel="noopener">Input Translation</a>。  </p><p>这些字符的长度为3：</p><pre><code class="plain">$ char=$&#39;\033[A&#39;; echo ${#char}3</code></pre><h3 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h3><p>示例1：  </p><pre><code class="shell"># !/usr/bin/env bashfor subdir in bin lib include share; do    echo $subdirdone</code></pre><p>输出：</p><pre><code class="plain">binlibincludeshare</code></pre><h3 id="关于Pax"><a href="#关于Pax" class="headerlink" title="关于Pax"></a>关于Pax</h3><p><a href="https://en.wikipedia.org/wiki/PaX" target="_blank" rel="noopener">PaX - Wikipedia</a><br><a href="https://pax.grsecurity.net/docs/mprotect.txt" target="_blank" rel="noopener">MPROTECT</a>  </p><h3 id="字符串中字符的替换"><a href="#字符串中字符的替换" class="headerlink" title="字符串中字符的替换"></a>字符串中字符的替换</h3><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashversion=4.2.2echo ${version//./ }   # 将.替换为空格version=v4.2.2echo ${version//./--}  # 将.替换为--</code></pre><p>运行结果：</p><pre><code>4 2 2v4--2--2</code></pre><h3 id="提取字符串中数字"><a href="#提取字符串中数字" class="headerlink" title="提取字符串中数字"></a>提取字符串中数字</h3><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashsemver=&quot;004 2 2&quot;echo $semver | grep -o -E &#39;[0-9]+&#39;  # 分行输出004、2、1echo $semver | grep -o -E &#39;[0-9]+&#39; | head -1  # 输出004echo $semver | grep -o -E &#39;[0-9]+&#39;  | head -1 | sed -e &#39;s/^0\+//&#39;   # 输出4echo $semver | awk &#39;{print $2}&#39;     # 输出2</code></pre><p>grep的<code>-o</code>是指只输出匹配的部分，<code>-E</code>指扩展的正则表达式。<br>head -1是把第一行提取出来。<br><code>sed -e &#39;s/^0\+//&#39;</code>是把最前面的0替换为空。  </p><h3 id="使用shift删除指定数量的参数"><a href="#使用shift删除指定数量的参数" class="headerlink" title="使用shift删除指定数量的参数"></a>使用shift删除指定数量的参数</h3><p>shift命令用于删除参数列表中的前若干个参数，默认是1,也可以指定数量。</p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashfoo() {    echo $@    shift     echo $@    shift 3    echo $@}foo 1 2 3 4 5 6</code></pre><p>运行结果：</p><pre><code>1 2 3 4 5 62 3 4 5 65 6</code></pre><h3 id="字体颜色配置"><a href="#字体颜色配置" class="headerlink" title="字体颜色配置"></a>字体颜色配置</h3><p>我们在设置PS1变量的时候常常与颜色打交道。使用printf、echo命令时也可以设置字体颜色，例如：  </p><p><img src="/content/images/2015/11/2015-11-06-n-04.png" alt=""></p><p><code>033</code>是八进制，十进制值是27，在ASCII表中代表特殊字符ESC (escape)，转义的意思。36m对应的颜色是Cyan，，91m对应的颜色是red，0m的作用是重置。</p><p>资料：<br><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html" target="_blank" rel="noopener">Chapter 6. ANSI Escape Sequences: Colours and Cursor Movement</a><br><a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt" target="_blank" rel="noopener">Color Bash Prompt - ArchLinux</a><br>[What does a bash sequence ‘\033<a href="http://unix.stackexchange.com/questions/116243/what-does-a-bash-sequence-033999d-mean-and-where-is-it-explained" target="_blank" rel="noopener">999D’ mean and where is it explained?</a><br><a href="http://mediadoneright.com/content/ultimate-git-ps1-bash-prompt" target="_blank" rel="noopener">Ultimate GIT PS1 bash prompt</a>  </p><h3 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h3><p><code>-k</code>参数的解释：</p><blockquote><p>-k, –key=POS1[,POS2]  start a key at POS1 (origin 1), end it at POS2(default end of line)</p></blockquote><p>position是从1开始的。</p><p>示例1：</p><pre><code class="shell"># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1 -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,23,124,4,165,0,45,4,4</code></pre><p>示例2：</p><pre><code># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,1 -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,23,124,4,165,0,45,4,4</code></pre><p>从第2、3行可以看到，23&lt;4，这是按照字符串来比较的。</p><p>示例3：</p><pre><code># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,2n -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p><code>1,2n</code>是指将第1个和第2个字段放在一起，当作数字来排序，n就numeric sort。<br>所以运行结果是：</p><pre><code>4,4,165,0,45,4,43,26,14,23,12</code></pre><p>示例4：</p><pre><code class="shell"># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,1n -k 2,2n -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,4,164,23,125,0,45,4,4</code></pre><p>资料：<br><a href="http://man.linuxde.net/sort" target="_blank" rel="noopener">sort命令</a><br><a href="http://yejinxin.github.io/linux-sort-command-usage/" target="_blank" rel="noopener">Linux中sort命令用法</a><br><a href="http://unix.stackexchange.com/questions/52762/trying-to-sort-on-two-fields-second-then-first" target="_blank" rel="noopener">Trying to sort on two fields, second then first</a><br><a href="http://stackoverflow.com/questions/357560/sorting-multiple-keys-with-unix-sort" target="_blank" rel="noopener">Sorting multiple keys with Unix sort</a>  </p>]]></content>
+    <content type="html"><![CDATA[<p>2015-11-06</p><p>n是TJ大神为node设计的版本管理工具，使用shell编写，是用来学习和巩固shell的很不错的例子。</p><p>源码地址： <a href="https://github.com/tj/n" target="_blank" rel="noopener">https://github.com/tj/n</a></p><p>源码注释： <a href="https://github.com/letiantian/n-source" target="_blank" rel="noopener">https://github.com/letiantian/n-source</a></p><a id="more"></a><h2 id="设计与实现"><a href="#设计与实现" class="headerlink" title="设计与实现"></a>设计与实现</h2><h3 id="文件存放位置"><a href="#文件存放位置" class="headerlink" title="文件存放位置"></a>文件存放位置</h3><p>n会把下载的各个版本的node放到<code>/usr/local/n/versions/</code>目录中。当指定某个版本的node时，对应的node、npm命令会复制到<code>/usr/local/bin/</code>目录中，lib、include等文件也会复制到<code>/usr/local/</code>下对应的文件中。而全局安装的package会放到<code>/usr/local/lib/node_modules/</code>目录下。</p><p>node有一个基本目录，再这个基本目录下，各个文件的布局是固定的。查看基本目录：</p><pre><code>$ npm get prefix/usr/local</code></pre><h3 id="n的help"><a href="#n的help" class="headerlink" title="n的help"></a>n的help</h3><pre><code>$ n -h  Usage: n [options/env] [COMMAND] [args]  Environments:    n [COMMAND] [args]            Uses default env (node)    n io [COMMAND]                Sets env as io    n project [COMMAND]           Uses custom env-variables to use non-official sources  Commands:    n                              Output versions installed    n latest                       Install or activate the latest node release    n -a x86 latest                As above but force 32 bit architecture    n stable                       Install or activate the latest stable node release    n &lt;version&gt;                    Install node &lt;version&gt;    n use &lt;version&gt; [args ...]     Execute node &lt;version&gt; with [args ...]    n bin &lt;version&gt;                Output bin path for &lt;version&gt;    n rm &lt;version ...&gt;             Remove the given version(s)    n --latest                     Output the latest node version available    n --stable                     Output the latest stable node version available    n ls                           Output the versions of node available  (iojs):    n io latest                    Install or activate the latest iojs release    n io -a x86 latest             As above but force 32 bit architecture    n io &lt;version&gt;                 Install iojs &lt;version&gt;    n io use &lt;version&gt; [args ...]  Execute iojs &lt;version&gt; with [args ...]    n io bin &lt;version&gt;             Output bin path for &lt;version&gt;    n io rm &lt;version ...&gt;          Remove the given version(s)    n io --latest                  Output the latest iojs version available    n io ls                        Output the versions of iojs available  Options:    -V, --version   Output current version of n    -h, --help      Display help information    -q, --quiet     Disable curl output (if available)    -d, --download  Download only    -a, --arch      Override system architecture  Aliases:    which   bin    use     as    list    ls    -       rm</code></pre><h3 id="处理命令行参数"><a href="#处理命令行参数" class="headerlink" title="处理命令行参数"></a>处理命令行参数</h3><p>下面是n处理参数的代码：</p><pre><code class="shell">if test $# -eq 0; then    # 参数个数为0  test -z &quot;$(versions_paths)&quot; &amp;&amp; err_no_installed_print_help   # versions_paths是函数  display_versionselse  while test $# -ne 0; do    case $1 in      -V|--version) display_n_version ;;    # display_n_version函数里有exit      -h|--help|help) display_help; exit ;;      -q|--quiet) set_quiet ;;      -d|--download) ACTIVATE=false ;;      --latest) display_latest_version; exit ;;      --stable) display_latest_stable_version; exit ;;      io) set_default $1 ;; # set bin and continue      project) DEFAULT=2 ;;      -a|--arch) shift; set_arch $1;; # set arch and continue      bin|which) display_bin_path_for_version $2; exit ;;      as|use) shift; execute_with_version $@; exit ;;      rm|-) shift; remove_versions $@; exit ;;      latest) install_latest; exit ;;      stable) install_stable; exit ;;      ls|list) display_remote_versions; exit ;;      *) install $1; exit ;;    esac    shift  donefi</code></pre><p><code>$#</code>是参数数量，<code>$@</code>是参数列表。</p><p>如果运行n时，没有给出任何参数，n要尝试显示当前已经安装的所有版本的node。如果没有安装任何node，则报错，并退出程序。如果有若干版本，则全屏显示，可以用上下方向键选择某一版本，回车后该版本的node生效。</p><p>假如第一个参数为<code>-V</code>，<code>case</code>代码块中匹配<code>-V后</code>会去执行<code>display_n_version</code>函数，然后break（即<code>;;</code>）。出了<code>case</code>代码块，通过<code>shift</code>从参数列表从删除位于第一个位置的参数<code>-V</code>，然后继续处理其他参数。</p><p>假如现在第一个参数是<code>io</code>，则意味着要处理的不是默认的node，而是iojs，<code>set_default io</code>会将这一设置放入脚本的全局变量<code>DEFAULT</code>中，之后安装、删除等操作都是针对iojs的。<strong>为方便介绍，下文中都不考虑io这一情况。</strong></p><p>假如现在第一个参数是<code>which</code>，则第2个参数应该是版本号，n会调用display_bin_path_for_version函数将该版本号的node的路径输出：</p><pre><code class="plain">$ n bin 4.2.2/usr/local/n/versions/node/4.2.2/bin/node $ n bin 4.2.3  Error: 4.2.3 is not installed</code></pre><p>输出后程序结束。</p><p>假如现在第一个参数是<code>use</code>，则下一个参数应该是版本号，此时会执行指定版本号的node或者iojs：</p><pre><code class="plain">$ n use 4.2.2&gt; 1+12</code></pre><p>然后退出程序。</p><p>假如现在第一个参数是<code>ls</code>，<code>DEFAULT</code>仍然指向默认的node，<code>display_remote_versions</code>函数会被调用，该函数拉取<code>https://nodejs.org/dist/</code>的网页源码，把所有的版本信息提取出来并输出，其中本地安装的版本和正在使用的版本的字体颜色会不一样。然后，程序退出。</p><p>假如现在第一个参数与给定的那些关键字都不同，则认为是一个版本号，n应该尝试去安装它。</p><h3 id="查找指定的主、次版本号的对应的最新版本"><a href="#查找指定的主、次版本号的对应的最新版本" class="headerlink" title="查找指定的主、次版本号的对应的最新版本"></a>查找指定的主、次版本号的对应的最新版本</h3><p>node的安装文件是在<code>https://nodejs.org/dist/</code>下载的。假如现在我们要查找<code>4.2</code>的最新版本，过程如下：</p><p>1、获取<code>https://nodejs.org/dist/</code>网页源码：<br>可以用curl或者wget，这里用curl。  </p><pre><code class="plain">$ curl -s https://nodejs.org/dist/&lt;html&gt;&lt;head&gt;&lt;title&gt;Index of /dist/&lt;/title&gt;&lt;/head&gt;&lt;body bgcolor=&quot;white&quot;&gt;&lt;h1&gt;Index of /dist/&lt;/h1&gt;&lt;hr&gt;&lt;a href=&quot;latest/&quot;&gt;latest/&lt;/a&gt;                                            29-Oct-2015 21:04                   -...........省略.........&lt;a href=&quot;v0.10.2/&quot;&gt;v0.10.2/&lt;/a&gt;                                           03-Apr-2013 05:01                   -&lt;a href=&quot;v0.10.20/&quot;&gt;v0.10.20/&lt;/a&gt;                                          09-Oct-2013 17:25                   -...........省略.........   &lt;hr&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>2、提取所有的链接<br>使用<code>egrep</code>命令将所有含链接的行提取出来。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39;...........省略.........&lt;a href=&quot;v0.9.9/&quot;&gt;v0.9.9/&lt;/a&gt;                                            14-Oct-2015 10:38                   -&lt;a href=&quot;v4.0.0/&quot;&gt;v4.0.0/&lt;/a&gt;                                            08-Sep-2015 22:08                   -...........省略.........</code></pre><p><code>egrep</code>就是<code>grep -E</code>。</p><p>3、把每一行的版本号提取出来<br>继续用<code>egrep</code>把所有版本号提取出来。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39;...........省略.........0.8.30.8.40.8.40.8.5...........省略.........0.9.94.0.0                  -...........省略.........</code></pre><p>4、去除0.0~0.7、0.8.0~0.8.5这些版本</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; </code></pre><p>5、去重，排序<br>使用<code>sort</code>命令对版本号去重、排序。</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t .</code></pre><p>6、找到以<code>4.2</code>开头的所有版本</p><pre><code class="plain">$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t . | egrep &quot;^4.2&quot;4.2.04.2.14.2.2</code></pre><p>7、使用tail得到最新的版本号</p><pre><code>$ curl -s https://nodejs.org/dist/ | egrep &#39;&lt;/a&gt;&#39; | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; | egrep -v &#39;^0\.[0-7]\.&#39; | egrep -v &#39;^0\.8\.[0-5]$&#39; | sort -u -k 1,1n -k 2,2n -k 3,3n -t . | egrep &quot;^4.2&quot; | tail -n 14.2.2</code></pre><p>8、把以上命令转换成shell脚本</p><pre><code class="shell"># !/usr/bin/env bashprefix=4.2version=$(curl -s https://nodejs.org/dist/ 2&gt; /dev/null \      | egrep &quot;&lt;/a&gt;&quot; \      | egrep -o &#39;[0-9]+\.[0-9]+\.[0-9]+&#39; \      | egrep -v &#39;^0\.[0-7]\.&#39; \      | egrep -v &#39;^0\.8\.[0-5]$&#39; \      | sort -u -k 1,1n -k 2,2n -k 3,3n -t . \      | egrep ^$prefix \      | tail -n1)echo $version</code></pre><h3 id="安装某一版本"><a href="#安装某一版本" class="headerlink" title="安装某一版本"></a>安装某一版本</h3><p>安装某一版本时，调用的是install函数，参数是版本号。</p><p>主要流程如下：</p><ol><li>如果版本号只给出了主、次版本，没有给修订版本，则拉取最新的修订版本号。</li><li>若该版本对应的目录存在，且目录下没有<code>n.lock</code>文件（有则意味着正在被其他运行的n安装），意味着该版本已经被安装，根据其他条件判断是否激活该版本，然后退出。</li><li>生成该版本对应的安装文件的url，判断该url是否有效（返回200），无效则退出。</li><li>创建该版本对应的目录，并在该目录下创建文件<code>n.lock</code>，代表正在安装。下载文件，解压到该目录。</li><li>删除<code>n.lock</code>，安装完成。</li><li>根据其他条件判断是否激活该版本，然后退出。</li></ol><p>这里非常有意思的是用<code>n.lock</code>代表安装状态。</p><h3 id="如何进入全屏、退出全屏"><a href="#如何进入全屏、退出全屏" class="headerlink" title="如何进入全屏、退出全屏"></a>如何进入全屏、退出全屏</h3><p>下面的例子可以用来理解如何进入全屏、退出全屏：</p><pre><code class="shell"># !/usr/bin/env bashenter_fullscreen() {  tput smcup    # Save the display  stty -echo    # 不回显输入的字符}leave_fullscreen() {  tput rmcup    # Restore the display  stty echo     # 回显输入的字符}enter_fullscreenecho &quot;已经进入全屏&quot;sleep 12leave_fullscreen</code></pre><h3 id="捕捉方向键"><a href="#捕捉方向键" class="headerlink" title="捕捉方向键"></a>捕捉方向键</h3><p>方向键对应长度为3的特殊字符，可以在<a href="https://www.gnu.org/software/screen/manual/html_node/Input-Translation.html" target="_blank" rel="noopener">Input Translation</a>找到这些按键的字符标识。</p><p>下面是一个示例：</p><pre><code># !/usr/bin/env bashwhile true; do    read -n 3 c   # 读取3个字符放入变量c中    case &quot;$c&quot; in      $&#39;\033[A&#39;)        echo &quot;上方向键&quot;        ;;        # 相当于break      $&#39;\033[B&#39;)      # 下方向键        echo &quot;下方向键&quot;        ;;      $&#39;\033[D&#39;)      # 下方向键        echo &quot;左方向键&quot;        ;;      $&#39;\033[C&#39;)      # 下方向键        echo &quot;右方向键&quot;        ;;      *)          # 默认        echo $c   # 如果直接回车，$c是空字符串        echo &quot;退出程序&quot;        exit        ;;    esacdone</code></pre><p>如何退出上面的程序呢？<br>方法1是按回车键。<br>方法2是依次按三个数字或者字母或者其他字符，只要达到三个，就会退出。  </p><p>一个小问题，<strong>回车键如何捕捉</strong>，见下面的代码：</p><pre><code class="shell"># !/usr/bin/env bashwhile true; do    read -n 3 c      case &quot;$c&quot; in      &quot;&quot;)        printf &quot;\t enter \n&quot;        ;;              *)        exit        ;;    esacdone</code></pre><h3 id="如何激活某个版本的node"><a href="#如何激活某个版本的node" class="headerlink" title="如何激活某个版本的node"></a>如何激活某个版本的node</h3><p>这里的“激活”就是指将某一版本的node、npm等文件从<code>/usr/local/n/versions/</code>拷贝到<code>/usr/local/bin</code>，其他的相关文件也拷贝到对应目录的动作。</p><p>在n中，该功能由<code>display_versions</code>函数实现。</p><p>在终端输入n，回车后会进入全屏：<br><img src="/content/images/2015/11/2015-11-06-n-02.png" alt=""></p><p>此时，通过执行<code>check_current_version</code>函数得到当前使用的node版本，通过<code>versions_paths</code>函数得到本机安装的所有node版本，并排序。<code>display_versions_with_selected</code>函数用来显示本机所有的node版本，并高亮目前在使用的版本。</p><p>然后在一个while循环里监视键盘的输入，如果是上方向键或者下方向键选择其他的版本，就清屏，用<code>display_versions_with_selected</code>函数用来显示本机所有的node版本，并高亮目前选择的版本。</p><p>如果输入的是其他字符，则激活当前选中的版本，退出程序。</p><h3 id="删除某个版本的node"><a href="#删除某个版本的node" class="headerlink" title="删除某个版本的node"></a>删除某个版本的node</h3><p>删除操作由<code>remove_versions</code>函数实现。思路很简单，如果要删除的版本和当前在使用的版本不一致，则直接在<code>/usr/local/n/versions/</code>目录中删除对应版本的整个目录；若一致，则不删除。</p><p><code>remove_versions</code>函数可以接受多个版本号作为参数。</p><h3 id="隐藏-显示光标、删除当前行"><a href="#隐藏-显示光标、删除当前行" class="headerlink" title="隐藏/显示光标、删除当前行"></a>隐藏/显示光标、删除当前行</h3><p>先看下面的示例：<br><img src="/content/images/2015/11/2015-11-06-n-03.gif" alt=""></p><p>（如何制作gif图片，可以参考<a href="http://www.letiantian.me/2015-11-06-linux-gif/" target="_blank" rel="noopener">Linux下GIF制作指南</a>）</p><p>代码为：</p><pre><code class="shell"># !/usr/bin/env bashhide_cursor() {  printf &quot;\e[?25l&quot;}show_cursor() {  printf &quot;\e[?25h&quot;}erase_line() {  printf &quot;\033[1A\033[2K&quot;}hide_cursorecho &quot;hide_cursor&quot;sleep 4erase_lineshow_cursorecho &quot;show_cursor&quot;sleep 4erase_line</code></pre><p>这里面就是特殊控制字符的使用。在<code>erase_line</code>函数中，<code>033</code>是八进制，十进制值是27，在ASCII表中代表特殊字符ESC (escape)，转义的意思。 <code>\033[1A</code>是将光标移动到前一行, <code>\033[2K</code>是清除光标所在行。</p><p>资料：<br><a href="http://wiki.bash-hackers.org/scripting/terminalcodes" target="_blank" rel="noopener">Terminal codes (ANSI/VT100) introduction</a><br><a href="http://stackoverflow.com/questions/15011478/ansi-questions-x1b25h-and-x1be" target="_blank" rel="noopener">ANSI questions: “… x1B ..?25h” and … x1BE”</a><br><a href="https://en.wikipedia.org/wiki/ANSI_escape_code" target="_blank" rel="noopener">ANSI escape code</a><br><a href="http://stackoverflow.com/questions/9134638/using-read-without-triggering-a-newline-action-on-terminal" target="_blank" rel="noopener">Using read without triggering a newline action on terminal</a>  </p><h2 id="n的Makefile"><a href="#n的Makefile" class="headerlink" title="n的Makefile"></a>n的Makefile</h2><p>下面是n的Makefile：</p><pre><code class="plain">PREFIX ?= /usr/localinstall: bin/n    mkdir -p $(PREFIX)/$(dir $&lt;)    cp $&lt; $(PREFIX)/$&lt;uninstall:    rm -f $(PREFIX)/bin/n.PHONY: install uninstall</code></pre><h3 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h3><p><code>?=</code>是赋值操作符，如果PREFIX已经有值就仍为原值，否则就用<code>/usr/local</code>。 </p><p>关于赋值，可以参考<a href="">Makefile 中:= ?= += =的区别</a></p><h3 id="dir命令"><a href="#dir命令" class="headerlink" title="dir命令"></a>dir命令</h3><p>dir用于列出目录中内容，例如：</p><pre><code class="plain">$ dir /usr/bin  games  include  lib  local  NX  sbin  share  src$ dir /etc/passwd/etc/passwd</code></pre><p>不过在Makefile里，<code>$(dir path/to/file)</code>是用来获取目录的。这个可以参考<a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html" target="_blank" rel="noopener">8.3 Functions for File Names</a>。  </p><p>例如下面的Makefile：</p><pre><code class="plain">test:     echo $(dir /etc/hosts)    $(dir /etc/hosts)</code></pre><p>执行结果如下：</p><pre><code>$ make test echo /etc//etc//etc/make: execvp: /etc/: Permission deniedmake: *** [test] Error 127</code></pre><p>上面报了一个<code>Permission denied</code>的错误，这是因为make尝试将<code>/etc/</code>当作可执行命令去执行了。</p><h3 id="文件依赖"><a href="#文件依赖" class="headerlink" title="文件依赖"></a>文件依赖</h3><p>举个例子，有的makefile可能有类似下面的内容：</p><pre><code class="plain">prog1: prog1.o utils.o    cc -o prog1 prog1.o utils.o</code></pre><p>这是在告诉make，目标文件prog1的生成依赖于prog1.o、utils.o。若依赖文件有缺失，会报错。</p><h3 id="lt-、-、"><a href="#lt-、-、" class="headerlink" title="$&lt;、$@、$^"></a>$&lt;、$@、$^</h3><p><code>$@</code>：目标文件<br><code>$^</code>：所有的依赖文件<br><code>$&lt;</code>：第一个依赖文件  </p><p>下面举个例子：</p><p>新建一个Makefile文件，内容如下（注意要用tab进行缩进）：</p><pre><code class="plain">prog1: prog1.o utils.o    echo $@    echo $^    echo $&lt;</code></pre><p>执行make：</p><pre><code class="plain">$ make prog1 make: *** No rule to make target `prog1.o&#39;, needed by `prog1&#39;.  Stop.</code></pre><p>为了快速解决这个报错，我们伪造两个<code>.o</code>格式的文件：</p><pre><code class="plain">$ touch prog1.o$ touch utils.o</code></pre><p>现在运行make：</p><pre><code class="plain">$ make prog1 echo prog1prog1echo prog1.o utils.oprog1.o utils.oecho prog1.oprog1.o</code></pre><h3 id="PHONY"><a href="#PHONY" class="headerlink" title=".PHONY"></a>.PHONY</h3><p>PHONY的含义是：假的、伪造的。用来说明哪些文件是假的，例如n的Makefile中目标文件install、uninstall就是假的。</p><h3 id="默认操作"><a href="#默认操作" class="headerlink" title="默认操作"></a>默认操作</h3><p>定义目标文件all即可。</p><p>例如Makefile内容如下：</p><pre><code class="plain">prog1: prog1.o utils.o    echo $@    echo $^    echo $&lt;all: prog1</code></pre><p>运行结果：</p><pre><code class="plain">$ makeecho prog1prog1echo prog1.o utils.oprog1.o utils.oecho prog1.oprog1.o</code></pre><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/guodongxiaren/article/details/39544805" target="_blank" rel="noopener">玩转Bash脚本：特殊变量</a><br><a href="http://blog.sina.com.cn/s/blog_64e166580100vwk2.html" target="_blank" rel="noopener">shell编程——if语句 if -z -n -f -eq -ne -lt</a><br><a href="http://www.cnblogs.com/fhefh/archive/2011/04/15/2017613.html" target="_blank" rel="noopener">linux中shell变量$#,$@,$0,$1,$2的含义解释</a><br><a href="http://rosettacode.org/wiki/Terminal_control/Preserve_screen#UNIX_Shell" target="_blank" rel="noopener">Terminal control/Preserve screen</a><br><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html" target="_blank" rel="noopener">ANSI Escape Sequences: Colours and Cursor Movement</a><br><strong><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/index.html" target="_blank" rel="noopener">Bash Prompt HOWTO</a></strong><br><a href="http://blog.csdn.net/zhuce0001/article/details/35840257" target="_blank" rel="noopener">shell中${ } 的一些特异功能</a>  </p><h2 id="细碎的知识点"><a href="#细碎的知识点" class="headerlink" title="细碎的知识点"></a>细碎的知识点</h2><p>以下是我阅读n源码时候整理的细碎的知识点，与n的设计无关。</p><h3 id=""><a href="#" class="headerlink" title="$#"></a><code>$#</code></h3><p>作用：获取参数个数。<br>示例：</p><pre><code class="sh"># !/usr/bin/env bashecho $#</code></pre><p>用例：  </p><pre><code class="sh">$ bash mytest.sh 0$ bash mytest.sh foo1$ bash mytest.sh foo bar2</code></pre><h3 id="var-value"><a href="#var-value" class="headerlink" title="${var-value}"></a>${var-value}</h3><p>value作为默认值。如果$var是空值，那么使用value。</p><p>示例：</p><pre><code class="shelll"># !/usr/bin/env bashN_PREFIX=${N_PREFIX-/usr/local}echo $N_PREFIX</code></pre><p>用例：</p><pre><code class="plain">$ bash mytest.sh /usr/local$ N_PREFIX=/usr bash mytest.sh /usr</code></pre><h3 id="与"><a href="#与" class="headerlink" title="$* 与 $@"></a>$* 与 $@</h3><blockquote><p>通配符*将所有参数视作一个变量，而@则可以理解为所有参数的集合。</p></blockquote><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><a href="http://www.cnblogs.com/chengmo/archive/2010/09/30/1839632.html" target="_blank" rel="noopener">linux shell 数组建立及使用技巧</a><br><a href="http://my.oschina.net/ylchou/blog/486753" target="_blank" rel="noopener">Linux Shell数组和关联数组</a>  </p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashBINS=(&quot;node&quot;      &quot;io&quot;)echo $BINS          # 输出nodeecho ${BINS[*]}     # 输出node ioecho ${BINS[0]}     # 输出nodeecho ${BINS[1]}     # 输出ioecho ${#BINS[*]}    # 输出2, 数组长度# 遍历，依次输出node，iofor var in ${BINS[*]}do    echo $vardone</code></pre><p>运行结果：</p><pre><code class="plain">$ bash mytest.sh nodenode ionodeio2nodeio</code></pre><h3 id="判断语句中的-n，-z"><a href="#判断语句中的-n，-z" class="headerlink" title="判断语句中的-n，-z"></a>判断语句中的-n，-z</h3><p><code>if [ -n $string ]</code>：如果string 非空(非0），返回0(true)。<br><code>if [ -z $string ]</code>：如果string 为空。</p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashBINS=(&quot;node&quot;      &quot;io&quot;)echo &quot;PROJECT_NAME： $PROJECT_NAME&quot;echo &quot;PROJECT_URL： $PROJECT_URL&quot;if [ -n &quot;$PROJECT_NAME&quot; ]; then     # 如果不为空  BINS+=($PROJECT_NAME)             # 数组中追加元素  if [ -z &quot;$PROJECT_URL&quot; ]; then    # 如果为空    echo &quot;Must specify PROJECT_URL when supplying PROJECT_NAME&quot;  fifiecho ${BINS[*]}                      # 输出数组中所有元素</code></pre><p>输出：</p><pre><code class="plain">$ bash mytest.sh PROJECT_NAME： PROJECT_URL： node io$ PROJECT_NAME=&quot;dev&quot; bash mytest.sh PROJECT_NAME： devPROJECT_URL： Must specify PROJECT_URL when supplying PROJECT_NAMEnode io dev$ PROJECT_NAME=&quot;dev&quot; PROJECT_URL=&quot;urlllll&quot; bash mytest.sh PROJECT_NAME： devPROJECT_URL： urlllllnode io dev</code></pre><h3 id="curl命令的若干参数"><a href="#curl命令的若干参数" class="headerlink" title="curl命令的若干参数"></a>curl命令的若干参数</h3><p><code>-#</code>： 用于显示进度条。</p><p><code>-L</code>： 用于跳转。如果访问的网页响应3××，则去请求新的网址。</p><p><code>-s</code>：–silent，即quiet。</p><h3 id="wget命令的参数"><a href="#wget命令的参数" class="headerlink" title="wget命令的参数"></a>wget命令的参数</h3><p><code>--no-check-certificate</code>： 不校验证书。<br><code>-q</code>： quiet，关掉wget的输出。<br><code>-O</code>： 指定获取的数据存放的位置。</p><p>下面的命令是将数据存放在baidu.html这个文件中：</p><pre><code>$ wget http://www.baidu.com -O baidu.html--2015-11-05 10:44:45--  http://www.baidu.com/Resolving www.baidu.com (www.baidu.com)... 119.75.218.70, 119.75.217.109Connecting to www.baidu.com (www.baidu.com)|119.75.218.70|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 761Saving to: ‘baidu.html’....</code></pre><p>下面的命令是将数据输出到终端：</p><pre><code>$ wget http://www.baidu.com -O---2015-11-05 10:45:58--  http://www.baidu.com/Resolving www.baidu.com (www.baidu.com)... 119.75.218.70, 119.75.217.109Connecting to www.baidu.com (www.baidu.com)|119.75.218.70|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 761Saving to: ‘STDOUT’....</code></pre><p>去掉多余的信息，将数据输出到终端：</p><pre><code>$ wget http://www.baidu.com -O- -q&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body&gt;&lt;script type=&quot;text/javascript&quot;&gt;var u=&#39;https://www.baidu.com/?tn=91055223_hao_pg&amp;rsr=5&#39;,ua=navigator.userAgent.toLowerCase();if(u.indexOf(&#39;baidu.com&#39;)&gt;0||u.indexOf(&#39;360.cn&#39;)&gt;0||u.indexOf(&#39;hao123.com&#39;)&gt;0){var cc = document.cookie.split(&#39;;&#39;);for(var i=0;i&lt;cc.length;i++){var name = cc[i].split(&quot;=&quot;)[0];document.cookie = name + &#39;=; path=/; domain=.baidu.com; expires=Thu, 01 Jan 1970 00:00:01 GMT;&#39;;}}if(ua.indexOf(&#39;applewebkit&#39;)&gt;0){var h = document.createElement(&#39;a&#39;);h.rel = &#39;noreferrer&#39;;h.href = u;document.body.appendChild(h);var evt = document.createEvent(&quot;MouseEvents&quot;);evt.initEvent(&quot;click&quot;, true, true);h.dispatchEvent(evt);} else {document.write(&#39;&lt;meta http-equiv=&quot;Refresh&quot; Content=&quot;0; Url=&#39; + u + &#39;&quot; &gt;&#39;);}&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h3 id="command命令"><a href="#command命令" class="headerlink" title="command命令"></a>command命令</h3><pre><code class="plain">$ command -v wget/usr/bin/wget$ command -v wget &gt;/dev/null$ command -v wget &amp;&amp; echo &quot;has wget&quot;/usr/bin/wgethas wget$ command -v wget &gt;/dev/null &amp;&amp; echo &quot;has wget&quot;has wget</code></pre><h3 id="脚本的参数"><a href="#脚本的参数" class="headerlink" title="脚本的参数"></a>脚本的参数</h3><p>示例：</p><pre><code># !/usr/bin/env bashecho &quot;脚本名：$0&quot;echo &quot;参数个数：$#&quot;echo &quot;所有参数：$@&quot;echo &quot;第1个参数：$1&quot;echo &quot;第2个参数：$2&quot;</code></pre><p>用例：</p><pre><code class="plain">$ bash mytest.sh 脚本名：mytest.sh参数个数：0所有参数：第1个参数：第2个参数：$ bash mytest.sh --name=letian -q脚本名：mytest.sh参数个数：2所有参数：--name=letian -q第1个参数：--name=letian第2个参数：-q</code></pre><h3 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h3><p>示例：</p><pre><code class="plain"># !/usr/bin/env bashfunction foo() {    echo &quot;脚本名：$0&quot;    echo &quot;参数个数：$#&quot;    echo &quot;所有参数：$@&quot;    echo &quot;第1个参数：$1&quot;    echo &quot;第2个参数：$2&quot;}fooecho # 添加空行foo --name=letian -q</code></pre><p>关键字<code>function</code>可以省略。</p><p>运行结果：</p><pre><code>脚本名：mytest.sh参数个数：0所有参数：第1个参数：第2个参数：脚本名：mytest.sh参数个数：2所有参数：--name=letian -q第1个参数：--name=letian第2个参数：-q</code></pre><h3 id="前一命令的退出码"><a href="#前一命令的退出码" class="headerlink" title="前一命令的退出码$?"></a>前一命令的退出码$?</h3><p>编写mytest.sh：</p><pre><code># !/usr/bin/env bashexit 1</code></pre><p>测试：</p><pre><code>$ bash mytest.sh$ echo $?1</code></pre><p>0代表正常退出。</p><h3 id="-1"><a href="#-1" class="headerlink" title="$$"></a>$$</h3><p><code>$$</code>是当前进程的pid。<br>示例：</p><pre><code>$ echo $$7662</code></pre><h3 id="tput命令"><a href="#tput命令" class="headerlink" title="tput命令"></a>tput命令</h3><p><a href="http://blog.csdn.net/fdipzone/article/details/9993961" target="_blank" rel="noopener">tput 命令行使用说明</a><br><strong><a href="http://rosettacode.org/wiki/Terminal_control/Preserve_screen" target="_blank" rel="noopener">Terminal control/Preserve screen</a></strong>  </p><p>关于smcup、rmcup，可以在终端中依次输入下面的命令看看效果：</p><pre><code>tput smcup    # Save the displayecho &#39;Hello&#39;tput rmcup    # Restore the display</code></pre><h3 id="将命令执行的结果放入一个变量中"><a href="#将命令执行的结果放入一个变量中" class="headerlink" title="将命令执行的结果放入一个变量中"></a>将命令执行的结果放入一个变量中</h3><p>有两种方法，一个是<code>$()</code>，另外一种是是用反引号<code>\`</code>。<br>示例：</p><pre><code>$ result=$(ls)$ echo $resultbaidu.html mytest.sh$ result=&quot;$(ls)&quot;$ echo $resultbaidu.html mytest.sh$ result=`ls`$ echo $resultbaidu.html mytest.sh</code></pre><h3 id="node命令直接执行字符串中的nodejs代码"><a href="#node命令直接执行字符串中的nodejs代码" class="headerlink" title="node命令直接执行字符串中的nodejs代码"></a>node命令直接执行字符串中的nodejs代码</h3><pre><code>$ node -p &quot;1+1;&quot;2$ node -p &quot;console.log(1+1);&quot;2undefined</code></pre><h3 id="grep命令的-A、-B参数"><a href="#grep命令的-A、-B参数" class="headerlink" title="grep命令的-A、-B参数"></a>grep命令的-A、-B参数</h3><p><img src="/content/images/2015/11/2015-11-06-n-01.png" alt=""></p><h3 id="关于函数中变量的取值范围"><a href="#关于函数中变量的取值范围" class="headerlink" title="关于函数中变量的取值范围"></a>关于函数中变量的取值范围</h3><p>要函数中定义的变量只在函数中有效，需要使用local关键字。<br>示例：</p><pre><code class="shell"># !/usr/bin/env bashfoo() {    bar=&quot;hi&quot;    local var=&quot;hello&quot;}fooecho &quot;$bar&quot;     # 输出hiecho &quot;$var&quot;     # 输出空字符</code></pre><h3 id="键盘中特殊键与字符的对应"><a href="#键盘中特殊键与字符的对应" class="headerlink" title="键盘中特殊键与字符的对应"></a>键盘中特殊键与字符的对应</h3><p>上方向键与<code>\033[A</code>对应，下方向键与<code>\033[B</code>对应。更多见<a href="https://www.gnu.org/software/screen/manual/html_node/Input-Translation.html" target="_blank" rel="noopener">Input Translation</a>。  </p><p>这些字符的长度为3：</p><pre><code class="plain">$ char=$&#39;\033[A&#39;; echo ${#char}3</code></pre><h3 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h3><p>示例1：  </p><pre><code class="shell"># !/usr/bin/env bashfor subdir in bin lib include share; do    echo $subdirdone</code></pre><p>输出：</p><pre><code class="plain">binlibincludeshare</code></pre><h3 id="关于Pax"><a href="#关于Pax" class="headerlink" title="关于Pax"></a>关于Pax</h3><p><a href="https://en.wikipedia.org/wiki/PaX" target="_blank" rel="noopener">PaX - Wikipedia</a><br><a href="https://pax.grsecurity.net/docs/mprotect.txt" target="_blank" rel="noopener">MPROTECT</a>  </p><h3 id="字符串中字符的替换"><a href="#字符串中字符的替换" class="headerlink" title="字符串中字符的替换"></a>字符串中字符的替换</h3><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashversion=4.2.2echo ${version//./ }   # 将.替换为空格version=v4.2.2echo ${version//./--}  # 将.替换为--</code></pre><p>运行结果：</p><pre><code>4 2 2v4--2--2</code></pre><h3 id="提取字符串中数字"><a href="#提取字符串中数字" class="headerlink" title="提取字符串中数字"></a>提取字符串中数字</h3><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashsemver=&quot;004 2 2&quot;echo $semver | grep -o -E &#39;[0-9]+&#39;  # 分行输出004、2、1echo $semver | grep -o -E &#39;[0-9]+&#39; | head -1  # 输出004echo $semver | grep -o -E &#39;[0-9]+&#39;  | head -1 | sed -e &#39;s/^0\+//&#39;   # 输出4echo $semver | awk &#39;{print $2}&#39;     # 输出2</code></pre><p>grep的<code>-o</code>是指只输出匹配的部分，<code>-E</code>指扩展的正则表达式。<br>head -1是把第一行提取出来。<br><code>sed -e &#39;s/^0\+//&#39;</code>是把最前面的0替换为空。  </p><h3 id="使用shift删除指定数量的参数"><a href="#使用shift删除指定数量的参数" class="headerlink" title="使用shift删除指定数量的参数"></a>使用shift删除指定数量的参数</h3><p>shift命令用于删除参数列表中的前若干个参数，默认是1,也可以指定数量。</p><p>示例：</p><pre><code class="shell"># !/usr/bin/env bashfoo() {    echo $@    shift     echo $@    shift 3    echo $@}foo 1 2 3 4 5 6</code></pre><p>运行结果：</p><pre><code>1 2 3 4 5 62 3 4 5 65 6</code></pre><h3 id="字体颜色配置"><a href="#字体颜色配置" class="headerlink" title="字体颜色配置"></a>字体颜色配置</h3><p>我们在设置PS1变量的时候常常与颜色打交道。使用printf、echo命令时也可以设置字体颜色，例如：  </p><p><img src="/content/images/2015/11/2015-11-06-n-04.png" alt=""></p><p><code>033</code>是八进制，十进制值是27，在ASCII表中代表特殊字符ESC (escape)，转义的意思。36m对应的颜色是Cyan，，91m对应的颜色是red，0m的作用是重置。</p><p>资料：<br><a href="http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html" target="_blank" rel="noopener">Chapter 6. ANSI Escape Sequences: Colours and Cursor Movement</a><br><a href="https://wiki.archlinux.org/index.php/Color_Bash_Prompt" target="_blank" rel="noopener">Color Bash Prompt - ArchLinux</a><br>[What does a bash sequence ‘\033<a href="http://unix.stackexchange.com/questions/116243/what-does-a-bash-sequence-033999d-mean-and-where-is-it-explained" target="_blank" rel="noopener">999D’ mean and where is it explained?</a><br><a href="http://mediadoneright.com/content/ultimate-git-ps1-bash-prompt" target="_blank" rel="noopener">Ultimate GIT PS1 bash prompt</a>  </p><h3 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h3><p><code>-k</code>参数的解释：</p><blockquote><p>-k, –key=POS1[,POS2]  start a key at POS1 (origin 1), end it at POS2(default end of line)</p></blockquote><p>position是从1开始的。</p><p>示例1：</p><pre><code class="shell"># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1 -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,23,124,4,165,0,45,4,4</code></pre><p>示例2：</p><pre><code># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,1 -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,23,124,4,165,0,45,4,4</code></pre><p>从第2、3行可以看到，23&lt;4，这是按照字符串来比较的。</p><p>示例3：</p><pre><code># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,2n -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p><code>1,2n</code>是指将第1个和第2个字段放在一起，当作数字来排序，n就numeric sort。<br>所以运行结果是：</p><pre><code>4,4,165,0,45,4,43,26,14,23,12</code></pre><p>示例4：</p><pre><code class="shell"># !/usr/bin/env bashcat &lt;&lt;EOF | sort -k 1,1n -k 2,2n -t ,4,23,123,26,14,4,165,4,45,0,4EOF</code></pre><p>运行结果：</p><pre><code>3,26,14,4,164,23,125,0,45,4,4</code></pre><p>资料：<br><a href="http://man.linuxde.net/sort" target="_blank" rel="noopener">sort命令</a><br><a href="http://yejinxin.github.io/linux-sort-command-usage/" target="_blank" rel="noopener">Linux中sort命令用法</a><br><a href="http://unix.stackexchange.com/questions/52762/trying-to-sort-on-two-fields-second-then-first" target="_blank" rel="noopener">Trying to sort on two fields, second then first</a><br><a href="http://stackoverflow.com/questions/357560/sorting-multiple-keys-with-unix-sort" target="_blank" rel="noopener">Sorting multiple keys with Unix sort</a>  </p>]]></content>
     
     <summary type="html">
     
@@ -420,14 +420,14 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="linux" scheme="http://www.letiantian.me/tags/linux/"/>
+      <category term="linux" scheme="http://letiantian.xyz/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>Linux下GIF制作指南</title>
-    <link href="http://www.letiantian.me/2015-11-06-linux-gif/"/>
-    <id>http://www.letiantian.me/2015-11-06-linux-gif/</id>
+    <link href="http://letiantian.xyz/2015-11-06-linux-gif/"/>
+    <id>http://letiantian.xyz/2015-11-06-linux-gif/</id>
     <published>2015-11-06T08:53:59.000Z</published>
     <updated>2015-11-06T09:00:06.000Z</updated>
     
@@ -445,14 +445,14 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="linux" scheme="http://www.letiantian.me/tags/linux/"/>
+      <category term="linux" scheme="http://letiantian.xyz/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>如何使用redis构建异步任务处理程序</title>
-    <link href="http://www.letiantian.me/2015-11-03-redis-async-task/"/>
-    <id>http://www.letiantian.me/2015-11-03-redis-async-task/</id>
+    <link href="http://letiantian.xyz/2015-11-03-redis-async-task/"/>
+    <id>http://letiantian.xyz/2015-11-03-redis-async-task/</id>
     <published>2015-11-03T13:57:24.000Z</published>
     <updated>2015-11-04T13:25:30.000Z</updated>
     
@@ -476,16 +476,16 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="python" scheme="http://www.letiantian.me/tags/python/"/>
+      <category term="python" scheme="http://letiantian.xyz/tags/python/"/>
     
-      <category term="redis" scheme="http://www.letiantian.me/tags/redis/"/>
+      <category term="redis" scheme="http://letiantian.xyz/tags/redis/"/>
     
   </entry>
   
   <entry>
     <title>理解Python WSGI</title>
-    <link href="http://www.letiantian.me/2015-09-10-understand-python-wsgi/"/>
-    <id>http://www.letiantian.me/2015-09-10-understand-python-wsgi/</id>
+    <link href="http://letiantian.xyz/2015-09-10-understand-python-wsgi/"/>
+    <id>http://letiantian.xyz/2015-09-10-understand-python-wsgi/</id>
     <published>2015-09-10T09:19:40.000Z</published>
     <updated>2015-09-11T03:05:20.000Z</updated>
     
@@ -502,16 +502,16 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="web" scheme="http://www.letiantian.me/tags/web/"/>
+      <category term="web" scheme="http://letiantian.xyz/tags/web/"/>
     
-      <category term="python" scheme="http://www.letiantian.me/tags/python/"/>
+      <category term="python" scheme="http://letiantian.xyz/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>如何快速更新数据库中的百万条数据</title>
-    <link href="http://www.letiantian.me/2015-06-22-update-faster/"/>
-    <id>http://www.letiantian.me/2015-06-22-update-faster/</id>
+    <link href="http://letiantian.xyz/2015-06-22-update-faster/"/>
+    <id>http://letiantian.xyz/2015-06-22-update-faster/</id>
     <published>2015-06-22T06:40:27.000Z</published>
     <updated>2015-07-22T15:11:00.000Z</updated>
     
@@ -580,16 +580,16 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="数据库" scheme="http://www.letiantian.me/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="http://letiantian.xyz/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
-      <category term="mysql" scheme="http://www.letiantian.me/tags/mysql/"/>
+      <category term="mysql" scheme="http://letiantian.xyz/tags/mysql/"/>
     
   </entry>
   
   <entry>
     <title>Java并发概念汇总</title>
-    <link href="http://www.letiantian.me/2015-05-27-java-concurrency-summary/"/>
-    <id>http://www.letiantian.me/2015-05-27-java-concurrency-summary/</id>
+    <link href="http://letiantian.xyz/2015-05-27-java-concurrency-summary/"/>
+    <id>http://letiantian.xyz/2015-05-27-java-concurrency-summary/</id>
     <published>2015-05-27T02:19:02.000Z</published>
     <updated>2015-05-27T07:28:55.000Z</updated>
     
@@ -607,7 +607,7 @@ Ghost needs Node version ~0.10.0 || ~0.12.0 you are using version 4.2.2
     </summary>
     
     
-      <category term="Java" scheme="http://www.letiantian.me/tags/Java/"/>
+      <category term="Java" scheme="http://letiantian.xyz/tags/Java/"/>
     
   </entry>
   

@@ -98,17 +98,17 @@
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="隐语义模型和NMF（非负矩阵分解）">
-<meta property="og:url" content="http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/index.html">
+<meta property="og:url" content="http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/index.html">
 <meta property="og:site_name" content="乐天的个人网站">
 <meta property="og:description" content="2014-12-22 本文介绍了隐语义模型和NMF（非负矩阵分解）。 隐语义模型 我当前是在推荐系统和文本分类中遇到过“隐语义模型”，也只是刚刚接触。那么，什么是隐语义模型？我们通过两个例子来理解一下。 向用户推荐物品在推荐系统中，可以通过隐含语义模型将用户（user）和物品（item）自动分类，这些类别是自动生成的。这些类别也可以叫做“隐含的分类”，也许我们看不懂。每个用户或者物品会被分到多个类">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-22-nmf-00.jpg">
-<meta property="og:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-22-nmf-01.jpg">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2014/12/2014-12-22-nmf-00.jpg">
+<meta property="og:image" content="http://letiantian.xyz/content/images/2014/12/2014-12-22-nmf-01.jpg">
 <meta property="og:updated_time" content="2015-05-17T02:51:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐语义模型和NMF（非负矩阵分解）">
 <meta name="twitter:description" content="2014-12-22 本文介绍了隐语义模型和NMF（非负矩阵分解）。 隐语义模型 我当前是在推荐系统和文本分类中遇到过“隐语义模型”，也只是刚刚接触。那么，什么是隐语义模型？我们通过两个例子来理解一下。 向用户推荐物品在推荐系统中，可以通过隐含语义模型将用户（user）和物品（item）自动分类，这些类别是自动生成的。这些类别也可以叫做“隐含的分类”，也许我们看不懂。每个用户或者物品会被分到多个类">
-<meta name="twitter:image" content="http://www.letiantian.me/content/images/2014/12/2014-12-22-nmf-00.jpg">
+<meta name="twitter:image" content="http://letiantian.xyz/content/images/2014/12/2014-12-22-nmf-00.jpg">
 
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/"/>
+  <link rel="canonical" href="http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/"/>
 
 
 
@@ -295,7 +295,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/">
+    <link itemprop="mainEntityOfPage" href="http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -392,7 +392,7 @@
 <p>如果用户u对物品i没有评分，可以将这个评分r(u,i)预测为：</p>
 <pre><code>r(u,i) = sum(W(i, :) .* H(:, i))  // 向量点乘
 </code></pre><p>据此可以构建一个推荐系统。</p>
-<h3 id="文本分类"><a href="#文本分类" class="headerlink" title="文本分类"></a>文本分类</h3><p>这个类似上面的推荐系统。我在<a href="http://www.letiantian.me/2014-12-12-bag-of-words-model-and-document-term-matrix/">词袋模型与文档-词矩阵</a>介绍过文档-词矩阵。我们将数据集中的一堆文本构造成文档-词矩阵V，如果共有m个文本，n个单词，那么V的大小为m×n。<code>V(i,j)</code>表示文档i中出现单词j的次数。</p>
+<h3 id="文本分类"><a href="#文本分类" class="headerlink" title="文本分类"></a>文本分类</h3><p>这个类似上面的推荐系统。我在<a href="http://www.letiantian.me/2014-12-12-bag-of-words-model-and-document-term-matrix/" target="_blank" rel="noopener">词袋模型与文档-词矩阵</a>介绍过文档-词矩阵。我们将数据集中的一堆文本构造成文档-词矩阵V，如果共有m个文本，n个单词，那么V的大小为m×n。<code>V(i,j)</code>表示文档i中出现单词j的次数。</p>
 <p>设定共有r个隐含的分类。通过一些方法，将V展开为两个相乘的矩阵：</p>
 <pre><code>V = W*H
 </code></pre><p>其中，W的大小为m×r，H的大小为r×n。在隐语义模型中，<code>W(i,j)</code>被解释为文档i属于类别j的权重，<code>H(a,b)</code>被解释为单词b属于类别a的的权重。</p>
@@ -463,7 +463,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/" title="隐语义模型和NMF（非负矩阵分解）">http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/</a>
+      <a href="http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/" title="隐语义模型和NMF（非负矩阵分解）">http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -801,7 +801,7 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://www.letiantian.me/2014-12-22-latent-factor-model-and-nmf/';
+          this.page.url = 'http://letiantian.xyz/2014-12-22-latent-factor-model-and-nmf/';
           this.page.identifier = '2014-12-22-latent-factor-model-and-nmf/';
           this.page.title = '隐语义模型和NMF（非负矩阵分解）';
         };
