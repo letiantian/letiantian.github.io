@@ -1,0 +1,19 @@
+<html>
+<head>
+
+</head>
+
+<body>
+<div id="content"></div>
+<script>
+    var data = '';
+    if(document.addEventListener) {
+        data += 'support addEventListener <br/>';
+    }
+    if (document.attachEvent) {
+        data += 'support attachEvent';
+    }
+    document.getElementById('content').innerHTML = data;
+</script>
+</body>
+</html>
